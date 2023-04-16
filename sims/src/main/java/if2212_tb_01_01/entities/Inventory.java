@@ -1,3 +1,5 @@
+package if2212_tb_01_01.entities;
+
 import java.util.*;
 
 public class Inventory<T extends Objek> {
@@ -54,7 +56,7 @@ public class Inventory<T extends Objek> {
         }
         else {
             for (T item : inventory.keySet()) {
-                System.out.println(item.getName() + " : " + inventory.get(item));
+                System.out.println(item.getClass().getName() + " : " + inventory.get(item));
             }
         }
     }
