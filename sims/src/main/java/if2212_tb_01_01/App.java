@@ -3,9 +3,13 @@
  */
 package if2212_tb_01_01;
 
-import javax.swing.*;
-
 public class App {
+    class MainMenu {
+        public void show() {
+            System.out.println("Main Menu");
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }
