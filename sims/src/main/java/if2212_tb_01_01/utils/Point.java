@@ -66,4 +66,8 @@ public class Point {
     public void setY(Integer y) {
         this.y = y;
     }
+
+    public boolean isNear(Point p) {
+        return (Math.abs(this.x - p.x) <= 1 && Math.abs(this.y - p.y) <= 1);
+    }
 }
