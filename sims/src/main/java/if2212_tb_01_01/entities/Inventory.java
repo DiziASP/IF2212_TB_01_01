@@ -55,8 +55,8 @@ public class Inventory<T extends Objek> {
             System.out.println("Inventory is Empty");
         }
         else {
-            for (T item : inventory.keySet()) {
-                System.out.println(item.getClass().getName() + " : " + inventory.get(item));
+            for (Map.Entry<T, Integer> entry : inventory.entrySet()) {
+                System.out.println(entry.getKey() + " : " + entry.getValue());
             }
         }
     }
