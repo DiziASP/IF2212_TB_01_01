@@ -19,15 +19,17 @@ public class Sim {
     class Rumah {
     }
 
+    class Kesejahteraan {
+
+    }
+
     /* Sim Attributes */
     private String namaLengkap;
     private Pekerjaan pekerjaan;
     private int uang;
     private Inventory inventory;
     private String status;
-    private int kesehatan;
-    private int mood;
-    private int kekenyangan;
+    private Kesejahteraan kesejahteraan;
     private List<Aksi> aksi;
     private Point posisi;
     private Rumah rumah;
@@ -37,9 +39,6 @@ public class Sim {
         this.pekerjaan = pekerjaan;
         this.uang = 100;
         this.inventory = new Inventory();
-        this.kesehatan = 80;
-        this.mood = 80;
-        this.kekenyangan = 80;
         this.status = "";
     }
 
@@ -76,28 +75,8 @@ public class Sim {
         this.inventory = inventory;
     }
 
-    public int getKekenyangan() {
-        return kekenyangan;
-    }
-
-    public void setKekenyangan(int kekenyangan) {
-        this.kekenyangan = kekenyangan;
-    }
-
-    public int getMood() {
-        return mood;
-    }
-
-    public void setMood(int mood) {
-        this.mood = mood;
-    }
-
-    public int getKesehatan() {
-        return kesehatan;
-    }
-
-    public void setKesehatan(int kesehatan) {
-        this.kesehatan = kesehatan;
+    public Kesejahteraan getKesejahteraan() {
+        return kesejahteraan;
     }
 
     public String getStatus() {
