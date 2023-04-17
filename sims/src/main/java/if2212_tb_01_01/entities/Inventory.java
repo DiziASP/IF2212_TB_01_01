@@ -9,7 +9,11 @@ public class Inventory<T extends Objek> {
         inventory = new HashMap<T, Integer>();
     }
 
-    public boolean isEmpty() {
+    public Map<T,Integer> getInventory() {
+        return inventory;
+    }
+    
+    public boolean isKosong() {
         return inventory.isEmpty();
     }
 
@@ -47,6 +51,10 @@ public class Inventory<T extends Objek> {
         else {
             System.out.println("No item(s) to remove!");
         }
+    }
+
+    public void clearIsi () {
+        inventory.clear();
     }
 
     public void displayInventory() {
