@@ -3,14 +3,14 @@ import if2212_tb_01_01.utils.Point;
 
 public class Furnitur extends Objek{
     private String aksi;
-    private int harga;
-    private int panjang;
-    private int lebar;
+    private Integer harga;
+    private Integer panjang;
+    private Integer lebar;
     private Point posisi = new Point(-1, -1);
     private boolean isVertikal = true;
 
     // Constructor
-    public Furnitur(String nama, String aksi, int harga, int panjang, int lebar){
+    public Furnitur(String nama, String aksi, Integer harga, Integer panjang, Integer lebar){
         super(nama, "peralatan");
         this.aksi = aksi;
         this.harga = harga;        
@@ -18,7 +18,7 @@ public class Furnitur extends Objek{
         this.lebar = lebar;
     }
 
-    public Furnitur(String nama, String aksi, int harga, int panjang, int lebar, Point posisi, boolean isVertikal){
+    public Furnitur(String nama, String aksi, Integer harga, Integer panjang, Integer lebar, Point posisi, boolean isVertikal){
         super(nama, "peralatan");
         this.aksi = aksi;
         this.harga = harga;        
@@ -37,7 +37,7 @@ public class Furnitur extends Objek{
     }
 
     // Getter method for harga
-    public int getHarga() {
+    public Integer getHarga() {
         return this.harga;
     }
 
@@ -47,7 +47,7 @@ public class Furnitur extends Objek{
     }
 
     // Getter method for panjang
-    public int getPanjang() {
+    public Integer getPanjang() {
         return this.panjang;
     }
 
@@ -57,7 +57,7 @@ public class Furnitur extends Objek{
     }
 
     // Getter method for lebar
-    public int getLebar() {
+    public Integer getLebar() {
         return this.lebar;
     }
 

@@ -1,18 +1,18 @@
 package if2212_tb_01_01.objects;
 
 public class Makanan extends Objek{
-    private int harga;
-    private int kekenyangan;
+    private Integer harga;
+    private Integer kekenyangan;
 
     // Constructor
-    public Makanan(String nama, int harga, int kekenyangan){
+    public Makanan(String nama, Integer harga, Integer kekenyangan){
         super(nama, "makanan");
         this.harga = harga;
         this.kekenyangan = kekenyangan;
     }
 
     // Getter method for harga
-    public int getHarga() {
+    public Integer getHarga() {
         return this.harga;
     }
 
@@ -22,7 +22,7 @@ public class Makanan extends Objek{
     }
 
     // Getter method for kekenyangan
-    public int getKekenyangan() {
+    public Integer getKekenyangan() {
         return this.kekenyangan;
     }
 

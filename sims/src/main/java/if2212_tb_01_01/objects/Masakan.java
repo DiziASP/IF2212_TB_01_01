@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Masakan extends Objek{
     private List<Makanan> bahan;
-    private int kekenyangan;
+    private Integer kekenyangan;
 
     // Constructor
-    public Masakan(String nama, List<Makanan> bahan, int kekenyangan){
+    public Masakan(String nama, List<Makanan> bahan, Integer kekenyangan){
         super(nama, "makanan");
         this.bahan = bahan;
         this.kekenyangan = kekenyangan;
@@ -24,7 +24,7 @@ public class Masakan extends Objek{
     }
 
     // Getter method for kekenyangan
-    public int getKekenyangan() {
+    public Integer getKekenyangan() {
         return this.kekenyangan;
     }
 
