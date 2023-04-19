@@ -1,5 +1,4 @@
 package if2212_tb_01_01.entities;
-
 import java.util.*;
 import if2212_tb_01_01.utils.*;
 import if2212_tb_01_01.occupation.*;
@@ -11,6 +10,7 @@ import if2212_tb_01_01.objects.*;
  */
 public class Sim {
 
+<<<<<<< HEAD
     class Inventory {
         private Map<Objek, Integer> isi;
         public Inventory() {
@@ -21,6 +21,22 @@ public class Sim {
     class Aksi {
     }
 
+=======
+    class Aksi {
+    }
+
+    class Point {
+
+    }
+
+    class Rumah {
+    }
+
+    class Kesejahteraan {
+
+    }
+
+>>>>>>> c6917ffed0cf82c3586ddef5e08e3c1a27f4410f
     /* Sim Attributes */
     private String namaLengkap;
     private Pekerjaan pekerjaan;
@@ -31,6 +47,7 @@ public class Sim {
     private List<Aksi> aksi;
     // private Point posisi; yang butuh posisi kayanya rumah aja???
     private Rumah rumah;
+<<<<<<< HEAD
     public Sim(Kesejahteraan kesejahteraan, int uang, Pekerjaan pekerjaan, String namaLengkap) {
         this.kesejahteraan = kesejahteraan;
         this.uang = uang;
@@ -58,5 +75,121 @@ public class Sim {
         this.status = "";
         this.inventory = new Inventory();
         this.rumah = rumah;
+=======
+
+    public Sim(String namaLengkap, Pekerjaan pekerjaan) {
+        this.namaLengkap = namaLengkap;
+        this.pekerjaan = pekerjaan;
+        this.uang = 100;
+        this.inventory = new Inventory();
+        this.status = "";
+    }
+
+    //Getter dan Setter
+    public String getNamaLengkap() {
+        return namaLengkap;
+    }
+
+    public void setNamaLengkap(String namaLengkap) {
+        this.namaLengkap = namaLengkap;
+    }
+
+    public Pekerjaan getPekerjaan() {
+        return pekerjaan;
+    }
+
+    public void setPekerjaan(Pekerjaan pekerjaan) {
+        this.pekerjaan = pekerjaan;
+    }
+
+    public int getUang() {
+        return uang;
+    }
+
+    public void setUang(int uang) {
+        this.uang = uang;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public Kesejahteraan getKesejahteraan() {
+        return kesejahteraan;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
+    //Actions of Sim
+    public void addToInventory() {
+        //Please provide the solution below
+    }
+
+    public void removeFromInventory() {
+        //Please provide the solution below
+    }
+
+    public void kerja() {
+        //Please provide the solution below
+    }
+
+    public void olahraga() {
+        //Please provide the solution below
+    }
+
+    public void tidur() {
+        //Please provide the solution below
+    }
+
+    public void makan() {
+        //Please provide the solution below
+    }
+
+    public void memasak() {
+        //Please provide the solution below
+    }
+
+    public void berkunjung() {
+        //Please provide the solution below
+    }
+
+    public void buangAir() {
+        //Please provide the solution below
+    }
+
+    public void upgradeRumah() {
+        //Please provide the solution below
+    }
+
+    public void beliBarang() {
+        //Please provide the solution below
+    }
+
+    public void berpindahRuangan() {
+        //Please provide the solution below
+    }
+
+    public void melihatInventory() {
+        //Please provide the solution below
+    }
+
+    public void memasangBarang() {
+        //Please provide the solution below
+    }
+
+    public void melihatWaktu() {
+        //Please provide the solution below
+>>>>>>> c6917ffed0cf82c3586ddef5e08e3c1a27f4410f
     }
 }
