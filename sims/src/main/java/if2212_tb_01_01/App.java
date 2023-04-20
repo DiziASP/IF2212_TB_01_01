@@ -3,9 +3,7 @@
  */
 package if2212_tb_01_01;
 import java.util.*;
-import if2212_tb_01_01.utils.*;
 import if2212_tb_01_01.entities.*;
-import if2212_tb_01_01.occupation.Pekerjaan;
 
 public class App {
     class MainMenu {
