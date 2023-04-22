@@ -3,21 +3,21 @@ package if2212_tb_01_01.entities;
 import java.util.List;
 import java.util.Random;
 
-import if2212_tb_01_01.utils.Point;
+import if2212_tb_01_01.utils.*;
 
 import java.util.ArrayList;
 
 public class World {
     private int panjang;
     private int lebar;
-    private int totalDays;
+    private WorldClock worldClock;
     private boolean isIdle;
     private List<Rumah> listRumah;
     public World(int panjang, int lebar) {
         this.panjang = panjang;
         this.lebar = lebar;
         this.listRumah = new ArrayList<Rumah>();
-        this.totalDays = 0;
+        this.worldClock = new WorldClock();
         this.isIdle = true;
     }
     public int getPanjang() {
@@ -74,11 +74,11 @@ public class World {
     public void removeRumah(Rumah rumah) {
         this.listRumah.remove(rumah);
     } 
-    public int getTotalDays() {
-        return totalDays;
+    public WorldClock getWorldClock() {
+        return worldClock;
     }
-    public void incrementTotalDays() {
-        this.totalDays++;
+    public void setWorldClock(WorldClock worldClock) {
+        this.worldClock = worldClock;
     }
     public boolean isIdle() {
         return isIdle;
