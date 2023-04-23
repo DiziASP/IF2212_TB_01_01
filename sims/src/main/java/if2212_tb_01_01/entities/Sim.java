@@ -59,4 +59,13 @@ public class Sim {
         this.inventory = new Inventory();
         this.rumah = rumah;
     }
+
+    public void viewInfo(){
+        System.out.println("Nama: "+ namaLengkap);
+        System.out.println("Pekerjaan: "+ pekerjaan.getNamaKerja());
+        System.out.println("Kesehatan: "+ kesejahteraan.getKesehatan());
+        System.out.println("Kekenyangan: "+ kesejahteraan.getKekenyangan());
+        System.out.println("Mood: "+kesejahteraan.getMood());
+        System.out.println("Uang: "+ uang+"\n");
+    }
 }

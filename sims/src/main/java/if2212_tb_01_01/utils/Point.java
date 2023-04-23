@@ -70,4 +70,8 @@ public class Point {
     public boolean isNear(Point p) {
         return (Math.abs(this.x - p.x) <= 1 && Math.abs(this.y - p.y) <= 1);
     }
+
+    public String toString(){
+        return ("( "+ this.x +" , " + this.y +" )");
+    }
 }
