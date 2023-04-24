@@ -1,8 +1,8 @@
 package if2212_tb_01_01.entities;
 import java.util.*;
 import if2212_tb_01_01.utils.*;
+import if2212_tb_01_01.objects.Objek;
 import if2212_tb_01_01.occupation.*;
-import if2212_tb_01_01.objects.*;
 
 /**
  * Class of Sim Object
@@ -10,36 +10,14 @@ import if2212_tb_01_01.objects.*;
  */
 public class Sim {
 
-    class Inventory {
-        private Map<Objek, Integer> isi;
-        public Inventory() {
-            this.isi = new HashMap<Objek, Integer>();
-        }
-    }
-
     class Aksi {
-        private int efekKesehatan;
-        private int efekMood;
-        private int efekKekenyangan;
-        private int efekKebersihan;
-        private int efekUang;
         private String nama;
         private Sim sim;
-        public Aksi(Sim sim, String nama){
+        private int menitTersisa;
+        public Aksi(Sim sim, String nama, int jumlahWaktu){
             this.sim = sim;
             this.nama = nama;
-            switch (nama) {
-                case "Kerja":
-                    this.efekKesehatan=0;
-                    this.efekMood=-10;
-                    this.efekKekenyangan=-10;
-                    this.efekKebersihan=-10;
-                    this.efekUang=sim.pekerjaan.getGaji();
-                    break;
-                case "Tidur":
-                    this.efekMood=30;
-
-            }
+            this.menitTersisa = jumlahWaktu;
         }
 
     }
@@ -49,10 +27,14 @@ public class Sim {
     private String namaLengkap;
     private Pekerjaan pekerjaan;
     private int uang;
-    private Inventory inventory;
+    private Inventory<Objek> inventory;
     private String status;
     private Kesejahteraan kesejahteraan;
     private List<Aksi> aksi;
+    private static World world;
+    public void setWorld(World world) {
+        Sim.world = world;
+    }
     // private Point posisi; yang butuh posisi kayanya rumah aja???
     private Rumah rumah;
     public Sim(Kesejahteraan kesejahteraan, int uang, Pekerjaan pekerjaan, String namaLengkap) {
@@ -83,6 +65,7 @@ public class Sim {
         this.inventory = new Inventory();
         this.rumah = rumah;
         this.aksi = new ArrayList<Aksi>();
+
     }
 
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
@@ -158,6 +141,13 @@ public class Sim {
 
     public void tidur() {
         //Please provide the solution below
+        this.aksi.add(new Aksi(this, "Tidur", 4));
+        world.setIdle(false);
+        this.status = "Tidur";
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
+        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
+        world.worldClock.run(4);
+        // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt
     }
 
     public void makan() {

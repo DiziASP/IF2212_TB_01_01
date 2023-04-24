@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class World {
     private int panjang;
     private int lebar;
-    private WorldClock worldClock;
+    WorldClock worldClock;
     private boolean isIdle;
     private List<Rumah> listRumah;
     public World(int panjang, int lebar) {
