@@ -10,7 +10,6 @@ import if2212_tb_01_01.objects.*;
  */
 public class Sim {
 
-
     /* Sim Attributes */
     private String namaLengkap;
     private Pekerjaan pekerjaan;
