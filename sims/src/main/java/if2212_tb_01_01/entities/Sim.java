@@ -19,6 +19,31 @@ public class Sim {
     }
 
     class Aksi {
+        private int efekKesehatan;
+        private int efekMood;
+        private int efekKekenyangan;
+        private int efekKebersihan;
+        private int efekUang;
+        private int 
+        private String nama;
+        private Sim sim;
+        public Aksi(Sim sim, String nama){
+            this.sim = sim;
+            this.nama = nama;
+            switch (nama) {
+                case "Kerja":
+                    this.efekKesehatan=0;
+                    this.efekMood=-10;
+                    this.efekKekenyangan=-10;
+                    this.efekKebersihan=-10;
+                    this.efekUang=sim.pekerjaan.getGaji();
+                    break;
+                case "Tidur":
+                    this.efekMood=30;
+
+            }
+        }
+
     }
 
     /* Sim Attributes */
@@ -58,5 +83,6 @@ public class Sim {
         this.status = "";
         this.inventory = new Inventory();
         this.rumah = rumah;
+        this.aksi = new ArrayList<Aksi>();
     }
 }
