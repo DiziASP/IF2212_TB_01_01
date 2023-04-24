@@ -19,7 +19,6 @@ public class GamePanel extends JPanel implements Runnable {
     /* Create a new sim */ public Sim sim = new Sim(this, keyHandler);
     /* Create a new world */ public World world = World.getWorldInstance(this);
 
-    /* Create House */ public List<House> houses = new ArrayList<>();
 
 
     public GamePanel(){
@@ -37,7 +36,9 @@ public class GamePanel extends JPanel implements Runnable {
         sim.position.setLocation((11-1)*tileSize,(11-1)*tileSize); //Set initial position
 
         for(int i = 0; i < 3; i++){
-            houses.add(new House(this,this.sim, (17*(i+1))-7 , 10));
+            for(int j = 0; j < 3; j++){
+                world.addRumah(new House(this,this.sim, (17*(j+1))-7 , (17*(i+1))-7));
+            }
         }
 
     }
@@ -82,7 +83,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         world.draw(g2);
 
-        for (House house: houses){
+        for (House house: world.getDaftarRumah()){
             house.draw(g2);
         }
         sim.draw(g2);

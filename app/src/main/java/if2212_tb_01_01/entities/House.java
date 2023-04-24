@@ -31,7 +31,8 @@ public class House {
         this.location = new Point(x, y);
         this.gp = gp;
         this.owner = sim;
-        HouseID++;
+//        HouseID++;
+        HouseID = 3;// Temp
         String filepath = String.format("/other/houses/house%d.txt", HouseID);
         System.out.print(filepath);
         this.houseTileManager = new TileManager(gp, 12, 16, filepath);
