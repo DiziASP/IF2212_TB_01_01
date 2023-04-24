@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'IF2212_TB_01_01'
-include('sims')
+include('app')
