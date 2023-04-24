@@ -1,5 +1,6 @@
 package if2212_tb_01_01.entities;
 
+import if2212_tb_01_01.objects.*;
 import java.util.*;
 
 public class Inventory<T extends Objek> {

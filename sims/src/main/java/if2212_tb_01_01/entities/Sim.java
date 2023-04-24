@@ -10,33 +10,7 @@ import if2212_tb_01_01.objects.*;
  */
 public class Sim {
 
-<<<<<<< HEAD
-    class Inventory {
-        private Map<Objek, Integer> isi;
-        public Inventory() {
-            this.isi = new HashMap<Objek, Integer>();
-        }
-    }
 
-    class Aksi {
-    }
-
-=======
-    class Aksi {
-    }
-
-    class Point {
-
-    }
-
-    class Rumah {
-    }
-
-    class Kesejahteraan {
-
-    }
-
->>>>>>> c6917ffed0cf82c3586ddef5e08e3c1a27f4410f
     /* Sim Attributes */
     private String namaLengkap;
     private Pekerjaan pekerjaan;
@@ -44,10 +18,9 @@ public class Sim {
     private Inventory inventory;
     private String status;
     private Kesejahteraan kesejahteraan;
-    private List<Aksi> aksi;
     // private Point posisi; yang butuh posisi kayanya rumah aja???
     private Rumah rumah;
-<<<<<<< HEAD
+
     public Sim(Kesejahteraan kesejahteraan, int uang, Pekerjaan pekerjaan, String namaLengkap) {
         this.kesejahteraan = kesejahteraan;
         this.uang = uang;
@@ -75,7 +48,7 @@ public class Sim {
         this.status = "";
         this.inventory = new Inventory();
         this.rumah = rumah;
-=======
+    }
 
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
         this.namaLengkap = namaLengkap;
@@ -190,6 +163,5 @@ public class Sim {
 
     public void melihatWaktu() {
         //Please provide the solution below
->>>>>>> c6917ffed0cf82c3586ddef5e08e3c1a27f4410f
     }
 }
