@@ -5,27 +5,79 @@ package if2212_tb_01_01;
 import java.util.*;
 import if2212_tb_01_01.entities.*;
 
-public class App {
+public class App{
     class MainMenu {
         public MainMenu() {
         }
-        public void show() {
-            System.out.println("Main Menu");
+        public void show(boolean started) {
+            if(!started){
+                System.out.println("List Menu : ");
+                System.out.println("1. Start Game");
+                System.out.println("2. Load Game");
+                System.out.println("3. Help");
+                System.out.println("4. Exit");
+            }
+            else{
+                System.out.println("List Menu : ");
+                System.out.println("1. Save Game");
+                System.out.println("2. View Sim Info");
+                System.out.println("3. View Current Location");
+                System.out.println("4. View Inventory");
+                System.out.println("5. Upgrade House");
+                System.out.println("6. Move Room");
+                System.out.println("7. Edit Room");
+                System.out.println("8. Add Sim");
+                System.out.println("9. Change Sim");
+                System.out.println("10. List Object");
+                System.out.println("11. Go To Object");
+                System.out.println("12. Action");
+            }
         }
+
     }
 
     public static void main(String[] args) {
-        System.out.println("Selamat datang di Sim-Plicity!");
-        World world = new World(64,64);
-        System.out.println("Silakan masukkan nama lengkap: ");
         Scanner scanner = new Scanner(System.in);
-        String name = scanner.nextLine();
-        world.addRumah();
-        Sim sim1 = new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah());
-        System.out.println("Selamat datang, " + name + "!");
         App app = new App();
         MainMenu mainMenu = app.new MainMenu();
-        mainMenu.show();
-        
+        boolean startgame = false;
+        boolean endedgame = false;
+        String command;
+        System.out.println("Selamat datang di Sim-Plicity!");
+        while(!startgame && !endedgame){
+            mainMenu.show(startgame);
+            System.out.print("Masukkan command: ");
+            command = scanner.nextLine();
+            if ((command.toUpperCase()).equals("START GAME")){
+                startgame = true;
+            }
+            else if ((command.toUpperCase()).equals("EXIT")){
+                endedgame = true;
+                System.out.println("Sampai jumpa kembali! \n");
+            }
+            else{
+                System.out.println("Command tidak valid!! \n");
+            }
+        }
+        if(startgame){
+            System.out.println("\nMemuat World....");
+            World world = new World(64,64);
+            System.out.print("Silakan masukkan nama lengkap: ");
+            String name = scanner.nextLine();
+            world.addRumah();
+            Sim sim1 = new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah());
+            System.out.println("Selamat datang, " + name + "!");
+            while(!endedgame){
+                mainMenu.show(startgame);
+                System.out.print("Masukkan command: ");
+                command = scanner.nextLine();
+                if(command.toUpperCase().equals("VIEW SIM INFO")){
+                    sim1.viewInfo();
+                }
+                // else if(command.toUpperCase().equals("VIEW CURRENT LOCATION")){
+                    
+                // }
+            }
+        }   
     }
 }
