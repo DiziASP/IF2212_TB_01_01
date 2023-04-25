@@ -1,5 +1,7 @@
 package if2212_tb_01_01.occupation;
 
+import java.util.*;
+
 public class Pekerjaan {
     /* Main Param */
     private String namaKerja;
@@ -44,6 +46,13 @@ public class Pekerjaan {
         this.gaji = builder.gaji;
     }
 
+    public Pekerjaan(){
+        Pekerjaan pekerjaan = randomizedPekerjaan();
+        this.namaKerja = pekerjaan.namaKerja;
+        this.deskripsiKerja = pekerjaan.deskripsiKerja;
+        this.gaji = pekerjaan.gaji;
+    }
+
     public static class PekerjaanBuilder {
         /* Main Param */
         private String namaKerja;
@@ -70,4 +79,20 @@ public class Pekerjaan {
             return new Pekerjaan(this);
         }
     }
+
+    private Pekerjaan randomizedPekerjaan(){
+        List <Pekerjaan> pekerjaan = new ArrayList<Pekerjaan>();
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Badut Sulap", "Badut sulap memiliki gaji harian 15", 15).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Koki", "Koki memiliki gaji harian 30", 30).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Polisi", "Polisi memiliki gaji harian 35", 35).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Programmer", "Progammer memiliki gaji harian 45", 45).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Dokter", "Dokter memiliki gaji harian 50", 50).build());
+        Random rand = new Random();
+        int min = 0;
+        int max = 4;
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+        return pekerjaan.get(randomNum);
+    }
+
+
 }

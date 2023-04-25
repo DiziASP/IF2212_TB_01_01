@@ -21,6 +21,11 @@ public class Point {
         this.y = y;
     }
 
+    public Point(Point point){
+        this.x = point.x;
+        this.y = point.y;
+    }
+
     /**
      * <h2>X Getter</h2>
      * <p>
@@ -67,11 +72,66 @@ public class Point {
         this.y = y;
     }
 
+    public void setPoint(Integer x, Integer y){
+        setX(x);
+        setY(y);
+    }
+
     public boolean isNear(Point p) {
         return (Math.abs(this.x - p.x) <= 1 && Math.abs(this.y - p.y) <= 1);
     }
 
     public String toString(){
-        return ("( "+ this.x +" , " + this.y +" )");
+        return ("("+ this.x +"," + this.y +")");
+    }
+
+    public boolean isPointEqual(Point point){
+        return (this.x.equals(point.x) && this.y.equals(point.y));
+    }
+
+    public boolean isPointEqual(int x, int y){
+        return (this.x.equals(x) && this.y.equals(y));
+    }
+
+    public static Point makePoint(String input){
+        StringBuilder x = new StringBuilder("");
+        StringBuilder y = new StringBuilder("");
+        int i = 0;
+        Point point = new Point(-1,-1);
+        boolean salahInput = false;
+        if(input.isBlank()){
+            salahInput = true;
+        }
+        else{
+            while(!salahInput && i <input.length()){
+                if((input.charAt(i) >= '0') && (input.charAt(i) <= '9')){
+                    x.append(input.charAt(i));
+                    i++;
+                }
+                else if(input.charAt(i) == ','){
+                    i++;
+                    while(!salahInput && i <input.length()){
+                        if((input.charAt(i) >= '0') && (input.charAt(i) <= '9')){
+                            // y += input.charAt(i);
+                            y.append(input.charAt(i));
+                            i++;
+                        }
+                        else{
+                            salahInput = true;
+                        }
+                    }
+                }
+                else{
+                    salahInput = true;
+                }
+            }
+        }
+        if(!salahInput){
+            String X = x.toString();
+            String Y = y.toString();
+            point.setX(Integer.parseInt(X));
+            point.setY(Integer.parseInt(Y));
+        }
+        return point;
     }
 }
