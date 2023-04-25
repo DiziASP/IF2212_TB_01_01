@@ -42,6 +42,26 @@ public class App{
         MainMenu mainMenu = app.new MainMenu();
         boolean startgame = false;
         boolean endedgame = false;
+        Sim currentSim = null;
+        List<Sim> listSim = new ArrayList<Sim>();
+        List<String> listAksiAktif = new ArrayList<String>();
+        listAksiAktif.add("Kerja");
+        listAksiAktif.add("Olahraga");
+        listAksiAktif.add("Tidur");
+        listAksiAktif.add("Makan");
+        listAksiAktif.add("Memasak");
+        listAksiAktif.add("Berkunjung");
+        listAksiAktif.add("Buang Air");
+        listAksiAktif.add("Yoga")
+        listAksiAktif.add("Nonton Film");
+        listAksiAktif.add("Menggambar");
+        listAksiAktif.add("Main musik");
+        listAksiAktif.add("Mandi");
+        listAksiAktif.add("Membersihkan rumah");
+        listAksiAktif.add("Proyekan");
+        List<String> listAksiAFK = new ArrayList<String>();
+        listAksiAFK.add("Upgrade rumah");
+
         String command;
         System.out.println("Selamat datang di Sim-Plicity!");
         while(!startgame && !endedgame){
@@ -66,14 +86,63 @@ public class App{
             String name = scanner.nextLine();
             world.addRumah();
             Sim sim1 = new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah());
+            listSim.add(sim1);
+            currentSim = sim1;
             System.out.println("Selamat datang, " + name + "!");
             while(!endedgame){
                 mainMenu.show(startgame);
                 System.out.print("Masukkan command: ");
                 command = scanner.nextLine();
                 if(command.toUpperCase().equals("VIEW SIM INFO")){
-                    sim1.viewInfo();
+                    currentSim.viewInfo();
                 }
+                else if(command.toUpperCase().equals("VIEW CURRENT LOCATION")){
+                    currentSim.viewCurrentLocation();
+                }
+                else if(command.toUpperCase().equals("VIEW INVENTORY")){
+                    currentSim.getInventory().displayInventory();
+                }
+                else if(command.toUpperCase().equals("UPGRADE HOUSE")){
+                    currentSim.upgradeRumah();
+                }
+                else if(command.toUpperCase().equals("MOVE ROOM")){
+                    currentSim.moveRoom();
+                }
+                else if(command.toUpperCase().equals("EDIT ROOM")){
+                    currentSim.editRoom();
+                }
+                else if(command.toUpperCase().equals("ADD SIM")){
+                    System.out.print("Masukkan nama sim: ");
+                    name = scanner.nextLine();
+                    listSim.add(new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah()));
+                    System.out.println("Sim berhasil ditambahkan!");
+                    System.out.println("Sim yang tersedia: ");
+                    for(Sim sim : listSim){
+                        System.out.println(sim.getName());
+                    }
+                }
+                else if(command.toUpperCase().equals("CHANGE SIM")){
+                    System.out.print("Masukkan nama sim: ");
+                    name = scanner.nextLine();
+                    for(Sim sim : listSim){
+                        if(sim.getName().equals(name)){
+                            currentSim = sim;
+                            break;
+                        }
+                    }
+                }
+                else if(command.toUpperCase().equals("LIST OBJECT")){
+                    currentSim.listObject();
+                }
+                else if(command.toUpperCase().equals("GO TO OBJECT")){
+                    sim1.goToObject();
+                }
+                else if(command.toUpperCase().equals("ACTION")){
+                    
+                }
+                // else if(command.toUpperCase().equals("SAVE GAME")){
+                //     sim1.saveGame();
+                // }
                 // else if(command.toUpperCase().equals("VIEW CURRENT LOCATION")){
                     
                 // }

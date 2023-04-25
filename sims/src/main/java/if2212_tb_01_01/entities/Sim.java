@@ -35,6 +35,7 @@ public class Sim {
     public void setWorld(World world) {
         Sim.world = world;
     }
+    private Ruangan posisiRuangan;
     // private Point posisi; yang butuh posisi kayanya rumah aja???
     private Rumah rumah;
     public Sim(Kesejahteraan kesejahteraan, int uang, Pekerjaan pekerjaan, String namaLengkap) {
@@ -65,7 +66,7 @@ public class Sim {
         this.inventory = new Inventory();
         this.rumah = rumah;
         this.aksi = new ArrayList<Aksi>();
-
+        this.posisiRuangan = rumah.getRuangan().get(0);
     }
 
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
@@ -120,8 +121,19 @@ public class Sim {
     public void setStatus(String status) {
         this.status = status;
     }
+    public void goToObject() {
+        System.out.println("Pilih objek yang ingin dikunjungi: ");
+        int i = 1;
+        for (Objek objek : this.posisiRuangan.getDaftarObjek()) {
+            System.out.println(i + ". " + objek.getNama());
+            i++;
+        }
+        Scanner scanner = new Scanner(System.in);
+        int pilihan = scanner.nextInt();
+        Objek objek = this.posisiRuangan.getDaftarObjek().get(pilihan - 1);
+        if 
 
-
+    }
     //Actions of Sim
     public void addToInventory() {
         //Please provide the solution below
@@ -167,7 +179,23 @@ public class Sim {
     }
 
     public void upgradeRumah() {
-        //Please provide the solution below
+        System.out.println("Pilih posisi ruangan baru (atas/bawah/kiri/kanan): ");
+        Scanner scanner = new Scanner(System.in);
+        String pilihan = scanner.nextLine();
+        if (pilihan.equals("atas")) {
+            System.out.println("Masukkan nama ruangan: ");
+            String namaRuangan = scanner.nextLine();
+            this.rumah.addRuangan(new Ruangan(namaRuangan, 0, 1));
+            
+        } else if (pilihan.equals("bawah")) {
+            this.rumah.addRuangan(new Ruangan("Ruangan Bawah", 0, -1));
+        } else if (pilihan.equals("kiri")) {
+            this.rumah.addRuangan(new Ruangan("Ruangan Kiri", -1, 0));
+        } else if (pilihan.equals("kanan")) {
+            this.rumah.addRuangan(new Ruangan("Ruangan Kanan", 1, 0));
+        }
+
+
     }
 
     public void beliBarang() {
@@ -197,5 +225,9 @@ public class Sim {
         System.out.println("Kekenyangan: "+ kesejahteraan.getKekenyangan());
         System.out.println("Mood: "+kesejahteraan.getMood());
         System.out.println("Uang: "+ uang+"\n");
+    }
+    public void viewCurrentLocation(){
+        System.out.println("Rumah: "+ rumah.getPosisi().getX()+","+rumah.getPosisi().getY());
+        System.out.println("Ruangan: "+ this.posisiRuangan.getNamaRuangan()+" di koordinat "+this.posisiRuangan.getPosisi().getX()+","+this.posisiRuangan.getPosisi().getY());
     }
 }

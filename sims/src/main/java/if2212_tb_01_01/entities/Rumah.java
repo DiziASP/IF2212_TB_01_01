@@ -8,10 +8,14 @@ import if2212_tb_01_01.objects.Objek;
 public class Rumah {
     class Ruangan {
         private String nama;
-        private Point posisi;
+        private Point posisiSim;
         private List<Objek> daftarObjek;
         private boolean isBuilded;
         private static Integer kapasitas = 36;
+        private boolean InfoAtas = false;
+        private boolean InfoBawah = false;
+        private boolean InfoKiri = false;
+        private boolean InfoKanan = false;
 
         public Ruangan(String nama, Point posisi){
             this.nama = nama;
@@ -19,6 +23,7 @@ public class Rumah {
             daftarObjek = new ArrayList<Objek>(kapasitas);
             isBuilded = false;
         }
+        public Ruangan(String nama,)
         public void addObjek(Integer index, Objek objek){
             daftarObjek.add(index,objek);
         }
@@ -43,6 +48,12 @@ public class Rumah {
         public void setIsBuilded(boolean status){
             isBuilded = status;
         }
+        public void printDaftarObjek(){
+            for (Objek objek : daftarObjek) {
+                System.out.println(objek.getNama());
+            }
+        }
+        
     }
 
     private Point posisi;
@@ -52,7 +63,7 @@ public class Rumah {
     public Rumah(Point posisi) {
         this.posisi = posisi;
         this.daftarRuangan = new ArrayList<Ruangan>(kapasitas);
-
+        daftarRuangan.add(new Ruangan("Kamar", new Point(0,0)));
         // Bikin satu ruangan dulu random buat doi!
     }
 

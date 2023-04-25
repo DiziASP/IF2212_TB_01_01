@@ -12,6 +12,7 @@ public class World {
     private int lebar;
     WorldClock worldClock;
     private boolean isIdle;
+    private int jumlahSim;
     private List<Rumah> listRumah;
     public World(int panjang, int lebar) {
         this.panjang = panjang;
