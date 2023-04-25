@@ -185,7 +185,7 @@ public class Sim {
         if (pilihan.equals("atas")) {
             System.out.println("Masukkan nama ruangan: ");
             String namaRuangan = scanner.nextLine();
-            this.rumah.addRuangan(new Ruangan(namaRuangan, 0, 1));
+            this.rumah.addRuangan(new Ruangan(namaRuangan));
             
         } else if (pilihan.equals("bawah")) {
             this.rumah.addRuangan(new Ruangan("Ruangan Bawah", 0, -1));
@@ -216,6 +216,10 @@ public class Sim {
 
     public void melihatWaktu() {
         //Please provide the solution below
+    }
+
+    public void yoga() {
+        this.aksi.add(new Aksi(this, "Yoga", 1));
     }
 
     public void viewInfo(){

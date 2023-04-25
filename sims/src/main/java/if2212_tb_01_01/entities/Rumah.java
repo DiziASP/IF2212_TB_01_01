@@ -19,11 +19,15 @@ public class Rumah {
 
         public Ruangan(String nama, Point posisi){
             this.nama = nama;
-            this.posisi = posisi;
+            this.posisiSim = posisi;
             daftarObjek = new ArrayList<Objek>(kapasitas);
             isBuilded = false;
         }
-        public Ruangan(String nama,)
+        public Ruangan(String nama){
+            this.nama = nama;
+            daftarObjek = new ArrayList<Objek>(kapasitas);
+            isBuilded = false;
+        }
         public void addObjek(Integer index, Objek objek){
             daftarObjek.add(index,objek);
         }
@@ -51,6 +55,20 @@ public class Rumah {
         public void printDaftarObjek(){
             for (Objek objek : daftarObjek) {
                 System.out.println(objek.getNama());
+            }
+        }
+        public void addRuangan(String posisi){
+            if (posisi == "atas"){
+                InfoAtas = true;
+            }
+            else if (posisi == "bawah"){
+                InfoBawah = true;
+            }
+            else if (posisi == "kiri"){
+                InfoKiri = true;
+            }
+            else if (posisi == "kanan"){
+                InfoKanan = true;
             }
         }
         
