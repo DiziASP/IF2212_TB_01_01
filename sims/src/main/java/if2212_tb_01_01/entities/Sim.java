@@ -14,7 +14,7 @@ public class Sim {
     private String namaLengkap;
     private Pekerjaan pekerjaan;
     private int uang;
-    private Inventory inventory;
+    private Inventory<Objek> inventory;
     private String status;
     private Kesejahteraan kesejahteraan;
     // private Point posisi; yang butuh posisi kayanya rumah aja???
@@ -26,7 +26,7 @@ public class Sim {
         this.pekerjaan = pekerjaan;
         this.namaLengkap = namaLengkap;
         this.status = "";
-        this.inventory = new Inventory();
+        this.inventory = new Inventory<Objek>();
     }
     // konstruktor kl pekerjaan di random 
     public Sim(Kesejahteraan kesejahteraan, int uang, String namaLengkap, Rumah rumah) {
@@ -45,7 +45,7 @@ public class Sim {
         this.uang = uang;
         this.namaLengkap = namaLengkap;
         this.status = "";
-        this.inventory = new Inventory();
+        this.inventory = new Inventory<Objek>();
         this.rumah = rumah;
     }
 
@@ -53,7 +53,7 @@ public class Sim {
         this.namaLengkap = namaLengkap;
         this.pekerjaan = pekerjaan;
         this.uang = 100;
-        this.inventory = new Inventory();
+        this.inventory = new Inventory<Objek>();
         this.status = "";
     }
 
@@ -82,11 +82,11 @@ public class Sim {
         this.uang = uang;
     }
 
-    public Inventory getInventory() {
+    public Inventory<Objek> getInventory() {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
+    public void setInventory(Inventory<Objek> inventory) {
         this.inventory = inventory;
     }
 
@@ -128,8 +128,40 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void memasak() {
-        //Please provide the solution below
+    public void memasak(Masakan masakan) {
+        //Cek apakah bahan komplit
+        boolean bahanAda = true;
+        for (Makanan makanan : masakan.getBahan()) {
+            if (!(inventory.isContain(makanan)) || inventory.jumlahItem(makanan) == 0) {
+                bahanAda = false;
+                break;
+            }
+        }
+
+        //Memasak
+        if (bahanAda) {
+            for (Makanan makanan : masakan.getBahan()) {
+                inventory.removeItem(makanan, 1);
+            }
+
+            inventory.addItem(masakan, 1);
+            kesejahteraan.setMood(kesejahteraan.getMood()+10);
+            setStatus("Memasak");
+
+            int waktuMasak = (int) (1.5 * masakan.getKekenyangan());
+
+            try {
+                Thread.sleep(waktuMasak*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            //After cooking
+            setStatus("idle");
+        } else {
+            System.out.println("Bahan makanan tidak tersedia");
+        }
+
     }
 
     public void berkunjung() {

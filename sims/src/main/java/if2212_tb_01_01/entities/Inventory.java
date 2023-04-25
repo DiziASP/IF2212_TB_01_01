@@ -3,7 +3,7 @@ package if2212_tb_01_01.entities;
 import if2212_tb_01_01.objects.*;
 import java.util.*;
 
-public class Inventory<T extends Objek> {
+public class Inventory<T extends Objek>  {
     private Map<T, Integer> inventory;
 
     public Inventory() {
@@ -16,6 +16,10 @@ public class Inventory<T extends Objek> {
     
     public boolean isKosong() {
         return inventory.isEmpty();
+    }
+
+    public boolean isContain(T item) {
+        return inventory.containsKey(item);
     }
 
     public int jumlahItem(T item) {

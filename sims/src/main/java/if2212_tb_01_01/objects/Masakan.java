@@ -34,7 +34,7 @@ public class Masakan extends Objek{
     }
 
     public String getInfo(){
-        String ret = String.format("Nama: %s\nKategori: Makananan\nHarga: %d\nKekenyangan: %d", this.getNama(), bahan.toString(), kekenyangan);
+        String ret = String.format("Nama: %s\nKategori: Makanan\nHarga: %d\nKekenyangan: %d", this.getNama(), bahan.toString(), kekenyangan);
         return(ret);
     }
 }
