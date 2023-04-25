@@ -2,6 +2,7 @@ package if2212_tb_01_01.entities;
 import java.util.*;
 import if2212_tb_01_01.utils.*;
 import if2212_tb_01_01.occupation.*;
+import if2212_tb_01_01.entities.Rumah.Ruangan;
 import if2212_tb_01_01.objects.*;
 
 /**
@@ -19,6 +20,7 @@ public class Sim {
     private Kesejahteraan kesejahteraan;
     // private Point posisi; yang butuh posisi kayanya rumah aja???
     private Rumah rumah;
+    private Ruangan ruangan;
 
     public Sim(Kesejahteraan kesejahteraan, int uang, Pekerjaan pekerjaan, String namaLengkap) {
         this.kesejahteraan = kesejahteraan;
@@ -49,7 +51,6 @@ public class Sim {
         this.rumah = rumah;
     }
 
-<<<<<<< HEAD
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
         this.namaLengkap = namaLengkap;
         this.pekerjaan = pekerjaan;
@@ -177,12 +178,58 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void beliBarang() {
+    public void beliBarang(Objek objek) {
         //Please provide the solution below
+        if (objek instanceof Furnitur) {
+            Furnitur furnitur  = (Furnitur) objek;
+            int harga = furnitur.getHarga();
+            if (uang >= harga) {
+                uang -= harga;
+                System.out.println("Berhasil membeli " + furnitur.getNama());
+                Random rand = new Random();
+                int waktuPengiriman = (rand.nextInt(6) + 1) * 30;
+                try {
+                    Thread.sleep( waktuPengiriman * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                inventory.addItem(furnitur, 1);
+                System.out.println(furnitur.getNama() + " telah masuk ke dalam inventory");
+            } else {
+                System.out.println("Uang tidak cukup");
+            }
+        } else if (objek instanceof Makanan) {
+            Makanan makanan = (Makanan) objek;
+            int harga = makanan.getHarga();
+            if (uang >= harga) {
+                uang -= harga;
+                System.out.println("Berhasil membeli " + makanan.getNama());
+                Random rand = new Random();
+                int waktuPengiriman = (rand.nextInt(6) + 1) * 30;
+                try {
+                    Thread.sleep( waktuPengiriman * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                inventory.addItem(makanan, 1);
+                System.out.println(makanan.getNama() + " telah masuk ke dalam inventory");
+            } else {
+                System.out.println("Uang tidak cukup");
+            }
+        } else {
+            System.out.println("Barang tidak dapat dibeli");
+        }
     }
 
-    public void berpindahRuangan() {
+    public void berpindahRuangan(Ruangan tujuanRuangan) {
         //Please provide the solution below
+        if (rumah.getDaftarRuangan().contains(tujuanRuangan)) {
+            ruangan = tujuanRuangan;
+            System.out.println("Sim berhasil berpindah ke " + ruangan.getNama());
+        } else {
+            System.out.println("Ruangan tidak tersedia");
+        }
+
     }
 
     public void melihatInventory() {
@@ -195,7 +242,7 @@ public class Sim {
 
     public void melihatWaktu() {
         //Please provide the solution below
-=======
+    }
     public void viewInfo(){
         System.out.println("Nama: "+ namaLengkap);
         System.out.println("Pekerjaan: "+ pekerjaan.getNamaKerja());
@@ -203,6 +250,35 @@ public class Sim {
         System.out.println("Kekenyangan: "+ kesejahteraan.getKekenyangan());
         System.out.println("Mood: "+kesejahteraan.getMood());
         System.out.println("Uang: "+ uang+"\n");
->>>>>>> d788295a7a6c80d831575152810233e244953bc8
+    }
+
+    public void yoga() {
+        //Please provide the solution below
+    }
+
+    public void menontonFilm() {
+        //Please provide the solution below
+    }
+
+    public void menggambar() {
+        //Please provide the solution below
+    }
+
+    public void mainMusik() {
+        //Please provide the solution below
+    }
+
+    public void mandi() {
+        //Please provide the solution below
+    }
+
+    public void membersihkanRumah() {
+        //Please provide the solution below
+    }
+
+    public void proyekan() {
+        //Please provide the solution below
+        kesejahteraan.setMood(kesejahteraan.getMood() - 10);
+        setUang(getUang()+200000);
     }
 }

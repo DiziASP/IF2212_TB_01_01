@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import if2212_tb_01_01.objects.Objek;
 
 public class Rumah {
-    class Ruangan {
+    static class Ruangan {
         private String nama;
         private Point posisi;
         private List<Objek> daftarObjek;
@@ -75,6 +75,10 @@ public class Rumah {
 
     public void addRuangan(Integer index, Ruangan ruangan) {
         this.daftarRuangan.add(index, ruangan);
+    }
+
+    public boolean adaRuangan(Ruangan ruangan) {
+        return daftarRuangan.contains(ruangan);
     }
 
 }
