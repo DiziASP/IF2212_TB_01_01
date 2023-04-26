@@ -49,24 +49,6 @@ public class App{
         boolean endedgame = false;
         Sim currentSim = null;
         List<Sim> listSim = new ArrayList<Sim>();
-        List<String> listAksiAktif = new ArrayList<String>();
-        listAksiAktif.add("Kerja");
-        listAksiAktif.add("Olahraga");
-        listAksiAktif.add("Tidur");
-        listAksiAktif.add("Makan");
-        listAksiAktif.add("Memasak");
-        listAksiAktif.add("Berkunjung");
-        listAksiAktif.add("Buang Air");
-        listAksiAktif.add("Yoga")
-        listAksiAktif.add("Nonton Film");
-        listAksiAktif.add("Menggambar");
-        listAksiAktif.add("Main musik");
-        listAksiAktif.add("Mandi");
-        listAksiAktif.add("Membersihkan rumah");
-        listAksiAktif.add("Proyekan");
-        List<String> listAksiAFK = new ArrayList<String>();
-        listAksiAFK.add("Upgrade rumah");
-
         String command;
         World world = new World(64,64);
         List<Sim> listSim = new ArrayList<>();

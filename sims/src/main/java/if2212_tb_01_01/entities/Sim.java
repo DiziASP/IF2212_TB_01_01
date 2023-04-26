@@ -14,10 +14,61 @@ public class Sim {
         private String nama;
         private Sim sim;
         private int menitTersisa;
+        private boolean isButuhObjek;
         public Aksi(Sim sim, String nama, int jumlahWaktu){
             this.sim = sim;
             this.nama = nama;
             this.menitTersisa = jumlahWaktu;
+        }
+        public Aksi(String nama, boolean isButuhObjek){
+            this.nama = nama;
+            this.isButuhObjek = isButuhObjek;
+            this.menitTersisa = -1;
+            this.sim = null;
+        }
+        public String getNama(){
+            return nama;
+        }
+        public int getMenitTersisa(){
+            return menitTersisa;
+        }
+        public void setMenitTersisa(int menitTersisa){
+            this.menitTersisa = menitTersisa;
+        }
+        public void kurangiMenitTersisa(int menit){
+            this.menitTersisa -= menit;
+        }
+        public static List<Aksi> getDaftarAksiAktif(){
+            List<Aksi> listAksiAktif = new ArrayList<Aksi>();
+            listAksiAktif.add(new Aksi("KERJA", false));
+            listAksiAktif.add(new Aksi("OLAHRAGA", false));
+            listAksiAktif.add(new Aksi ("TIDUR", true));
+            listAksiAktif.add(new Aksi ("MAKAN", true));
+            listAksiAktif.add(new Aksi ("MEMASAK", true));
+            listAksiAktif.add(new Aksi ("BERKUNJUNG", false));
+            listAksiAktif.add(new Aksi ("BUANG AIR", true));
+            listAksiAktif.add(new Aksi ("YOGA", false));
+            listAksiAktif.add(new Aksi ("IBADAH", true));
+            listAksiAktif.add(new Aksi ("MENGGAMBAR", true));
+            listAksiAktif.add(new Aksi ("MAIN MUSIK", true));
+            listAksiAktif.add(new Aksi ("MANDI",true));
+            listAksiAktif.add(new Aksi ("MEMBERSIHKAN RUMAH", true));
+            listAksiAktif.add(new Aksi ("PROYEKAN", true));
+            return listAksiAktif;
+        }
+        public static List<Aksi> getDaftarAksiNonWaktu(){
+            List<Aksi> listAksiNonWaktu = new ArrayList<Aksi>();
+            listAksiNonWaktu.add(new Aksi("BERPINDAH RUANGAN", false));
+            listAksiNonWaktu.add(new Aksi("MELIHAT INVENTORY", false));
+            listAksiNonWaktu.add(new Aksi ("MEMASANG BARANG", false));
+            listAksiNonWaktu.add(new Aksi ("MELIHAT WAKTU", true));
+            return listAksiNonWaktu;
+        }
+        public static List<Aksi> getDaftarAksiAFK(){
+            List<Aksi> listAksiAFK = new ArrayList<Aksi>();
+            listAksiAFK.add(new Aksi("UPGRADE RUMAH", false));
+            listAksiAFK.add(new Aksi("BELI BARANG", false));
+            return listAksiAFK;
         }
 
     }
@@ -34,7 +85,7 @@ public class Sim {
     public void setWorld(World world) {
         Sim.world = world;
     }
-
+    private boolean isDoAksiAKtif;
     private Point posisiRumah;
     private Point posisiRuangan;
 
@@ -301,9 +352,15 @@ public class Sim {
         world.setIdle(false);
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
         this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
-        Thread thread = new Thread(() -> world.getWorldClock().run(waktu, this, indexStatus)); // membuat thread baru dan mem-passing objek WorldClock
+        this.isDoAksiAktif = true;
+        Thread thread = new Thread(() -> {
+            world.getWorldClock().run(waktu, this, indexStatus)
+            this.isDoAksiAktif = false;
+        }); // membuat thread baru dan mem-passing objek WorldClock
         thread.start(); // memulai thread
-        // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt
+
+
+        // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt haduh gmn y
     }
 
     public void makan() {
