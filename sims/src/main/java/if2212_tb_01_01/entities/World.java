@@ -10,11 +10,12 @@ import java.util.ArrayList;
 public class World {
     private int panjang;
     private int lebar;
-    WorldClock worldClock;
-    private boolean isIdle;
-    private int jumlahSim;
+    private WorldClock worldClock;
+    // private boolean isIdle;
+    private List<Sim> listSim;
     private List<Rumah> listRumah;
     private Boolean[][] mapRumah;
+    private Boolean isGameEnd;
 
     //Construktor
     public World(int panjang, int lebar) {
@@ -22,7 +23,6 @@ public class World {
         this.lebar = lebar;
         this.listRumah = new ArrayList<Rumah>();
         this.worldClock = new WorldClock();
-        this.isIdle = true;
         mapRumah = new Boolean[this.panjang][this.lebar];
         for(int i = 0;i<this.panjang;i++){
             for(int j = 0;j<this.lebar;j++){
@@ -163,11 +163,23 @@ public class World {
         this.worldClock = worldClock;
     }
     public boolean isIdle() {
+        boolean isIdle = false;
+        for (Sim sim : listSim){
+            if (sim.getStatus().size()==0){
+                isIdle = true;
+            } else {
+                isIdle = false;
+                break;
+            }
+        }
         return isIdle;
     }
-    public void setIdle(boolean isIdle) {
-        this.isIdle = isIdle;
+    public boolean getIsGameEnd() {
+        return isGameEnd;
     }
+    // public void setIdle(boolean isIdle) {
+    //     this.isIdle = isIdle;
+    // }
     public Rumah getRumah(int x){
         return this.listRumah.get(x);
     }

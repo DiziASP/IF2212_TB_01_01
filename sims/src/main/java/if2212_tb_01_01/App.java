@@ -51,7 +51,7 @@ public class App{
         List<Sim> listSim = new ArrayList<Sim>();
         String command;
         World world = new World(64,64);
-        List<Sim> listSim = new ArrayList<>();
+        // List<Sim> listSim = new ArrayList<>();
         Integer indeksActiveSim = 0;
         System.out.println("Selamat datang di Sim-Plicity!");
         while(!startgame && !loadgame && !endedgame){
@@ -125,6 +125,9 @@ public class App{
             System.out.println("Selamat datang, " + name + "!");
             posisiRumah.setPoint(-1, -1);
             posisiRuangan.setPoint(-1, -1);
+
+            // memulai thread counter waktu
+            
         }
 
         while(!endedgame){

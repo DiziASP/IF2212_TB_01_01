@@ -10,7 +10,7 @@ import if2212_tb_01_01.occupation.*;
  */
 public class Sim {
 
-    class Aksi {
+    public static class Aksi {
         private String nama;
         private Sim sim;
         private int menitTersisa;
@@ -48,7 +48,7 @@ public class Sim {
             listAksiAktif.add(new Aksi ("BERKUNJUNG", false));
             listAksiAktif.add(new Aksi ("BUANG AIR", true));
             listAksiAktif.add(new Aksi ("YOGA", false));
-            listAksiAktif.add(new Aksi ("IBADAH", true));
+            listAksiAktif.add(new Aksi ("IBADAH", false));
             listAksiAktif.add(new Aksi ("MENGGAMBAR", true));
             listAksiAktif.add(new Aksi ("MAIN MUSIK", true));
             listAksiAktif.add(new Aksi ("MANDI",true));
@@ -85,7 +85,7 @@ public class Sim {
     public void setWorld(World world) {
         Sim.world = world;
     }
-    private boolean isDoAksiAKtif;
+    private boolean isDoAksiAktif;
     private Point posisiRumah;
     private Point posisiRuangan;
 
@@ -129,6 +129,17 @@ public class Sim {
     public void setPosisiRuangan(Point posisiRuangan){
         this.posisiRuangan = posisiRuangan;
     }
+
+    public boolean getIsDoAksiAktif(){
+        return isDoAksiAktif;
+    }
+    public void setIsDoAksiAktif(boolean isDoAksiAktif){
+        this.isDoAksiAktif = isDoAksiAktif;
+    }
+    public Aksi getAksi(int index){
+        return status.get(index);
+    }
+
 
     //aksi
 
@@ -349,14 +360,10 @@ public class Sim {
         final int waktu = waktuTidur*60;
         this.status.add(new Aksi(this, "Tidur", waktuTidur));
         int indexStatus = this.status.size() - 1;
-        world.setIdle(false);
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
         this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
         this.isDoAksiAktif = true;
-        Thread thread = new Thread(() -> {
-            world.getWorldClock().run(waktu, this, indexStatus)
-            this.isDoAksiAktif = false;
-        }); // membuat thread baru dan mem-passing objek WorldClock
+        ActionThread thread = new ActionThread(indexStatus,this,waktu);
         thread.start(); // memulai thread
 
 
@@ -383,18 +390,18 @@ public class Sim {
         System.out.println("Pilih posisi ruangan baru (atas/bawah/kiri/kanan): ");
         Scanner scanner = new Scanner(System.in);
         String pilihan = scanner.nextLine();
-        if (pilihan.equals("atas")) {
-            System.out.println("Masukkan nama ruangan: ");
-            String namaRuangan = scanner.nextLine();
-            this.rumah.addRuangan(new Ruangan(namaRuangan));
+        // if (pilihan.equals("atas")) {
+        //     System.out.println("Masukkan nama ruangan: ");
+        //     String namaRuangan = scanner.nextLine();
+        //     this.rumah.addRuangan(new Ruangan(namaRuangan));
             
-        } else if (pilihan.equals("bawah")) {
-            this.rumah.addRuangan(new Ruangan("Ruangan Bawah", 0, -1));
-        } else if (pilihan.equals("kiri")) {
-            this.rumah.addRuangan(new Ruangan("Ruangan Kiri", -1, 0));
-        } else if (pilihan.equals("kanan")) {
-            this.rumah.addRuangan(new Ruangan("Ruangan Kanan", 1, 0));
-        }
+        // } else if (pilihan.equals("bawah")) {
+        //     this.rumah.addRuangan(new Ruangan("Ruangan Bawah", 0, -1));
+        // } else if (pilihan.equals("kiri")) {
+        //     this.rumah.addRuangan(new Ruangan("Ruangan Kiri", -1, 0));
+        // } else if (pilihan.equals("kanan")) {
+        //     this.rumah.addRuangan(new Ruangan("Ruangan Kanan", 1, 0));
+        // }
 
 
     }
@@ -433,6 +440,6 @@ public class Sim {
     }
     public void viewCurrentLocation(){
         System.out.println("Rumah: "+ rumah.getPosisi().getX()+","+rumah.getPosisi().getY());
-        System.out.println("Ruangan: "+ this.posisiRuangan.getNamaRuangan()+" di koordinat "+this.posisiRuangan.getPosisi().getX()+","+this.posisiRuangan.getPosisi().getY());
+        System.out.println("Ruangan: "+ this.currentRuangan.getNama()+" di koordinat "+this.posisiRuangan.getX()+","+this.posisiRuangan.getY());
     }
 }
