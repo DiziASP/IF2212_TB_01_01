@@ -31,4 +31,6 @@ public abstract class Objek {
     }
 
     public abstract String getInfo();
+
+    public abstract void printInfo();
 }
