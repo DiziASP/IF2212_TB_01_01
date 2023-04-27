@@ -2,7 +2,7 @@ package if2212_tb_01_01.objects.furnitur;
 import if2212_tb_01_01.objects.Objek;
 import if2212_tb_01_01.utils.Point;
 
-public class Jam extends Objek implements Furnitur {
+public class KomporGas extends Objek implements Furnitur {
     private String namaAksi;
     private int harga;
     private int panjang;
@@ -10,20 +10,17 @@ public class Jam extends Objek implements Furnitur {
     private Point posisi;
     private boolean isVertikal;
     
-    public Jam(Point posisi, boolean isVertikal){
-        super("JAM", "FURNITUR");
-        this.namaAksi = "MELIHAT WAKTU";
-        this.harga = 10;
-        this.panjang = 1;
+    public KomporGas(String jenis, Point posisi, boolean isVertikal){
+        super("KOMPOR GAS", "FURNITUR");
+        this.namaAksi = "MASAK";
+        this.harga = 100;
+        this.panjang = 2;
         this.lebar = 1;
         this.posisi = posisi;
         this.isVertikal = isVertikal;
     }
 
-    public Jam() {
-        super("JAM", "FURNITUR");
-        this.harga = 10;
-    }
+
 
     //Getter method for aksi
     public String getNamaAksi(){

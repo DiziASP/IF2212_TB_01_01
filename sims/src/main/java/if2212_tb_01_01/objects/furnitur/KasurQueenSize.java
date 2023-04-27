@@ -11,7 +11,7 @@ public class KasurQueenSize extends Objek implements Furnitur {
     private Point posisi;
     private boolean isVertikal;
     
-    public KasurQueenSize(String jenis, Point posisi, boolean isVertikal){
+    public KasurQueenSize(Point posisi, boolean isVertikal){
         super("KASUR QUEEN SIZE", "FURNITUR");
         this.namaAksi = "TIDUR";
         this.harga = 100;
@@ -19,6 +19,11 @@ public class KasurQueenSize extends Objek implements Furnitur {
         this.lebar = 2;
         this.posisi = posisi;
         this.isVertikal = isVertikal;
+    }
+
+    public KasurQueenSize() {
+        super("KASUR QUEEN SIZE", "FURNITUR");
+        this.harga = 100;
     }
 
     //Getter method for aksi

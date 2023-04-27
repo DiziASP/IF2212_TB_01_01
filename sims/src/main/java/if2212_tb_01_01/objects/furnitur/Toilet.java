@@ -20,6 +20,10 @@ public class Toilet extends Objek implements Furnitur {
         this.isVertikal = isVertikal;
     }
 
+    public Toilet() {
+        super("TOILET", "FURNITUR");
+        this.harga = 50;
+    }
     //Getter method for aksi
     public String getNamaAksi(){
         return namaAksi;

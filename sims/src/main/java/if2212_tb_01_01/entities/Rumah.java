@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 import if2212_tb_01_01.objects.Objek;
-// import if2212_tb_01_01.objects.Furnitur.Furnitur;
 
 public class Rumah {
+
     private Point posisi;
     private List<Ruangan> daftarRuangan;
     private static Integer kapasitas = 36;
@@ -80,6 +80,10 @@ public class Rumah {
     //Method untuk menambahkan ruangan ke dalam rumah
     public void addRuangan(Ruangan ruangan) {
         this.daftarRuangan.add(ruangan);
+    }
+
+    public boolean adaRuangan(Ruangan ruangan) {
+        return daftarRuangan.contains(ruangan);
     }
 
 }
