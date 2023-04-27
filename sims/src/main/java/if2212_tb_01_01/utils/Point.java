@@ -99,7 +99,7 @@ public class Point {
         int i = 0;
         Point point = new Point(-1,-1);
         boolean salahInput = false;
-        if(input.isBlank()){
+        if(input.equals("")){
             salahInput = true;
         }
         else{

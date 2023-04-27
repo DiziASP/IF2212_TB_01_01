@@ -11,7 +11,7 @@ public class Kompor extends Objek implements Furnitur {
     private Point posisi;
     private boolean isVertikal;
     
-    public Kasur(String jenis, Point posisi, boolean isVertikal){
+    public Kompor(String jenis, Point posisi, boolean isVertikal){
         super("KOMPOR", "FURNITUR");
         this.namaAksi = "MASAK";
         if (jenis.equals("GAS")){
@@ -25,6 +25,15 @@ public class Kompor extends Objek implements Furnitur {
         }
         this.posisi = posisi;
         this.isVertikal = isVertikal;
+    }
+
+    public Kompor(String jenis) {
+        super("KOMPOR", "FURNITUR");
+        if (jenis.equals("GAS")){
+            this.harga = 100;
+        } else if (jenis.equals("LISTRIK")){
+            this.harga = 200;
+        }
     }
 
     //Getter method for aksi

@@ -21,6 +21,11 @@ public class KasurQueenSize extends Objek implements Furnitur {
         this.isVertikal = isVertikal;
     }
 
+    public KasurQueenSize() {
+        super("KASUR QUEEN SIZE", "FURNITUR");
+        this.harga = 100;
+    }
+
     //Getter method for aksi
     public String getNamaAksi(){
         return namaAksi;

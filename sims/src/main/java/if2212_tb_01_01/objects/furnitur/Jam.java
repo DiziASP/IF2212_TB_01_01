@@ -20,6 +20,11 @@ public class Jam extends Objek implements Furnitur {
         this.isVertikal = isVertikal;
     }
 
+    public Jam() {
+        super("JAM", "FURNITUR");
+        this.harga = 10;
+    }
+
     //Getter method for aksi
     public String getNamaAksi(){
         return namaAksi;
