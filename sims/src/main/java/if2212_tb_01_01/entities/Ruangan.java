@@ -85,7 +85,7 @@ public class Ruangan {
             }
         }
 
-        public void addObjek(Integer index, Furnitur objek){
+        public void addObjek(Integer index, Object objek){
             daftarObjek.add(index,objek);
         }
         public String getNama(){

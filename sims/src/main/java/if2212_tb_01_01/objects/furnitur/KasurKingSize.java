@@ -2,7 +2,7 @@ package if2212_tb_01_01.objects.furnitur;
 import if2212_tb_01_01.objects.Objek;
 import if2212_tb_01_01.utils.Point;
 
-public class Kasur extends Objek implements Furnitur {
+public class KasurKingSize extends Objek implements Furnitur {
     private String namaAksi;
     private String jenis;
     private int harga;
@@ -12,21 +12,11 @@ public class Kasur extends Objek implements Furnitur {
     private boolean isVertikal;
     
     public Kasur(String jenis, Point posisi, boolean isVertikal){
-        super("KASUR", "FURNITUR");
+        super("KASUR KING SIZE", "FURNITUR");
         this.namaAksi = "TIDUR";
-        if (jenis.equals("SINGLE")){
-            this.harga = 50;
-            this.panjang = 4;
-            this.lebar = 1;
-        } else if (jenis.equals("QUEEN SIZE")){
-            this.harga = 100;
-            this.panjang = 4;
-            this.lebar = 2;
-        } else if (jenis.equals("KING SIZE")){
-            this.harga = 150;
-            this.panjang = 4;
-            this.lebar = 3;
-        }
+        this.harga = 150;
+        this.panjang = 4;
+        this.lebar = 3;
         this.posisi = posisi;
         this.isVertikal = isVertikal;
     }
@@ -91,7 +81,7 @@ public class Kasur extends Objek implements Furnitur {
 
 
     public String getInfo(){
-        return "Nama: " + this.getNama() + " " + this.jenis + "\n" +
+        return "Nama: " + this.getNama() + "\n" +
                 "Harga: " + this.harga + "\n" +
                 "Panjang: " + this.panjang + "\n" +
                 "Lebar: " + this.lebar + "\n" +
