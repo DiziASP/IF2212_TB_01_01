@@ -2,8 +2,10 @@ package if2212_tb_01_01.entities;
 
 import java.util.*;
 import if2212_tb_01_01.utils.*;
+import if2212_tb_01_01.objects.*;
+import if2212_tb_01_01.objects.Furnitur.Furnitur;
+import if2212_tb_01_01.objects.Masakan.Masakan;
 import if2212_tb_01_01.occupation.*;
-import if2212_tb_01_01.entities.Rumah.Ruangan;
 import if2212_tb_01_01.objects.*;
 
 /**
@@ -12,52 +14,50 @@ import if2212_tb_01_01.objects.*;
  */
 public class Sim {
 
+<<<<<<<<< Temporary merge branch 1
+    class Aksi {
+    }
+
+    class Point {
+
+    }
+
+    class Rumah {
+    }
+
+    class Kesejahteraan {
+
+    }
+
+=========
+    class Inventory {
+        private Map<Objek, Integer> isi;
+        public Inventory() {
+            this.isi = new HashMap<Objek, Integer>();
+        }
+    }
+
+    class Aksi {
+    }
+
+>>>>>>>>> Temporary merge branch 2
     /* Sim Attributes */
     private String namaLengkap;
     private Pekerjaan pekerjaan;
     private int uang;
-    private Inventory<Objek> inventory;
+    private Inventory inventory;
     private String status;
     private Kesejahteraan kesejahteraan;
+    private List<Aksi> aksi;
     // private Point posisi; yang butuh posisi kayanya rumah aja???
     private Rumah rumah;
-    private Ruangan ruangan;
-
-    public Sim(Kesejahteraan kesejahteraan, int uang, Pekerjaan pekerjaan, String namaLengkap) {
-        this.kesejahteraan = kesejahteraan;
-        this.uang = uang;
-        this.pekerjaan = pekerjaan;
-        this.namaLengkap = namaLengkap;
-        this.status = "";
-        this.inventory = new Inventory<Objek>();
-    }
-
-    // konstruktor kl pekerjaan di random
-    public Sim(Kesejahteraan kesejahteraan, int uang, String namaLengkap, Rumah rumah) {
-        List<Pekerjaan> pekerjaan = new ArrayList<Pekerjaan>();
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Badut Sulap", "Badut sulap memiliki gaji harian 15", 15).build());
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Koki", "Koki memiliki gaji harian 30", 30).build());
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Polisi", "Polisi memiliki gaji harian 35", 35).build());
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Programmer", "Progammer memiliki gaji harian 45", 45).build());
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Dokter", "Dokter memiliki gaji harian 50", 50).build());
-        Random rand = new Random();
-        int min = 0;
-        int max = 4;
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.pekerjaan = pekerjaan.get(randomNum);
-        this.kesejahteraan = kesejahteraan;
-        this.uang = uang;
-        this.namaLengkap = namaLengkap;
-        this.status = "";
-        this.inventory = new Inventory<Objek>();
-        this.rumah = rumah;
-    }
+<<<<<<<<< Temporary merge branch 1
 
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
         this.namaLengkap = namaLengkap;
         this.pekerjaan = pekerjaan;
         this.uang = 100;
-        this.inventory = new Inventory<Objek>();
+        this.inventory = new Inventory();
         this.status = "";
     }
 
@@ -98,15 +98,16 @@ public class Sim {
         return kesejahteraan;
     }
 
-    public String getStatus() {
+    public List<Aksi> getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(List<Aksi> status) {
         this.status = status;
     }
 
-    // Actions of Sim
+
+    //Actions of Sim
     public void addToInventory() {
         // Please provide the solution below
     }
@@ -124,7 +125,7 @@ public class Sim {
     }
 
     public void tidur() {
-        // Please provide the solution below
+        //Please provide the solution below
     }
 
     public void makan() {
@@ -179,7 +180,7 @@ public class Sim {
     }
 
     public void upgradeRumah() {
-        // Please provide the solution below
+        //Please provide the solution below
     }
 
     public void beliBarang(Objek objek) {
@@ -250,49 +251,44 @@ public class Sim {
     }
 
     public void melihatWaktu() {
-        // Please provide the solution below
+        //Please provide the solution below
+=========
+    public Sim(Kesejahteraan kesejahteraan, int uang, Pekerjaan pekerjaan, String namaLengkap) {
+        this.kesejahteraan = kesejahteraan;
+        this.uang = uang;
+        this.pekerjaan = pekerjaan;
+        this.namaLengkap = namaLengkap;
+        this.status = "";
+        this.inventory = new Inventory();
+    }
+    // konstruktor kl pekerjaan di random 
+    public Sim(Kesejahteraan kesejahteraan, int uang, String namaLengkap, Rumah rumah) {
+        List <Pekerjaan> pekerjaan = new ArrayList<Pekerjaan>();
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Badut Sulap", "Badut sulap memiliki gaji harian 15", 15).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Koki", "Koki memiliki gaji harian 30", 30).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Polisi", "Polisi memiliki gaji harian 35", 35).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Programmer", "Progammer memiliki gaji harian 45", 45).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Dokter", "Dokter memiliki gaji harian 50", 50).build());
+        Random rand = new Random();
+        int min = 0;
+        int max = 4;
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+        this.pekerjaan = pekerjaan.get(randomNum);
+        this.kesejahteraan = kesejahteraan;
+        this.uang = uang;
+        this.namaLengkap = namaLengkap;
+        this.status = "";
+        this.inventory = new Inventory();
+        this.rumah = rumah;
     }
 
-    public void viewInfo() {
-        System.out.println("Nama: " + namaLengkap);
-        System.out.println("Pekerjaan: " + pekerjaan.getNamaKerja());
-        System.out.println("Kesehatan: " + kesejahteraan.getKesehatan());
-        System.out.println("Kekenyangan: " + kesejahteraan.getKekenyangan());
-        System.out.println("Mood: " + kesejahteraan.getMood());
-        System.out.println("Uang: " + uang + "\n");
-    }
-
-    public void yoga() {
-        // Please provide the solution below
-    }
-
-    public void menontonFilm() {
-        // Please provide the solution below
-    }
-
-    public void menggambar() {
-        // Please provide the solution below
-    }
-
-    public void mainMusik() {
-        // Please provide the solution below
-    }
-
-    public void mandi() {
-        // Please provide the solution below
-    }
-
-    public void membersihkanRumah() {
-        // Please provide the solution below
-    }
-
-    public void proyekan() {
-        Thread t  = new Thread(new Runnable() {
-            public void run() {
-                kesejahteraan.setMood(kesejahteraan.getMood() - 10);
-                setUang(getUang() + 200000);
-            }
-        });
-        t.run();
+    public void viewInfo(){
+        System.out.println("Nama: "+ namaLengkap);
+        System.out.println("Pekerjaan: "+ pekerjaan.getNamaKerja());
+        System.out.println("Kesehatan: "+ kesejahteraan.getKesehatan());
+        System.out.println("Kekenyangan: "+ kesejahteraan.getKekenyangan());
+        System.out.println("Mood: "+kesejahteraan.getMood());
+        System.out.println("Uang: "+ uang+"\n");
+>>>>>>>>> Temporary merge branch 2
     }
 }

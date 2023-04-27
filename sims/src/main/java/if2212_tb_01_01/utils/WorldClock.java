@@ -1,5 +1,7 @@
 package if2212_tb_01_01.utils;
 
+import if2212_tb_01_01.entities.*;
+
 public class WorldClock extends Thread {
     private int minutes;
     private int seconds;
@@ -27,25 +29,29 @@ public class WorldClock extends Thread {
         seconds = 0;
         daysInWorld = 0;
     }
-    public void run(int sec) {
+    public void run(World world) {
         while (true) {
             try {
-                Thread.sleep(sec*1000); // tunggu 1 detik
-                seconds++;
-                if (seconds >= 60) {
-                    seconds = 0;
-                    minutes++;
-                    if (minutes >= 12) {
-                        minutes = 0;
-                        daysInWorld++;
+                while (!world.getIsGameEnd()){
+                    Thread.sleep(1000);
+                    if (!world.isIdle()){
+                        seconds++;
+                        if (seconds >= 60) {
+                            seconds = 0;
+                            minutes++;
+                            if (minutes >= 12) {
+                                minutes = 0;
+                                daysInWorld++;
+                            }
+                        }
                     }
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
     
     // tambahkan getter dan setter untuk hours, minutes, dan seconds
+}
 }
 

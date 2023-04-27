@@ -1,9 +1,9 @@
 package if2212_tb_01_01.entities;
 
-import if2212_tb_01_01.objects.*;
 import java.util.*;
+import if2212_tb_01_01.objects.*;
 
-public class Inventory<T extends Objek>  {
+public class Inventory<T extends Objek> {
     private Map<T, Integer> inventory;
 
     public Inventory() {
@@ -13,48 +13,67 @@ public class Inventory<T extends Objek>  {
     public Map<T,Integer> getInventory() {
         return inventory;
     }
-    
+
     public boolean isKosong() {
         return inventory.isEmpty();
     }
 
-    public boolean isContain(T item) {
-        return inventory.containsKey(item);
+    public boolean isObjekAda(T item){
+        boolean found = false;
+        for(T x: inventory.keySet()){
+            if(x.getNama().equals(item.getNama())){
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 
     public int jumlahItem(T item) {
-        if (inventory.containsKey(item)) {
-            return inventory.get(item);
+        int jumlah = 0;
+        for(T x: inventory.keySet()){
+            if(x.getNama().equals(item.getNama())){
+                jumlah = inventory.get(x);
+                break;
+            }
         }
-        else {
-            return 0;
-        }
+        return jumlah;
     }
 
     public void addItem (T item, int quantity) {
-        if (inventory.containsKey(item)) {
-            inventory.put(item, inventory.get(item) + quantity);
+        boolean found = false;
+        for(T x: inventory.keySet()){
+            if(x.getNama().equals(item.getNama())){
+                inventory.replace(x, inventory.get(x) + quantity);
+                found = true;
+                break;
+            }
         }
-        else {
-            inventory.put(item, quantity);
+        if(!found){
+            inventory.put(item,quantity);
         }
     }
 
     public void removeItem (T item, int quantity) {
-        if (inventory.containsKey(item)) {
-            int remainder = inventory.get(item) - quantity;
-            if (remainder > 1) {
-                inventory.put(item, remainder);
+        boolean found = false;
+        for(T x: inventory.keySet()){
+            if(x.getNama().equals(item.getNama())){
+                found = true;
+                int remainder = inventory.get(x) - quantity;
+                if (remainder > 1) {
+                    inventory.replace(x, remainder);
+                }
+                else if (remainder == 0){
+                    inventory.remove(x);
+                }
+                else{
+                    System.out.println("Insufficient Materials!"); 
+                }
+                break;
             }
-            else if (remainder == 0) {
-                inventory.remove(item);
+            if(!found){
+                System.out.println("No item(s) to remove!");
             }
-            else {
-                System.out.println("Insufficient Materials!");
-            }
-        }
-        else {
-            System.out.println("No item(s) to remove!");
         }
     }
 
@@ -69,9 +88,9 @@ public class Inventory<T extends Objek>  {
         }
         else {
             for (Map.Entry<T, Integer> entry : inventory.entrySet()) {
-                System.out.println(entry.getKey() + " : " + entry.getValue());
+                System.out.println(entry.getKey().getNama() + " : " + entry.getValue());
             }
         }
     }
 
-}   
+} 
