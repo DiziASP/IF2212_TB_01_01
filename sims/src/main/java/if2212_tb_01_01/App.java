@@ -4,9 +4,9 @@
 package if2212_tb_01_01;
 import java.util.*;
 import if2212_tb_01_01.entities.*;
-import if2212_tb_01_01.objects.Furnitur;
 import if2212_tb_01_01.objects.Makanan;
-import if2212_tb_01_01.objects.Masakan;
+import if2212_tb_01_01.objects.Furnitur.Furnitur;
+import if2212_tb_01_01.objects.Masakan.Masakan;
 import if2212_tb_01_01.utils.*;
 
 public class App{
@@ -127,7 +127,7 @@ public class App{
             posisiRuangan.setPoint(-1, -1);
 
             // memulai thread counter waktu
-            
+
         }
 
         while(!endedgame){
@@ -149,6 +149,26 @@ public class App{
             //Menu nomor 4
             else if (command.equals("VIEW INVENTORY")){
                 listSim.get(indeksActiveSim).viewInventory();
+            }
+
+            // Menu nomor 5 
+            else if (command.equals("UPGRADE HOUSE")){
+                listSim.get(indeksActiveSim).upgradeRumah();
+            }
+
+            else if (command.equals("MOVE ROOM")){
+                System.out.println("Daftar ruangan yang dapat dipilih:");
+                for (int i = 0; i < listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().size(); i++){
+                    System.out.println((i+1) + ". " + listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().get(i).getNamaRuangan());
+                }
+                System.out.print("Pilih ruangan yang ingin dituju: ");
+                command = scanner.nextLine().toUpperCase();
+                if (command.equals("KITCHEN") || command.equals("BEDROOM") || command.equals("BATHROOM") || command.equals("LIVING ROOM")){
+                    listSim.get(indeksActiveSim).moveRoom(command);
+                }
+                else{
+                    System.out.println("Input tidak valid!");
+                }
             }
 
             //Menu nomor 7

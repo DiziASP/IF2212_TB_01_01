@@ -2,6 +2,8 @@ package if2212_tb_01_01.entities;
 import java.util.*;
 import if2212_tb_01_01.utils.*;
 import if2212_tb_01_01.objects.*;
+import if2212_tb_01_01.objects.Furnitur.Furnitur;
+import if2212_tb_01_01.objects.Masakan.Masakan;
 import if2212_tb_01_01.occupation.*;
 
 /**
@@ -365,8 +367,6 @@ public class Sim {
         this.isDoAksiAktif = true;
         ActionThread thread = new ActionThread(indexStatus,this,waktu);
         thread.start(); // memulai thread
-
-
         // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt haduh gmn y
     }
 

@@ -4,8 +4,8 @@ import if2212_tb_01_01.utils.Point;
 import java.util.List;
 import java.util.ArrayList;
 
-import if2212_tb_01_01.objects.Furnitur;
 import if2212_tb_01_01.objects.Objek;
+import if2212_tb_01_01.objects.Furnitur.Furnitur;
 
 public class Rumah {
     private Point posisi;
