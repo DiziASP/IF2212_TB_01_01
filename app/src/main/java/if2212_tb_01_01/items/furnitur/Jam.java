@@ -19,9 +19,9 @@ public class Jam extends Furnitur {
 
     public static Jam buildJam(Integer x, Integer y){
         Jam newJam = new Jam();
-            newJam.setPosisi(new Point(x, y));
-            newJam.setInteractionArea(new Rectangle(((newJam.getPosisi().x + 1) *tileSize) + roomX, ((newJam.getPosisi().y + 1) * tileSize) + roomY, tileSize, tileSize));
-            return newJam;
+        newJam.setPosisi(new Point(x, y));
+        newJam.setInteractionArea(new Rectangle(((newJam.getPosisi().x + 1) *tileSize) + roomX, ((newJam.getPosisi().y + 1) * tileSize) + roomY, tileSize, tileSize));
+        return newJam;
     }
 
 }

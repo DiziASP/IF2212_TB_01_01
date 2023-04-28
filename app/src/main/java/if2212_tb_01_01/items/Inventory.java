@@ -12,17 +12,17 @@ public class Inventory {
     public Inventory() {
         inventory = new HashMap<Integer, Item>();
         inventory.put(0, (Item) new Jam());
-        inventory.put(1, (Item) new KasurKingSize(null, false));
-        inventory.put(2, (Item) new KasurQueenSize(null, false));
-        inventory.put(3, (Item) new KasurSingle(null, false));
-        inventory.put(4, (Item) new KomporGas(null, false));
-        inventory.put(5, (Item) new KomporListrik(null, false));
-        inventory.put(6, (Item) new MejaKursi(null, false));
-        inventory.put(7, (Item) new PC(null, false));
-        inventory.put(8, (Item) new Piano(null, false));
-        inventory.put(9, (Item) new Pintu(null, false));
-        inventory.put(10, (Item) new Toilet(null, false));
-        inventory.put(11, (Item) new BakMandi(null, false));
+        inventory.put(1, (Item) new KasurKingSize());
+        inventory.put(2, (Item) new KasurQueenSize());
+        inventory.put(3, (Item) new KasurSingle());
+        inventory.put(4, (Item) new KomporGas());
+        inventory.put(5, (Item) new KomporListrik());
+        inventory.put(6, (Item) new MejaKursi());
+        inventory.put(7, (Item) new PC());
+        inventory.put(8, (Item) new Piano());
+        inventory.put(9, (Item) new Pintu());
+        inventory.put(10, (Item) new Toilet());
+        inventory.put(11, (Item) new BakMandi());
         inventory.put(12, (Item) new BH_Ayam());
         inventory.put(13, (Item) new BH_Bayam());
         inventory.put(14, (Item) new BH_Kacang());

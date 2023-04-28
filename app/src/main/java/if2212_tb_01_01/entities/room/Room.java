@@ -41,7 +41,7 @@ public class Room {
 
         if (this.isBuilded) {
             // Awal game ruangan langsung jadi
-            Jam jam = Jam.buildJam(0,0);
+            KasurQueenSize jam = KasurQueenSize.buildKasurQueenSize(0,0);
             daftarObjek.add(jam);
             setMapRuangan(0, jam);
 
@@ -92,7 +92,7 @@ public class Room {
             item.getLebar(); i++) {
                for (int j = item.getPosisi().x; j < item.getPosisi().getX()
                + item.getPanjang(); j++) {
-                mapRuangan[i][j] = itemIdx;
+                mapRuangan[j][i] = itemIdx;
                }
             }
     //      }

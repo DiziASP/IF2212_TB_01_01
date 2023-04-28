@@ -8,18 +8,19 @@ import static if2212_tb_01_01.utils.Constant.*;
 
 public class MejaKursi extends Furnitur  {
 
-    public MejaKursi(Point posisi, boolean isVertikal){
+    public MejaKursi(){
         super("MEJA DAN KURSI", "FURNITUR", "/images/furnitur/meja_dan_kursi.png", 3*tileSize, 3*tileSize);
         setNamaAksi("MAKAN");
         setHarga(50);
         setPanjang(3);
         setLebar(3);
-        setPosisi(posisi);
-        // setVertikal(isVertikal);
+    }
 
-        int roomX = (screenWidth - tileSize * 14) / 2;
-        int roomY = (screenHeight - tileSize * 11) / 2;
-        // setInteractionArea(new Rectangle((getPosisi().x + 1) * tileSize + roomX, (getPosisi().y + 1) * tileSize + roomY, getLebar()*tileSize, getPanjang()*tileSize));
+    public static MejaKursi buildMejaKursi(Integer x, Integer y){
+        MejaKursi newMejaKursi = new MejaKursi();
+        newMejaKursi.setPosisi(new Point(x, y));
+        newMejaKursi.setInteractionArea(new Rectangle(((newMejaKursi.getPosisi().x + 1) *tileSize) + roomX, ((newMejaKursi.getPosisi().y + 1) * tileSize) + roomY, 3*tileSize, 3*tileSize));
+        return newMejaKursi;
     }
 
 }
