@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "if2212_tb_01_01.App",
+            "projectName": "sims"
+        },
+        {
+            "type": "java",
             "name": "Debbug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"

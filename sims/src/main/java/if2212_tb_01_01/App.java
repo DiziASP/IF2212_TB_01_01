@@ -4,9 +4,7 @@
 package if2212_tb_01_01;
 import java.util.*;
 import if2212_tb_01_01.entities.*;
-import if2212_tb_01_01.objects.Makanan;
-import if2212_tb_01_01.objects.Furnitur.Furnitur;
-import if2212_tb_01_01.objects.Masakan.Masakan;
+import if2212_tb_01_01.objects.*;
 import if2212_tb_01_01.utils.*;
 
 public class App{
@@ -15,11 +13,14 @@ public class App{
         }
         public void show(boolean started) {
             if(!started){
-                System.out.println("List Menu : ");
-                System.out.println("1. Start Game");
-                System.out.println("2. Load Game");
-                System.out.println("3. Help");
-                System.out.println("4. Exit");
+                System.out.println("+---------------+");
+                System.out.println("| List Menu :   |");
+                System.out.println("| 1. Start Game |");
+                System.out.println("| 2. Load Game  |");
+                System.out.println("| 3. Help       |");
+                System.out.println("| 4. Exit       |");
+                System.out.println("+---------------+\n");
+
             }
             else{
                 System.out.println("List Menu : ");
@@ -35,6 +36,7 @@ public class App{
                 System.out.println("10. List Object");
                 System.out.println("11. Go To Object");
                 System.out.println("12. Action");
+                System.out.println("13. Exit");
             }
         }
 
@@ -47,17 +49,18 @@ public class App{
         boolean startgame = false;
         boolean loadgame = false;
         boolean endedgame = false;
-        Sim currentSim = null;
+        boolean isCanAddSim = true;
+
         List<Sim> listSim = new ArrayList<Sim>();
         String command;
         World world = new World(64,64);
-        // List<Sim> listSim = new ArrayList<>();
         Integer indeksActiveSim = 0;
         System.out.println("Selamat datang di Sim-Plicity!");
         while(!startgame && !loadgame && !endedgame){
             mainMenu.show(startgame);
             System.out.print("Masukkan command: ");
-            command = scanner.nextLine().toUpperCase();
+            command = scanner.nextLine();
+            command.toUpperCase();
             
             //validasi command
             if (command.equals("START GAME")){
@@ -159,12 +162,12 @@ public class App{
             else if (command.equals("MOVE ROOM")){
                 System.out.println("Daftar ruangan yang dapat dipilih:");
                 for (int i = 0; i < listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().size(); i++){
-                    System.out.println((i+1) + ". " + listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().get(i).getNamaRuangan());
+                    System.out.println((i+1) + ". " + listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().get(i).getNama());
                 }
-                System.out.print("Pilih ruangan yang ingin dituju: ");
-                command = scanner.nextLine().toUpperCase();
-                if (command.equals("KITCHEN") || command.equals("BEDROOM") || command.equals("BATHROOM") || command.equals("LIVING ROOM")){
-                    listSim.get(indeksActiveSim).moveRoom(command);
+                System.out.print("Pilih nomor ruangan yang ingin dituju: ");
+                int pilihan = scanner.nextInt();
+                if (pilihan > 1 && pilihan <= listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().size()){
+                    listSim.get(indeksActiveSim).berpindahRuangan(listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().get(pilihan-1));
                 }
                 else{
                     System.out.println("Input tidak valid!");
@@ -189,11 +192,11 @@ public class App{
                         if(command.equals("MAKANAN") || command.equals("FURNITUR")){
                             String kategori = command;
                             if(kategori.equals("MAKANAN")){
-                                Makanan.printListMakanan();
+                                // Makanan.printListMakanan();
                                 System.out.println("Pilih makanan yang ingin dibeli: ");
                             }
                             else if(kategori.equals("FURNITUR")){
-                                Furnitur.printListFurnitur();
+                                // Furnitur.printListFurnitur();
                                 System.out.println("Pilih furnitur yang ingin dibeli: ");
                             }
                             command = scanner.nextLine().toUpperCase();
@@ -212,12 +215,49 @@ public class App{
                 }
             }
 
-            //Menu nomor 8
-            // else if(command.equals("ADD SIM")){
-            //     System.out.print("Silakan masukkan nama lengkap: ");
-            //     command = scanner.nextLine();
+            // Menu nomor 8
+            else if(command.equals("ADD SIM")){
+                if (isCanAddSim){
+                    //Meminta nama sim
+                    System.out.print("Silakan masukkan nama lengkap: ");
+                    String name = scanner.nextLine();
+                    Point posisiRuanganBaru = new Point(-1,-1);
+                    Point posisiRumahBaru = new Point(-1,-1);
+                    //Memuat rumah
+                    while(posisiRumahBaru.isPointEqual(-1, -1)){
+                        System.out.print("Masukkan lokasi rumah yang diinginkan dengan format x,y : ");
+                        command = scanner.nextLine();
+                        posisiRumahBaru = Point.makePoint(command);
+                        if(posisiRumahBaru.isPointEqual(-1, -1)){
+                            System.out.println("Input tidak valid!\n");
+                        }
+                    }
+                    //Memuat Ruangan
+                    System.out.print("Masukkan nama ruangan: ");
+                    String namaRuangan = scanner.nextLine();
+                    while(posisiRuanganBaru.isPointEqual(-1, -1)){
+                        System.out.print("Masukkan lokasi ruangan yang diinginkan dengan format x,y : ");
+                        command = scanner.nextLine();
+                        posisiRuanganBaru = Point.makePoint(command);
+                        if(posisiRuanganBaru.isPointEqual(-1, -1)){
+                            System.out.println("Input tidak valid!\n");
+                        }
+                    }
+                    System.out.println("\nMemuat Rumah....");
+                    world.addRumah(new Point(posisiRumahBaru),name,namaRuangan,new Point(posisiRuanganBaru));
+                    //Memuat Ruangan
+                    world.getRumah(name).getRuangan(namaRuangan).printMapRuangan();
 
-            // }
+                    //Memuat Sim
+                    listSim.add(new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah(), world.getLastRumah().getPosisi(), world.getLastRumah().getDaftarRuangan().get(0).getPosisi()));
+                }
+                        
+            }
+            else if (command.equals("EXIT")){
+                endedgame = true;
+                System.out.println("Sampai jumpa kembali! \n");
+            }
         }
+        scanner.close();
     }   
 }

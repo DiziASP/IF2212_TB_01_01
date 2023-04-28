@@ -30,10 +30,6 @@ public abstract class Objek {
         this.kategori = kategori;
     }
 
-    public void CastingObj(Objek obj){
-        if 
-    }
-
     public abstract String getInfo();
 
     public abstract void printInfo();
