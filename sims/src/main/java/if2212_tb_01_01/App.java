@@ -61,8 +61,7 @@ public class App{
         while(!startgame && !loadgame && !endedgame){
             mainMenu.show(startgame);
             System.out.print("Masukkan command: ");
-            command = scanner.nextLine();
-            command.toUpperCase();
+            command = scanner.nextLine().toUpperCase();
             
             //validasi command
             if (command.equals("START GAME")){
@@ -87,52 +86,52 @@ public class App{
         if(startgame){
             //memuat world
             System.out.println("\nMemuat World....");
-            Point posisiRuangan = new Point(-1,-1);
-            Point posisiRumah = new Point(-1,-1);
+            Point posisiRuangan;
+            Point posisiRumah;
 
             //Meminta nama sim
-            System.out.print("Silakan masukkan nama lengkap: ");
-            String name = scanner.nextLine();
-
-            //Memuat rumah
-            while(posisiRumah.isPointEqual(-1, -1)){
-                System.out.print("Masukkan lokasi rumah yang diinginkan dengan format x,y : ");
-                command = scanner.nextLine();
-                posisiRumah = Point.makePoint(command);
-                if(posisiRumah.isPointEqual(-1, -1)){
-                    System.out.println("Input tidak valid!\n");
+            boolean nameValid = false;
+            while(!nameValid){
+                System.out.print("Silakan masukkan nama lengkap: ");
+                String name = scanner.nextLine();
+                if(!name.isBlank()){
+                    nameValid = true;
+                    //Meminta posisi Rumah yang ingin dibangun
+                    boolean posisiRumahValid = false;
+                    while(!posisiRumahValid){
+                        System.out.print("Masukkan lokasi rumah yang diinginkan dengan format x,y (dari 0,0 sampai 64,64): ");
+                        command = scanner.nextLine();
+                        posisiRumahValid = InputChecker.isPointRumah(command);
+                        if(posisiRumahValid){
+                            posisiRumah = Point.makePoint(command);
+                            //Meminta nama Ruangan yang ingin dibangun
+                            boolean ruanganValid = false;
+                            while(!ruanganValid){
+                                System.out.print("Masukkan nama ruangan: ");
+                                String namaRuangan = scanner.nextLine();
+                                if(!namaRuangan.isBlank()){
+                                    ruanganValid = true;
+                                    //PosisiRuangan random aja kali yak gw bikinnya dari 0 sampai 6
+                                    posisiRuangan = Point.makeRandomizePoint();
+                                    System.out.println("\nMemuat Rumah....");
+                                    world.addRumah(new Point(posisiRumah),name,namaRuangan,new Point(posisiRuangan));
+                                    listSim.add(new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah(), world.getLastRumah().getPosisi(), world.getLastRumah().getDaftarRuangan().get(0).getPosisi()));
+                                    indeksActiveSim = listSim.size() - 1;
+                                    System.out.println("Selamat datang, " + name + "!");
+                                }
+                                else{
+                                    System.out.println("Nama ruangan tidak valid");
+                                }
+                            }
+                        }
+                        //else untuk posisi rumah tidak valid sudah pake exception
+                    }
+                }
+                else{
+                    System.out.println("Nama tidak valid!");
                 }
             }
-
-            //Memuat Ruangan
-            System.out.print("Masukkan nama ruangan: ");
-            String namaRuangan = scanner.nextLine();
-            while(posisiRuangan.isPointEqual(-1, -1)){
-                System.out.print("Masukkan lokasi ruangan yang diinginkan dengan format x,y : ");
-                command = scanner.nextLine();
-                posisiRuangan = Point.makePoint(command);
-                if(posisiRuangan.isPointEqual(-1, -1)){
-                    System.out.println("Input tidak valid!\n");
-                }
-            }
-
-            //world.printMapWorld();
-            System.out.println("\nMemuat Rumah....");
-            world.addRumah(new Point(posisiRumah),name,namaRuangan,new Point(posisiRuangan));
-            
-
-            //Memuat Ruangan
-            world.getRumah(name).getRuangan(namaRuangan).printMapRuangan();
-
-            //Memuat Sim
-            listSim.add(new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah(), world.getLastRumah().getPosisi(), world.getLastRumah().getDaftarRuangan().get(0).getPosisi()));
-            indeksActiveSim = listSim.size() - 1;
-            System.out.println("Selamat datang, " + name + "!");
-            posisiRumah.setPoint(-1, -1);
-            posisiRuangan.setPoint(-1, -1);
-
             // memulai thread counter waktu
-
         }
 
         while(!endedgame){
@@ -140,43 +139,142 @@ public class App{
             System.out.print("Masukkan command: ");
             command = scanner.nextLine().toUpperCase();
 
-            //Menu nomor 2
+            //Menu nomor 2 (AMAN)
             if(command.equals("VIEW SIM INFO")){
                 listSim.get(indeksActiveSim).viewInfo();
             }
 
-            //Menu nomor 3
+            //Menu nomor 3 (AMAN)
             else if(command.equals("VIEW CURRENT LOCATION")){
                 Rumah currentLocationRumah = world.getRumah(listSim.get(indeksActiveSim).getPosisiRumah());
                 listSim.get(indeksActiveSim).viewLokasi(currentLocationRumah);
             }
 
-            //Menu nomor 4
+            //Menu nomor 4 (AMAN)
             else if (command.equals("VIEW INVENTORY")){
                 listSim.get(indeksActiveSim).viewInventory();
             }
 
-            // Menu nomor 5 
+            // Menu nomor 5 (Harusnya udh aman sih tinggal thread waktunya aja)
             else if (command.equals("UPGRADE HOUSE")){
-                listSim.get(indeksActiveSim).upgradeRumah();
-            }
-
-            else if (command.equals("MOVE ROOM")){
-                System.out.println("Daftar ruangan yang dapat dipilih:");
-                for (int i = 0; i < listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().size(); i++){
-                    System.out.println((i+1) + ". " + listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().get(i).getNama());
-                }
-                System.out.print("Pilih nomor ruangan yang ingin dituju: ");
-                int pilihan = scanner.nextInt();
-                if (pilihan > 1 && pilihan <= listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().size()){
-                    listSim.get(indeksActiveSim).berpindahRuangan(listSim.get(indeksActiveSim).getRumah().getDaftarRuangan().get(pilihan-1));
+                if(listSim.get(indeksActiveSim).getUang() < 1500){
+                    System.out.println("Uang tidak cukup! Upgrade house gagal dilakukan");
                 }
                 else{
-                    System.out.println("Input tidak valid!");
+                    Point posisiRumah = listSim.get(indeksActiveSim).getPosisiRumah();
+                    Point posisiRuanganAcuan;
+                    Point posisiRuanganBaru;
+                    world.getRumah(posisiRumah).printDaftarRuangan();
+                    boolean inputValid = false;
+                    boolean namaRuanganValid = false;
+                    String namaRuangan;
+                    Integer nomorRuangan;
+                    while(!inputValid){
+                        System.out.println("Pilih nomor ruangan yang ingin dijadikan acuan penambahan: ");
+                        command = scanner.nextLine();
+                        nomorRuangan = InputChecker.toAngka(command);
+                        if(!nomorRuangan.equals(-999)){
+                            try{
+                                posisiRuanganAcuan = world.getRumah(posisiRumah).getRuangan(nomorRuangan - 1).getPosisi();
+                                inputValid = true;
+                                while(!namaRuanganValid){
+                                    System.out.print("Masukan nama ruangan: ");
+                                    command = scanner.nextLine();
+                                    if(!world.getRumah(posisiRumah).adaRuangan(command)){
+                                        namaRuangan = command;
+                                        namaRuanganValid = true;
+                                        System.out.print("Pilih posisi ruangan baru (atas/bawah/kiri/kanan): ");
+                                        command = scanner.nextLine().toUpperCase();
+                                        if (command.equals("ATAS")) {
+                                            if(!world.getRumah(posisiRumah).adaRuangan(new Point(posisiRuanganAcuan.getX(), posisiRuanganAcuan.getY() + 1))){
+                                                posisiRuanganBaru = new Point(posisiRuanganAcuan.getX(),posisiRuanganAcuan.getY()+1);
+                                                world.getRumah(posisiRumah).upgradeRumah(namaRuangan, posisiRuanganBaru);
+                                                listSim.get(indeksActiveSim).setUang(listSim.get(indeksActiveSim).getUang() - 1500);  
+                                                System.out.println("Upgrade House berhasil dilakukan! Silakan menunggu 18 menit"); 
+                                            }
+                                            else{
+                                                System.out.println("Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
+                                            }
+                                        }
+                                        else if (command.equals("BAWAH")) {
+                                            if(!world.getRumah(posisiRumah).adaRuangan(new Point(posisiRuanganAcuan.getX(), posisiRuanganAcuan.getY() - 1))){
+                                                posisiRuanganBaru = new Point(posisiRuanganAcuan.getX(),posisiRuanganAcuan.getY()-1);
+                                                world.getRumah(posisiRumah).upgradeRumah(namaRuangan, posisiRuanganBaru);
+                                                listSim.get(indeksActiveSim).setUang(listSim.get(indeksActiveSim).getUang() - 1500);
+                                                System.out.println("Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
+                                            }
+                                            else{
+                                                System.out.println("Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
+                                            }
+                                        }
+                                        else if (command.equals("KIRI")) {
+                                            if(!world.getRumah(posisiRumah).adaRuangan(new Point(posisiRuanganAcuan.getX() - 1, posisiRuanganAcuan.getY()))){
+                                                posisiRuanganBaru = new Point(posisiRuanganAcuan.getX() - 1,posisiRuanganAcuan.getY());
+                                                world.getRumah(posisiRumah).upgradeRumah(namaRuangan, posisiRuanganBaru);
+                                                listSim.get(indeksActiveSim).setUang(listSim.get(indeksActiveSim).getUang() - 1500);
+                                                System.out.println("Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
+                                            }
+                                            else{
+                                                System.out.println("Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
+                                            }
+                                        }
+                                        else if (command.equals("KANAN")) {
+                                            if(!world.getRumah(posisiRumah).adaRuangan(new Point(posisiRuanganAcuan.getX() + 1, posisiRuanganAcuan.getY()))){
+                                                posisiRuanganBaru = new Point(posisiRuanganAcuan.getX() + 1,posisiRuanganAcuan.getY());
+                                                world.getRumah(posisiRumah).upgradeRumah(namaRuangan, posisiRuanganBaru);
+                                                listSim.get(indeksActiveSim).setUang(listSim.get(indeksActiveSim).getUang() - 1500);
+                                                System.out.println("Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
+                                            }
+                                            else{
+                                                System.out.println("Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
+                                            }
+                                        }
+                                        else{
+                                            System.out.println("Input tidak valid! Upgrade house gagal dilakukan");
+                                        }
+                                    }
+                                    else{
+                                        System.out.println("Nama ruangan sudah ada! silahkan masukkan nama lain");
+                                    }  
+                                }
+                            }
+                            catch(IndexOutOfBoundsException e){
+                                System.err.println("Input tidak valid! (Hint: input < 1 atau melebihi total ruangan yang terdapat di dalam rumah)");
+                            }
+                        }
+                        //else sudah lewat exception
+                    }
+                }
+                
+            }
+
+            //Menu nomor 6 (harusnya aman)
+            else if (command.equals("MOVE ROOM")){
+                Point posisiRumah = listSim.get(indeksActiveSim).getPosisiRumah();
+                world.getRumah(posisiRumah).printDaftarRuangan();
+                boolean inputValid = false;
+                Integer nomorRuangan;
+                Point posisiRuanganTujuan;
+                String namaRuangan;
+                while(!inputValid){
+                    System.out.print("Pilih nomor ruangan yang ingin dituju: ");
+                    command = scanner.nextLine();
+                    nomorRuangan = InputChecker.toAngka(command);
+                    if(!nomorRuangan.equals(-999)){
+                        try{
+                            posisiRuanganTujuan = world.getRumah(posisiRumah).getRuangan(nomorRuangan - 1).getPosisi();
+                            namaRuangan = world.getRumah(posisiRumah).getRuangan(nomorRuangan - 1).getNama();
+                            inputValid = true;
+                            listSim.get(indeksActiveSim).berpindahRuangan(posisiRuanganTujuan, namaRuangan);
+                        }
+                        catch(IndexOutOfBoundsException e){
+                            System.err.println("Input tidak valid! (Hint: input < 1 atau melebihi total ruangan yang terdapat di dalam rumah)");
+                        }    
+                    }
                 }
             }
 
-            //Menu nomor 7
+            //Menu nomor 7 (Belum pemindahan barang, sama ngeset waktu pengiriman barang)
             else if(command.equals("EDIT ROOM")){
                 System.out.println("Opsi kegiatan yang dapat dilakukan:");
                 System.out.println("1.Beli barang");
@@ -220,41 +318,84 @@ public class App{
             // Menu nomor 8
             else if(command.equals("ADD SIM")){
                 if (isCanAddSim){
-                    //Meminta nama sim
-                    System.out.print("Silakan masukkan nama lengkap: ");
-                    String name = scanner.nextLine();
-                    Point posisiRuanganBaru = new Point(-1,-1);
-                    Point posisiRumahBaru = new Point(-1,-1);
-                    //Memuat rumah
-                    while(posisiRumahBaru.isPointEqual(-1, -1)){
-                        System.out.print("Masukkan lokasi rumah yang diinginkan dengan format x,y : ");
-                        command = scanner.nextLine();
-                        posisiRumahBaru = Point.makePoint(command);
-                        if(posisiRumahBaru.isPointEqual(-1, -1)){
-                            System.out.println("Input tidak valid!\n");
-                        }
-                    }
-                    //Memuat Ruangan
-                    System.out.print("Masukkan nama ruangan: ");
-                    String namaRuangan = scanner.nextLine();
-                    while(posisiRuanganBaru.isPointEqual(-1, -1)){
-                        System.out.print("Masukkan lokasi ruangan yang diinginkan dengan format x,y : ");
-                        command = scanner.nextLine();
-                        posisiRuanganBaru = Point.makePoint(command);
-                        if(posisiRuanganBaru.isPointEqual(-1, -1)){
-                            System.out.println("Input tidak valid!\n");
-                        }
-                    }
-                    System.out.println("\nMemuat Rumah....");
-                    world.addRumah(new Point(posisiRumahBaru),name,namaRuangan,new Point(posisiRuanganBaru));
-                    //Memuat Ruangan
-                    world.getRumah(name).getRuangan(namaRuangan).printMapRuangan();
+                    Point posisiRuangan;
+                    Point posisiRumah;
 
-                    //Memuat Sim
-                    listSim.add(new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah(), world.getLastRumah().getPosisi(), world.getLastRumah().getDaftarRuangan().get(0).getPosisi()));
+                    //Meminta nama sim
+                    boolean nameValid = false;
+                    while(!nameValid){
+                        System.out.print("Silakan masukkan nama lengkap: ");
+                        String name = scanner.nextLine();
+                        if(!name.isBlank()){
+                            int i = 0;
+                            boolean namaSimFound = false;
+                            while(!namaSimFound && i < listSim.size()){
+                                if(listSim.get(i).getNamaLengkap().equals(name)){
+                                    namaSimFound = true;
+                                }
+                                else{
+                                    i++;
+                                }
+                            }
+                            if(!namaSimFound){
+                                nameValid = true;
+                                //Meminta posisi Rumah yang ingin dibangun
+                                boolean posisiRumahValid = false;
+                                boolean posisiRumahTerisi = true;
+                                while(!posisiRumahValid || posisiRumahTerisi){
+                                    System.out.print("Masukkan lokasi rumah yang diinginkan dengan format x,y (dari 0,0 sampai 64,64): ");
+                                    command = scanner.nextLine();
+                                    posisiRumahValid = InputChecker.isPointRumah(command);
+                                    if(posisiRumahValid){
+                                        posisiRumah = Point.makePoint(command);
+                                        if(!world.isPosisiTerisi(posisiRumah)){
+                                            posisiRumahTerisi = false;
+                                            //Meminta nama ruangan yang ingin dibangun
+                                            boolean ruanganValid = false;
+                                            while(!ruanganValid){
+                                                System.out.print("Masukkan nama ruangan: ");
+                                                String namaRuangan = scanner.nextLine();
+                                                if(!namaRuangan.isBlank()){
+                                                    ruanganValid = true;
+                                                    //PosisiRuangan random aja kali yak gw bikinnya dari 0 sampai 6
+                                                    posisiRuangan = Point.makeRandomizePoint();
+                                                    System.out.println("\nMemuat Rumah....");
+                                                    System.out.println("Sim "+ name + "berhasil dibuat! ");
+                                                    world.addRumah(new Point(posisiRumah),name,namaRuangan,new Point(posisiRuangan));
+                                                    listSim.add(new Sim(new Kesejahteraan(80,80,80,80), 100, name, world.getLastRumah(), world.getLastRumah().getPosisi(), world.getLastRumah().getDaftarRuangan().get(0).getPosisi()));
+                                                    System.out.println("Selamat datang, " + name + "!");
+                                                    isCanAddSim = false;
+                                                }
+                                                else{
+                                                    System.out.println("Nama ruangan tidak valid");
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            System.out.println("Masukan tidak valid! (Hint: Posisi rumah sudah terisi, silakan pilih posisi lain)");
+                                        }
+
+                                        //Meminta nama Ruangan yang ingin dibangun
+                                        
+                                    }
+                                    //else untuk posisi rumah tidak valid sudah pake exception
+                                }
+                            }
+                            else{
+                                System.out.println("Masukan tidak valid! (Hint: Input nama sudah dipakai sim lain, silakan pilih nama yang lain)");
+                            } 
+                        }
+                        else{
+                            System.out.println("Masukan tidak valid! (Hint: Input anda kosong)");
+                        }
+                    }
                 }
-                        
+                else{
+                    System.out.println("Kesempatan menambah sim sudah digunakan, silakan menunggu hingga esok hari");
+                }
             }
+
+            //Menu nomor 9
             else if (command.equals("CHANGE SIM")){
                 if (listSim.size() > 1){
                     System.out.println("Daftar Sim yang dapat dipilih:");
@@ -262,9 +403,13 @@ public class App{
                         System.out.println((i+1) + ". " + listSim.get(i).getNamaLengkap());
                     }
                     System.out.print("Pilih nomor Sim yang ingin dipilih: ");
-                    int pilihan = scanner.nextInt();
-                    if (pilihan > 1 && pilihan <= listSim.size()){
-                        indeksActiveSim = pilihan-1;
+                    command = scanner.nextLine();
+                    Integer pilihan = InputChecker.toAngka(command); //exception
+                    if(!pilihan.equals(-999)){
+                        if (pilihan >= 1 && pilihan <= listSim.size()){
+                            indeksActiveSim = pilihan-1;
+                            System.out.println("Berhasil mengganti sim active menjadi " + listSim.get(indeksActiveSim).getNamaLengkap());
+                        } 
                     }
                     else{
                         System.out.println("Input tidak valid!");
@@ -273,16 +418,67 @@ public class App{
                 else{
                     System.out.println("Tidak ada Sim lain yang dapat dipilih!");
                 }
-            } else if (command.equals("LIST OBJECT")){
-                System.out.println("Berikut adalah daftar objek yang ada di ruanganmu:");
-                int i=1;
-                for (Furnitur furnitur : listSim.get(indeksActiveSim).getCurrentRuangan().getDaftarObjek()){
-                    System.out.println(i + ". " + furnitur.getNama());
-                    i+=1;
+            } 
+            
+            //Menu nomor 10 (Harusnya udh aman)
+            else if (command.equals("LIST OBJECT")){
+                Point lokasiRumah = listSim.get(indeksActiveSim).getPosisiRumah();
+                Point lokasiRuangan = listSim.get(indeksActiveSim).getPosisiRuangan();
+                Ruangan currentRuangan = world.getRumah(lokasiRumah).getRuangan(lokasiRuangan);
+                System.out.println("Kamu sedang berada di ruangan " + currentRuangan.getNama()+ "!");
+                if(currentRuangan.getDaftarObjek().isEmpty()){
+                    System.out.println("Tidak terdapat objek di dalam ruanganmu:");
                 }
-            } else if (command.equals("GO TO OBJECT")){
-                listSim.get(indeksActiveSim).goToObject();
-            } else if (command.equals("ACTION")){
+                else{
+                    System.out.println("Berikut adalah daftar objek yang ada di ruanganmu:");
+                    int i=1;
+                    for (Furnitur furnitur : currentRuangan.getDaftarObjek()){
+                        System.out.println(i + ". " + furnitur.getNama()+" (lokasi: "+ furnitur.getPosisi() +")");
+                        i+=1;
+                    }
+                }
+            } 
+            
+            //Menu nomor 11 (Harusnya udh aman)
+            else if (command.equals("GO TO OBJECT")){
+                Point lokasiRumah = listSim.get(indeksActiveSim).getPosisiRumah();
+                Point lokasiRuangan = listSim.get(indeksActiveSim).getPosisiRuangan();
+                Ruangan currentRuangan = world.getRumah(lokasiRumah).getRuangan(lokasiRuangan);
+                System.out.println("Kamu sedang berada di ruangan " + currentRuangan.getNama()+ "!");
+                if(currentRuangan.getDaftarObjek().isEmpty()){
+                    System.out.println("Ruangan kosong! tidak ada objek yang dapat dikunjungi");
+                }
+                else{
+                    System.out.println("Berikut adalah daftar objek yang dapat dikunjungi");
+                    int i = 1;
+                    for (Furnitur furnitur : world.getRumah(lokasiRumah).getRuangan(lokasiRuangan).getDaftarObjek()) {
+                        System.out.println(i + ". " + furnitur.getNama()+" (lokasi: "+ furnitur.getPosisi() +")");
+                        i++;
+                    }
+                    Furnitur objek;
+                    boolean inputValid = false;
+                    while(!inputValid){
+                        System.out.println("Pilih nomor objek yang ingin dikunjungi: ");
+                        command = scanner.nextLine();
+                        try{
+                            objek = world.getRumah(lokasiRumah).getRuangan(lokasiRuangan).getObjek(Integer.parseInt(command) - 1);
+                            if(Integer.parseInt(command) >= 1 && Integer.parseInt(command) < i){
+                                inputValid = true;
+                                listSim.get(indeksActiveSim).goToObject(objek);
+                            }
+                        }
+                        catch(IndexOutOfBoundsException e){
+                            System.err.println("Input tidak valid! (Hint : input < 1 atau melebihi total objek yang terdapat di dalam ruangan)");
+                        }
+                        catch(NumberFormatException e){
+                            System.err.println("Input tidak valid! (Hint : input harus berupa angka) ");
+                        }
+                    }
+                }
+            } 
+            
+            //Menu nomor 12 (menu dajjal)
+            else if (command.equals("ACTION")){
                 System.out.println("\nBerikut adalah daftar aksi yang bisa kamu lakukan: ");
                 System.out.println("1. Kerja");
                 System.out.println("2. Olahraga");
@@ -325,7 +521,10 @@ public class App{
                         listSim.get(indeksActiveSim).beliBarang(command, kategori);
                     }
                 } 
-            } else if (command.equals("EXIT")){
+            } 
+            
+            //Menu nomor 13 (aman, paling kalo mau tambahin fitur save sabi ditanya mau disave dulu gak)
+            else if (command.equals("EXIT")){
                 endedgame = true;
                 System.out.println("Sampai jumpa kembali! \n");
             }

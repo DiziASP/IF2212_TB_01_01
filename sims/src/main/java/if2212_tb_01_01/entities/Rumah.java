@@ -71,6 +71,11 @@ public class Rumah {
         return daftarRuangan.get(i);
     }
 
+    //Mendapatkan ruangan berdasarkan indeks
+    public Ruangan getRuangan(Integer indeks){
+        return daftarRuangan.get(indeks);
+    }
+
     //Setter method for posisi
     public void setPosisi(Integer x, Integer y) {
         this.posisi.setX(x);
@@ -84,6 +89,50 @@ public class Rumah {
 
     public boolean adaRuangan(Ruangan ruangan) {
         return daftarRuangan.contains(ruangan);
+    }
+
+    //Memeriksa apakah sudah ada ruangan dengan nama tertentu
+    public boolean adaRuangan(String nama) {
+        boolean found = false;
+        int i = 0;
+        while (!found && i < daftarRuangan.size()){
+            if(daftarRuangan.get(i).getNama().equals(nama)){
+                found = true;
+            }
+            else{
+                i++;
+            }
+        }
+        return found;
+    }
+
+    //Memeriksa apakah sudah ada ruangan pada posisi tertentu
+    public boolean adaRuangan(Point point){
+        boolean found = false;
+        int i = 0;
+        while (!found && i < daftarRuangan.size()){
+            if(daftarRuangan.get(i).getPosisi().isPointEqual(point)){
+                found = true;
+            }
+            else{
+                i++;
+            }
+        }
+        return found;    
+    }
+
+    public void printDaftarRuangan(){
+        System.out.println("Berikut adalah daftar ruangan di rumah " + getKepemilikan()+": ");
+        int i = 1;
+        for (Ruangan ruangan : this.getDaftarRuangan()) {
+            System.out.println(i + ". " + ruangan.getNama());
+            i++;
+        }
+    }
+
+    public void upgradeRumah(String namaRuangan, Point posisi){
+        daftarRuangan.add(new Ruangan(namaRuangan, posisi, false));
+        
     }
 
 }

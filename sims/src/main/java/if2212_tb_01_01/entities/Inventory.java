@@ -87,8 +87,10 @@ public class Inventory<T extends Objek> {
             System.out.println("Inventory is Empty");
         }
         else {
+            int i = 1;
             for (Map.Entry<T, Integer> entry : inventory.entrySet()) {
-                System.out.println(entry.getKey().getNama() + " : " + entry.getValue());
+                System.out.println(i+". "+entry.getKey().getNama() + " : " + entry.getValue());
+                i++;
             }
         }
     }

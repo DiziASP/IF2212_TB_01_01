@@ -25,19 +25,21 @@ public class Ruangan {
                     mapRuangan[i][j] = "";
                 }
             }
-            if(this.isBuilded){
-                //Awal game ruangan langsung jadi
-                daftarObjek.add(new Furnitur("KASUR SINGLE", new Point(0,0), false));
-                setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-                daftarObjek.add(new Furnitur("TOILET", new Point(0,5), false));
-                setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-                daftarObjek.add(new Furnitur("KOMPOR GAS", new Point(2,5), false));
-                setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-                daftarObjek.add(new Furnitur("MEJA DAN KURSI", new Point(2,2), false));
-                setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-                daftarObjek.add(new Furnitur("JAM", new Point(5,5), false));
-                setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-            }
+            // if(this.isBuilded){
+
+
+            //     //Awal game ruangan langsung jadi
+            //     daftarObjek.add(new Furnitur("KASUR SINGLE", new Point(0,0), false));
+            //     setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
+            //     daftarObjek.add(new Furnitur("TOILET", new Point(0,5), false));
+            //     setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
+            //     daftarObjek.add(new Furnitur("KOMPOR GAS", new Point(2,5), false));
+            //     setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
+            //     daftarObjek.add(new Furnitur("MEJA DAN KURSI", new Point(2,2), false));
+            //     setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
+            //     daftarObjek.add(new Furnitur("JAM", new Point(5,5), false));
+            //     setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
+            // }
         }
 
         public void setMapRuangan(Furnitur furnitur){
@@ -108,5 +110,9 @@ public class Ruangan {
         }
         public void setIsBuilded(boolean status){
             isBuilded = status;
+        }
+
+        public Furnitur getObjek(Integer indeks){
+            return daftarObjek.get(indeks);
         }
 }

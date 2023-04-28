@@ -91,6 +91,7 @@ public class Sim {
     private boolean isDoAksiAktif;
     private Point posisiRumah;
     private Point posisiRuangan;
+    private Point posisiObjek = new Point(-1,-1);
 
     // private Point posisi; yang butuh posisi kayanya rumah aja???
     private Rumah rumah;
@@ -115,6 +116,13 @@ public class Sim {
         this.currentRuangan = rumah.getDaftarRuangan().get(0);
         this.posisiRumah = posisiRumah;
         this.posisiRuangan = posisiRuangan;
+
+        //Menambahkan furnitur awal ke dalam inventory
+        inventory.addItem(new Furnitur("KASUR SINGLE", new Point(-1,-1), false),1);
+        inventory.addItem(new Furnitur("TOILET", new Point(-1,-1), false),1);
+        inventory.addItem(new Furnitur("KOMPOR GAS", new Point(-1,-1), false),1);
+        inventory.addItem(new Furnitur("MEJA DAN KURSI", new Point(-1,-1), false),1);
+        inventory.addItem(new Furnitur("JAM", new Point(-1,-1), false),1);
     }
 
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
@@ -236,7 +244,7 @@ public class Sim {
     }
 
     public void viewLokasi(Rumah currentLocationRumah){
-        System.out.println("SIM " + namaLengkap + " saat ini sedang berada di rumah dengan lokasi " + posisiRumah.toString() + " pada ruangan " + currentLocationRumah.getRuangan(posisiRuangan).getNama() + " dengan lokasi" + posisiRuangan.toString()+"\n");
+        System.out.println("SIM " + namaLengkap + " saat ini sedang berada di rumah dengan lokasi " + posisiRumah.toString() + " pada ruangan " + currentLocationRumah.getRuangan(posisiRuangan).getNama() + " dengan lokasi " + posisiRuangan.toString()+"\n");
     }
 
     public void viewInventory(){
@@ -261,6 +269,7 @@ public class Sim {
                     uang -= hargaMakanan;
                     inventory.addItem(new Makanan(nama), 1);
                     System.out.println(nama+" berhasil dibeli!");
+                    //harusnya dikirim barang dulu trus kalo dah sampe baru masuk inventory
                 }
                 else{
                     System.out.println("Uang tidak cukup");
@@ -299,21 +308,15 @@ public class Sim {
 
 
     
-    public void goToObject() {
-        System.out.println("Pilih objek yang ingin dikunjungi: ");
-        int i = 1;
-        for (Objek objek : this.currentRuangan.getDaftarObjek()) {
-            System.out.println(i + ". " + objek.getNama());
-            i++;
-        }
+    public void goToObject(Furnitur objek) {
+        this.posisiObjek = objek.getPosisi();
+        System.out.println(this.getNamaLengkap() +" berhasil pindah ke objek "+ objek.getNama());
         Scanner scanner = new Scanner(System.in);
-        int pilihan = scanner.nextInt();
-        Objek objek = this.currentRuangan.getDaftarObjek().get(pilihan - 1);
         if (objek.getKategori().equals("peralatan")){
             Furnitur furnitur = (Furnitur) objek;
             if (furnitur.getAksi().equals("TIDUR")){
                 System.out.println("Apakah Anda ingin tidur? (Y/N)");
-                String pilihanTidur = scanner.next();
+                String pilihanTidur = scanner.nextLine().toUpperCase();
                 if (pilihanTidur.equals("Y")){
                     this.tidur();
                 }
@@ -402,12 +405,7 @@ public class Sim {
 
     public void upgradeRumah() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Berikut adalah daftar ruangan di rumahmu:");
-        int i = 1;
-        for (Ruangan ruangan : this.rumah.getDaftarRuangan()) {
-            System.out.println(i + ". " + ruangan.getNama());
-            i++;
-        }
+        
         System.out.println("Pilih nomor ruangan yang ingin dijadikan acuan penambahan: ");
         int pilihan1 = scanner.nextInt();
         Ruangan ruangan = this.rumah.getDaftarRuangan().get(pilihan1 - 1);
@@ -445,6 +443,12 @@ public class Sim {
         } else {
             System.out.println("Ruangan tidak tersedia");
         }
+    }
+
+    public void berpindahRuangan(Point pointTujuan, String namaRuangan) {
+        posisiRuangan = pointTujuan;
+        posisiObjek.setPoint(-1, -1); //sim tidak berada di objek
+        System.out.println("Sim berhasil berpindah ke " + namaRuangan);
     }
 
     public void melihatInventory() {

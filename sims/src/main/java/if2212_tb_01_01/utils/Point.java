@@ -1,5 +1,6 @@
 package if2212_tb_01_01.utils;
 
+import java.util.*;
 public class Point {
 
     /* Point Attributes */
@@ -132,6 +133,17 @@ public class Point {
             point.setX(Integer.parseInt(X));
             point.setY(Integer.parseInt(Y));
         }
+        return point;
+    }
+
+    public static Point makeRandomizePoint(){
+        Point point;
+        Random rand = new Random();
+        int min = 0;
+        int max = 6;
+        int randomNumX = rand.nextInt((max - min) + 1) + min;
+        int randomNumY = rand.nextInt((max - min) + 1) + min;
+        point = new Point(randomNumX,randomNumY);
         return point;
     }
 }
