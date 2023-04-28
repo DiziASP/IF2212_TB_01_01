@@ -166,7 +166,7 @@ public class Sim {
          this.status = new ArrayList<Aksi>();
          this.inventory = new Inventory();
          //tes
-         inventory.incItem(2);
+         inventory.incItem(0);
         //  this.rumah = rumah;
         //  this.currentRuangan = rumah.getDaftarRuangan().get(0);
         //  this.posisiRumah = posisiRumah;
