@@ -89,7 +89,32 @@ public class Furnitur extends Objek{
             harga = 10;
             panjang =  1;
             lebar = 1;
-        }
+        } else if(nama.equals("ALAT LUKIS")){
+            aksi = "MELUKIS";
+            harga = 20;
+            panjang =  1;
+            lebar = 1;
+        } else if(nama.equals("ALAT MUSIK")){
+            aksi = "BERMAIN MUSIK";
+            harga = 60;
+            panjang =  1;
+            lebar = 1;
+        } else if(nama.equals("BATHUB")){ // pls ini ganti aj kl objeknya ga sesuai
+            aksi = "MANDI";
+            harga = 40;
+            panjang =  2;
+            lebar = 1;
+        } else if(nama.equals("SAPU")){
+            aksi = "MEMBERSIHKAN RUMAH";
+            harga = 10;
+            panjang =  1;
+            lebar = 1;
+        }else if(nama.equals("LAPTOP")){
+            aksi = "PROYEKAN";
+            harga = 300;
+            panjang =  1;
+            lebar = 1;
+        } 
         this.posisi = posisi;
         this.isVertikal = isVertikal;
     }
@@ -105,6 +130,11 @@ public class Furnitur extends Objek{
         furnitur.add(new Furnitur("KOMPOR LISTRIK", new Point(-1,-1),false));
         furnitur.add(new Furnitur("MEJA DAN KURSI", new Point(-1,-1),false));
         furnitur.add(new Furnitur("JAM", new Point(-1,-1),false));
+        furnitur.add(new Furnitur("ALAT LUKIS", new Point(-1,-1),false));
+        furnitur.add(new Furnitur("ALAT MUSIK", new Point(-1,-1),false));
+        furnitur.add(new Furnitur("SHOWER", new Point(-1,-1),false));
+        furnitur.add(new Furnitur("SAPU", new Point(-1,-1),false));
+        furnitur.add(new Furnitur("LAPTOP", new Point(-1,-1),false));
         return furnitur;
     }
 

@@ -43,8 +43,8 @@ public class Sim {
         }
         public static List<Aksi> getDaftarAksiAktif(){
             List<Aksi> listAksiAktif = new ArrayList<Aksi>();
-            listAksiAktif.add(new Aksi("KERJA", false));
-            listAksiAktif.add(new Aksi("OLAHRAGA", false));
+            listAksiAktif.add(new Aksi ("KERJA", false));
+            listAksiAktif.add(new Aksi ("OLAHRAGA", false));
             listAksiAktif.add(new Aksi ("TIDUR", true));
             listAksiAktif.add(new Aksi ("MAKAN", true));
             listAksiAktif.add(new Aksi ("MEMASAK", true));
@@ -224,7 +224,7 @@ public class Sim {
             for(Makanan x: makanan){
                 inventory.removeItem(x, 1);
             }
-        }
+        } 
         // List<Makanan> bahanmakanan = Masakan.printGetResepMasakan(nama);
         //mengecek apakah bahan yang diperlukan semuanya ada di inventory atau tidak.
         //kalau tidak ada, akan mengeluarkan pesan "bahan yang diperlukan tidak terpenuhi"
@@ -313,39 +313,71 @@ public class Sim {
             Furnitur furnitur = (Furnitur) objek;
             if (furnitur.getAksi().equals("TIDUR")){
                 System.out.println("Apakah Anda ingin tidur? (Y/N)");
-                String pilihanTidur = scanner.next();
+                String pilihanTidur = scanner.nextLine();
                 if (pilihanTidur.equals("Y")){
                     this.tidur();
                 }
             }
             else if (furnitur.getAksi().equals("BUANG AIR")){
                 System.out.println("Apakah Anda ingin buang air? (Y/N)");
-                String pilihanBuangAir = scanner.next();
+                String pilihanBuangAir = scanner.nextLine();
                 if (pilihanBuangAir.equals("Y")){
                     this.buangAir();
                 }
             } else if(furnitur.getAksi().equals("MASAK")){
                 System.out.println("Apakah Anda ingin memasak? (Y/N)");
-                String pilihanMasak = scanner.next();
+                String pilihanMasak = scanner.nextLine();
                 if (pilihanMasak.equals("Y")){
                     System.out.println("Masukkan nama masakan yang ingin dibuat: ");
-                    String namaMasakan = scanner.next();
+                    // String namaMasakan = scanner.next();
                     // this.masak();
                 }
             } else if (furnitur.getAksi().equals("MAKAN")){
                 System.out.println("Apakah Anda ingin makan? (Y/N)");
-                String pilihanMakan = scanner.next();
+                String pilihanMakan = scanner.nextLine();
                 if (pilihanMakan.equals("Y")){
                     this.makan();
                 }
             } else if(furnitur.getAksi().equals("MELIHAT WAKTU")){
                 System.out.println("Apakah Anda ingin melihat waktu? (Y/N)");
-                String pilihanLihatWaktu = scanner.next();
+                String pilihanLihatWaktu = scanner.nextLine();
                 if (pilihanLihatWaktu.equals("Y")){
                     this.melihatWaktu();
                 }
+            } else if(furnitur.getAksi().equals("MELUKIS")){
+                System.out.println("Apakah Anda ingin melukis? (Y/N)");
+                String pilihanMelukis = scanner.nextLine();
+                if (pilihanMelukis.equals("Y")){
+                    this.melukis();
+                }
+        } else if(furnitur.getAksi().equals("BERMAIN MUSIK")){
+            System.out.println("Apakah Anda ingin bermain musik? (Y/N)");
+            String pilihanMusik = scanner.nextLine();
+            if (pilihanMusik.equals("Y")){
+                this.bermainMusik();
             }
+        } else if(furnitur.getAksi().equals("MANDI")){
+            System.out.println("Apakah Anda ingin mandi? (Y/N)");
+            String pilihanMandi = scanner.nextLine();
+            if (pilihanMandi.equals("Y")){
+                this.mandi();
+            }
+        } else if(furnitur.getAksi().equals("MEMBERSIHKAN RUMAH")){
+            System.out.println("Apakah Anda ingin membersihkan rumah? (Y/N)");
+            String pilihanBersihRumah = scanner.nextLine();
+            if (pilihanBersihRumah.equals("Y")){
+                this.membersihkanRumah();
+            }
+        } else if(furnitur.getAksi().equals("PROYEKAN")){
+            System.out.println("Apakah Anda ingin mengerjakan proyek? (Y/N)");
+            String pilihanProyekan = scanner.nextLine();
+            if (pilihanProyekan.equals("Y")){
+                this.proyekan();
+            }
+        } else {
+            System.out.println("Aksi tidak tersedia");
         }
+    }
     }
     //Actions of Sim
     public void addToInventory() {
@@ -387,6 +419,7 @@ public class Sim {
         thread.start(); // memulai thread
         // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt haduh gmn y
     }
+
 
     public void makan() {
         //Please provide the solution below
@@ -464,7 +497,23 @@ public class Sim {
     }
 
     public void berdoa(){
-        
+
+    }
+
+    public void mandi(){
+
+    }
+
+    public void melukis(){
+
+    }
+
+    public void bermainMusik(){
+
+    }
+
+    public void membersihkanRumah(){
+
     }
 
     public void viewInfo(){
