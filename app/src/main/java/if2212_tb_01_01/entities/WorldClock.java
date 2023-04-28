@@ -38,7 +38,7 @@ public class WorldClock implements Runnable {
     public void run() {
         while (true) {
             try {
-                System.out.println("Seconds: " + seconds + " Minutes: " + minutes + " Days: " + daysInWorld);
+//                System.out.println("Seconds: " + seconds + " Minutes: " + minutes + " Days: " + daysInWorld);
                 Thread.sleep(1000); // tunggu 1 detik
                 seconds++;
                 if (seconds >= 60) {
