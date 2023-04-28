@@ -126,7 +126,7 @@ public abstract class Furnitur extends Item {
     public void draw(Graphics2D g2d, int positionX, int positionY){
         super.draw(g2d, positionX, positionY);
         // Debugging
-        g2d.setColor(Color.YELLOW);
-        g2d.fill(this.interactionArea);
+//        g2d.setColor(Color.YELLOW);
+//        g2d.fill(this.interactionArea);
     }
 }

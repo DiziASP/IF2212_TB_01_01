@@ -198,7 +198,7 @@ public class Sim {
             }
 
             isCollision = gp.collisionHandler.checkTileCollision(this);
-            System.out.println(gp.interactionHandler.checkOnInteractionRange(this)); /* Ini buat interaction, nanti sesuain aja */
+//            System.out.println(gp.interactionHandler.checkOnInteractionRange(this)); /* Ini buat interaction, nanti sesuain aja */
             if (!isCollision) {
                 if (kh.isUpPressed()) {
                     screenY -= speed;
@@ -268,8 +268,8 @@ public class Sim {
 
         // Debugging
 
-        g.setColor(Color.red);
-        g.fill(solidArea);
+//        g.setColor(Color.red);
+//        g.fill(solidArea);
         g.setColor(Color.yellow);
         g.fill(interactableArea);
         g.drawImage(sim, screenX, screenY, null);

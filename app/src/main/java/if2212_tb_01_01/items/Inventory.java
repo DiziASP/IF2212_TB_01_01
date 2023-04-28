@@ -11,7 +11,7 @@ public class Inventory {
 
     public Inventory() {
         inventory = new HashMap<Integer, Item>();
-        inventory.put(0, (Item) new Jam(null, false));
+        inventory.put(0, (Item) new Jam());
         inventory.put(1, (Item) new KasurKingSize(null, false));
         inventory.put(2, (Item) new KasurQueenSize(null, false));
         inventory.put(3, (Item) new KasurSingle(null, false));

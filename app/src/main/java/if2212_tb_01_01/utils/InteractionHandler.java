@@ -31,7 +31,7 @@ public class InteractionHandler {
             System.out.println("Out of bound");
             return false;
         } else if (gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
-            Furnitur collidingFurnitur = gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1];
+            Furnitur collidingFurnitur = (Furnitur) sim.getInventory().getInventory().get(gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1]);
             System.out.println(collidingFurnitur);
             if (collidingFurnitur != null && sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
                         isInteractable = true;
