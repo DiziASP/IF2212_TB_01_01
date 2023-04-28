@@ -51,7 +51,7 @@ public class Sim {
             listAksiAktif.add(new Aksi ("BERKUNJUNG", false));
             listAksiAktif.add(new Aksi ("BUANG AIR", true));
             listAksiAktif.add(new Aksi ("YOGA", false));
-            listAksiAktif.add(new Aksi ("IBADAH", false));
+            listAksiAktif.add(new Aksi ("BERDOA", false));
             listAksiAktif.add(new Aksi ("MENGGAMBAR", true));
             listAksiAktif.add(new Aksi ("MAIN MUSIK", true));
             listAksiAktif.add(new Aksi ("MANDI",true));
@@ -140,7 +140,12 @@ public class Sim {
     public void setPosisiRuangan(Point posisiRuangan){
         this.posisiRuangan = posisiRuangan;
     }
-
+    public Ruangan getCurrentRuangan(){
+        return currentRuangan;
+    }
+    public void setCurrentRuangan(Ruangan currentRuangan){
+        this.currentRuangan = currentRuangan;
+    }
     public boolean getIsDoAksiAktif(){
         return isDoAksiAktif;
     }
@@ -355,6 +360,10 @@ public class Sim {
         //Please provide the solution below
     }
 
+    public void gantiPekerjaan() {
+        //Please provide the solution below
+    }
+
     public void olahraga() {
         //Please provide the solution below
     }
@@ -452,6 +461,10 @@ public class Sim {
 
     public void yoga() {
         this.status.add(new Aksi(this, "Yoga", 1));
+    }
+
+    public void berdoa(){
+        
     }
 
     public void viewInfo(){

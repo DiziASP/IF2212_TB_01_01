@@ -23,20 +23,22 @@ public class App{
 
             }
             else{
-                System.out.println("List Menu : ");
-                System.out.println("1. Save Game");
-                System.out.println("2. View Sim Info");
-                System.out.println("3. View Current Location");
-                System.out.println("4. View Inventory");
-                System.out.println("5. Upgrade House");
-                System.out.println("6. Move Room");
-                System.out.println("7. Edit Room");
-                System.out.println("8. Add Sim");
-                System.out.println("9. Change Sim");
-                System.out.println("10. List Object");
-                System.out.println("11. Go To Object");
-                System.out.println("12. Action");
-                System.out.println("13. Exit");
+                System.out.println("+--------------------------+");
+                System.out.println("| List Menu :              |");
+                System.out.println("| 1. Save Game             |");
+                System.out.println("| 2. View Sim Info         |");
+                System.out.println("| 3. View Current Location |");
+                System.out.println("| 4. View Inventory        |");
+                System.out.println("| 5. Upgrade House         |");
+                System.out.println("| 6. Move Room             |");
+                System.out.println("| 7. Edit Room             |");
+                System.out.println("| 8. Add Sim               |");
+                System.out.println("| 9. Change Sim            |");
+                System.out.println("| 10. List Object          |");
+                System.out.println("| 11. Go To Object         |");
+                System.out.println("| 12. Action               |");
+                System.out.println("| 13. Exit                 |");
+                System.out.println("+--------------------------+");
             }
         }
 
@@ -192,11 +194,11 @@ public class App{
                         if(command.equals("MAKANAN") || command.equals("FURNITUR")){
                             String kategori = command;
                             if(kategori.equals("MAKANAN")){
-                                // Makanan.printListMakanan();
+                                Makanan.printListMakanan();
                                 System.out.println("Pilih makanan yang ingin dibeli: ");
                             }
                             else if(kategori.equals("FURNITUR")){
-                                // Furnitur.printListFurnitur();
+                                Furnitur.printListFurnitur();
                                 System.out.println("Pilih furnitur yang ingin dibeli: ");
                             }
                             command = scanner.nextLine().toUpperCase();
@@ -253,7 +255,77 @@ public class App{
                 }
                         
             }
-            else if (command.equals("EXIT")){
+            else if (command.equals("CHANGE SIM")){
+                if (listSim.size() > 1){
+                    System.out.println("Daftar Sim yang dapat dipilih:");
+                    for (int i = 0; i < listSim.size(); i++){
+                        System.out.println((i+1) + ". " + listSim.get(i).getNamaLengkap());
+                    }
+                    System.out.print("Pilih nomor Sim yang ingin dipilih: ");
+                    int pilihan = scanner.nextInt();
+                    if (pilihan > 1 && pilihan <= listSim.size()){
+                        indeksActiveSim = pilihan-1;
+                    }
+                    else{
+                        System.out.println("Input tidak valid!");
+                    }
+                }
+                else{
+                    System.out.println("Tidak ada Sim lain yang dapat dipilih!");
+                }
+            } else if (command.equals("LIST OBJECT")){
+                System.out.println("Berikut adalah daftar objek yang ada di ruanganmu:");
+                int i=1;
+                for (Furnitur furnitur : listSim.get(indeksActiveSim).getCurrentRuangan().getDaftarObjek()){
+                    System.out.println(i + ". " + furnitur.getNama());
+                    i+=1;
+                }
+            } else if (command.equals("GO TO OBJECT")){
+                listSim.get(indeksActiveSim).goToObject();
+            } else if (command.equals("ACTION")){
+                System.out.println("\nBerikut adalah daftar aksi yang bisa kamu lakukan: ");
+                System.out.println("1. Kerja");
+                System.out.println("2. Olahraga");
+                System.out.println("3. Berkunjung");
+                System.out.println("4. Yoga");
+                System.out.println("5. Berdoa");
+                System.out.println("6. Melihat inventory");
+                System.out.println("7. Beli barang\n");
+                System.out.print("Pilih nomor aksi yang ingin dilakukan: ");
+                command = scanner.nextLine().toUpperCase();
+                if (command.equals("KERJA")){
+                    listSim.get(indeksActiveSim).kerja();
+                } else if (command.equals("OLAHRAGA")){
+                    listSim.get(indeksActiveSim).olahraga();
+                } else if (command.equals("BERKUNJUNG")){
+                    listSim.get(indeksActiveSim).berkunjung();
+                } else if (command.equals("YOGA")){
+                    listSim.get(indeksActiveSim).yoga();
+                } else if (command.equals("BERDOA")){
+                    listSim.get(indeksActiveSim).berdoa();
+                } else if (command.equals("MELIHAT INVENTORY")){
+                    listSim.get(indeksActiveSim).viewInventory();
+                } else if (command.equals("BELI BARANG")){
+                    System.out.println("Kategori barang yang dapat dibeli:");
+                    System.out.println("1.Makanan");
+                    System.out.println("2.Furnitur");
+                    System.out.print("Pilih kategori barang yang ingin dibeli: ");
+                    command = scanner.nextLine().toUpperCase();
+                    if(command.equals("MAKANAN") || command.equals("FURNITUR")){
+                        String kategori = command;
+                        if(kategori.equals("MAKANAN")){
+                            Makanan.printListMakanan();
+                            System.out.println("Pilih makanan yang ingin dibeli: ");
+                        }
+                        else if(kategori.equals("FURNITUR")){
+                            Furnitur.printListFurnitur();
+                            System.out.println("Pilih furnitur yang ingin dibeli: ");
+                        }
+                        command = scanner.nextLine().toUpperCase();
+                        listSim.get(indeksActiveSim).beliBarang(command, kategori);
+                    }
+                } 
+            } else if (command.equals("EXIT")){
                 endedgame = true;
                 System.out.println("Sampai jumpa kembali! \n");
             }
