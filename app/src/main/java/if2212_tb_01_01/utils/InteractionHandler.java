@@ -32,27 +32,9 @@ public class InteractionHandler {
             return false;
         } else if (gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
             Furnitur collidingFurnitur = gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1];
-            switch (sim.getDirection()) {
-                case "up":
-                    if (sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
+            System.out.println(collidingFurnitur);
+            if (collidingFurnitur != null && sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
                         isInteractable = true;
-                    }
-                    break;
-                case "down":
-                    if (sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
-                        isInteractable = true;
-                    }
-                    break;
-                case "left":
-                    if (sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
-                        isInteractable = true;
-                    }
-                    break;
-                case "right":
-                    if (sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
-                        isInteractable = true;
-                    }
-                    break;
             }
             return isInteractable;
         }

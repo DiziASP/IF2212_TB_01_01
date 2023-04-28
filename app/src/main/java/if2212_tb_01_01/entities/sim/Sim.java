@@ -24,6 +24,9 @@ public class Sim {
     GamePanel gp;
     KeyHandler kh;
 
+    int roomX = (screenWidth - tileSize * 14) / 2;
+    int roomY = (screenHeight - tileSize * 11) / 2;
+
     //aksi
     public static class Aksi {
         private String nama;
@@ -148,8 +151,9 @@ public class Sim {
         this.spriteIndex = spriteIndex;
         this.spriteState = 1;
         getAnimationImage();
-        setScreenX(maxScreenColumns / 2 * tileSize);
-        setScreenY(maxScreenRows / 2 * tileSize);
+
+        setScreenX(4*tileSize + roomX);
+        setScreenY(4*tileSize + roomY);
         this.solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
         this.interactableArea = new Rectangle(screenX, screenY - tileSize, tileSize, tileSize);
 
