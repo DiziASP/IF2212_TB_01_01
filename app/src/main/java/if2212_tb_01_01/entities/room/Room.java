@@ -41,9 +41,11 @@ public class Room {
 
         if (this.isBuilded) {
             // Awal game ruangan langsung jadi
+
+            /* Ini boleh di bikin fungsi biar bisa langsung setup ketiga method ini DAN INI HARUS ADA TIGA2NYA DENGAN STRUKTUR BEGINI, GABOLEH NGGAK*/
             KasurQueenSize jam = KasurQueenSize.buildKasurQueenSize(0,0);
             daftarObjek.add(jam);
-            setMapRuangan(0, jam);
+            setMapRuangan(sim.getInventory().getKey(jam), jam);
 
 
 //            setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));

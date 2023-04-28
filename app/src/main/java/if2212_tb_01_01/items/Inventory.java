@@ -90,5 +90,12 @@ public class Inventory {
     //         }
     //     }
     // }
-
+    public int getKey(Item item){
+        for (Map.Entry<Integer, Item> entry : inventory.entrySet()) {
+            if (entry.getValue().getClass().equals(item.getClass())){
+                return entry.getKey();
+            }
+        }
+        return -1;
+    }
 } 
