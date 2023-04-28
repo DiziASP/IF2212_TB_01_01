@@ -28,7 +28,7 @@ public class Sim {
     int roomY = (screenHeight - tileSize * 11) / 2;
 
     //aksi
-    public static class Aksi {
+    public static class Aksi implements Runnable{
         private String nama;
         private Sim sim;
         private int menitTersisa;
@@ -89,6 +89,10 @@ public class Sim {
             return listAksiAFK;
         }
 
+        @Override
+        public void run(){
+            /* Tulis apa yang bakal dilakuin tiap aksi disini dari awal sampe kelar berdasarkan waktunya */
+        }
     }
 
 
@@ -197,7 +201,7 @@ public class Sim {
                 interactableArea.setLocation(screenX + tileSize + speed, screenY);
             }
 
-            isCollision = gp.collisionHandler.checkTileCollision(this);
+            isCollision = gp.collisionHandler.checkTileCollision(this) || gp.collisionHandler.checkObjectCollision(this);
             System.out.println(gp.interactionHandler.checkOnInteractionRange(this)); /* Ini buat interaction, nanti sesuain aja */
             if (!isCollision) {
                 if (kh.isUpPressed()) {
@@ -270,8 +274,8 @@ public class Sim {
 
 //        g.setColor(Color.red);
 //        g.fill(solidArea);
-        g.setColor(Color.yellow);
-        g.fill(interactableArea);
+//        g.setColor(Color.yellow);
+//        g.fill(interactableArea);
         g.drawImage(sim, screenX, screenY, null);
     }
 
@@ -568,6 +572,11 @@ public class Sim {
 
 
     //Actions of Sim
+    public void runAksi(Aksi aksi) {
+        // Buat jalanin aksinya
+        Thread jalanAksi = new Thread(aksi);
+        jalanAksi.start();
+    }
     public void addToInventory() {
         //Please provide the solution below
     }
