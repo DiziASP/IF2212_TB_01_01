@@ -15,8 +15,8 @@ public class InteractionHandler {
         this.gp = gp;
     }
 
-    public boolean checkOnInteractionRange(Sim sim) {
-        boolean isInteractable = false;
+    public Integer checkOnInteractionRange(Sim sim) {
+        int interactableObj = -1;
         int width = screenWidth;
         int height = screenHeight;
 
@@ -29,33 +29,14 @@ public class InteractionHandler {
 
         if (worldColumn <= 0 || worldColumn >= 6 || worldRow <= 0 || worldRow >= 6) {
             System.out.println("Out of bound");
-            return false;
+            return -1;
         } else if (gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
-            Furnitur collidingFurnitur = gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1];
-            switch (sim.getDirection()) {
-                case "up":
-                    if (sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
-                        isInteractable = true;
-                    }
-                    break;
-                case "down":
-                    if (sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
-                        isInteractable = true;
-                    }
-                    break;
-                case "left":
-                    if (sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
-                        isInteractable = true;
-                    }
-                    break;
-                case "right":
-                    if (sim.getInteractableArea().intersects(collidingFurnitur.getInteractionArea())) {
-                        isInteractable = true;
-                    }
-                    break;
+            Integer collidingFurnitur = gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1];
+            if (collidingFurnitur != -1) {
+                        interactableObj = collidingFurnitur;
             }
-            return isInteractable;
+            return interactableObj;
         }
-        else return false;
+        else return -1;
     }
 }

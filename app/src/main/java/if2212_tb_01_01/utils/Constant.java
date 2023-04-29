@@ -31,6 +31,9 @@ public class Constant {
     public static final int worldWidth = tileSize * maxWorldColumns;
     public static final int worldHeight = tileSize * maxWorldRows;
     public static final int maxMaps = 64; /* Kira-kira aja */
+    /* Offset */
+    public static final int roomX = (screenWidth - tileSize * 14) / 2;
+    public static final int roomY = (screenHeight - tileSize * 11) / 2;
 
     /* Game State */
     public static final int titleState = 0;

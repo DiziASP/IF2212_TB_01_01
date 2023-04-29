@@ -8,17 +8,18 @@ import static if2212_tb_01_01.utils.Constant.*;
 
 public class Toilet extends Furnitur  {
 
-    public Toilet(Point posisi, boolean isVertikal){
+    public Toilet(){
         super("TOILET", "FURNITUR", "/images/furnitur/toilet.png", tileSize, tileSize);
         setNamaAksi("BUANG AIR");
         setHarga(50);
         setPanjang(1);
         setLebar(1);
-        setPosisi(posisi);
-        //setVertikal(isVertikal);
+    }
 
-        int roomX = (screenWidth - tileSize * 14) / 2;
-        int roomY = (screenHeight - tileSize * 11) / 2;
-        // setInteractionArea(new Rectangle((getPosisi().x + 1) * tileSize + roomX, (getPosisi().y + 1) * tileSize + roomY, getLebar()*tileSize, getPanjang()*tileSize));
+    public static Toilet buildToilet(Integer x, Integer y){
+        Toilet newToilet = new Toilet();
+        newToilet.setPosisi(new Point(x, y));
+        newToilet.setInteractionArea(new Rectangle(((newToilet.getPosisi().x + 1) *tileSize) + roomX, ((newToilet.getPosisi().y + 1) * tileSize) + roomY, tileSize, tileSize));
+        return newToilet;
     }
 }

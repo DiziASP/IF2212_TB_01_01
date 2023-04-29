@@ -25,7 +25,7 @@ public class House {
         totalHouse++;
 
         /* Add Satu ruanga */
-        daftarRuangan.add(new Room(gp, "Test",  true));
+        daftarRuangan.add(new Room(gp, "Test",  true, this.kepemilikan));
     }
 
     // Getter method for Posisi

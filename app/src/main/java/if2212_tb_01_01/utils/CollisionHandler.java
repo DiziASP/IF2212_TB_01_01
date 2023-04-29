@@ -54,6 +54,27 @@ public class CollisionHandler {
     }
 
     public boolean checkObjectCollision(Sim sim) {
-        return false;
+        boolean interactableObj = false;
+        int width = screenWidth;
+        int height = screenHeight;
+
+
+        int roomX = (width - tileSize * 14) / 2;
+        int roomY = (height - tileSize * 11) / 2;
+
+        int worldColumn = (sim.getSolidArea().x - roomX) / tileSize;
+        int worldRow = (sim.getSolidArea().y - roomY) / tileSize;
+
+        if (worldColumn <= 0 || worldColumn >= 6 || worldRow <= 0 || worldRow >= 6) {
+            System.out.println("Out of bound");
+            return false;
+        } else if (gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
+            Integer collidingFurnitur = gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1];
+            if (collidingFurnitur != -1) {
+                        interactableObj = true;
+            }
+            return interactableObj;
+        }
+        else return false;
     }
 }

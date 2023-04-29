@@ -7,6 +7,7 @@ import java.util.List;
 import static if2212_tb_01_01.utils.Constant.*;
 import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.assets.tiles.TileManager;
+import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.items.Item;
 import if2212_tb_01_01.items.furnitur.Furnitur;
 import if2212_tb_01_01.items.furnitur.Jam;
@@ -21,12 +22,12 @@ public class Room {
     private boolean isBuilded;
     private List<Item> daftarObjek;
     private static final Integer kapasitas = 36;
-    private Furnitur[][] mapRuangan = new Furnitur[6][6];
+    private Integer[][] mapRuangan = new Integer[6][6];
 
 
     private static int totalRuangan = 0;
 
-    public Room(GamePanel gp, String roomName, boolean isBuilded) {
+    public Room(GamePanel gp, String roomName, boolean isBuilded, Sim sim) {
         this.gp = gp;
         this.roomName = roomName;
 
@@ -40,10 +41,11 @@ public class Room {
 
         if (this.isBuilded) {
             // Awal game ruangan langsung jadi
-            Jam newJam = new Jam(new Point(0,0), false);
-            daftarObjek.add(newJam);
-            setMapRuangan(newJam);
 
+            /* Ini boleh di bikin fungsi biar bisa langsung setup ketiga method ini DAN INI HARUS ADA TIGA2NYA DENGAN STRUKTUR BEGINI, GABOLEH NGGAK*/
+            KasurQueenSize jam = KasurQueenSize.buildKasurQueenSize(0,0);
+            daftarObjek.add(jam);
+            setMapRuangan(sim.getInventory().getKey(jam), jam);
 
 
 //            setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
@@ -66,14 +68,14 @@ public class Room {
         tm.draw(g);
 
         // /* Draw Object */
-        // for(Item item : daftarObjek) {
-        //     item.draw(g, ((Furnitur) item).getPosisi().x + 1, ((Furnitur) item).getPosisi().y + 1);
-        // }
+         for(Item item : daftarObjek) {
+             item.draw(g, ((Furnitur) item).getPosisi().x + 1, ((Furnitur) item).getPosisi().y + 1);
+         }
 
     }
 
     /* Room Methods */
-    public Furnitur[][] getMapRuangan() {
+    public Integer[][] getMapRuangan() {
         return mapRuangan;
     }
 
@@ -85,14 +87,14 @@ public class Room {
         return roomName;
     }
 
-    public void setMapRuangan(Furnitur item) {
+    public void setMapRuangan(Integer itemIdx, Furnitur item) {
 
         //  if (!item.isVertikal()) {
             for (int i = item.getPosisi().y; i < item.getPosisi().getY() +
             item.getLebar(); i++) {
                for (int j = item.getPosisi().x; j < item.getPosisi().getX()
                + item.getPanjang(); j++) {
-               mapRuangan[i][j] = item;
+                mapRuangan[j][i] = itemIdx;
                }
             }
     //      }

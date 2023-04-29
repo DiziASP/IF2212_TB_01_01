@@ -6,17 +6,18 @@ import static if2212_tb_01_01.utils.Constant.*;
 
 public class KomporListrik extends Furnitur {
 
-    public KomporListrik(Point posisi, boolean isVertikal){
+    public KomporListrik(){
         super("KOMPOR LISTRIK", "FURNITUR", "/images/furnitur/kompor_listrik.png", 2*tileSize, tileSize);
         setNamaAksi("MASAK");
         setHarga(200);
         setPanjang(1);
         setLebar(2);
-        setPosisi(posisi);
-        //setVertikal(isVertikal);
+    }
 
-        int roomX = (screenWidth - tileSize * 14) / 2;
-        int roomY = (screenHeight - tileSize * 11) / 2;
-        // setInteractionArea(new Rectangle((getPosisi().x + 1) * tileSize + roomX, (getPosisi().y + 1) * tileSize + roomY, getLebar()*tileSize, getPanjang()*tileSize));
+    public static KomporListrik buildKomporListrik(Integer x, Integer y){
+        KomporListrik newKomporListrik = new KomporListrik();
+        newKomporListrik.setPosisi(new Point(x, y));
+        newKomporListrik.setInteractionArea(new Rectangle(((newKomporListrik.getPosisi().x + 1) *tileSize) + roomX, ((newKomporListrik.getPosisi().y + 1) * tileSize) + roomY, 2*tileSize, tileSize));
+        return newKomporListrik;
     }
 }

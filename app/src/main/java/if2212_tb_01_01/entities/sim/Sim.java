@@ -24,8 +24,11 @@ public class Sim {
     GamePanel gp;
     KeyHandler kh;
 
+    int roomX = (screenWidth - tileSize * 14) / 2;
+    int roomY = (screenHeight - tileSize * 11) / 2;
+
     //aksi
-    public static class Aksi {
+    public static class Aksi{
         private String nama;
         private Sim sim;
         private int menitTersisa;
@@ -85,7 +88,6 @@ public class Sim {
             listAksiAFK.add(new Aksi("BELI BARANG", false));
             return listAksiAFK;
         }
-
     }
 
 
@@ -148,8 +150,9 @@ public class Sim {
         this.spriteIndex = spriteIndex;
         this.spriteState = 1;
         getAnimationImage();
-        setScreenX(maxScreenColumns / 2 * tileSize);
-        setScreenY(maxScreenRows / 2 * tileSize);
+
+        setScreenX(4*tileSize + roomX);
+        setScreenY(4*tileSize + roomY);
         this.solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
         this.interactableArea = new Rectangle(screenX, screenY - tileSize, tileSize, tileSize);
 
@@ -162,7 +165,7 @@ public class Sim {
          this.status = new ArrayList<Aksi>();
          this.inventory = new Inventory();
          //tes
-         inventory.incItem(2);
+         inventory.incItem(0);
         //  this.rumah = rumah;
         //  this.currentRuangan = rumah.getDaftarRuangan().get(0);
         //  this.posisiRumah = posisiRumah;
@@ -193,7 +196,7 @@ public class Sim {
                 interactableArea.setLocation(screenX + tileSize + speed, screenY);
             }
 
-            isCollision = gp.collisionHandler.checkTileCollision(this);
+            isCollision = gp.collisionHandler.checkTileCollision(this) || gp.collisionHandler.checkObjectCollision(this);
             System.out.println(gp.interactionHandler.checkOnInteractionRange(this)); /* Ini buat interaction, nanti sesuain aja */
             if (!isCollision) {
                 if (kh.isUpPressed()) {
@@ -264,10 +267,10 @@ public class Sim {
 
         // Debugging
 
-        g.setColor(Color.red);
-        g.fill(solidArea);
-        g.setColor(Color.yellow);
-        g.fill(interactableArea);
+//        g.setColor(Color.red);
+//        g.fill(solidArea);
+//        g.setColor(Color.yellow);
+//        g.fill(interactableArea);
         g.drawImage(sim, screenX, screenY, null);
     }
 
