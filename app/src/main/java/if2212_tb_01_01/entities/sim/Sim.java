@@ -1511,6 +1511,67 @@ public class Sim {
         this.status.add(new Aksi(this, "Yoga", 1));
     }
 
+    public void berdoa(){
+
+    }
+
+    public void mandi(){
+
+    }
+
+    public void melukis(){
+        this.status.add(new Aksi(this, "Melukis", 2*60));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Mozart sedang beraksi?");
+        try {
+            int waktu = 2*60;
+            int seconds = 0;
+            for (int i = 0; i < waktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Kren bngt banh lukisannya :<");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        this.isDoAksiAktif = false;
+    }
+
+    public void bermainMusik(){
+        this.status.add(new Aksi(this, "Main musik", 2*60));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Yippi main musik");
+        try {
+            int waktu = 2*60;
+            int seconds = 0;
+            for (int i = 0; i < waktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Jago banget main musiknya kak :<");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
+        this.isDoAksiAktif = false;
+    }
 
     public void viewInfo(){
         System.out.println("Nama: "+ namaLengkap);
