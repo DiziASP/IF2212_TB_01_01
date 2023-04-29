@@ -107,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         ui.update();
-        if (subState==6){
+        if (gameState==6){
             room.update(); //buggy kalo atas
             sim.update();
         }
