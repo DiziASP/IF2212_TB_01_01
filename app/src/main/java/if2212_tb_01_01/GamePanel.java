@@ -3,13 +3,13 @@ package if2212_tb_01_01;
 import static if2212_tb_01_01.utils.Constant.*;
 
 import if2212_tb_01_01.assets.AssetManager;
+import if2212_tb_01_01.assets.tiles.TileManager;
 import if2212_tb_01_01.entities.WorldClock;
 import if2212_tb_01_01.entities.house.House;
 import if2212_tb_01_01.entities.room.Room;
 import if2212_tb_01_01.entities.sim.*;
 import if2212_tb_01_01.entities.world.*;
 import if2212_tb_01_01.entities.world.Point;
-import if2212_tb_01_01.items.masakan.Bistik;
 import if2212_tb_01_01.ui.UI;
 // import if2212_tb_01_01.ui.WelcomeUI;
 import if2212_tb_01_01.utils.CollisionHandler;
@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
         // 11-tampilkan waktu
         // 12-tambah ruang, 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
 
+    TileManager tm;
 
     ArrayList<String> opsiAksi = new ArrayList<String>();
 
@@ -106,8 +107,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         ui.update();
-        // room.update(); //buggy kalo atas
-        // sim.update();
+        if (gameState==6){
+            room.update(); //buggy kalo atas
+            sim.update();
+        }
     }
 
     @Override
@@ -181,10 +184,17 @@ public class GamePanel extends JPanel implements Runnable {
         opsiAksi.add(0, aksi);
     }
 
+    public TileManager getTileManager(){
+        return tm;
+    }
+    public void setTileManager(TileManager tm){
+        this.tm = tm;
+    }
+
     public void updateOpsiAksi(){
         opsiAksi.clear();
 
-        if (gameState==0){
+        if (subState==0){
             addOpsiAksi("keluar");
             addOpsiAksi("opsi lain");
             addOpsiAksi("edit ruangan");
@@ -192,7 +202,7 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("yoga");
             addOpsiAksi("bersihkan rumah");
             addOpsiAksi("berdoa");
-        } else if (gameState==1){
+        } else if (subState==1){
             //tambahan
             addOpsiAksi("kembali");
             addOpsiAksi("tambah sim");
@@ -203,12 +213,12 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("lihat inventory");
             addOpsiAksi("upgrade rumah"); 
             addOpsiAksi("kunjungi rumah");
-        } else if (gameState==2){
+        } else if (subState==2){
             addOpsiAksi("kembali");
             addOpsiAksi("hapus barang");
             addOpsiAksi("pindahkan barang"); 
             addOpsiAksi("tambahkan barang");
-        } else if (gameState==8){
+        } else if (subState==8){
             addOpsiAksi("badut sulap");
             addOpsiAksi("koki");
             addOpsiAksi("polisi");
@@ -222,19 +232,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         addOpsiAksi("keluar");
         addOpsiAksi("kembali");
-
-        // if(keyHandler.isBisaTambah()){
-        //     addOpsiAksi("tambah sim");
-        // }    
-        // addOpsiAksi("ganti sim");
-
-        // if (keyHandler.isBisaGantiKerja()){
-        //     addOpsiAksi("cari kerja");
-        // }
-        // addOpsiAksi("lihat inventory");
-        // addOpsiAksi("upgrade rumah"); 
-        // addOpsiAksi("beli barang");       
-        // addOpsiAksi("kunjungi rumah");
     }
 
 

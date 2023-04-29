@@ -17,7 +17,7 @@ public class Room {
     GamePanel gp;
     TileManager tm;
     /* Room Attribute */
-    private final int roomIndex;
+    private int roomIndex = 1;
     // private String roomName;
     private boolean isBuilded;
     private List<Item> daftarObjek;
@@ -38,7 +38,7 @@ public class Room {
         totalRuangan++;
         this.roomIndex = totalRuangan;
 
-        this.tm = new TileManager(gp, roomIndex);
+        //this.tm = new TileManager(gp, roomIndex);
         /* Initialize Room Attributes */
         daftarObjek = new ArrayList<Item>(kapasitas);
         this.isBuilded = isBuilded;
@@ -69,7 +69,6 @@ public class Room {
     }
 
     public void draw(Graphics2D g) {
-        tm.draw(g);
 
         // /* Draw Object */
          for(Item item : daftarObjek) {

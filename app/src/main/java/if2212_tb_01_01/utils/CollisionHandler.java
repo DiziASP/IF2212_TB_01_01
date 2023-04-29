@@ -23,26 +23,26 @@ public class CollisionHandler {
         int worldColumn = (sim.getSolidArea().x - roomX)/tileSize;
         int worldRow = (sim.getSolidArea().y - roomY)/tileSize;
 
-        int tileNum = gp.room.getTileManager().getMapTileNumbers()[gp.room.getRoomIndex()][worldRow][worldColumn];
+        int tileNum = gp.getTileManager().getMapTileNumbers()[gp.getRoom().getRoomIndex()][worldRow][worldColumn];
 
         switch (sim.getDirection()) {
             case "up":
-                if (gp.room.getTileManager().getTiles()[tileNum].isCollision()) {
+                if (gp.getTileManager().getTiles()[tileNum].isCollision()) {
                     isCollision = true;
                 }
                 break;
             case "down":
-                if (gp.room.getTileManager().getTiles()[tileNum].isCollision()) {
+                if (gp.getTileManager().getTiles()[tileNum].isCollision()) {
                     isCollision = true;
                 }
                 break;
             case "left":
-                if (gp.room.getTileManager().getTiles()[tileNum].isCollision()) {
+                if (gp.getTileManager().getTiles()[tileNum].isCollision()) {
                     isCollision = true;
                 }
                 break;
             case "right":
-                if (gp.room.getTileManager().getTiles()[tileNum].isCollision()) {
+                if (gp.getTileManager().getTiles()[tileNum].isCollision()) {
                     isCollision = true;
                 }
                 break;
