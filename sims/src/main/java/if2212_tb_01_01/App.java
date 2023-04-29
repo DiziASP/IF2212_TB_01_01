@@ -480,6 +480,7 @@ public class App{
                                         if (pilihanTidur.equals("Y")){
                                             executorService.execute(() -> {
                                                 world.getSim(idx).tidur();
+                                                worldClock.setWorld(world);
                                             });
                                         }
                                     }

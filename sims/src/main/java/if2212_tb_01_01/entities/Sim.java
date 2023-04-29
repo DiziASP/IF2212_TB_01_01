@@ -433,6 +433,7 @@ public class Sim {
                 }
             }
             this.status.remove(indexStatus);
+            this.isDoAksiAktif = false;
             
         } catch (InterruptedException e) {
             e.printStackTrace();
