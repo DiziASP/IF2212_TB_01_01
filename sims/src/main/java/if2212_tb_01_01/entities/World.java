@@ -22,6 +22,7 @@ public class World {
         this.panjang = panjang;
         this.lebar = lebar;
         this.listRumah = new ArrayList<Rumah>();
+        this.listSim = new ArrayList<Sim>();
         // this.worldClock = new WorldClock();
         mapRumah = new Boolean[this.panjang][this.lebar];
         for(int i = 0;i<this.panjang;i++){
