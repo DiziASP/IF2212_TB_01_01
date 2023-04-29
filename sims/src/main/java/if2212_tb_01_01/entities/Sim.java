@@ -91,6 +91,7 @@ public class Sim {
     private boolean isDoAksiAktif;
     private Point posisiRumah;
     private Point posisiRuangan;
+    private Point posisiObjek = new Point(-1,-1);
 
     // private Point posisi; yang butuh posisi kayanya rumah aja???
     private Rumah rumah;
@@ -115,6 +116,13 @@ public class Sim {
         this.currentRuangan = rumah.getDaftarRuangan().get(0);
         this.posisiRumah = posisiRumah;
         this.posisiRuangan = posisiRuangan;
+
+        //Menambahkan furnitur awal ke dalam inventory
+        inventory.addItem(new Furnitur("KASUR SINGLE", new Point(-1,-1), false),1);
+        inventory.addItem(new Furnitur("TOILET", new Point(-1,-1), false),1);
+        inventory.addItem(new Furnitur("KOMPOR GAS", new Point(-1,-1), false),1);
+        inventory.addItem(new Furnitur("MEJA DAN KURSI", new Point(-1,-1), false),1);
+        inventory.addItem(new Furnitur("JAM", new Point(-1,-1), false),1);
     }
 
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
@@ -168,6 +176,12 @@ public class Sim {
 
     public void setNamaLengkap(String namaLengkap) {
         this.namaLengkap = namaLengkap;
+    }
+    public Point getPosisiObjek(){
+        return posisiObjek;
+    }
+    public void setPosisiObjek(Point posisiObjek){
+        this.posisiObjek = posisiObjek;
     }
 
     public Pekerjaan getPekerjaan() {
@@ -236,7 +250,7 @@ public class Sim {
     }
 
     public void viewLokasi(Rumah currentLocationRumah){
-        System.out.println("SIM " + namaLengkap + " saat ini sedang berada di rumah dengan lokasi " + posisiRumah.toString() + " pada ruangan " + currentLocationRumah.getRuangan(posisiRuangan).getNama() + " dengan lokasi" + posisiRuangan.toString()+"\n");
+        System.out.println("SIM " + namaLengkap + " saat ini sedang berada di rumah dengan lokasi " + posisiRumah.toString() + " pada ruangan " + currentLocationRumah.getRuangan(posisiRuangan).getNama() + " dengan lokasi " + posisiRuangan.toString()+"\n");
     }
 
     public void viewInventory(){
@@ -261,6 +275,7 @@ public class Sim {
                     uang -= hargaMakanan;
                     inventory.addItem(new Makanan(nama), 1);
                     System.out.println(nama+" berhasil dibeli!");
+                    //harusnya dikirim barang dulu trus kalo dah sampe baru masuk inventory
                 }
                 else{
                     System.out.println("Uang tidak cukup");
@@ -299,34 +314,28 @@ public class Sim {
 
 
     
-    public void goToObject() {
-        System.out.println("Pilih objek yang ingin dikunjungi: ");
-        int i = 1;
-        for (Objek objek : this.currentRuangan.getDaftarObjek()) {
-            System.out.println(i + ". " + objek.getNama());
-            i++;
-        }
+    public void goToObject(Furnitur objek) {
+        this.posisiObjek = objek.getPosisi();
+        System.out.println(this.getNamaLengkap() +" berhasil pindah ke objek "+ objek.getNama());
         Scanner scanner = new Scanner(System.in);
-        int pilihan = scanner.nextInt();
-        Objek objek = this.currentRuangan.getDaftarObjek().get(pilihan - 1);
         if (objek.getKategori().equals("peralatan")){
             Furnitur furnitur = (Furnitur) objek;
             if (furnitur.getAksi().equals("TIDUR")){
                 System.out.println("Apakah Anda ingin tidur? (Y/N)");
-                String pilihanTidur = scanner.nextLine();
+                String pilihanTidur = scanner.nextLine().toUpperCase();
                 if (pilihanTidur.equals("Y")){
                     this.tidur();
                 }
             }
             else if (furnitur.getAksi().equals("BUANG AIR")){
                 System.out.println("Apakah Anda ingin buang air? (Y/N)");
-                String pilihanBuangAir = scanner.nextLine();
+                String pilihanBuangAir = scanner.nextLine().toUpperCase();
                 if (pilihanBuangAir.equals("Y")){
                     this.buangAir();
                 }
             } else if(furnitur.getAksi().equals("MASAK")){
                 System.out.println("Apakah Anda ingin memasak? (Y/N)");
-                String pilihanMasak = scanner.nextLine();
+                String pilihanMasak = scanner.nextLine().toUpperCase();
                 if (pilihanMasak.equals("Y")){
                     System.out.println("Masukkan nama masakan yang ingin dibuat: ");
                     // String namaMasakan = scanner.next();
@@ -334,43 +343,43 @@ public class Sim {
                 }
             } else if (furnitur.getAksi().equals("MAKAN")){
                 System.out.println("Apakah Anda ingin makan? (Y/N)");
-                String pilihanMakan = scanner.nextLine();
+                String pilihanMakan = scanner.nextLine().toUpperCase();
                 if (pilihanMakan.equals("Y")){
                     this.makan();
                 }
             } else if(furnitur.getAksi().equals("MELIHAT WAKTU")){
                 System.out.println("Apakah Anda ingin melihat waktu? (Y/N)");
-                String pilihanLihatWaktu = scanner.nextLine();
+                String pilihanLihatWaktu = scanner.nextLine().toUpperCase();
                 if (pilihanLihatWaktu.equals("Y")){
                     this.melihatWaktu();
                 }
             } else if(furnitur.getAksi().equals("MELUKIS")){
                 System.out.println("Apakah Anda ingin melukis? (Y/N)");
-                String pilihanMelukis = scanner.nextLine();
+                String pilihanMelukis = scanner.nextLine().toUpperCase();
                 if (pilihanMelukis.equals("Y")){
                     this.melukis();
                 }
         } else if(furnitur.getAksi().equals("BERMAIN MUSIK")){
             System.out.println("Apakah Anda ingin bermain musik? (Y/N)");
-            String pilihanMusik = scanner.nextLine();
+            String pilihanMusik = scanner.nextLine().toUpperCase();
             if (pilihanMusik.equals("Y")){
                 this.bermainMusik();
             }
         } else if(furnitur.getAksi().equals("MANDI")){
             System.out.println("Apakah Anda ingin mandi? (Y/N)");
-            String pilihanMandi = scanner.nextLine();
+            String pilihanMandi = scanner.nextLine().toUpperCase();
             if (pilihanMandi.equals("Y")){
                 this.mandi();
             }
         } else if(furnitur.getAksi().equals("MEMBERSIHKAN RUMAH")){
             System.out.println("Apakah Anda ingin membersihkan rumah? (Y/N)");
-            String pilihanBersihRumah = scanner.nextLine();
+            String pilihanBersihRumah = scanner.nextLine().toUpperCase();
             if (pilihanBersihRumah.equals("Y")){
                 this.membersihkanRumah();
             }
         } else if(furnitur.getAksi().equals("PROYEKAN")){
             System.out.println("Apakah Anda ingin mengerjakan proyek? (Y/N)");
-            String pilihanProyekan = scanner.nextLine();
+            String pilihanProyekan = scanner.nextLine().toUpperCase();
             if (pilihanProyekan.equals("Y")){
                 this.proyekan();
             }
@@ -410,6 +419,7 @@ public class Sim {
             waktuTidur = scanner.nextInt();
         }
         this.status.add(new Aksi(this, "Tidur", waktuTidur));
+        this.isDoAksiAktif = true;
         int indexStatus = this.status.size() - 1;
         try {
             int waktu = waktuTidur*60;
@@ -449,12 +459,7 @@ public class Sim {
 
     public void upgradeRumah() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Berikut adalah daftar ruangan di rumahmu:");
-        int i = 1;
-        for (Ruangan ruangan : this.rumah.getDaftarRuangan()) {
-            System.out.println(i + ". " + ruangan.getNama());
-            i++;
-        }
+        
         System.out.println("Pilih nomor ruangan yang ingin dijadikan acuan penambahan: ");
         int pilihan1 = scanner.nextInt();
         Ruangan ruangan = this.rumah.getDaftarRuangan().get(pilihan1 - 1);
@@ -493,7 +498,7 @@ public class Sim {
         try {
             int waktu = 18*60;
             int seconds = 0;
-            for (i=0; i<waktu; i++){
+            for (int i=0; i<waktu; i++){
                 Thread.sleep(1000); // tunggu 1 detik
                 seconds++;
                 if (seconds >= 60) {
@@ -517,6 +522,12 @@ public class Sim {
         } else {
             System.out.println("Ruangan tidak tersedia");
         }
+    }
+
+    public void berpindahRuangan(Point pointTujuan, String namaRuangan) {
+        posisiRuangan = pointTujuan;
+        posisiObjek.setPoint(-1, -1); //sim tidak berada di objek
+        System.out.println("Sim berhasil berpindah ke " + namaRuangan);
     }
 
     public void melihatInventory() {
@@ -575,8 +586,8 @@ public class Sim {
         int waktu = 180;
         int indexStatus = this.status.size() - 1;
         this.isDoAksiAktif = true;
-        ActionThread thread = new ActionThread(indexStatus, this, waktu);
-        thread.start();
+        // ActionThread thread = new ActionThread(indexStatus, this, waktu);
+        // thread.start();
     }   
 }
 

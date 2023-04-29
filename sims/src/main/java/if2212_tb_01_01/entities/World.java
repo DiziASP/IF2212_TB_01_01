@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class World {
     private int panjang;
     private int lebar;
-    private WorldClock worldClock;
+    // private WorldClock worldClock;
     // private boolean isIdle;
     private List<Sim> listSim;
     private List<Rumah> listRumah;
@@ -22,7 +22,7 @@ public class World {
         this.panjang = panjang;
         this.lebar = lebar;
         this.listRumah = new ArrayList<Rumah>();
-        this.worldClock = new WorldClock();
+        // this.worldClock = new WorldClock();
         mapRumah = new Boolean[this.panjang][this.lebar];
         for(int i = 0;i<this.panjang;i++){
             for(int j = 0;j<this.lebar;j++){
@@ -156,12 +156,12 @@ public class World {
     public void removeRumah(Rumah rumah) {
         this.listRumah.remove(rumah);
     } 
-    public WorldClock getWorldClock() {
-        return worldClock;
-    }
-    public void setWorldClock(WorldClock worldClock) {
-        this.worldClock = worldClock;
-    }
+    // public WorldClock getWorldClock() {
+    //     return worldClock;
+    // }
+    // public void setWorldClock(WorldClock worldClock) {
+    //     this.worldClock = worldClock;
+    // }
     public boolean isIdle() {
         boolean isIdle = false;
         for (Sim sim : listSim){
@@ -186,6 +186,17 @@ public class World {
     public Rumah getLastRumah(){
         return this.listRumah.get(this.listRumah.size()-1);
     }
-    
+    public Sim getSim(int x){
+        return this.listSim.get(x);
+    }
+    public List<Sim> getListSim(){
+        return this.listSim;
+    }
+    public void addSim(Sim sim){
+        this.listSim.add(sim);
+    }
+    public int getJumlahSim(){
+        return this.listSim.size();
+    }
 
 }

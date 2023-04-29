@@ -1,57 +1,47 @@
 package if2212_tb_01_01.utils;
 
-import if2212_tb_01_01.entities.*;
+import if2212_tb_01_01.entities.World;
 
-public class WorldClock extends Thread {
+public class WorldClock implements Runnable {
+    private volatile boolean running;
+    private int days;
     private int minutes;
     private int seconds;
-    private int daysInWorld;
-    public int getDaysInWorld() {
-        return daysInWorld;
-    }
-    public void setDaysInWorld(int daysInWorld) {
-        this.daysInWorld = daysInWorld;
-    }
-    public int getMinutes() {
-        return minutes;
-    }
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
-    }
-    public int getSeconds() {
-        return seconds;
-    }
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
-    }
-    public WorldClock() {
-        minutes = 0;
+    World world;
+    public WorldClock(World world) {
+        running = true;
+        days = 0;
         seconds = 0;
-        daysInWorld = 0;
+        minutes = 0;
+        this.world = world;
     }
-    public void run(World world) {
-        while (true) {
+
+    public void stop() {
+        running = false;
+    }
+    public void setWorld(World world) {
+        this.world = world;
+    }
+    @Override
+    public void run() {
+        while (running) {
             try {
-                while (!world.getIsGameEnd()){
-                    Thread.sleep(1000);
-                    if (!world.isIdle()){
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            minutes++;
-                            if (minutes >= 12) {
-                                minutes = 0;
-                                daysInWorld++;
-                            }
-                        }
+                Thread.sleep(1000); // Tunggu 1 detik
+                if (!world.isIdle()){
+                    seconds++;
+
+                    if (seconds >= 60) {
+                        minutes++;
+                        seconds = 0;
+                    } 
+                    if (minutes >= 12) {
+                        days++;
+                        minutes = 0;
                     }
                 }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
-    
-    // tambahkan getter dan setter untuk hours, minutes, dan seconds
 }
-}
-
