@@ -103,7 +103,7 @@ public class Sim {
          Sim.world = world;
      }
      private boolean isDoAksiAktif;
-     private Point posisiRumah;
+     //private Point posisiRumah;
      //private Point posisiRuangan;
  
 
@@ -341,7 +341,7 @@ public class Sim {
 
    
     public Point getPosisiRumah(){
-        return posisiRumah;
+        return rumah.getPosisi();
     }
 
     public void setPosisiRumah(Point posisiRumah){

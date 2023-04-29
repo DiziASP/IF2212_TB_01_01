@@ -146,4 +146,8 @@ public class Point {
         point = new Point(randomNumX,randomNumY);
         return point;
     }
+
+    public String infoPoint(){
+        return String.format("<%d,%d>", x, y);
+    }
 }

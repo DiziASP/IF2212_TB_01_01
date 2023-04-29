@@ -30,6 +30,9 @@ public class House {
     }
 
     // Getter method for Posisi
+    public Point getPosisi(){
+        return posisi;
+    }
 
     // Getter method for Kapasitas
     public static Integer getKapasitas() {

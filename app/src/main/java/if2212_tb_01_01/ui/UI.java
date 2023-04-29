@@ -366,28 +366,7 @@ public class UI {
 
 
             //aksi
-            g2.setColor(Constant.c7);
-            g2.fillRect(Constant.tileSize*9, 24, Constant.tileSize*6, Constant.tileSize*8);
-            g2.setColor(Constant.c2);
-            g2.fillRect(Constant.tileSize*9 +12, 36, Constant.tileSize*6-24, Constant.tileSize*8-12);
-
-            g2.setColor(Constant.c6);
-            text = "Aksi:";
-            x = 10*Constant.tileSize-12;
-            y = Constant.tileSize+24;
-            g2.drawString(text,x,y);
-
-            g2.setColor(Constant.c1);
-            g2.fillRect(10*Constant.tileSize-12, Constant.tileSize*2 - 8 + kh.getArrowNum()*24, Constant.tileSize*4 +24, 24);
-
-            g2.setColor(Constant.c6);
-            x += 12;
-            y +=32;
-
-            for (String optAksi : gp.getOpsiAksi()){
-                g2.drawString(optAksi,x,y);
-                y+=24;
-            }    
+            drawSubWindow(g2, gp.getSubState);
 
         } else if (gp.getGs() == 7){
 
@@ -398,8 +377,8 @@ public class UI {
 
             outlinedRect(g2, Constant.tileSize*4-24, Constant.tileSize, Constant.tileSize*9, Constant.tileSize*9, 24, 12, Constant.c7, Constant.c2);
 
-            g2.setFont(f80);
-            String text = "Menu Tambahan";
+            g2.setFont(f40);
+            String text = "Apakah kamu yakin ingin keluar?";
             int x = centerX(g2,text);
             int y = 3*Constant.tileSize;
             g2.setColor(Constant.c1);
@@ -465,6 +444,88 @@ public class UI {
 
             drawInventory(g2, "shop", items);
         }
+    }
+
+    private void drawSubWindow(Graphics2D g2, int subState){
+        // subState: 0-none, 1-tambahan, 2-pilihEditan, 3-pilihBarangPasang, 4-lokasiPasang, 5-lokasiBuang, 6-lokasiEdit, 7-lokasiBaru
+        // 8-cari kerja, 9-pilihMakanan, 10-pilihMenuMakanan
+        // 11-tampilkan waktu
+        // 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
+
+        g2.setColor(Constant.c7);
+            g2.fillRect(Constant.tileSize*9, 24, Constant.tileSize*6, Constant.tileSize*8);
+            g2.setColor(Constant.c2);
+            g2.fillRect(Constant.tileSize*9 +12, 36, Constant.tileSize*6-24, Constant.tileSize*8-12);
+
+        if (subState<=2 || subState==8){
+            g2.setColor(Constant.c6);
+            if(subState==8){
+                text = "Pilih pekerjaan barumu:"
+
+                //error kalo sama //////////////////////////////////
+            } else{
+                text = "Aksi:";
+            }
+            x = 10*Constant.tileSize-12;
+            y = Constant.tileSize+24;
+            g2.drawString(text,x,y);
+
+            g2.setColor(Constant.c1);
+            g2.fillRect(10*Constant.tileSize-12, Constant.tileSize*2 - 8 + kh.getArrowNum()*28, Constant.tileSize*4 +24, 24);
+
+            g2.setColor(Constant.c6);
+            x += 12;
+            y +=32;
+
+            for (String optAksi : gp.getOpsiAksi()){
+                g2.drawString(optAksi,x,y);
+                y+=28;
+            }
+
+        } else if (subState==1){
+            text = "Pilih opsi edit ruangan:";
+            pilihFurnitur(g2);
+        } else if (subState==2){
+            text = "Pilih furnitur untuk dipasang:";
+        } else if (subState==3){
+            text = "Masukkan lokasi pemasangan:";
+        } else if (subState==4){
+            text = "Masukkan lokasi benda yang ingin dihapus:";
+        } else if (subState==5){
+            text = "Masukkan lokasi benda yang ingin dipindah:";
+        // } else if (subState==6){
+        // } else if (subState==7){
+        // } else if (subState==8){
+        } else if (subState==9){
+            text = "Pilih makanan untuk dimakan:";
+        } else if (subState==10){
+            text = "Pilih menu untuk dimasak:";
+        } else if (subState==11){
+            text = "Waktu sekarang:"
+        // } else if (subState==12){
+        //     text = ""
+        } else if (subState==13){
+            text = "Masukkan durasi " + gp.setSim().gp.getOpsiAksi(kh.getArrowNum());
+        } else if (subState==14){
+            g2.setColor(new Color (0,0,0,200));
+            int x =3*Constant.tileSize+24;
+            int y = 3*Constant.tileSize;
+            g2.fillRoundRect(x,y,y,y);
+    
+            g2.setColor(Constant.c6);
+            String text = gp.getSim().getNamaLengkap() + " sedang " + gp.getOpsiAksi(kh.getArrowNum());
+            g2.drawString(text, y/2 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+24);
+        } else if (subState==15){
+            text = "Aksi berhasil dilakukan!"
+        } else if (subState==16){
+        // } else if (subState==17){
+        // } else if (subState==18){
+        }
+
+    }
+
+    private void drawLokasi(){
+
     }
 
     private void drawInventory(Graphics2D g2, text type, Inventory items){
@@ -638,8 +699,8 @@ public class UI {
         y += space;
         g2.drawString(text,x,y);
 
-        //text = s.getPosisiRumah();
-        text = "<1,1>";
+        text = s.getPosisiRumah().infoPoint();
+        // text = "<1,1>";
         x = x2;
         g2.drawString(text,x,y);
 
