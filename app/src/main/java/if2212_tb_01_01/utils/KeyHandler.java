@@ -5,6 +5,7 @@ import if2212_tb_01_01.assets.AssetManager;
 import if2212_tb_01_01.entities.house.House;
 import if2212_tb_01_01.entities.room.Room;
 import if2212_tb_01_01.entities.sim.Sim;
+import if2212_tb_01_01.entities.world.Point;
 import if2212_tb_01_01.entities.world.World;
 import if2212_tb_01_01.ui.UI;
 
@@ -22,10 +23,10 @@ public class KeyHandler implements KeyListener {
 
     private int commandNum = 0;
     private int arrowNum = 0;
-    private boolean errorCaught = false, sedangAksiAktif = false, sedangAksiPasif = false;
+    private boolean errorCaught = false;
     private boolean bisaTambah = false, bisaGantiKerja = false;
     String input = "";
-    int in1,in2;
+    int in1=0, in2=0;
     int pointer = 0;
 
     public KeyHandler(GamePanel gp) {
@@ -37,7 +38,7 @@ public class KeyHandler implements KeyListener {
 
         int k = e.getKeyCode();
 
-        // debugging System.out.println(k + " " +(char) k);
+        System.out.println(k + " " +(char) k);
         
 
         switch (k) {
@@ -143,6 +144,7 @@ public class KeyHandler implements KeyListener {
             if(isEnterPressed()){
                 // this sim
                 gp.setSim(gp.getSimList().get(arrowNum));
+                gp.setRoom(gp.getSim().getRoomAwal());
                 gp.setGs(5);
             } else if(isEscapePressed()){
                 gp.setGs(1);
@@ -164,7 +166,7 @@ public class KeyHandler implements KeyListener {
                 }
 
                 if (!errorCaught){
-                    Sim s = new Sim(gp, this, arrowNum+1, input);
+                    Sim s = new Sim(gp, this, arrowNum+1, input, null);
                     gp.setSim(s);
                     gp.addSimList(s);
 
@@ -349,6 +351,9 @@ public class KeyHandler implements KeyListener {
 
             if(enterPressed){
                 gp.setGs(5);
+                gp.getSim().setPosisiRumah(new Point(in1,in2));
+                gp.setRoom(gp.getSim().getRoomAwal());
+
                 in1 = 0; in2 = 0;
                 input = "";
             } else if (escapePressed){
@@ -559,22 +564,6 @@ public class KeyHandler implements KeyListener {
 
     public void setErrorCaught(boolean errorCaught) {
         this.errorCaught = errorCaught;
-    }
-
-    public boolean isSedangAksiAktif() {
-        return sedangAksiAktif;
-    }
-
-    public void setSedangAksiAktif(boolean sedangAksiAktif) {
-        this.sedangAksiAktif = sedangAksiAktif;
-    }
-
-    public boolean isSedangAksiPasif() {
-        return sedangAksiPasif;
-    }
-
-    public void setSedangAksiPasif(boolean sedangAksiPasif) {
-        this.sedangAksiPasif = sedangAksiPasif;
     }
 
     public boolean isBisaTambah() {

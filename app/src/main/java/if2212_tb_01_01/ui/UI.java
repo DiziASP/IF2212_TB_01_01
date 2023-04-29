@@ -456,7 +456,7 @@ public class UI {
             g2.fillRect(Constant.tileSize*9, 24, Constant.tileSize*6, Constant.tileSize*8);
             g2.setColor(Constant.c2);
             g2.fillRect(Constant.tileSize*9 +12, 36, Constant.tileSize*6-24, Constant.tileSize*8-12);
-        String text; int x; int y;
+            String text; int x; int y;
 
         if (subState<=2 || subState==8){
             g2.setColor(Constant.c6);
@@ -483,13 +483,27 @@ public class UI {
                 y+=28;
             }
 
-        } else if (subState==1){
-            text = "Pilih opsi edit ruangan:";
+        } else if (subState>=4 && subState<=7){
+            int i = kh.getArrowNum()/6;
+            int j = kh.getArrowNum()%6;
+
+            g2.setColor(Constant.c5);
+            g2.fillRect(Constant.tileSize*2 + j*Constant.tileSize, 72 + i*Constant.tileSize, Constant.tileSize, Constant.tileSize);
+
+            if (subState==4){
+                text = "Pilih lokasi untuk menaruh benda";
+            } else if (subState ==5){
+                text = "Pilih lokasi benda yang ingin dihapus";
+            } else if (subState ==6){
+                text = "Pilih lokasi benda yang ingin dipindahkan";
+            } else {
+                text = "Pilih lokasi untuk menaruh benda";
+            }
+            // text = "Pilih opsi edit ruangan:";
             // pilihFurnitur(g2);
-        } else if (subState==2){
-            text = "Pilih furnitur untuk dipasang:";
+
         } else if (subState==3){
-            text = "Masukkan lokasi pemasangan:";
+            text = "Pilih furnitur untuk dipasang:";
         } else if (subState==4){
             text = "Masukkan lokasi benda yang ingin dihapus:";
         } else if (subState==5){
@@ -569,7 +583,7 @@ public class UI {
                             g2.drawString(line, x2, y2 += 20);
                         }
 
-                        String text;
+                        String text="";
                         x2= Constant.tileSize*5;
                         y2= Constant.tileSize*10 -12;
 
