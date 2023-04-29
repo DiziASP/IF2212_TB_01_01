@@ -148,8 +148,8 @@ public class KeyHandler implements KeyListener {
             if(isEnterPressed()){
                 // this sim
                 gp.setSim(gp.getSimList().get(arrowNum));
-                gp.setRoom(gp.getSim().getRoomAwal());
-                gp.setTileManager(new TileManager(gp,1));
+                gp.setRoom(gp.getSim().getCurRoom());
+                // gp.setTileManager(new TileManager(gp,1));
                 gp.setGs(5);
             } else if(isEscapePressed()){
                 gp.setGs(1);
@@ -312,6 +312,10 @@ public class KeyHandler implements KeyListener {
                     //lokasi baru
                 } else if (gp.getSubState()==8){
                     // cari kerja
+                    switch (gp.getOpsiAksi(arrowNum)){ 
+                        case "kembali":
+                            gp.setSubState(0);
+                    }
                 } else if (gp.getSubState()==9){
                     //pilih makanan
                 } else if (gp.getSubState()==10){
@@ -359,7 +363,7 @@ public class KeyHandler implements KeyListener {
                 gp.setGs(5);
                 gp.getSim().setPosisiRumah(new Point(in1,in2));
                 gp.setRoom(gp.getSim().getRoomAwal());
-                gp.setTileManager(new TileManager(gp,1));
+                // gp.setTileManager(new TileManager(gp,1));
 
 
                 in1 = 0; in2 = 0;
