@@ -334,6 +334,20 @@ public class KeyHandler implements KeyListener {
 
             if(escapePressed){
                 gp.setGs(6);
+            } else if(enterPressed){
+                if (arrowNum==0){
+                    if (pointer<20){
+                        gp.getSim().beliBarang(pointer);
+                    } else(){
+                        // kompor
+                    }
+                } else {
+                    if (pointer<12){
+                        gp.setGs(12);
+                    } else {
+                        // meja
+                    }
+                }
             }
 
         } else if (gp.getGs() == 10){
@@ -362,8 +376,28 @@ public class KeyHandler implements KeyListener {
             }
         } else if (gp.getGs() == 11){   
             //shop 
+            arrowNum = (arrowNum+2)%2;
 
-        
+            if (leftPressed){
+                pointer = (pointer+24)%25;
+            } else if (rightPressed){
+                pointer = (pointer+1)%25;
+            } else if (downPressed){
+                pointer = (pointer+5)%25;
+            } else if (upPressed){
+                pointer = (pointer+20)%25;
+            }
+
+            if(escapePressed){
+                gp.setGs(6);
+            } else if(enterPressed){
+                if (pointer<20){
+                    gp.getSim().beliBarang(pointer);
+                }
+            }
+        } else if (gp.getGs() == 12){   
+            //edit room
+            
         } 
 
 

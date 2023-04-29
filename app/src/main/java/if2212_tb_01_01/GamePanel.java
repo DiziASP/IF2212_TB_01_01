@@ -40,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Sim sim = new Sim(this, this.keyHandler, 1, "Sim");
     private ArrayList<Sim> listSim = new ArrayList<Sim>();
     private final House house = new House(this, this.sim);
-    public Room room = house.getRuangan("Test");
+    public Room room = house.getRuangan();
     private World world = new World(this);
 
     WorldClock worldClock = new WorldClock(this);
