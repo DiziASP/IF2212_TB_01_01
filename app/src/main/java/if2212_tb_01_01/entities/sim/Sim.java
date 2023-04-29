@@ -28,7 +28,7 @@ public class Sim {
     int roomY = (screenHeight - tileSize * 11) / 2;
 
     //aksi
-    public static class Aksi implements Runnable{
+    public static class Aksi{
         private String nama;
         private Sim sim;
         private int menitTersisa;
@@ -87,11 +87,6 @@ public class Sim {
             listAksiAFK.add(new Aksi("UPGRADE RUMAH", false));
             listAksiAFK.add(new Aksi("BELI BARANG", false));
             return listAksiAFK;
-        }
-
-        @Override
-        public void run(){
-            /* Tulis apa yang bakal dilakuin tiap aksi disini dari awal sampe kelar berdasarkan waktunya */
         }
     }
 
@@ -572,11 +567,6 @@ public class Sim {
 
 
     //Actions of Sim
-    public void runAksi(Aksi aksi) {
-        // Buat jalanin aksinya
-        Thread jalanAksi = new Thread(aksi);
-        jalanAksi.start();
-    }
     public void addToInventory() {
         //Please provide the solution below
     }
