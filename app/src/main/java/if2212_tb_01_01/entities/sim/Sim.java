@@ -406,7 +406,7 @@ public class Sim {
             if (inventory.isItemAda(15) && inventory.isItemAda(17)) {
                 Bistik bistik = new Bistik();
                 int waktumasak = (int) (bistik.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",waktumasak));
+                this.status.add(new Aksi(this, "masak",0));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
                 try {
@@ -438,7 +438,7 @@ public class Sim {
             if (inventory.isItemAda(16) && inventory.isItemAda(12)) {
                 NasiAyam nasiayam = new NasiAyam();
                 int waktumasak = (int) (nasiayam.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",waktumasak));
+                this.status.add(new Aksi(this, "masak",0));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
                 try {
@@ -470,7 +470,7 @@ public class Sim {
             if (inventory.isItemAda(15) && inventory.isItemAda(17) && inventory.isItemAda(16) && inventory.isItemAda(19)) {
                 NasiKari nasikari = new NasiKari();
                 int waktumasak = (int) (nasikari.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",waktumasak));
+                this.status.add(new Aksi(this, "masak",0));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
                 try {
@@ -502,7 +502,7 @@ public class Sim {
             if (inventory.isItemAda(14) && inventory.isItemAda(18)) {
                 SusuKacang susukacang = new SusuKacang();
                 int waktumasak = (int) (susukacang.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",waktumasak));
+                this.status.add(new Aksi(this, "masak",0));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
                 try {
@@ -534,7 +534,7 @@ public class Sim {
             if (inventory.isItemAda(13) && inventory.isItemAda(19)) {
                 TumisSayur tumisSayur = new TumisSayur();
                 int waktumasak = (int) (tumisSayur.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",waktumasak));
+                this.status.add(new Aksi(this, "masak",0));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
                 try {
@@ -589,7 +589,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -620,7 +620,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -652,7 +652,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -684,7 +684,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -715,7 +715,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -746,7 +746,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -777,7 +777,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -808,7 +808,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -839,7 +839,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -870,7 +870,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -901,7 +901,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -932,7 +932,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -963,7 +963,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -994,7 +994,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -1025,7 +1025,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -1056,7 +1056,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -1087,7 +1087,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -1118,7 +1118,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -1149,7 +1149,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -1180,7 +1180,7 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
