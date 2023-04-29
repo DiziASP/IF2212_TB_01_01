@@ -45,6 +45,9 @@ public class App{
         }
 
     }
+    private static volatile boolean running = true;
+    private static ExecutorService executorService = Executors.newFixedThreadPool(20);
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         App app = new App();
@@ -53,7 +56,6 @@ public class App{
         boolean loadgame = false;
         boolean endedgame = false;
         boolean isCanAddSim = true;
-
         List<Sim> listSim = new ArrayList<Sim>();
         String command;
         World world = new World(64,64);
@@ -159,7 +161,13 @@ public class App{
 
             // Menu nomor 5 
             else if (command.equals("UPGRADE HOUSE")){
-                listSim.get(indeksActiveSim).upgradeRumah();
+                final int activeSimIndex = indeksActiveSim;
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        listSim.get(activeSimIndex).upgradeRumah();
+                    }
+                });
             }
 
             else if (command.equals("MOVE ROOM")){

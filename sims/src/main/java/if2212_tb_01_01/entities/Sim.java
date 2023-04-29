@@ -409,14 +409,28 @@ public class Sim {
             System.out.println("Masukkan waktu tidur (Kelipatan 4) dalam menit: ");
             waktuTidur = scanner.nextInt();
         }
-        final int waktu = waktuTidur*60;
         this.status.add(new Aksi(this, "Tidur", waktuTidur));
         int indexStatus = this.status.size() - 1;
+        try {
+            int waktu = waktuTidur*60;
+            int seconds = 0;
+            for (int i=0; i<waktu; i++){
+                Thread.sleep(1000); // tunggu 1 detik
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
+            
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Selamat bangun tidur!");
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
         this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
-        this.isDoAksiAktif = true;
-        ActionThread thread = new ActionThread(indexStatus,this,waktu);
-        thread.start(); // memulai thread
+        
         // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt haduh gmn y
     }
 
@@ -447,27 +461,52 @@ public class Sim {
         System.out.println("Pilih posisi ruangan baru (atas/bawah/kiri/kanan): ");
         String pilihan = scanner.nextLine();
         this.status.add(new Aksi(this, "Upgrade Rumah", 18));
+        Point point = new Point(-1,-1);
         if (pilihan.equals("atas")) {
             System.out.println("Masukkan nama ruangan: ");
             String namaRuangan = scanner.nextLine();
-            this.rumah.addRuangan(new Ruangan(namaRuangan, new Point(ruangan.getPosisi().getX(), ruangan.getPosisi().getY() + 1), false));
+            point.setX(ruangan.getPosisi().getX());
+            point.setY(ruangan.getPosisi().getY() + 1);
+            this.rumah.addRuangan(new Ruangan(namaRuangan, point, false));
         } else if (pilihan.equals("bawah")) {
             System.out.println("Masukkan nama ruangan: ");
             String namaRuangan = scanner.nextLine();
-            this.rumah.addRuangan(new Ruangan(namaRuangan, new Point(ruangan.getPosisi().getX(), ruangan.getPosisi().getY() - 1), false));
+            point.setX(ruangan.getPosisi().getX());
+            point.setY(ruangan.getPosisi().getY() - 1);
+            this.rumah.addRuangan(new Ruangan(namaRuangan, point, false));
         } else if (pilihan.equals("kiri")) {
             System.out.println("Masukkan nama ruangan: ");
             String namaRuangan = scanner.nextLine();
-            this.rumah.addRuangan(new Ruangan(namaRuangan, new Point(ruangan.getPosisi().getX() - 1, ruangan.getPosisi().getY()), false));
+            point.setX(ruangan.getPosisi().getX() - 1);
+            point.setY(ruangan.getPosisi().getY());
+            this.rumah.addRuangan(new Ruangan(namaRuangan, point, false));
         } else if (pilihan.equals("kanan")) {
             System.out.println("Masukkan nama ruangan: ");
             String namaRuangan = scanner.nextLine();
-            this.rumah.addRuangan(new Ruangan(namaRuangan, new Point(ruangan.getPosisi().getX() + 1, ruangan.getPosisi().getY()), false));
+            point.setX(ruangan.getPosisi().getX() + 1);
+            point.setY(ruangan.getPosisi().getY());
+            this.rumah.addRuangan(new Ruangan(namaRuangan, point, false));
         }
+        
         System.out.println("Rumah sedang diupgrade, silahkan tunggu 18 menit!");
         int indexstatus = this.status.size() - 1;
-        ActionThread thread = new ActionThread(indexstatus, this, 18);
-        thread.start();
+        try {
+            int waktu = 18*60;
+            int seconds = 0;
+            for (i=0; i<waktu; i++){
+                Thread.sleep(1000); // tunggu 1 detik
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexstatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexstatus);
+            this.rumah.getRuangan(point).setIsBuilded(true);
+            System.out.println("Rumah berhasil di upgrade!");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     public void berpindahRuangan(Ruangan tujuanRuangan) {
         //Please provide the solution below
@@ -493,7 +532,7 @@ public class Sim {
     }
 
     public void yoga() {
-        this.status.add(new Aksi(this, "Yoga", 1));
+        
     }
 
     public void berdoa(){
