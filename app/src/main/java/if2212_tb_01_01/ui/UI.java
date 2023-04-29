@@ -341,6 +341,7 @@ public class UI {
             g2.setColor(Constant.c3);
             g2.fillRect(0,0,Constant.screenWidth,Constant.screenHeight);
 
+            gp.getTileManager().draw(g2);
             gp.getRoom().draw(g2);
             gp.getSim().draw(g2);
 
@@ -377,7 +378,7 @@ public class UI {
 
             outlinedRect(g2, Constant.tileSize*4-24, Constant.tileSize, Constant.tileSize*9, Constant.tileSize*9, 24, 12, Constant.c7, Constant.c2);
 
-            g2.setFont(f40);
+            g2.setFont(f20);
             String text = "Apakah kamu yakin ingin keluar?";
             int x = centerX(g2,text);
             int y = 3*Constant.tileSize;

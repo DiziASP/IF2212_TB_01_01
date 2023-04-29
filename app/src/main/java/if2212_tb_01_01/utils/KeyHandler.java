@@ -2,6 +2,7 @@ package if2212_tb_01_01.utils;
 
 
 import if2212_tb_01_01.assets.AssetManager;
+import if2212_tb_01_01.assets.tiles.TileManager;
 import if2212_tb_01_01.entities.house.House;
 import if2212_tb_01_01.entities.room.Room;
 import if2212_tb_01_01.entities.sim.Sim;
@@ -145,6 +146,7 @@ public class KeyHandler implements KeyListener {
                 // this sim
                 gp.setSim(gp.getSimList().get(arrowNum));
                 gp.setRoom(gp.getSim().getRoomAwal());
+                gp.setTileManager(new TileManager(gp,1));
                 gp.setGs(5);
             } else if(isEscapePressed()){
                 gp.setGs(1);
@@ -208,8 +210,9 @@ public class KeyHandler implements KeyListener {
 
         } else if (gp.getGs() == 6){
             //ruangan
-            arrowNum = (arrowNum+gp.getOpsiAksi().size()) %gp.getOpsiAksi().size();
-
+            if (gp.getOpsiAksi().size()>0){
+                arrowNum = (arrowNum+gp.getOpsiAksi().size()) %gp.getOpsiAksi().size();
+            }
             if(isEnterPressed()){
                 if (gp.getSubState()==0){
                     //utama
@@ -329,7 +332,7 @@ public class KeyHandler implements KeyListener {
         } else if (gp.getGs() == 7){
             //pause menu
 
-            arrowNum = (arrowNum+ 1)%2; 
+            arrowNum = (arrowNum+ 2)%2; 
 
             if (isEnterPressed()){
                 switch(gp.getOpsiAksi(arrowNum)){
@@ -353,6 +356,8 @@ public class KeyHandler implements KeyListener {
                 gp.setGs(5);
                 gp.getSim().setPosisiRumah(new Point(in1,in2));
                 gp.setRoom(gp.getSim().getRoomAwal());
+                gp.setTileManager(new TileManager(gp,1));
+
 
                 in1 = 0; in2 = 0;
                 input = "";
@@ -421,6 +426,7 @@ public class KeyHandler implements KeyListener {
             if(enterPressed){
                 gp.setGs(6);
                 in1 = 0; in2 = 0;
+                gp.setSubState(0);
             } else if (escapePressed){
                 gp.setGs(7);
                 in1 = 0; in2 = 0;
