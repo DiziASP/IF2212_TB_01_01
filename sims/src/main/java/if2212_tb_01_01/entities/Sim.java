@@ -234,10 +234,35 @@ public class Sim {
             }
         }
         if(terpenuhi){
-            inventory.addItem(new Masakan(nama), 1);
+            Masakan masakan = new Masakan(nama);
+            int waktumasak = (int) (masakan.getKekenyangan()*1.5);
+            this.status.add(new Aksi(this, "Tidur", waktumasak));
+            this.isDoAksiAktif = true;
+            int indexStatus = this.status.size() - 1;
+            try {
+                int waktu = waktumasak;
+                int seconds = 0;
+                for (int j=0; j<waktu; j++){
+                    Thread.sleep(1000); // tunggu 1 detik
+                    seconds++;
+                    if (seconds >= 60) {
+                        seconds = 0;
+                        this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                    }
+                }
+                this.status.remove(indexStatus);
+                
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Berhasil memasak " + masakan.getNama());
+            inventory.addItem(masakan, 1);
             for(Makanan x: makanan){
                 inventory.removeItem(x, 1);
             }
+            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+            this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+            this.isDoAksiAktif=false;
         } 
         // List<Makanan> bahanmakanan = Masakan.printGetResepMasakan(nama);
         //mengecek apakah bahan yang diperlukan semuanya ada di inventory atau tidak.
@@ -273,6 +298,26 @@ public class Sim {
                 Integer hargaMakanan = Makanan.getListMakanan().get(i).getHarga();
                 if(this.uang >= hargaMakanan){
                     uang -= hargaMakanan;
+                    int indexStatus = this.status.size() - 1;
+                    Random rand = new Random();
+                    int waktubeli = (rand.nextInt(6) + 1) * 30;
+                    this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                    try {
+                        int waktu = waktubeli;
+                        int seconds = 0;
+                        for (int j=0; j<waktu; j++){
+                            Thread.sleep(1000); // tunggu 1 detik
+                            seconds++;
+                            if (seconds >= 60) {
+                                seconds = 0;
+                                this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                            }
+                        }
+                        this.status.remove(indexStatus);
+                        
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     inventory.addItem(new Makanan(nama), 1);
                     System.out.println(nama+" berhasil dibeli!");
                     //harusnya dikirim barang dulu trus kalo dah sampe baru masuk inventory
@@ -298,6 +343,26 @@ public class Sim {
                 Integer hargaFurnitur = Furnitur.getListFurnitur().get(i).getHarga();
                 if(this.uang >= hargaFurnitur){
                     uang -= hargaFurnitur;
+                    int indexStatus = this.status.size() - 1;
+                    Random rand = new Random();
+                    int waktubeli = (rand.nextInt(6) + 1) * 30;
+                    this.status.add(new Aksi(this,"beliBarang", waktubeli));
+                    try {
+                        int waktu = waktubeli;
+                        int seconds = 0;
+                        for (int j=0; j<waktu; j++){
+                            Thread.sleep(1000); // tunggu 1 detik
+                            seconds++;
+                            if (seconds >= 60) {
+                                seconds = 0;
+                                this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                            }
+                        }
+                        this.status.remove(indexStatus);
+                        
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     inventory.addItem(new Furnitur(nama,new Point(-1,-1),false), 1);
                     System.out.println(nama+" berhasil dibeli!");
                     //harusnya dikirim barang dulu trus kalo dah sampe baru masuk inventory
@@ -581,11 +646,28 @@ public class Sim {
 
     public void proyekan () {
         this.status.add(new Aksi(this,"proyekan", 3));
-        this.kesejahteraan.setMood(this.kesejahteraan.getMood()-5);
-        setUang(getUang() + 100);
-        int waktu = 180;
+        int waktuproyekan = 180;
         int indexStatus = this.status.size() - 1;
         this.isDoAksiAktif = true;
+        try {
+            int waktu = waktuproyekan;
+            int seconds = 0;
+            for (int j=0; j<waktu; j++){
+                Thread.sleep(1000); // tunggu 1 detik
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
+            
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        this.isDoAksiAktif=false;
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood()-5);
+        setUang(getUang() + 100);
         // ActionThread thread = new ActionThread(indexStatus, this, waktu);
         // thread.start();
     }   
