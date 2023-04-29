@@ -143,7 +143,7 @@ public class Sim {
      }
 
 
-    public Sim(GamePanel gp, KeyHandler kh, int spriteIndex, String namaLengkap) {
+    public Sim(GamePanel gp, KeyHandler kh, int spriteIndex, String namaLengkap, Point posisiRumah) {
 
         this.gp = gp;
         this.kh = kh;
@@ -164,6 +164,7 @@ public class Sim {
          this.namaLengkap = namaLengkap;
          this.status = new ArrayList<Aksi>();
          this.inventory = new Inventory();
+         this.rumah = new House(gp, this, posisiRumah);
          //tes
          inventory.incItem(0);
         //  this.rumah = rumah;
@@ -346,6 +347,14 @@ public class Sim {
 
     public void setPosisiRumah(Point posisiRumah){
         this.rumah.setPosisi(posisiRumah);
+    }
+
+    public House getRumah(){
+        return this.rumah;
+    }
+
+    public Room getRoomAwal(){
+        return this.rumah.getRuanganAwal();
     }
 
     // public Point getPosisiRuangan(){

@@ -19,11 +19,13 @@ public class House {
     private static int totalHouse = 0;
 
     // Constructor
-    public House(GamePanel gp, Sim kepemilikan) {
+    public House(GamePanel gp, Sim kepemilikan, Point posisi) {
         this.gp = gp;
         // this.daftarRuangan = new ArrayList<Room>(kapasitas);
         this.kepemilikan = kepemilikan;
         totalHouse++;
+        this.posisi = posisi;
+        this.ruanganAwal = new Room(gp, false, kepemilikan);
 
         /* Add Satu ruanga */
         // daftarRuangan.add(new Room(gp, "Test",  true, this.kepemilikan));

@@ -6,8 +6,9 @@ import if2212_tb_01_01.assets.AssetManager;
 import if2212_tb_01_01.entities.WorldClock;
 import if2212_tb_01_01.entities.house.House;
 import if2212_tb_01_01.entities.room.Room;
-import if2212_tb_01_01.entities.sim.Sim;
-import if2212_tb_01_01.entities.world.World;
+import if2212_tb_01_01.entities.sim.*;
+import if2212_tb_01_01.entities.world.*;
+import if2212_tb_01_01.entities.world.Point;
 import if2212_tb_01_01.items.masakan.Bistik;
 import if2212_tb_01_01.ui.UI;
 // import if2212_tb_01_01.ui.WelcomeUI;
@@ -25,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
     int gameState = 0;
     // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
-    // 9-inventory, 10-world kunjungan, 11-shop, 12-edit room
+    // 9-inventory, 10-world kunjungan, 11-shop
     int subState = 0;
         // subState: 0-none, 1-tambahan, 2-pilihEditan, 3-pilihBarangPasang, 4-lokasiPasang, 5-lokasiBuang, 6-lokasiEdit, 7-lokasiBaru
         // 8-cari kerja, 9-pilihMakanan, 10-pilihMenuMakanan
@@ -45,10 +46,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final InteractionHandler interactionHandler = new InteractionHandler(this);
 
     private UI ui = new UI(this,keyHandler);
-    private Sim sim = new Sim(this, this.keyHandler, 1, "Sim");
+    private Sim sim;;
     private ArrayList<Sim> listSim = new ArrayList<Sim>();
-    private final House house = new House(this, this.sim);
-    public Room room = house.getRuangan();
+    private House house;
+    public Room room;
     private World world = new World(this);
 
     WorldClock worldClock = new WorldClock(this);
@@ -68,9 +69,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         //readfile sim
         //test
-        listSim.add(new Sim(this, keyHandler, 2, "nadira"));
-        listSim.add(new Sim(this, keyHandler, 1, "naura"));
-        listSim.add(new Sim(this, keyHandler,7, "dizi"));
+        listSim.add(new Sim(this, keyHandler, 2, "nadira", new Point(1,1)));
+        listSim.add(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
+        listSim.add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
     }
 
     public void startGameThread() {
@@ -104,9 +105,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        // ui.update();
-        room.update();
-        sim.update();
+        ui.update();
+        // room.update(); //buggy kalo atas
+        // sim.update();
     }
 
     @Override
@@ -146,6 +147,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Room getRoom(){
         return room;
+    }
+
+    public void setRoom(Room room){
+        this.room = room;
     }
 
     public Sim getSim(){
