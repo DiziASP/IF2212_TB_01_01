@@ -18,18 +18,22 @@ public class Room {
     TileManager tm;
     /* Room Attribute */
     private final int roomIndex;
-    private String roomName;
+    // private String roomName;
     private boolean isBuilded;
     private List<Item> daftarObjek;
     private static final Integer kapasitas = 36;
     private Integer[][] mapRuangan = new Integer[6][6];
+    private Room roomLeft = null;
+    private Room roomRight = null;
+    private Room roomBelow = null;
+    private Room roomAbove = null;
 
 
     private static int totalRuangan = 0;
 
-    public Room(GamePanel gp, String roomName, boolean isBuilded, Sim sim) {
+    public Room(GamePanel gp, boolean isBuilded, Sim sim) {
         this.gp = gp;
-        this.roomName = roomName;
+        // this.roomName = roomName;
 
         totalRuangan++;
         this.roomIndex = totalRuangan;
@@ -128,5 +132,54 @@ public class Room {
 
     public TileManager getTileManager() {
         return tm;
+    }
+
+    public Room getRoomBelow() {
+        return roomBelow;
+    }
+
+    public void setRoomBelow(Room roomBelow) {
+        this.roomBelow = roomBelow;
+    }
+
+    public Room getRoomAbove() {
+        return roomAbove;
+    }
+
+    public void setRoomAbove(Room roomAbove) {
+        this.roomAbove = roomAbove;
+    }
+
+    public Room getRoomLeft() {
+        return roomLeft;
+    }
+
+    public void setRoomLeft(Room roomLeft) {
+        this.roomLeft = roomLeft;
+    }
+
+    public Room getRoomRight() {
+        return roomRight;
+    }
+
+    public void setRoomRight(Room roomRight) {
+        this.roomRight = roomRight;
+    }
+
+    public void newRoomRight(Room new) {
+        new.setRoomLeft() = this;
+        this.roomRight = new;
+    }
+    public void newRoomLeft(Room new) {
+        new.setRoomRight() = this;
+        this.roomLeft = new;
+    }
+    public void newRoomAbove(Room new) {
+        new.setRoomBelow() = this;
+        this.roomAbove = new;
+    }
+    public void newRoomBelow(Room new) {
+        new.setRoomAbove() = this;
+        this.roomBelow = new;
     }
 }

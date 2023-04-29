@@ -104,7 +104,7 @@ public class Sim {
      }
      private boolean isDoAksiAktif;
      private Point posisiRumah;
-     private Point posisiRuangan;
+     //private Point posisiRuangan;
  
 
      // private Point posisi; yang butuh posisi kayanya rumah aja???

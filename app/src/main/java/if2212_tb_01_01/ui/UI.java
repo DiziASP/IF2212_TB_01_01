@@ -299,6 +299,7 @@ public class UI {
 
 
         } else if (gp.getGs() == 5){
+            //stats
             g2.setColor(Constant.c3);
             g2.fillRect(0,0,Constant.screenWidth,Constant.screenHeight);
 
@@ -431,7 +432,7 @@ public class UI {
             Inventory items = s.getInventory();
 
             g2.setFont(f80);
-            String text = "Inventory " + s.getNamaLengkap();
+            String text = "inventory " + s.getNamaLengkap();
             int x = centerX(g2,text);
             int y = Constant.tileSize+12;
             g2.setColor(Constant.c2);
@@ -439,7 +440,35 @@ public class UI {
             g2.setColor(Constant.c6);
             g2.drawString(text,x,y);
 
-            g2.setColor(Constant.c1);
+            drawInventory(g2, "inventory", items);
+
+        } else if (gp.getGs() == 10){
+            // world choose
+            drawWorldChoose(g2);
+        } else if (gp.getGs() == 11){
+            //shop
+            
+            g2.setColor(Constant.c3);
+            g2.fillRect(0,0,Constant.screenWidth,Constant.screenHeight);
+
+            Sim s = gp.getSim();
+            Inventory items = s.getInventory();
+
+            g2.setFont(f80);
+            String text = s.getNamaLengkap() + " belanja";
+            int x = centerX(g2,text);
+            int y = Constant.tileSize+12;
+            g2.setColor(Constant.c2);
+            g2.drawString(text,x+3,y+3);
+            g2.setColor(Constant.c6);
+            g2.drawString(text,x,y);
+
+            drawInventory(g2, "shop", items);
+        }
+    }
+
+    private void drawInventory(Graphics2D g2, text type, Inventory items){
+        g2.setColor(Constant.c1);
             g2.fillRect(Constant.tileSize, Constant.tileSize +24, Constant.tileSize*14, Constant.tileSize*9+24);
 
 
@@ -480,37 +509,52 @@ public class UI {
 
                         x2= Constant.tileSize*5;
                         y2= Constant.tileSize*10 -12;
+
                         g2.drawString("Pilih aksi:", Constant.tileSize*2, Constant.tileSize*10 +12);
                         g2.setColor(Constant.c5);
-                        g2.fillRect(x2, y2 + kh.getArrowNum()*20, Constant.tileSize*9, 20);
-                        
-                        if (item instanceof BahanMakanan){
-                            text = "Beli\nMakan";
-                        } else if (item instanceof Masakan){
-                            text = "Makan\nMasak";
-                        } else if (item instanceof Furnitur){
-                            text = "Beli\nPasang";
-                        }
-                        y2-=8;
-                        g2.setColor(Constant.c6);
-                        for (String line : text.split("\n")){
-                            g2.drawString(line, x2+48, y2 += 20);
+
+                        if (type =="inventory"){ 
+                            g2.fillRect(x2, y2 + kh.getArrowNum()*20, Constant.tileSize*9, 20);
+                            
+                            if (item instanceof BahanMakanan){
+                                text = "Beli\nMakan";
+                            } else if (item instanceof Masakan){
+                                text = "Masak\nMakan";
+                            } else if (item instanceof Furnitur){
+                                text = "Beli\nPasang";
+                            }
+                            y2-=8;
+                            g2.setColor(Constant.c6);
+                            for (String line : text.split("\n")){
+                                g2.drawString(line, x2+48, y2 += 20);
+                            }
+                        } else if (type =="shop"){
+                            g2.fillRect(x2, y2 +10, Constant.tileSize*9, 20);
+                            
+                            if (item instanceof BahanMakanan){
+                                text = "Beli";
+                            } else if (item instanceof Masakan){
+                                text = "Barang tidak bisa dibeli";
+                            } else if (item instanceof Furnitur){
+                                text = "Beli";
+                            }
+                            y2-=8;
+                            g2.setColor(Constant.c6);
+                            g2.drawString(line, x2+48, y2 + 30);
+                            
                         }
                     }        
 
                     g2.drawImage(item.getImage(), x+6, y+6, 60, 60, null);
                 }
             }
-
-        } else if (gp.getGs() == 10){
-        } 
     }
 
     private void drawWorldChoose(Graphics2D g2){
         g2.setColor(Constant.c3);
         g2.fillRect(0,0,Constant.screenWidth,Constant.screenHeight);
 
-        outlinedRect(g2, Constant.tileSize*2, Constant.tileSize*3-12, Constant.tileSize*12, Constant.tileSize*6+24, 24, 12, Constant.c2, Constant.c3);
+        outlinedRect(g2, Constant.tileSize*2, Constant.tileSize*3-12, Constant.tileSize*12, Constant.tileSize*6+24, 24, 12, Constant.c2, Constant.c4);
 
         g2.setFont(f80);
         String text = "Pilih Lokasi Rumah";
