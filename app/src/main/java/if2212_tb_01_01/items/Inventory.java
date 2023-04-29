@@ -62,10 +62,18 @@ public class Inventory {
 
     public void incItem (Integer i) {
         inventory.get(i).incAmount();
+        if (inventory.get(i) instanceof Furnitur){
+            Furnitur in = (Furnitur) inventory.get(i);
+            // in.incAmountPut();
+        }
     }
 
     public void decItem (Integer i) {
-        inventory.get(i).decAmount();
+        // inventory.get(i).decAmount();
+        if (inventory.get(i) instanceof Furnitur){
+            Furnitur in = (Furnitur) inventory.get(i);
+            in.decAmountPut();
+        }
     }
 
     public void clearIsi () {
