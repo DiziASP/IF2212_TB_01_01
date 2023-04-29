@@ -209,40 +209,117 @@ public class KeyHandler implements KeyListener {
             arrowNum = (arrowNum+gp.getOpsiAksi().size()) %gp.getOpsiAksi().size();
 
             if(isEnterPressed()){
-                switch (gp.getOpsiAksi(arrowNum)){ 
-                    case "opsi lain":
-                        gp.setGs(7);
-                        break; 
-                    case "olahraga":
-                        break;
-                    case "tidur":
-                        break;
-                    case "buang air":
-                        break;
-                    case "masak":
-                        break;
-                    case "makan":
-                        break;
-                    case "lihat waktu":
-                        break;
-                    case "yoga":
-                        break;
-                    case "doa":
-                        break;
-                    case "gambar":
-                        break;
-                    case "main musik":
-                        break;
-                    case "mandi":
-                        break;
-                    case "bersihkan rumah":
-                        break;
-                    case "kerjakan proyek":
-                        break;
-                    case "pindah ruangan":
-                        break;
-                       
-                }
+                if (gp.getSubState()==0){
+                    //utama
+                    switch (gp.getOpsiAksi(arrowNum)){ 
+                        case "edit ruangan":
+                            gp.setSubState(2);
+                            break;
+                        case "beli barang":
+                            gp.setGs(11);
+                            break;
+                        case "opsi lain":
+                            gp.setSubState(1);
+                            break; 
+                        case "keluar":
+                            gp.setGs(7);
+                        case "olahraga":
+                            break;
+                        case "tidur":
+                            gp.getSim().tidur();
+                            break;
+                        case "buang air":
+                            break;
+                        case "masak":
+                            break;
+                        case "makan":
+                            break;
+                        case "lihat waktu":
+                            break;
+                        case "yoga":
+                            break;
+                        case "berdoa":
+                            break;
+                        case "gambar":
+                            break;
+                        case "main musik":
+                            break;
+                        case "mandi":
+                            break;
+                        case "bersihkan rumah":
+                            break;
+                        case "kerjakan proyek":
+                            break;
+                        case "pindah ruangan":
+                            break;
+                    }
+                } else if (gp.getSubState()==1){
+                    //extra
+                    switch (gp.getOpsiAksi(arrowNum)){ 
+                        case "kembali":
+                            gp.setSubState(0);
+                        case "cari kerja":
+                            gp.setSubState(8);
+                            break;
+                        case "ganti sim":
+                            gp.setGs(3);
+                            break;
+                        case "tambah sim":
+                            gp.setGs(4);
+                            break;
+                        case "lihat inventory":
+                            gp.setGs(9);
+                            break;
+                        case "upgrade rumah":
+                            gp.setSubState(12);
+                            break;
+                        case "kunjungi rumah":
+                            gp.setGs(10);
+                            break;
+                    }
+
+                } else if (gp.getSubState()==2){
+                    //edit room
+                    switch (gp.getOpsiAksi(arrowNum)){ 
+                        case "tambahkan barang":
+                            gp.setSubState(3);
+                            break;
+                        case "pindahkan barang":
+                            gp.setSubState(6);
+                        case "hapus barang":
+                            gp.setSubState(5);
+                            break;
+                        case "kembali":
+                            gp.setSubState(0);
+                    }
+                } else if (gp.getSubState()==3){
+                    //pilih barang pasang
+                } else if (gp.getSubState()==4){
+                    //lokasi pasang
+                } else if (gp.getSubState()==5){
+                    //lokasi buang
+                } else if (gp.getSubState()==6){
+                    //lokasi edit
+                } else if (gp.getSubState()==7){
+                    //lokasi baru
+                } else if (gp.getSubState()==8){
+                    // cari kerja
+                } else if (gp.getSubState()==9){
+                    //pilih makanan
+                } else if (gp.getSubState()==10){
+                    //pilih menu makanan
+                } else if (gp.getSubState()==11){
+                    //tampilkan waktu
+                } else if (gp.getSubState()==12){
+                    //tambah ruang
+                } else if (gp.getSubState()==13){
+                    //durasi aksi
+                } else if (gp.getSubState()==14){
+                    //aksi counter
+                } else if (gp.getSubState()==15){
+                    //aksi berhasil
+                } else if (gp.getSubState()==16){
+                } 
             } else if(isEscapePressed()){
                 gp.setGs(7);
             }
@@ -250,32 +327,13 @@ public class KeyHandler implements KeyListener {
         } else if (gp.getGs() == 7){
             //pause menu
 
-            arrowNum = (arrowNum+ gp.getOpsiAksi().size()) %gp.getOpsiAksi().size(); 
+            arrowNum = (arrowNum+ 1)%2; 
 
             if (isEnterPressed()){
                 switch(gp.getOpsiAksi(arrowNum)){
-                    case "cari kerja":
-                        break;
-                    case "ganti sim":
-                        gp.setGs(3);
-                        break;
-                    case "tambah sim":
-                        gp.setGs(4);
-                        break;
-                    case "lihat inventory":
-                        gp.setGs(9);
-                        break;
-                    case "upgrade rumah":
-                        break;
-                    case "beli barang":
-                        break;
-                    case "pasang barang":
-                        break;
-                    case "kunjungi rumah":
-                        gp.setGs(10);
-                        break;
                     case "kembali":
                         gp.setGs(6);
+                        break;
                     case "keluar":
                         gp.setGs(0);
                         break;
@@ -337,13 +395,14 @@ public class KeyHandler implements KeyListener {
             } else if(enterPressed){
                 if (arrowNum==0){
                     if (pointer<20){
-                        gp.getSim().beliBarang(pointer);
-                    } else(){
+                        // gp.getSim().beliBarang(pointer);
+                    } else{
                         // kompor
                     }
                 } else {
                     if (pointer<12){
                         gp.setGs(12);
+                        pointer = 0;
                     } else {
                         // meja
                     }
@@ -392,12 +451,12 @@ public class KeyHandler implements KeyListener {
                 gp.setGs(6);
             } else if(enterPressed){
                 if (pointer<20){
-                    gp.getSim().beliBarang(pointer);
+                    // gp.getSim().beliBarang(pointer);
                 }
             }
         } else if (gp.getGs() == 12){   
             //edit room
-            
+
         } 
 
 

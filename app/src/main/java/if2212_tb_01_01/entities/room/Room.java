@@ -87,9 +87,9 @@ public class Room {
         return roomIndex;
     }
 
-    public String getRoomName() {
-        return roomName;
-    }
+    // public String getRoomName() {
+    //     return roomName;
+    // }
 
     public void setMapRuangan(Integer itemIdx, Furnitur item) {
 
@@ -167,19 +167,19 @@ public class Room {
     }
 
     public void newRoomRight(Room newRoom) {
-        newRoom.setRoomLeft() = this;
         this.roomRight = newRoom;
+        newRoom.setRoomLeft(this);
     }
     public void newRoomLeft(Room newRoom) {
-        newRoom.setRoomRight() = this;
+        newRoom.setRoomRight(this);
         this.roomLeft = newRoom;
     }
     public void newRoomAbove(Room newRoom) {
-        newRoom.setRoomBelow() = this;
+        newRoom.setRoomBelow(this);
         this.roomAbove = newRoom;
     }
     public void newRoomBelow(Room newRoom) {
-        newRoom.setRoomAbove() = this;
+        newRoom.setRoomAbove(this);
         this.roomBelow = newRoom;
     }
 }

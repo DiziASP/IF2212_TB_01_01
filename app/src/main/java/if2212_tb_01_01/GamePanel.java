@@ -24,7 +24,15 @@ import java.util.Arrays;
 public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
     int gameState = 0;
-    // screen: 0-welcome, 1-setup, 2-help, 3-new, 4-stats, 5-ruangan, 6-world, 7-inventory
+    // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
+    // 9-inventory, 10-world kunjungan, 11-shop, 12-edit room
+    int subState = 0;
+        // subState: 0-none, 1-tambahan, 2-pilihEditan, 3-pilihBarangPasang, 4-lokasiPasang, 5-lokasiBuang, 6-lokasiEdit, 7-lokasiBaru
+        // 8-cari kerja, 9-pilihMakanan, 10-pilihMenuMakanan
+        // 11-tampilkan waktu
+        // 12-tambah ruang, 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
+
+
     ArrayList<String> opsiAksi = new ArrayList<String>();
 
     /* Generate Thread */
@@ -127,6 +135,15 @@ public class GamePanel extends JPanel implements Runnable {
         keyHandler.setArrowNum(0);
     }
 
+    public int getSubState() {
+        return subState;
+    }
+
+    public void setSubState(int subState) {
+        this.subState = subState;
+        keyHandler.setArrowNum(0);
+    }
+
     public Room getRoom(){
         return room;
     }
@@ -162,20 +179,36 @@ public class GamePanel extends JPanel implements Runnable {
     public void updateOpsiAksi(){
         opsiAksi.clear();
 
-        if (!keyHandler.isSedangAksiAktif()){
-            // addOpsiAksi("tambah sim");
-            // addOpsiAksi("ganti sim");
-            // addOpsiAksi("cari kerja");
-            // addOpsiAksi("lihat inventory");
-            // addOpsiAksi("upgrade rumah"); 
-            // addOpsiAksi("beli barang");       
-            // addOpsiAksi("pasang barang");
-            // addOpsiAksi("kunjungi rumah");
+        if (gameState==0){
+            addOpsiAksi("keluar");
             addOpsiAksi("opsi lain");
+            addOpsiAksi("edit ruangan");
             addOpsiAksi("olahraga");
             addOpsiAksi("yoga");
             addOpsiAksi("bersihkan rumah");
             addOpsiAksi("berdoa");
+        } else if (gameState==1){
+            //tambahan
+            addOpsiAksi("kembali");
+            addOpsiAksi("tambah sim");
+            addOpsiAksi("ganti sim");
+            //if
+            addOpsiAksi("cari kerja");
+
+            addOpsiAksi("lihat inventory");
+            addOpsiAksi("upgrade rumah"); 
+            addOpsiAksi("kunjungi rumah");
+        } else if (gameState==2){
+            addOpsiAksi("kembali");
+            addOpsiAksi("hapus barang");
+            addOpsiAksi("pindahkan barang"); 
+            addOpsiAksi("tambahkan barang");
+        } else if (gameState==8){
+            addOpsiAksi("badut sulap");
+            addOpsiAksi("koki");
+            addOpsiAksi("polisi");
+            addOpsiAksi("programmer");
+            addOpsiAksi("dokter");
         }
     }
 
@@ -185,19 +218,18 @@ public class GamePanel extends JPanel implements Runnable {
         addOpsiAksi("keluar");
         addOpsiAksi("kembali");
 
-        if(keyHandler.isBisaTambah()){
-            addOpsiAksi("tambah sim");
-        }    
-        addOpsiAksi("ganti sim");
+        // if(keyHandler.isBisaTambah()){
+        //     addOpsiAksi("tambah sim");
+        // }    
+        // addOpsiAksi("ganti sim");
 
-        if (keyHandler.isBisaGantiKerja()){
-            addOpsiAksi("cari kerja");
-        }
-        addOpsiAksi("lihat inventory");
-        addOpsiAksi("upgrade rumah"); 
-        addOpsiAksi("beli barang");       
-        addOpsiAksi("ubah ruangan");
-        addOpsiAksi("kunjungi rumah");
+        // if (keyHandler.isBisaGantiKerja()){
+        //     addOpsiAksi("cari kerja");
+        // }
+        // addOpsiAksi("lihat inventory");
+        // addOpsiAksi("upgrade rumah"); 
+        // addOpsiAksi("beli barang");       
+        // addOpsiAksi("kunjungi rumah");
     }
 
 
