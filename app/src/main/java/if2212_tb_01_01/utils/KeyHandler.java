@@ -39,7 +39,8 @@ public class KeyHandler implements KeyListener {
 
         int k = e.getKeyCode();
 
-        System.out.println(k + " " +(char) k);
+        // debugging
+        // System.out.println(k + " " +(char) k);
         
 
         switch (k) {
@@ -140,7 +141,9 @@ public class KeyHandler implements KeyListener {
 
             int js = gp.getSimList().size();
 
-            arrowNum = (arrowNum+js)%js;
+            if (js>0){
+                arrowNum = (arrowNum+js)%js;
+            }
 
             if(isEnterPressed()){
                 // this sim
