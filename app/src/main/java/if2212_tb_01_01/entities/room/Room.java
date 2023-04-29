@@ -119,48 +119,45 @@ public class Room {
 
     public void pasangObjek(int idx, int x, int y){
         Furnitur f = (Furnitur) inventory.getInventory().get(idx);
-        Rectangle ia = new Rectangle(((x + 1) *tileSize) + 48, ((y + 1) * tileSize) + 24, f.getLebar(), f.getPanjang());
+        Rectangle ia = new Rectangle(((x + 1) *tileSize) + 48, ((y + 1) * tileSize) + 24, f.getPanjang(), f.getLebar());
         ItemTracker it = new ItemTracker(idx, ia, x, y);
         inventory.decItem(idx);
         // Furnitur furnitur = (Furnitur) inventory.getInventory().get(idx);
         // KasurQueenSize jam = KasurQueenSize.buildKasurQueenSize(0,0);
         daftarObjek.add(it);
         setMapRuangan(idx, it);
+        for (int i=0; i<6; i++){
+            System.out.println();
+
+            for (int j=0; j<6; j++){
+                System.out.print(mapRuangan[i][j]);
+            }
+        }
     }
 
     public int delObjek(int x, int y){
         int item = mapRuangan[y][x];
         if (item!= -1){
-
             boolean found = false;
-            int a = ((Furnitur)inventory.getInventory().get(item)).getLebar();
+            int a = ((Furnitur)inventory.getInventory().get(item)).getPanjang();
             int b = ((Furnitur)inventory.getInventory().get(item)).getLebar();
-            int i=0; int j=0;
             int m=0;
 
             while (!found){
-                if (daftarObjek.get(m).getF() == inventory.getInventory().get(item)){
-                    if (daftarObjek.get(m).getX()+j == x){
-                        if (daftarObjek.get(m).getY()+i == y){
-                            found = true;
-                        } else{
-                            if (i<a){
-                                i++;
-                            } else{
-                                if (j<b){
-                                    i=0;
-                                    j++;
-                                } else{
-                                    m++;
-                                }
-                            }
-                        }
-                    }
-                    daftarObjek.remove(m);
-                } else{
-                    m++;
+                if (daftarObjek.get(m).getX() <= x && daftarObjek.get(m).getX()+b > x){
+                    if (daftarObjek.get(m).getY() <= y && daftarObjek.get(m).getY()+a > y){
+                        found = true;
+                    } else {m++;}
+                } else{m++;}
+                
+            }
+  
+            for (int k = 0; k < a; k++) {
+                for (int l = 0; l < b; l++) {
+                    mapRuangan[daftarObjek.get(m).getY()+k][daftarObjek.get(m).getX()+l] = -1;
                 }
             }
+            daftarObjek.remove(m);
         } 
         inventory.decItem(item);
         return (item);
@@ -197,19 +194,19 @@ public class Room {
 
         //  if (!item.isVertikal()) {
             for (int i = item.getY(); i < item.getY() +
-            ((Furnitur)item.getF()).getLebar(); i++) {
+            ((Furnitur)item.getF()).getPanjang(); i++) {
                for (int j = item.getX(); j < item.getX()
-               + ((Furnitur)item.getF()).getPanjang(); j++) {
-                mapRuangan[j][i] = itemIdx;
+               + ((Furnitur)item.getF()).getLebar(); j++) {
+                mapRuangan[i][j] = itemIdx;
                }
             }
     //      }
     //      else {
     //         for (int i = item.getPosisi().y; i < item.getPosisi().getY() +
-    //             item.getPanjang(); i++) {
+    //             item.getLebar(); i++) {
 
     //             for (int j = item.getPosisi().x; j < item.getPosisi().getX() +
-    //                 item.getLebar(); j++) {
+    //                 item.getPanjang(); j++) {
     //                 mapRuangan[i][j] = item;
     //             }
     //         }

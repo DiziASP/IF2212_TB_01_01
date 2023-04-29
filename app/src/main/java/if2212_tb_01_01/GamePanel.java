@@ -71,11 +71,11 @@ public class GamePanel extends JPanel implements Runnable {
         //readfile sim
         //test
         listSim.add(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
-        listSim.get(0).getRoomAwal().pasangObjek(0,0, 0);
+        listSim.get(0).getRoomAwal().pasangObjek(4,0, 1);
         listSim.add(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
-        listSim.get(1).getRoomAwal().pasangObjek(3,1, 1);
+        listSim.get(1).getRoomAwal().pasangObjek(3,1, 0);
         listSim.add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
-        listSim.get(2).getRoomAwal().pasangObjek(10,3, 3);
+        listSim.get(2).getRoomAwal().pasangObjek(6,2, 3);
     }
 
     public void startGameThread() {

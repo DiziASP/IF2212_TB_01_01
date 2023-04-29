@@ -378,7 +378,7 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==5){
                     //lokasi buang
                     if (gp.getRoom().getMapRuangan()[pointer/6][pointer%6]!=-1){
-                        gp.getRoom().delObjek(pointer/6, pointer%6);
+                        gp.getRoom().delObjek(pointer%6, pointer/6);
                         gp.setSubState(0);
                     } else{
                         errorCaught = true;
@@ -386,7 +386,7 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==6){
                     //lokasi edit
                     if (gp.getRoom().getMapRuangan()[pointer/6][pointer%6]!=-1){
-                        in1 = gp.getRoom().delObjek(pointer/6, pointer%6);
+                        in1 = gp.getRoom().delObjek(pointer%6, pointer/6);
                         gp.setSubState(4);
                     } else {
                         errorCaught = true;
