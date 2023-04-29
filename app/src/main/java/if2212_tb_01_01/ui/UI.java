@@ -341,7 +341,7 @@ public class UI {
             g2.setColor(Constant.c3);
             g2.fillRect(0,0,Constant.screenWidth,Constant.screenHeight);
 
-            gp.getTileManager().draw(g2);
+            // gp.getTileManager().draw(g2);
             gp.getRoom().draw(g2);
             gp.getSim().draw(g2);
 
@@ -360,10 +360,6 @@ public class UI {
             g2.setColor(Constant.c6);
 
             drawSimInfo(g2, 9*Constant.tileSize +12, 2*Constant.tileSize, 5*Constant.tileSize, 9*Constant.tileSize, 13*Constant.tileSize, 20, s); 
-            String text = "Lokasi: " + "<4, 1>";
-            int x = 12 +Constant.tileSize;
-            int y = 8+ 8*Constant.tileSize;
-            g2.drawString(text, x, y);
 
 
             //aksi
