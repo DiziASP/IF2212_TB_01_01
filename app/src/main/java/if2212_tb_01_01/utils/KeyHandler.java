@@ -232,6 +232,7 @@ public class KeyHandler implements KeyListener {
                         case "keluar":
                             gp.setGs(7);
                         case "olahraga":
+                            gp.getSim().olahraga();
                             break;
                         case "tidur":
                             gp.getSim().tidur();
@@ -239,6 +240,7 @@ public class KeyHandler implements KeyListener {
                         case "buang air":
                             break;
                         case "masak":
+                            gp.getSim().memasak("NASI KARI");
                             break;
                         case "makan":
                             break;

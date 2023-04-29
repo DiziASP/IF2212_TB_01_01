@@ -25,7 +25,7 @@ public class House {
         this.kepemilikan = kepemilikan;
         totalHouse++;
         this.posisi = posisi;
-        this.ruanganAwal = new Room(gp, false, kepemilikan);
+        this.ruanganAwal = new Room(gp, true, kepemilikan);
 
         /* Add Satu ruanga */
         // daftarRuangan.add(new Room(gp, "Test",  true, this.kepemilikan));
