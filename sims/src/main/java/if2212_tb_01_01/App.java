@@ -56,11 +56,10 @@ public class App{
         boolean loadgame = false;
         boolean endedgame = false;
         boolean isCanAddSim = true;
+        boolean isBelomBerak = true;
+        boolean isBelomTidur = true;
         String command;
         World world = new World(64,64);
-        WorldClock worldClock = new WorldClock(world);
-        Thread clockThread = new Thread(worldClock);
-        clockThread.start();
         Integer indeksActiveSim = 0;
         System.out.println("Selamat datang di Sim-Plicity!");
         while(!startgame && !loadgame && !endedgame){
@@ -136,7 +135,9 @@ public class App{
                     System.out.println("Nama tidak valid!");
                 }
             }
-            // memulai thread counter waktu
+            WorldClock worldClock = new WorldClock(world);
+            Thread clockThread = new Thread(worldClock);
+            clockThread.start();
         }
 
         while(!endedgame){
@@ -488,7 +489,10 @@ public class App{
                                         System.out.println("Apakah Anda ingin buang air? (Y/N)");
                                         String pilihanBuangAir = scanner.nextLine().toUpperCase();
                                         if (pilihanBuangAir.equals("Y")){
-                                            world.getSim(indeksActiveSim).buangAir();
+                                            executorService.execute(() -> {
+                                                world.getSim(idx).buangAir();
+                                                worldClock.setWorld(world);
+                                            });
                                         }
                                     } else if(furnitur.getAksi().equals("MASAK")){
                                         System.out.println("Apakah Anda ingin memasak? (Y/N)");
@@ -502,19 +506,28 @@ public class App{
                                         System.out.println("Apakah Anda ingin makan? (Y/N)");
                                         String pilihanMakan = scanner.nextLine().toUpperCase();
                                         if (pilihanMakan.equals("Y")){
-                                            world.getSim(indeksActiveSim).makan();
+                                            executorService.execute(() -> {
+                                                world.getSim(idx).makan();
+                                                worldClock.setWorld(world);
+                                            });
                                         }
                                     } else if(furnitur.getAksi().equals("MELIHAT WAKTU")){
                                         System.out.println("Apakah Anda ingin melihat waktu? (Y/N)");
                                         String pilihanLihatWaktu = scanner.nextLine().toUpperCase();
                                         if (pilihanLihatWaktu.equals("Y")){
-                                            world.getSim(indeksActiveSim).melihatWaktu();
+                                            executorService.execute(() -> {
+                                                world.getSim(idx).melihatWaktu();
+                                                worldClock.setWorld(world);
+                                            });
                                         }
                                     } else if(furnitur.getAksi().equals("MELUKIS")){
                                         System.out.println("Apakah Anda ingin melukis? (Y/N)");
                                         String pilihanMelukis = scanner.nextLine().toUpperCase();
                                         if (pilihanMelukis.equals("Y")){
-                                            world.getSim(indeksActiveSim).melukis();
+                                            executorService.execute(() -> {
+                                                world.getSim(idx).tidur();
+                                                worldClock.setWorld(world);
+                                            });
                                         }
                                     } else if(furnitur.getAksi().equals("BERMAIN MUSIK")){
                                         System.out.println("Apakah Anda ingin bermain musik? (Y/N)");
@@ -558,6 +571,7 @@ public class App{
             
             //Menu nomor 12 (menu dajjal) <-- real
             else if (command.equals("ACTION")){
+                final int idx = indeksActiveSim;
                 System.out.println("\nBerikut adalah daftar aksi yang bisa kamu lakukan: ");
                 System.out.println("1. Kerja");
                 System.out.println("2. Olahraga");
@@ -569,15 +583,30 @@ public class App{
                 System.out.print("Pilih nomor aksi yang ingin dilakukan: ");
                 command = scanner.nextLine().toUpperCase();
                 if (command.equals("KERJA")){
-                    world.getSim(indeksActiveSim).kerja();
+                    executorService.execute(() -> {
+                        world.getSim(idx).kerja();
+                        worldClock.setWorld(world);
+                    });
                 } else if (command.equals("OLAHRAGA")){
-                    world.getSim(indeksActiveSim).olahraga();
+                    executorService.execute(() -> {
+                        world.getSim(idx).olahraga();
+                        worldClock.setWorld(world);
+                    });
                 } else if (command.equals("BERKUNJUNG")){
-                    world.getSim(indeksActiveSim).berkunjung();
+                    executorService.execute(() -> {
+                        world.getSim(idx).berkunjung();
+                        worldClock.setWorld(world);
+                    });
                 } else if (command.equals("YOGA")){
-                    world.getSim(indeksActiveSim).yoga();
+                    executorService.execute(() -> {
+                        world.getSim(idx).yoga();
+                        worldClock.setWorld(world);
+                    });
                 } else if (command.equals("BERDOA")){
-                    world.getSim(indeksActiveSim).berdoa();
+                    executorService.execute(() -> {
+                        world.getSim(idx).berdoa();
+                        worldClock.setWorld(world);
+                    });
                 } else if (command.equals("MELIHAT INVENTORY")){
                     world.getSim(indeksActiveSim).viewInventory();
                 } else if (command.equals("BELI BARANG")){
@@ -597,7 +626,10 @@ public class App{
                             System.out.println("Pilih furnitur yang ingin dibeli: ");
                         }
                         command = scanner.nextLine().toUpperCase();
-                        world.getSim(indeksActiveSim).beliBarang(command, kategori);
+                        executorService.execute(() -> {
+                            world.getSim(idx).beliBarang(command, kategori);
+                            worldClock.setWorld(world);
+                        });
                     }
                 } 
             } 

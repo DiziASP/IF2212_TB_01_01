@@ -389,11 +389,13 @@ public class Sim {
     }
     }
     //Actions of Sim
-    public void addToInventory() {
+    public void addToInventory(Objek objek, int n) {
+        this.inventory.addItem(objek, n);
         //Please provide the solution below
     }
 
-    public void removeFromInventory() {
+    public void removeFromInventory(Objek objek, int n) {
+        this.inventory.removeItem(objek, n);
         //Please provide the solution below
     }
 
