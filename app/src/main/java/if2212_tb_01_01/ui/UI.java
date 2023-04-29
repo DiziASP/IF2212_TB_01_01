@@ -366,7 +366,7 @@ public class UI {
 
 
             //aksi
-            drawSubWindow(g2, gp.getSubState);
+            drawSubWindow(g2, gp.getSubState());
 
         } else if (gp.getGs() == 7){
 
@@ -456,11 +456,12 @@ public class UI {
             g2.fillRect(Constant.tileSize*9, 24, Constant.tileSize*6, Constant.tileSize*8);
             g2.setColor(Constant.c2);
             g2.fillRect(Constant.tileSize*9 +12, 36, Constant.tileSize*6-24, Constant.tileSize*8-12);
+        String text; int x; int y;
 
         if (subState<=2 || subState==8){
             g2.setColor(Constant.c6);
             if(subState==8){
-                text = "Pilih pekerjaan barumu:"
+                text = "Pilih pekerjaan barumu:";
 
                 //error kalo sama //////////////////////////////////
             } else{
@@ -484,7 +485,7 @@ public class UI {
 
         } else if (subState==1){
             text = "Pilih opsi edit ruangan:";
-            pilihFurnitur(g2);
+            // pilihFurnitur(g2);
         } else if (subState==2){
             text = "Pilih furnitur untuk dipasang:";
         } else if (subState==3){
@@ -501,22 +502,22 @@ public class UI {
         } else if (subState==10){
             text = "Pilih menu untuk dimasak:";
         } else if (subState==11){
-            text = "Waktu sekarang:"
+            text = "Waktu sekarang:";
         // } else if (subState==12){
         //     text = ""
         } else if (subState==13){
-            text = "Masukkan durasi " + gp.setSim().gp.getOpsiAksi(kh.getArrowNum());
+            text = "Masukkan durasi " + gp.getOpsiAksi(kh.getArrowNum());
         } else if (subState==14){
             g2.setColor(new Color (0,0,0,200));
-            int x =3*Constant.tileSize+24;
-            int y = 3*Constant.tileSize;
-            g2.fillRoundRect(x,y,y,y);
+            x =3*Constant.tileSize+24;
+            y = 3*Constant.tileSize;
+            g2.fillRect(x,y,y,y);
     
             g2.setColor(Constant.c6);
-            String text = gp.getSim().getNamaLengkap() + " sedang " + gp.getOpsiAksi(kh.getArrowNum());
+            text = gp.getSim().getNamaLengkap() + " sedang " + gp.getOpsiAksi(kh.getArrowNum());
             g2.drawString(text, y/2 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+24);
         } else if (subState==15){
-            text = "Aksi berhasil dilakukan!"
+            text = "Aksi berhasil dilakukan!";
         } else if (subState==16){
         // } else if (subState==17){
         // } else if (subState==18){
@@ -528,7 +529,7 @@ public class UI {
 
     }
 
-    private void drawInventory(Graphics2D g2, text type, Inventory items){
+    private void drawInventory(Graphics2D g2, String type, Inventory items){
         g2.setColor(Constant.c1);
             g2.fillRect(Constant.tileSize, Constant.tileSize +24, Constant.tileSize*14, Constant.tileSize*9+24);
 
@@ -536,8 +537,8 @@ public class UI {
 
             for (int i = 0; i< 5; i++){
                 for (int j=0; j<5; j++){
-                    x = Constant.tileSize*7 + j*72;
-                    y = Constant.tileSize*2 + i*72;
+                    int x = Constant.tileSize*7 + j*72;
+                    int y = Constant.tileSize*2 + i*72;
 
                     if (items.isItemAda(i*5 + j)){
                         outlinedRect(g2, x, y, 72, 72, 3, 3, Constant.c1, Constant.c2);
@@ -568,6 +569,7 @@ public class UI {
                             g2.drawString(line, x2, y2 += 20);
                         }
 
+                        String text;
                         x2= Constant.tileSize*5;
                         y2= Constant.tileSize*10 -12;
 
@@ -601,7 +603,7 @@ public class UI {
                             }
                             y2-=8;
                             g2.setColor(Constant.c6);
-                            g2.drawString(line, x2+48, y2 + 30);
+                            g2.drawString(text, x2+48, y2 + 30);
                             
                         }
                     }        

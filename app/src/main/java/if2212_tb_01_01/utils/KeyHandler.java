@@ -287,7 +287,7 @@ public class KeyHandler implements KeyListener {
                         case "pindahkan barang":
                             gp.setSubState(6);
                         case "hapus barang":
-                            gp.setSubstate(5);
+                            gp.setSubState(5);
                             break;
                         case "kembali":
                             gp.setSubState(0);
@@ -395,8 +395,8 @@ public class KeyHandler implements KeyListener {
             } else if(enterPressed){
                 if (arrowNum==0){
                     if (pointer<20){
-                        gp.getSim().beliBarang(pointer);
-                    } else(){
+                        // gp.getSim().beliBarang(pointer);
+                    } else{
                         // kompor
                     }
                 } else {
@@ -451,7 +451,7 @@ public class KeyHandler implements KeyListener {
                 gp.setGs(6);
             } else if(enterPressed){
                 if (pointer<20){
-                    gp.getSim().beliBarang(pointer);
+                    // gp.getSim().beliBarang(pointer);
                 }
             }
         } else if (gp.getGs() == 12){   

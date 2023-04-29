@@ -138,8 +138,8 @@ public class Sim {
          this.inventory = new Inventory();
          this.rumah = rumah;
          //this.currentRuangan = rumah.getDaftarRuangan().get(0);
-         this.posisiRumah = posisiRumah;
-         this.posisiRuangan = posisiRuangan;
+         setPosisiRumah(posisiRumah);
+         this.currentRuangan = rumah.getRuanganAwal();
      }
 
 
@@ -345,16 +345,16 @@ public class Sim {
     }
 
     public void setPosisiRumah(Point posisiRumah){
-        this.posisiRumah = posisiRumah;
+        this.rumah.setPosisi(posisiRumah);
     }
 
-    public Point getPosisiRuangan(){
-        return posisiRuangan;
-    }
+    // public Point getPosisiRuangan(){
+    //     return posisiRuangan;
+    // }
 
-    public void setPosisiRuangan(Point posisiRuangan){
-        this.posisiRuangan = posisiRuangan;
-    }
+    // public void setPosisiRuangan(Point posisiRuangan){
+    //     this.posisiRuangan = posisiRuangan;
+    // }
 
     public boolean getIsDoAksiAktif(){
         return isDoAksiAktif;

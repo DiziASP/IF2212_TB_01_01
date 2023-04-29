@@ -21,17 +21,25 @@ public class House {
     // Constructor
     public House(GamePanel gp, Sim kepemilikan) {
         this.gp = gp;
-        this.daftarRuangan = new ArrayList<Room>(kapasitas);
+        // this.daftarRuangan = new ArrayList<Room>(kapasitas);
         this.kepemilikan = kepemilikan;
         totalHouse++;
 
         /* Add Satu ruanga */
-        daftarRuangan.add(new Room(gp, "Test",  true, this.kepemilikan));
+        // daftarRuangan.add(new Room(gp, "Test",  true, this.kepemilikan));
     }
 
     // Getter method for Posisi
     public Point getPosisi(){
         return posisi;
+    }
+
+    public void setPosisi(Point posisi){
+        this.posisi = posisi;
+    }
+
+    public Room getRuanganAwal(){
+        return ruanganAwal;
     }
 
     // Getter method for Kapasitas
@@ -40,9 +48,9 @@ public class House {
     }
 
     // Getter method for Daftar Ruangan
-    public List<Room> getDaftarRuangan() {
-        return daftarRuangan;
-    }
+    // public List<Room> getDaftarRuangan() {
+    //     return daftarRuangan;
+    // }
 
     // Getter method for kepemilikan
     public Sim getKepemilikan() {
