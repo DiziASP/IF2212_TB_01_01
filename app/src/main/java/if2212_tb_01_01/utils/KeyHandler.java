@@ -93,7 +93,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(2);
                         break;
                     case 2:
-                        // exit()
+                        System.exit(0);
                         break;
                 }
 
@@ -231,6 +231,7 @@ public class KeyHandler implements KeyListener {
                             break; 
                         case "keluar":
                             gp.setGs(7);
+                            break;
                         case "olahraga":
                             gp.getSim().olahraga();
                             break;
