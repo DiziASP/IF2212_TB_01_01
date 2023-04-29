@@ -109,6 +109,7 @@ public class Sim {
 
      // private Point posisi; yang butuh posisi kayanya rumah aja???
      private House rumah;
+     private House currentPosition;
      private Room currentRuangan;
 
 
@@ -165,6 +166,8 @@ public class Sim {
          this.status = new ArrayList<Aksi>();
          this.inventory = new Inventory();
          this.rumah = new House(gp, this, posisiRumah);
+         this.currentPosition = rumah;
+         this.currentRuangan = rumah.getRuanganAwal();
          //tes
          inventory.incItem(0);
         //  this.rumah = rumah;
@@ -527,6 +530,20 @@ public class Sim {
     public void setStatus(List<Aksi> status) {
         this.status = status;
     }
+
+    public Room getCurRoom(){
+        return currentRuangan;
+    }
+    public void setCurRoom(Room currentRuangan){
+        this.currentRuangan = currentRuangan;
+    }
+    public House getCurHouse(){
+        return currentPosition;
+    }
+    public void setCurHouse(House currentPosition){
+        this.currentPosition = currentPosition;
+    }
+
     // public void goToObject() {
     //     System.out.println("Pilih objek yang ingin dikunjungi: ");
     //     int i = 1;
@@ -673,6 +690,7 @@ public class Sim {
     public void yoga() {
         this.status.add(new Aksi(this, "Yoga", 1));
     }
+
 
     public void viewInfo(){
         System.out.println("Nama: "+ namaLengkap);

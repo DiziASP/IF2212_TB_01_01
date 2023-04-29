@@ -209,7 +209,7 @@ public class UI {
             g2.drawImage(img, x, y, Constant.tileSize*2, Constant.tileSize*2, null);
 
 
-            drawSimInfo(g2, 7*Constant.tileSize, 2*Constant.tileSize, 5*Constant.tileSize, 9*Constant.tileSize, 13*Constant.tileSize, Constant.tileSize, s);  
+            drawSimInfo(g2, 7*Constant.tileSize, 2*Constant.tileSize, 5*Constant.tileSize, 9*Constant.tileSize, 13*Constant.tileSize, 40, s);  
 
 
         } else if (gp.getGs() == 4){
@@ -325,7 +325,7 @@ public class UI {
             g2.drawImage(img, x, y, Constant.tileSize*2, Constant.tileSize*2, null);
 
 
-            drawSimInfo(g2, 6*Constant.tileSize, 2*Constant.tileSize, 5*Constant.tileSize, 9*Constant.tileSize, 13*Constant.tileSize, Constant.tileSize, s);
+            drawSimInfo(g2, 6*Constant.tileSize, 2*Constant.tileSize, 5*Constant.tileSize, 9*Constant.tileSize, 13*Constant.tileSize, 40, s);
 
             g2.setFont(f40);
             text = "> Klik ENTER untuk lanjut";
@@ -359,7 +359,7 @@ public class UI {
             g2.setFont(f20);
             g2.setColor(Constant.c6);
 
-            drawSimInfo(g2, 9*Constant.tileSize +18, 2*Constant.tileSize, 5*Constant.tileSize, 9*Constant.tileSize, 13*Constant.tileSize, 24, s); 
+            drawSimInfo(g2, 9*Constant.tileSize +12, 2*Constant.tileSize, 5*Constant.tileSize, 9*Constant.tileSize, 13*Constant.tileSize, 20, s); 
             String text = "Lokasi: " + "<4, 1>";
             int x = 12 +Constant.tileSize;
             int y = 8+ 8*Constant.tileSize;
@@ -702,12 +702,12 @@ public class UI {
         x = x2;
         g2.drawString(text,x,y);
 
-        text = "Uang      :";
+        text = "Gaji      :";
         x = x1;
-        y += space;
+        y+=space;
         g2.drawString(text,x,y);
 
-        text = String.valueOf(s.getUang());
+        text = String.valueOf(s.getPekerjaan().getGaji());
         x = x2;
         g2.drawString(text,x,y);
 
@@ -721,10 +721,27 @@ public class UI {
         x = x2;
         g2.drawString(text,x,y);
 
+        text = "Posisi    :";
+        x = x1;
+        y+=space;
+        g2.drawString(text, x, y);
+
+        text = s.getCurHouse().getPosisi().infoPoint();
+        x = x2;
+        g2.drawString(text, x, y);
+
+        text = "Uang        :";
+        x = x3;
+        y = y1;
+        g2.drawString(text,x,y);
+
+        text = String.valueOf(s.getUang());
+        x = x4;
+        g2.drawString(text,x,y);
 
         text = "Mood        :";
         x = x3;
-        y = y1;
+        y += space;
         g2.drawString(text,x,y);
 
         text = String.valueOf(s.getKesejahteraan().getMood());
