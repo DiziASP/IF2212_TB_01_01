@@ -166,20 +166,20 @@ public class Room {
         this.roomRight = roomRight;
     }
 
-    public void newRoomRight(Room new) {
-        new.setRoomLeft() = this;
-        this.roomRight = new;
+    public void newRoomRight(Room newRoom) {
+        newRoom.setRoomLeft() = this;
+        this.roomRight = newRoom;
     }
-    public void newRoomLeft(Room new) {
-        new.setRoomRight() = this;
-        this.roomLeft = new;
+    public void newRoomLeft(Room newRoom) {
+        newRoom.setRoomRight() = this;
+        this.roomLeft = newRoom;
     }
-    public void newRoomAbove(Room new) {
-        new.setRoomBelow() = this;
-        this.roomAbove = new;
+    public void newRoomAbove(Room newRoom) {
+        newRoom.setRoomBelow() = this;
+        this.roomAbove = newRoom;
     }
-    public void newRoomBelow(Room new) {
-        new.setRoomAbove() = this;
-        this.roomBelow = new;
+    public void newRoomBelow(Room newRoom) {
+        newRoom.setRoomAbove() = this;
+        this.roomBelow = newRoom;
     }
 }
