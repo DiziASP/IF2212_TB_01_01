@@ -64,6 +64,7 @@ public class WorldClock implements Runnable {
                 System.out.println(i + ". " + world.getSim(indeksSim).getAksi(i).getNama() + " <-- tersisa "
                         + world.getSim(indeksSim).getAksi(i).getMenitTersisa() + " menit");
             }
+            
         }
     }
 }

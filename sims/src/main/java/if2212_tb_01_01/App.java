@@ -166,7 +166,7 @@ public class App {
             // Menu nomor 5 (Harusnya udh aman sih tinggal thread waktunya aja)
             else if (command.equals("UPGRADE HOUSE")) {
                 final int idx = indeksActiveSim;
-                if (worldClock.getWorld().getSim(indeksActiveSim).getUang() < 1500) {
+                if (worldClock.getWorld().getSim(indeksActiveSim).getUang() < 1) {
                     System.out.println("Uang tidak cukup! Upgrade house gagal dilakukan");
                 } else {
                     Point posisiRumah = worldClock.getWorld().getSim(indeksActiveSim).getPosisiRumah();
