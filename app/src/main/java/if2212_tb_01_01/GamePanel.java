@@ -50,13 +50,14 @@ public class GamePanel extends JPanel implements Runnable {
     public final InteractionHandler interactionHandler = new InteractionHandler(this);
 
     private UI ui = new UI(this,keyHandler);
-    private Sim sim;;
+    private Sim sim;
     private ArrayList<Sim> listSim = new ArrayList<Sim>();
     private House house;
     public Room room;
     private World world = new World(this);
+    private int IndexActiveSim;
 
-    WorldClock worldClock = new WorldClock(this);
+    WorldClock worldClock = new WorldClock(this, world);
 
 
     public GamePanel() {
@@ -83,6 +84,14 @@ public class GamePanel extends JPanel implements Runnable {
         listSim.add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
         listSim.get(2).getRoomAwal().newRoomRight();
         listSim.get(2).getRoomAwal().pasangObjek(6,2, 3);
+
+        worldClock.getWorld().addSim(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
+        worldClock.getWorld().getSim(0).getRoomAwal().pasangObjek(4,0, 1);
+        worldClock.getWorld().addSim(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
+        worldClock.getWorld().getSim(1).getRoomAwal().pasangObjek(3,1, 0);
+        worldClock.getWorld().addSim(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
+        worldClock.getWorld().getSim(2).getRoomAwal().pasangObjek(6,2, 3);
+
     }
 
     public void startGameThread() {
@@ -93,6 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void startWorldClock(){
         Thread worldClockThread = new Thread(worldClock);
         worldClockThread.start();
+        
     }
 
     @Override
@@ -184,19 +194,32 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public Sim getSim(){
-        return sim;
+        return worldClock.getWorld().getSim(IndexActiveSim);
     }
 
     public void setSim(Sim sim){
         this.sim = sim;
     }
+    public int getIndexActiveSim(){
+        return IndexActiveSim;
+    }
+    public int setIndexActiveSim(int index){
+        return IndexActiveSim = index;
+    }
+
+    public WorldClock getWorldClock(){
+        return worldClock;
+    }
+    public void setWorldClock(WorldClock worldClock){
+        this.worldClock = worldClock;
+    }
 
     public ArrayList<Sim> getSimList(){
-        return listSim;
+        return worldClock.getWorld().getListSim();
     }
 
     public void addSimList(Sim sim){
-        listSim.add(sim);
+        worldClock.getWorld().addSim(sim);
     }
 
     public ArrayList<String> getOpsiAksi(){

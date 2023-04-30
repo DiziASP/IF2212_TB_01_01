@@ -23,6 +23,8 @@ import static if2212_tb_01_01.utils.Constant.*;
 import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.items.Item;
 import if2212_tb_01_01.utils.KeyHandler;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Sim {
     GamePanel gp;
@@ -35,30 +37,30 @@ public class Sim {
     public static class Aksi{
         private String nama;
         private Sim sim;
-        private int menitTersisa;
+        private int detikTersisa;
         private boolean isButuhObjek;
-        public Aksi(Sim sim, String nama, int jumlahWaktu){
+        public Aksi(Sim sim, String nama, int jumlahSeconds){
             this.sim = sim;
             this.nama = nama;
-            this.menitTersisa = jumlahWaktu;
+            this.detikTersisa = jumlahSeconds;
         }
         public Aksi(String nama, boolean isButuhObjek){
             this.nama = nama;
             this.isButuhObjek = isButuhObjek;
-            this.menitTersisa = -1;
+            this.detikTersisa = -1;
             this.sim = null;
         }
         public String getNama(){
             return nama;
         }
-        public int getMenitTersisa(){
-            return menitTersisa;
+        public int getDetikTersisa(){
+            return detikTersisa;
         }
-        public void setMenitTersisa(int menitTersisa){
-            this.menitTersisa = menitTersisa;
+        public void setDetikTersisa(int detikTersisa){
+            this.detikTersisa = detikTersisa;
         }
-        public void kurangiMenitTersisa(int menit){
-            this.menitTersisa -= menit;
+        public void decDetikTersisa(){
+            this.detikTersisa -= 1;
         }
         public static List<Aksi> getDaftarAksiAktif(){
             List<Aksi> listAksiAktif = new ArrayList<Aksi>();
@@ -107,6 +109,10 @@ public class Sim {
          Sim.world = world;
      }
      private boolean isDoAksiAktif;
+     private int waktuTidur=0;
+     private int waktuSudahKerja=0;
+     private boolean belumBerak=false;
+     private ExecutorService executorService;
      //private Point posisiRumah;
      //private Point posisiRuangan;
  
@@ -118,7 +124,7 @@ public class Sim {
 
 
      //gui
-     private BufferedImage[][] image = new BufferedImage[10][20];
+    private BufferedImage[][] image = new BufferedImage[10][20];
     private int spriteIndex;
     private int spriteState;
     private int spriteCounter = 0;
@@ -150,6 +156,7 @@ public class Sim {
          //this.currentRuangan = rumah.getDaftarRuangan().get(0);
          setPosisiRumah(posisiRumah);
          this.currentRuangan = rumah.getRuanganAwal();
+         executorService = Executors.newFixedThreadPool(10);
      }
 
 
@@ -187,6 +194,7 @@ public class Sim {
         //  this.currentRuangan = rumah.getDaftarRuangan().get(0);
         //  this.posisiRumah = posisiRumah;
         //  this.posisiRuangan = posisiRuangan;
+            executorService = Executors.newFixedThreadPool(10);
         
     }
 
@@ -377,29 +385,31 @@ public class Sim {
 
     public void beliItem(int idx){
         if (idx<20){
+            executorService.execute(() -> {
+            int indexStatus = this.status.size() -1;
             if (this.getInventory().getHarga(idx) <= getUang()){
-                int indexStatus = this.status.size() ;
+                this.substractUang(this.getInventory().getHarga(idx));
                 Random rand = new Random();
                 int waktubeli = ((rand.nextInt(6) + 1))%5 * 30;
                 this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
+                
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
                         seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                        System.out.println(waktu-seconds);
+                        this.getAksi(indexStatus).decDetikTersisa();
+                        System.out.println(waktubeli-seconds);
                     }
                     this.status.remove(indexStatus);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                inventory.incItem(12);
+                this.inventory.incItem(idx);
+                
             }
+        });
         } else {
             kh.setErrorCaught(true);
         }
@@ -423,6 +433,21 @@ public class Sim {
         return status.get(index);
     }
 
+    public int getWaktuTidur(){
+        return waktuTidur;
+    }
+    public void setWaktuTidur(int waktuTidur){
+        this.waktuTidur = waktuTidur;
+    }
+
+    public boolean isCanChangePekerjaan(){
+        return (waktuSudahKerja>=12);
+    }
+
+    public void substractUang(int uang){
+        this.uang -= uang;
+    }
+
     public Rectangle getInteractableArea(){
         return interactableArea;
     }
@@ -433,29 +458,6 @@ public class Sim {
 
     //aksi
 
-    // public void masak(String nama, List<Makanan> makanan){
-    //     boolean terpenuhi = true;
-    //     int i = 0;
-    //     while (terpenuhi && i<makanan.size()){
-    //         if(inventory.isObjekAda(makanan.get(i))){
-    //             i++;
-    //         }
-    //         else{
-    //             terpenuhi = false;
-    //         }
-    //     }
-    //     if(terpenuhi){
-    //         inventory.addItem(new Masakan(nama), 1);
-    //         for(Makanan x: makanan){
-    //             inventory.removeItem(x, 1);
-    //         }
-    //     }
-
-        // List<Makanan> bahanmakanan = Masakan.printGetResepMasakan(nama);
-        //mengecek apakah bahan yang diperlukan semuanya ada di inventory atau tidak.
-        //kalau tidak ada, akan mengeluarkan pesan "bahan yang diperlukan tidak terpenuhi"
-        // kalau ada, tanyakan dulu apakah yakin? setelah itu masukin ke inventory trus bahan masakan yang dipake tadi kurangin jumlahnya di dalam inventory
-    // }
 
     // public void viewLokasi(){
     //     System.out.println("SIM " + namaLengkap + " saat ini sedang berada di rumah dengan lokasi " + posisiRumah.toString() + " pada ruangan dengan lokasi" + posisiRuangan.toString());
@@ -469,59 +471,6 @@ public class Sim {
     //     inventory.displayInventory();
     // }
 
-    // public void beliBarang(String nama, String kategori){
-    //     boolean found = false;
-    //     int i = 0;
-    //     if(kategori.equals("MAKANAN")){
-    //         while(!found && i < Makanan.getListMakanan().size()){
-    //             if(Makanan.getListMakanan().get(i).getNama().equals(nama)){
-    //                 found = true;
-    //             }
-    //             else{
-    //                 i++;
-    //             }
-    //         }
-    //         if(found){
-    //             Integer hargaMakanan = Makanan.getListMakanan().get(i).getHarga();
-    //             if(this.uang >= hargaMakanan){
-    //                 uang -= hargaMakanan;
-    //                 inventory.addItem(new Makanan(nama), 1);
-    //                 System.out.println(nama+" berhasil dibeli!");
-    //             }
-    //             else{
-    //                 System.out.println("Uang tidak cukup");
-    //             }
-    //         }
-    //         else{
-    //             System.out.println("Input makanan tidak terdapat dalam list");
-    //         }
-    //     }
-    //     else if(kategori.equals("FURNITUR")){
-    //         while(!found && i < Furnitur.getListFurnitur().size()){
-    //             if(Furnitur.getListFurnitur().get(i).getNama().equals(nama)){
-    //                 found = true;
-    //             }
-    //             else{
-    //                 i++;
-    //             }
-    //         }
-    //         if(found){
-    //             Integer hargaFurnitur = Furnitur.getListFurnitur().get(i).getHarga();
-    //             if(this.uang >= hargaFurnitur){
-    //                 uang -= hargaFurnitur;
-    //                 inventory.addItem(new Furnitur(nama,new Point(-1,-1),false), 1);
-    //                 System.out.println(nama+" berhasil dibeli!");
-    //                 //harusnya dikirim barang dulu trus kalo dah sampe baru masuk inventory
-    //             }
-    //             else{
-    //                 System.out.println("Uang tidak cukup");
-    //             }
-    //         }
-    //         else{
-    //             System.out.println("Input furnitur tidak terdapat dalam list");
-    //         }    
-    //     }
-    // }
 
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
         this.namaLengkap = namaLengkap;
@@ -529,6 +478,7 @@ public class Sim {
         this.uang = 100;
         this.inventory = new Inventory();
         this.status = new ArrayList<Aksi>();
+
     }
 
     //Getter dan Setter
@@ -646,65 +596,104 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void kerja() {
+    public void kerja(int waktu) { // waktu harus kelipatan 120 detik
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+            this.status.add(new Aksi(this, "Kerja", fwaktu));
+            this.isDoAksiAktif = true;
+            int indexStatus = this.status.size() - 1;
+            try {
+                int seconds = 0;
+                for (int i = 0; i < fwaktu; i++) {
+                    Thread.sleep(1000);
+                    seconds++;
+                    this.waktuSudahKerja++;
+                    if (seconds % 120==0) {
+                        this.uang += 100;
+                    } if (seconds %30 ==0 ){
+                        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan()-10);
+                        this.kesejahteraan.setMood(this.kesejahteraan.getMood()-10);
+                    }
+                    this.status.get(indexStatus).decDetikTersisa();
+                    gp.setActionCounter(waktu-i);
+                    
+                }
+                this.status.remove(indexStatus);
+    
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Yey sudah kelar kerja");
+            this.isDoAksiAktif = false;
+        });
         //Please provide the solution below
     }
 
     public void olahraga(int waktu) {
         //Please provide the solution below
-        this.status.add(new Aksi(this, "Olahraga", 20));
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+            this.status.add(new Aksi(this, "Olahraga", fwaktu));
+            this.isDoAksiAktif = true;
+            int indexStatus = this.status.size() - 1;
+            try {
+                int seconds = 0;
+                for (int i = 0; i < fwaktu; i++) {
+                    Thread.sleep(1000);
+                    seconds++;
+                    if (seconds % 20 ==0){
+                        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+                        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5);
+                        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 5);
+                        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
+                    }
+                    this.status.get(indexStatus).decDetikTersisa();
+                    gp.setActionCounter(waktu-i);
+                    
+                }
+                this.status.remove(indexStatus);
+    
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Yey sudah selesai olahraga");
+
+            this.isDoAksiAktif = false;
+        });
+    }
+
+
+    public void tidur(int waktu) {
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+        this.status.add(new Aksi(this, "Tidur", fwaktu));
         this.isDoAksiAktif = true;
         int indexStatus = this.status.size() - 1;
         try {
-            // int waktu = 20;
             int seconds = 0;
-            for (int i = 0; i < waktu; i++) {
-                Thread.sleep(1000);
+            for (int i = 0; i < fwaktu; i++) {
+                Thread.sleep(1000); // tunggu 1 detik
                 seconds++;
-                if (seconds >= 60) {
-                    seconds = 0;
-                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                    gp.setActionCounter(waktu-i);
+                this.getAksi(indexStatus).decDetikTersisa();
+                this.waktuTidur++;
+                if (seconds % 120==0){
+                    this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
+                    this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
                 }
             }
             this.status.remove(indexStatus);
+            this.isDoAksiAktif = false;
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Yey sudah selesai olahraga");
-        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10*waktu/20);
-        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5*waktu/20);
-        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 5*waktu/20);
-        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5*waktu/20);
-        this.isDoAksiAktif = false;
+        System.out.println("Selamat bangun tidur!");
+        });
     }
 
-    public void tidur() {
-        //Please provide the solution below
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Masukkan waktu tidur (Kelipatan 4) dalam menit: ");
-        int waktuTidur = scanner.nextInt();
-        while (waktuTidur % 4 != 0) {
-            System.out.println("Masukkan waktu tidur (Kelipatan 4) dalam menit: ");
-            waktuTidur = scanner.nextInt();
-        }
-        final int waktu = waktuTidur*60;
-        this.status.add(new Aksi(this, "Tidur", waktuTidur));
-        int indexStatus = this.status.size() - 1;
-        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
-        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
-        this.isDoAksiAktif = true;
-        //ActionThread thread = new ActionThread(indexStatus,this,waktu);
-        //thread.start(); // memulai thread
+    // public void memasak(int idx, int waktu){
 
-
-        // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt haduh gmn y
-    }
-
-    public void makan() {
-
-    }
+    // }
 
     public void memasak(String nama) {
         if (nama.equals("BISTIK")) {
@@ -720,10 +709,7 @@ public class Sim {
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
                         seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
+                            this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -735,9 +721,7 @@ public class Sim {
                 this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
                 inventory.incItem(24);
                 this.isDoAksiAktif = false;
-            } else {
-                System.out.println("Bahan tidak tersedia.");
-            }
+            } 
         }
         else if (nama.equals("NASI AYAM")) {
             if (inventory.isItemAda(16) && inventory.isItemAda(12)) {
@@ -752,10 +736,7 @@ public class Sim {
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
                         seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
+                            this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -784,10 +765,7 @@ public class Sim {
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
                         seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
+                        this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -816,10 +794,7 @@ public class Sim {
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
                         seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
+                        this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -848,10 +823,7 @@ public class Sim {
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
                         seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
+                        this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -900,631 +872,6 @@ public class Sim {
 
     }
 
-    public void beliBarang(String nama) {
-        //Please provide the solution below
-        if (nama.equals("AYAM")) {
-            BH_Ayam ayam = new BH_Ayam();
-            Integer harga = ayam.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(ayam.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(12);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("BAYAM")) {
-            BH_Bayam bayam = new BH_Bayam();
-            Integer harga = bayam.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(bayam.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(13);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("KACANG")) {
-            BH_Kacang kacang = new BH_Kacang();
-            Integer harga = kacang.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(kacang.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(14);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("KENTANG")) {
-            BH_Kentang kentang = new BH_Kentang();
-            Integer harga = kentang.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(kentang.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(15);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("NASI")) {
-            BH_Nasi nasi =new BH_Nasi();
-            Integer harga = nasi.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(nasi.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(16);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("SAPI")) {
-            BH_Sapi sapi = new BH_Sapi();
-            Integer harga = sapi.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(sapi.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(17);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("SUSU")) {
-            BH_Susu susu = new BH_Susu();
-            Integer harga = susu.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(susu.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(18);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("WORTEL")) {
-            BH_Wortel wortel = new BH_Wortel();
-            Integer harga = wortel.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(wortel.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(19);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("JAM")) {
-            Jam jam = new Jam();
-            Integer harga = jam.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(jam.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(0);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("KASUR KING SIZE")) {
-            KasurKingSize king = new KasurKingSize();
-            Integer harga = king.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(king.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(1);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("KASUR QUEEN SIZE")) {
-            KasurQueenSize queen = new KasurQueenSize();
-            Integer harga = queen.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(queen.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(2);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("KASUR SINGLE")) {
-            KasurSingle single = new KasurSingle();
-            Integer harga = single.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(single.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(3);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("KOMPOR GAS")) {
-            KomporGas kompgas = new KomporGas();
-            Integer harga = kompgas.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(kompgas.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(4);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("KOMPOR LISTRIK")) {
-            KomporListrik komplistrik = new KomporListrik();
-            Integer harga = komplistrik.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(komplistrik.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(5);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("MEJA DAN KURSI")) {
-            MejaKursi mk = new MejaKursi();
-            Integer harga = mk.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(mk.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(6);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("PC")) {
-            PC pc = new PC();
-            Integer harga = pc.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(pc.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(7);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("PIANO")) {
-            Piano piano = new Piano();
-            Integer harga = piano.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(piano.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(8);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("PINTU")) {
-            Pintu pintu = new Pintu();
-            Integer harga = pintu.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(pintu.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(9);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("TOILET")) {
-            Toilet toilet = new Toilet();
-            Integer harga = toilet.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(toilet.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang", (int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(10);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        }
-        else if (nama.equals("BAK MANDI")) {
-            BakMandi bakmandi = new BakMandi();
-            Integer harga = bakmandi.getHarga();
-            if (this.uang >= harga) {
-                System.out.println(bakmandi.getNama() + " berhasil dibeli");
-                int indexStatus = this.status.size() - 1;
-                Random rand = new Random();
-                int waktubeli = (rand.nextInt(6) + 1) * 30;
-                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                        }
-                    }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(11);
-            } else {
-                System.out.println("Uang tidak cukup");
-            }
-        } else {
-            System.out.println("Barang tidak dapat dibeli");
-        }
-    }
 
     public void berpindahRuangan(Room tujuanruangan) {
         // Harus diubah2 lagi sih
@@ -1549,32 +896,49 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void yoga() {
-        this.status.add(new Aksi(this, "Yoga", 1));
+    public void yoga(int waktu) {
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+            this.status.add(new Aksi(this, "Yoga", fwaktu));
+            this.isDoAksiAktif = true;
+            int indexStatus = this.status.size() - 1;
+            System.out.println("Yoga dimulai, silahkan tunggu 10 detik!");
+            try {
+                int seconds = 0;
+                for (int i = 0; i < fwaktu; i++) {
+                    Thread.sleep(1000);
+                    seconds++;
+                    this.getAksi(indexStatus).decDetikTersisa();
+                    
+                }
+                this.status.remove(indexStatus);
+    
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Yeah kelar yoga!");
+            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10*(fwaktu/60)/4);
+            this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 10*(fwaktu/60)/4);
+            this.isDoAksiAktif = false;
+        });
+
     }
 
-    public void berdoa(){
-
-    }
-
-    public void mandi(){
-
-    }
-
-    public void melukis(){
-        this.status.add(new Aksi(this, "Melukis", 2*60));
+    public void berdoa(int waktu){
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+        this.status.add(new Aksi(this, "Berdoa", fwaktu));
         this.isDoAksiAktif = true;
         int indexStatus = this.status.size() - 1;
-        System.out.println("Mozart sedang beraksi?");
+        System.out.println("Berdoa dimulai!");
         try {
-            int waktu = 2*60;
             int seconds = 0;
-            for (int i = 0; i < waktu; i++) {
+            for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
                 if (seconds >= 60) {
                     seconds = 0;
-                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                    this.getAksi(indexStatus).decDetikTersisa();
                 }
             }
             this.status.remove(indexStatus);
@@ -1582,26 +946,26 @@ public class Sim {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Kren bngt banh lukisannya :<");
-        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
-        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        System.out.println("Semoga doa mu terkabul!");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
         this.isDoAksiAktif = false;
+        });
     }
-
-    public void bermainMusik(){
-        this.status.add(new Aksi(this, "Main musik", 2*60));
+    public void membersihkanRumah(int waktu) {
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+        this.status.add(new Aksi(this, "Membersihkan rumah", fwaktu));
         this.isDoAksiAktif = true;
         int indexStatus = this.status.size() - 1;
         System.out.println("Yippi main musik");
         try {
-            int waktu = 2*60;
             int seconds = 0;
-            for (int i = 0; i < waktu; i++) {
+            for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
                 if (seconds >= 60) {
                     seconds = 0;
-                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                    this.getAksi(indexStatus).decDetikTersisa();
                 }
             }
             this.status.remove(indexStatus);
@@ -1613,6 +977,86 @@ public class Sim {
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
         this.isDoAksiAktif = false;
+    });
+    }
+    public void mandi(int waktu){
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+        this.status.add(new Aksi(this, "Mandi", fwaktu));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Mandi dimulai!");
+        try {
+            int seconds = 0;
+            for (int i = 0; i < fwaktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                this.getAksi(indexStatus).decDetikTersisa();
+            }
+            this.status.remove(indexStatus);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Wangi bgt lu ngab!");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 10);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() + 40);
+        this.isDoAksiAktif = false;
+    });
+    }
+
+    public void melukis(int waktu){
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+        this.status.add(new Aksi(this, "Melukis", fwaktu));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Mozart sedang beraksi?");
+        try {
+            int seconds = 0;
+            for (int i = 0; i < fwaktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                this.getAksi(indexStatus).decDetikTersisa();
+                
+            }
+            this.status.remove(indexStatus);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Kren bngt banh lukisannya :<");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        this.isDoAksiAktif = false;
+        });
+    }
+
+    public void bermainMusik(int waktu){
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+        this.status.add(new Aksi(this, "Main musik", fwaktu));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Yippi main musik");
+        try {
+            int seconds = 0;
+            for (int i = 0; i < fwaktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                this.getAksi(indexStatus).decDetikTersisa();
+            }
+            this.status.remove(indexStatus);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Jago banget main musiknya kak :<");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
+        this.isDoAksiAktif = false;
+    });
     }
 
     public void viewInfo(){
@@ -1623,26 +1067,19 @@ public class Sim {
         System.out.println("Mood: "+kesejahteraan.getMood());
         System.out.println("Uang: "+ uang+"\n");
     }
-    // public void viewCurrentLocation(){
-    //     System.out.println("Rumah: "+ rumah.getPosisi().getX()+","+rumah.getPosisi().getY());
-    //     System.out.println("Ruangan: "+ this.currentRuangan.getNama()+" di koordinat "+this.posisiRuangan.getX()+","+this.posisiRuangan.getY());
-    // }
 
-    public void proyekan() {
-        this.status.add(new Aksi(this, "proyekan", 180));
-        int waktuproyekan = 180;
+    public void proyekan(int waktu) {
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+        this.status.add(new Aksi(this, "proyekan", fwaktu));
         int indexStatus = this.status.size() - 1;
         this.isDoAksiAktif = true;
         try {
-            int waktu = waktuproyekan;
             int seconds = 0;
-            for (int i = 0; i < waktu; i++) {
+            for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
-                if (seconds >= 60) {
-                    seconds = 0;
-                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                }
+                this.getAksi(indexStatus).decDetikTersisa();
             }
             this.status.remove(indexStatus);
         } catch (InterruptedException e) {
@@ -1651,7 +1088,9 @@ public class Sim {
         this.isDoAksiAktif = false;
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() - 5);
         setUang(getUang() + 100);
-    }
+    });
+
+}
 }
 
 
