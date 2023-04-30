@@ -86,6 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void startWorldClock(){
         Thread worldClockThread = new Thread(worldClock);
         worldClockThread.start();
+        
     }
 
     @Override

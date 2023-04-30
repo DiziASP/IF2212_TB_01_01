@@ -23,6 +23,8 @@ import static if2212_tb_01_01.utils.Constant.*;
 import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.items.Item;
 import if2212_tb_01_01.utils.KeyHandler;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Sim {
     GamePanel gp;
@@ -107,6 +109,7 @@ public class Sim {
          Sim.world = world;
      }
      private boolean isDoAksiAktif;
+     private ExecutorService executorService;
      //private Point posisiRumah;
      //private Point posisiRuangan;
  
@@ -150,6 +153,7 @@ public class Sim {
          //this.currentRuangan = rumah.getDaftarRuangan().get(0);
          setPosisiRumah(posisiRumah);
          this.currentRuangan = rumah.getRuanganAwal();
+         executorService = Executors.newFixedThreadPool(10);
      }
 
 
@@ -187,6 +191,7 @@ public class Sim {
         //  this.currentRuangan = rumah.getDaftarRuangan().get(0);
         //  this.posisiRumah = posisiRumah;
         //  this.posisiRuangan = posisiRuangan;
+            executorService = Executors.newFixedThreadPool(10);
         
     }
 
@@ -375,11 +380,14 @@ public class Sim {
 
     public void beliItem(int idx){
         if (idx<20){
+            executorService.execute(() -> {
+            int indexStatus = this.status.size() -1;
             if (this.getInventory().getHarga(idx) <= getUang()){
-                int indexStatus = this.status.size() ;
+                this.substractUang(this.getInventory().getHarga(idx));
                 Random rand = new Random();
                 int waktubeli = ((rand.nextInt(6) + 1))%5 * 30;
                 this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
+                
                 try {
                     int waktu = waktubeli;
                     int seconds = 0;
@@ -396,8 +404,9 @@ public class Sim {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                inventory.incItem(12);
+                this.inventory.incItem(idx);
             }
+        });
         } else {
             kh.setErrorCaught(true);
         }
@@ -419,6 +428,10 @@ public class Sim {
     }
     public Aksi getAksi(int index){
         return status.get(index);
+    }
+
+    public void substractUang(int uang){
+        this.uang -= uang;
     }
 
     public Rectangle getInteractableArea(){
@@ -527,6 +540,7 @@ public class Sim {
         this.uang = 100;
         this.inventory = new Inventory();
         this.status = new ArrayList<Aksi>();
+
     }
 
     //Getter dan Setter
@@ -908,24 +922,26 @@ public class Sim {
                 Random rand = new Random();
                 int waktubeli = (rand.nextInt(6) + 1) * 30;
                 this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        if (seconds >= 60) {
-                            seconds = 0;
-                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                executorService.execute(() -> {
+                    try {
+                        int waktu = waktubeli;
+                        int seconds = 0;
+                        for (int i = 0; i < waktu; i++) {
+                            Thread.sleep(1000);
+                            seconds++;
+                            if (seconds >= 60) {
+                                seconds = 0;
+                                this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                            }
                         }
+                        this.status.remove(indexStatus);
+    
+    
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                    this.status.remove(indexStatus);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                inventory.incItem(12);
+                    inventory.incItem(12);
+                });
             } else {
                 System.out.println("Uang tidak cukup");
             }
@@ -1649,6 +1665,7 @@ public class Sim {
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() - 5);
         setUang(getUang() + 100);
     }
+
 }
 
 
