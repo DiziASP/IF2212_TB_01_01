@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
         // 11-tampilkan waktu
         // 12-tambah ruang, 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
 
-    // TileManager tm;
+    TileManager tm;
 
     ArrayList<String> opsiAksi = new ArrayList<String>();
 
@@ -188,12 +188,12 @@ public class GamePanel extends JPanel implements Runnable {
         opsiAksi.add(0, aksi);
     }
 
-    // public TileManager getTileManager(){
-    //     return tm;
-    // }
-    // public void setTileManager(TileManager tm){
-    //     this.tm = tm;
-    // }
+    public TileManager getTileManager(){
+        return tm;
+    }
+    public void setTileManager(TileManager tm){
+        this.tm = tm;
+    }
 
     public void updateOpsiAksi(){
         opsiAksi.clear();
@@ -223,7 +223,6 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("pindahkan barang"); 
             addOpsiAksi("tambahkan barang");
         } else if (subState==8){
-            addOpsiAksi("kembali");
             addOpsiAksi("badut sulap");
             addOpsiAksi("koki");
             addOpsiAksi("polisi");

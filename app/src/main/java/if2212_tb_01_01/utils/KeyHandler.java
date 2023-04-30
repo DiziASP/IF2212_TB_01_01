@@ -94,7 +94,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(2);
                         break;
                     case 2:
-                        // exit()
+                        System.exit(0);
                         break;
                 }
 
@@ -268,7 +268,9 @@ public class KeyHandler implements KeyListener {
                             break; 
                         case "keluar":
                             gp.setGs(7);
+                            break;
                         case "olahraga":
+                            gp.getSim().olahraga();
                             break;
                         case "tidur":
                             gp.getSim().tidur();
@@ -276,6 +278,7 @@ public class KeyHandler implements KeyListener {
                         case "buang air":
                             break;
                         case "masak":
+                            gp.getSim().memasak("NASI KARI");
                             break;
                         case "makan":
                             break;
@@ -286,8 +289,10 @@ public class KeyHandler implements KeyListener {
                         case "berdoa":
                             break;
                         case "gambar":
+                            gp.getSim().melukis();
                             break;
                         case "main musik":
+                            gp.getSim().bermainMusik();
                             break;
                         case "mandi":
                             break;
@@ -557,7 +562,7 @@ public class KeyHandler implements KeyListener {
                 gp.setGs(6);
             } else if(enterPressed){
                 if (pointer<20){
-                    // gp.getSim().beliBarang(pointer);
+                     gp.getSim().beliBarang(gp.getSim().getInventory().getInventory().get(pointer).getNama());
                 }
             }
         } else if (gp.getGs() == 12){   
