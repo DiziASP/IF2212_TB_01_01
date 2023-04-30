@@ -6,6 +6,7 @@ import java.util.List;
 
 import static if2212_tb_01_01.utils.Constant.*;
 import if2212_tb_01_01.GamePanel;
+import if2212_tb_01_01.assets.AssetManager;
 import if2212_tb_01_01.assets.tiles.TileManager;
 import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.items.Inventory;
@@ -13,6 +14,7 @@ import if2212_tb_01_01.items.Item;
 import if2212_tb_01_01.items.furnitur.Furnitur;
 import if2212_tb_01_01.items.furnitur.Jam;
 import if2212_tb_01_01.items.furnitur.KasurQueenSize;
+import if2212_tb_01_01.utils.Constant;
 
 public class Room {
     GamePanel gp;
@@ -92,6 +94,24 @@ public class Room {
         this.isBuilded = isBuilded;
         this.inventory = sim.getInventory();
 
+        for (int i=0; i<6; i++){
+            for (int j=0; j<6; j++){
+                mapRuangan[i][j] = -1;
+            }
+        }
+    }
+
+    public Room(GamePanel gp, boolean isBuilded) {
+        this.gp = gp;
+        // this.roomName = roomName;
+
+        totalRuangan++;
+        this.roomIndex = totalRuangan;
+
+        this.tm = new TileManager(gp, roomIndex);
+        /* Initialize Room Attributes */
+        daftarObjek = new ArrayList<ItemTracker>(kapasitas);
+        this.isBuilded = isBuilded; 
 
         for (int i=0; i<6; i++){
             for (int j=0; j<6; j++){
@@ -167,6 +187,20 @@ public class Room {
          for(ItemTracker item : daftarObjek) {
              item.getF().draw(g, item.getX() + 1, item.getY() + 1);
          }
+         AssetManager am = new AssetManager(gp);
+         Image img =  am.setup("/images/furnitur/pintu", Constant.tileSize, Constant.tileSize);
+         if (this.roomAbove!=null){
+            g.drawImage(img, 9*Constant.tileSize/2, Constant.tileSize/2, Constant.tileSize, Constant.tileSize, null);
+         }
+         if (this.roomBelow!=null){
+            g.drawImage(img, 9*Constant.tileSize/2, Constant.tileSize*15/2, Constant.tileSize, Constant.tileSize, null);
+         }
+         if (this.roomLeft!=null){
+            g.drawImage(img, Constant.tileSize, 4*Constant.tileSize, Constant.tileSize, Constant.tileSize, null);
+         }
+         if (this.roomRight!=null){
+            g.drawImage(img, Constant.tileSize*8, 4*Constant.tileSize, Constant.tileSize, Constant.tileSize, null);
+         }
 
     }
 
@@ -231,7 +265,11 @@ public class Room {
         return roomBelow;
     }
 
-    public void setRoomBelow(Room roomBelow) {
+
+    public void newRoomBelow() {
+        Room roomBelow = new Room(gp, false);
+        roomBelow.setInventory(this.inventory);
+        roomBelow.roomAbove = this;
         this.roomBelow = roomBelow;
     }
 
@@ -239,15 +277,25 @@ public class Room {
         return roomAbove;
     }
 
-    public void setRoomAbove(Room roomAbove) {
+    public void newRoomAbove() {
+        Room roomAbove = new Room(gp, false);
+        roomAbove.setInventory(this.inventory);
+        roomAbove.roomBelow = this;
         this.roomAbove = roomAbove;
+    }
+
+    public void setInventory(Inventory inventory){
+        this.inventory = inventory;
     }
 
     public Room getRoomLeft() {
         return roomLeft;
     }
 
-    public void setRoomLeft(Room roomLeft) {
+    public void newRoomLeft() {
+        Room roomLeft = new Room(gp, false);
+        roomLeft.setInventory(this.inventory);
+        roomLeft.roomRight = this;
         this.roomLeft = roomLeft;
     }
 
@@ -255,24 +303,10 @@ public class Room {
         return roomRight;
     }
 
-    public void setRoomRight(Room roomRight) {
+    public void newRoomRight() {
+        Room roomRight = new Room(gp, false);
+        roomRight.setInventory(this.inventory);
+        roomRight.roomLeft = this;
         this.roomRight = roomRight;
-    }
-
-    public void newRoomRight(Room newRoom) {
-        this.roomRight = newRoom;
-        newRoom.setRoomLeft(this);
-    }
-    public void newRoomLeft(Room newRoom) {
-        newRoom.setRoomRight(this);
-        this.roomLeft = newRoom;
-    }
-    public void newRoomAbove(Room newRoom) {
-        newRoom.setRoomBelow(this);
-        this.roomAbove = newRoom;
-    }
-    public void newRoomBelow(Room newRoom) {
-        newRoom.setRoomAbove(this);
-        this.roomBelow = newRoom;
     }
 }

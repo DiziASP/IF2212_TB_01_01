@@ -24,16 +24,39 @@ public class InteractionHandler {
         int roomX = (width - tileSize * 14) / 2;
         int roomY = (height - tileSize * 11) / 2;
 
-        int worldColumn = (sim.getInteractableArea().x - roomX) / tileSize;
-        int worldRow = (sim.getInteractableArea().y - roomY) / tileSize;
+        int worldColumn = (sim.getInteractableArea().x+24 - roomX) / tileSize;
+        int worldRow = (sim.getInteractableArea().y+24 - roomY) / tileSize;
 
-        if (worldColumn <= 0 || worldColumn >= 6 || worldRow <= 0 || worldRow >= 6) {
+        if (worldColumn <= 0 && worldRow>2 && worldRow<5){
             System.out.println("Out of bound");
+            if (gp.room.getRoomLeft()!=null){
+                return -5;
+            }
             return -1;
-        } else if (gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
+        } else if (worldRow<=0 && worldColumn>2 && worldColumn<5){
+            System.out.println("Out of bound");
+            if (gp.room.getRoomAbove()!=null){
+                return -4;
+            }
+            return -1;
+        } else if (worldColumn >= 6 && worldRow>2 && worldRow<5){
+            System.out.println("Out of bound");
+            if (gp.room.getRoomRight()!=null){
+                return -3;
+            }
+            return -1;
+        } else if (worldRow>=6 && worldColumn>2 && worldColumn<5){
+            System.out.println("Out of bound");
+            if (gp.room.getRoomBelow()!=null){
+                return -2;
+            }
+            return -1;
+        } else if (worldRow<=0 || worldRow >=6 || worldColumn <=0 || worldColumn >=6){
+            return -1;
+        }   else if (gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
             Integer collidingFurnitur = gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1];
             if (collidingFurnitur != -1) {
-                        interactableObj = collidingFurnitur;
+                interactableObj = collidingFurnitur;
             }
             return interactableObj;
         }
