@@ -693,8 +693,8 @@ public class Sim {
 
     // }
 
-    public void memasak(String nama) {
-        if (nama.equals("BISTIK")) {
+    public void memasak(int idx) {
+        if (idx==24) {
             if (inventory.isItemAda(15) && inventory.isItemAda(17)) {
                 Bistik bistik = new Bistik();
                 int waktumasak = (int) (bistik.getKekenyangan() * 1.5);
@@ -703,11 +703,9 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
-                            this.getAksi(indexStatus).decDetikTersisa();
+                        this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -721,7 +719,7 @@ public class Sim {
                 this.isDoAksiAktif = false;
             } 
         }
-        else if (nama.equals("NASI AYAM")) {
+        else if (idx==20) {
             if (inventory.isItemAda(16) && inventory.isItemAda(12)) {
                 NasiAyam nasiayam = new NasiAyam();
                 int waktumasak = (int) (nasiayam.getKekenyangan() * 1.5);
@@ -730,11 +728,9 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
-                            this.getAksi(indexStatus).decDetikTersisa();
+                        this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -750,7 +746,7 @@ public class Sim {
                 System.out.println("Bahan tidak tersedia.");
             }
         }
-        else if (nama.equals("NASI KARI")) {
+        else if (idx==21) {
             if (inventory.isItemAda(15) && inventory.isItemAda(17) && inventory.isItemAda(16) && inventory.isItemAda(19)) {
                 NasiKari nasikari = new NasiKari();
                 int waktumasak = (int) (nasikari.getKekenyangan() * 1.5);
@@ -759,10 +755,8 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
                         this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
@@ -779,7 +773,7 @@ public class Sim {
                 System.out.println("Bahan tidak tersedia.");
             }
         }
-        else if (nama.equals("SUSU KACANG")) {
+        else if (idx==22) {
             if (inventory.isItemAda(14) && inventory.isItemAda(18)) {
                 SusuKacang susukacang = new SusuKacang();
                 int waktumasak = (int) (susukacang.getKekenyangan() * 1.5);
@@ -788,10 +782,8 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
                         this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
@@ -808,7 +800,7 @@ public class Sim {
                 System.out.println("Bahan tidak tersedia.");
             }
         }
-        else if (nama.equals("TUMIS SAYUR")) {
+        else if (idx==23) {
             if (inventory.isItemAda(13) && inventory.isItemAda(19)) {
                 TumisSayur tumisSayur = new TumisSayur();
                 int waktumasak = (int) (tumisSayur.getKekenyangan() * 1.5);
@@ -817,10 +809,8 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
                         this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
