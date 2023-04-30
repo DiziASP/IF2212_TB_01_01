@@ -61,10 +61,10 @@ public class WorldClock implements Runnable {
         } else {
             System.out.println("Mari kita lihat progres aksi yang kamu lakukan!");
             for (int i = 1; i <= jumlahAksi; i++) {
-                System.out.println(i + ". " + world.getSim(indeksSim).getAksi(i).getNama() + " <-- tersisa "
-                        + world.getSim(indeksSim).getAksi(i).getMenitTersisa() + " menit");
+                System.out.println(i + ". " + world.getSim(indeksSim).getAksi(i-1).getNama() + " <-- tersisa "
+                        + world.getSim(indeksSim).getAksi(i-1).getMenitTersisa() + " menit");
             }
-            
+             
         }
     }
 }

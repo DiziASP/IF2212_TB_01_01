@@ -14,8 +14,6 @@ public class Ruangan {
     private boolean isBuilded;
     private static Integer kapasitas = 36;
     private String[][] mapRuangan = new String[6][6];
-    private int tempatKosong = 36;
-
     public Ruangan(String nama, Point posisi, boolean isBuilded) {
         this.nama = nama;
         this.posisi = posisi;
@@ -65,7 +63,7 @@ public class Ruangan {
             if (k == 6 - 1) {
                 System.out.println("x");
             }
-        }
+        } 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 if (mapRuangan[i][j].equals("")) {

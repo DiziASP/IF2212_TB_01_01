@@ -10,7 +10,7 @@ import if2212_tb_01_01.occupation.*;
 
 /**
  * Class of Sim Object
- * 
+ *  
  */
 public class Sim {
 
