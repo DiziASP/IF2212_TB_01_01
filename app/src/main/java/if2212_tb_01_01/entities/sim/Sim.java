@@ -438,6 +438,10 @@ public class Sim {
         this.waktuTidur = waktuTidur;
     }
 
+    public boolean isCanChangePekerjaan(){
+        return (waktuSudahKerja>=12);
+    }
+
     public void substractUang(int uang){
         this.uang -= uang;
     }
