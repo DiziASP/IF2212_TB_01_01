@@ -78,6 +78,8 @@ public class Inventory {
         if (inventory.get(i) instanceof Furnitur){
             Furnitur in = (Furnitur) inventory.get(i);
             in.decAmountPut();
+        } else {
+            inventory.get(i).decAmount();
         }
     }
     public void incItemPut(Integer i){
