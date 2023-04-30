@@ -335,79 +335,74 @@ public class Sim {
         }
     }
 
-    public void goToObject(Furnitur objek) {
-        this.posisiObjek = objek.getPosisi();
-        System.out.println(this.getNamaLengkap() + " berhasil pindah ke objek " + objek.getNama());
-        Scanner scanner = new Scanner(System.in);
-        if (objek.getKategori().equals("peralatan")) {
-            Furnitur furnitur = (Furnitur) objek;
-            if (furnitur.getAksi().equals("TIDUR")) {
-                System.out.println("Apakah Anda ingin tidur? (Y/N)");
-                String pilihanTidur = scanner.nextLine().toUpperCase();
-                if (pilihanTidur.equals("Y")) {
-                    this.tidur();
-                }
-            } else if (furnitur.getAksi().equals("BUANG AIR")) {
-                System.out.println("Apakah Anda ingin buang air? (Y/N)");
-                String pilihanBuangAir = scanner.nextLine().toUpperCase();
-                if (pilihanBuangAir.equals("Y")) {
-                    this.buangAir();
-                }
-            } else if (furnitur.getAksi().equals("MASAK")) {
-                System.out.println("Apakah Anda ingin memasak? (Y/N)");
-                String pilihanMasak = scanner.nextLine().toUpperCase();
-                if (pilihanMasak.equals("Y")) {
-                    System.out.println("Masukkan nama masakan yang ingin dibuat: ");
-                    // String namaMasakan = scanner.next();
-                    // this.masak();
-                }
-            } else if (furnitur.getAksi().equals("MAKAN")) {
-                System.out.println("Apakah Anda ingin makan? (Y/N)");
-                String pilihanMakan = scanner.nextLine().toUpperCase();
-                if (pilihanMakan.equals("Y")) {
-                    this.makan();
-                }
-            } else if (furnitur.getAksi().equals("MELIHAT WAKTU")) {
-                System.out.println("Apakah Anda ingin melihat waktu? (Y/N)");
-                String pilihanLihatWaktu = scanner.nextLine().toUpperCase();
-                if (pilihanLihatWaktu.equals("Y")) {
-                    this.melihatWaktu();
-                }
-            } else if (furnitur.getAksi().equals("MELUKIS")) {
-                System.out.println("Apakah Anda ingin melukis? (Y/N)");
-                String pilihanMelukis = scanner.nextLine().toUpperCase();
-                if (pilihanMelukis.equals("Y")) {
-                    this.melukis();
-                }
-            } else if (furnitur.getAksi().equals("BERMAIN MUSIK")) {
-                System.out.println("Apakah Anda ingin bermain musik? (Y/N)");
-                String pilihanMusik = scanner.nextLine().toUpperCase();
-                if (pilihanMusik.equals("Y")) {
-                    this.bermainMusik();
-                }
-            } else if (furnitur.getAksi().equals("MANDI")) {
-                System.out.println("Apakah Anda ingin mandi? (Y/N)");
-                String pilihanMandi = scanner.nextLine().toUpperCase();
-                if (pilihanMandi.equals("Y")) {
-                    this.mandi();
-                }
-            } else if (furnitur.getAksi().equals("MEMBERSIHKAN RUMAH")) {
-                System.out.println("Apakah Anda ingin membersihkan rumah? (Y/N)");
-                String pilihanBersihRumah = scanner.nextLine().toUpperCase();
-                if (pilihanBersihRumah.equals("Y")) {
-                    this.membersihkanRumah();
-                }
-            } else if (furnitur.getAksi().equals("PROYEKAN")) {
-                System.out.println("Apakah Anda ingin mengerjakan proyek? (Y/N)");
-                String pilihanProyekan = scanner.nextLine().toUpperCase();
-                if (pilihanProyekan.equals("Y")) {
-                    this.proyekan();
-                }
-            } else {
-                System.out.println("Aksi tidak tersedia");
-            }
-        }
-    }
+    // public void goToObject(Furnitur objek) {
+    //     this.posisiObjek = objek.getPosisi();
+    //     System.out.println(this.getNamaLengkap() + " berhasil pindah ke objek " + objek.getNama());
+    //     Scanner scanner = new Scanner(System.in);
+    //     if (objek.getKategori().equals("peralatan")) {
+    //         Furnitur furnitur = (Furnitur) objek;
+    //         if (furnitur.getAksi().equals("TIDUR")) {
+    //             System.out.println("Apakah Anda ingin tidur? (Y/N)");
+    //             String pilihanTidur = scanner.nextLine().toUpperCase();
+    //             if (pilihanTidur.equals("Y")) {
+    //                 this.tidur();
+    //             }
+    //         } else if (furnitur.getAksi().equals("BUANG AIR")) {
+    //             System.out.println("Apakah Anda ingin buang air? (Y/N)");
+    //             String pilihanBuangAir = scanner.nextLine().toUpperCase();
+    //             if (pilihanBuangAir.equals("Y")) {
+    //                 this.buangAir();
+    //             }
+    //         } else if (furnitur.getAksi().equals("MASAK")) {
+    //             System.out.println("Apakah Anda ingin memasak? (Y/N)");
+    //             String pilihanMasak = scanner.nextLine().toUpperCase();
+    //             if (pilihanMasak.equals("Y")) {
+    //                 System.out.println("Masukkan nama masakan yang ingin dibuat: ");
+    //                 // String namaMasakan = scanner.next();
+    //                 // this.masak();
+    //             }
+    //         } else if (furnitur.getAksi().equals("MAKAN")) {
+    //             System.out.println("Apakah Anda ingin makan? (Y/N)");
+    //             String pilihanMakan = scanner.nextLine().toUpperCase();
+    //             if (pilihanMakan.equals("Y")) {
+    //                 this.makan();
+    //             }
+    //         } else if (furnitur.getAksi().equals("MELIHAT WAKTU")) {
+    //             System.out.println("Apakah Anda ingin melihat waktu? (Y/N)");
+    //             String pilihanLihatWaktu = scanner.nextLine().toUpperCase();
+    //             if (pilihanLihatWaktu.equals("Y")) {
+    //                 // this.melihatWaktu();
+    //             }
+    //         } else if (furnitur.getAksi().equals("MELUKIS")) {
+    //             System.out.println("Apakah Anda ingin melukis? (Y/N)");
+    //             String pilihanMelukis = scanner.nextLine().toUpperCase();
+    //             if (pilihanMelukis.equals("Y")) {
+    //                 this.melukis();
+    //             }
+    //         } else if (furnitur.getAksi().equals("BERMAIN MUSIK")) {
+    //             System.out.println("Apakah Anda ingin bermain musik? (Y/N)");
+    //             String pilihanMusik = scanner.nextLine().toUpperCase();
+    //             if (pilihanMusik.equals("Y")) {
+    //                 this.bermainMusik();
+    //             }
+    //         } else if (furnitur.getAksi().equals("MANDI")) {
+    //             System.out.println("Apakah Anda ingin mandi? (Y/N)");
+    //             String pilihanMandi = scanner.nextLine().toUpperCase();
+    //             if (pilihanMandi.equals("Y")) {
+    //                 this.mandi();
+    //             }
+    //         } 
+    //         else if (furnitur.getAksi().equals("PROYEKAN")) {
+    //             System.out.println("Apakah Anda ingin mengerjakan proyek? (Y/N)");
+    //             String pilihanProyekan = scanner.nextLine().toUpperCase();
+    //             if (pilihanProyekan.equals("Y")) {
+    //                 this.proyekan();
+    //             }
+    //         } else {
+    //             System.out.println("Aksi tidak tersedia");
+    //         }
+    //     }
+    // }
 
     // Actions of Sim
     public void addToInventory(Objek objek, int n) {
@@ -581,22 +576,19 @@ public class Sim {
         System.out.println("Sim berhasil berpindah ke " + namaRuangan);
     }
 
-    public void melihatInventory() {
-        // Please provide the solution below
-    }
+    // public void memasangBarang(Furnitur furnitur) {
+    //     System.out.println("Berikut adalah map ruangan anda: ");
+    //     this.currentRuangan.printMapRuangan();
+    //     if ()
+        
 
-    public void memasangBarang() {
-        // Please provide the solution below
-    }
-
-    public void melihatWaktu() {
-
-    }
+    // }
 
     public void yoga() {
         this.status.add(new Aksi(this, "Yoga", 10));
         this.isDoAksiAktif = true;
         int indexStatus = this.status.size() - 1;
+        System.out.println("Yoga dimulai, silahkan tunggu 10 detik!");
         try {
             int waktu = 10;
             int seconds = 0;
@@ -620,11 +612,57 @@ public class Sim {
     }
 
     public void berdoa() {
+        this.status.add(new Aksi(this, "Berdoa", 7));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Berdoa dimulai, silahkan tunggu 7 detik!");
+        try {
+            int waktu = 7;
+            int seconds = 0;
+            for (int i = 0; i < waktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Semoga doa mu terkabul!");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        this.isDoAksiAktif = false;
     }
 
     public void mandi() {
+        this.status.add(new Aksi(this, "Mandi", 40));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Berdoa dimulai, silahkan tunggu 40 detik!");
+        try {
+            int waktu = 40;
+            int seconds = 0;
+            for (int i = 0; i < waktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Wangi bgt lu ngab!");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 10);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() + 40);
+        this.isDoAksiAktif = false;
     }
 
     public void melukis() {
@@ -682,7 +720,30 @@ public class Sim {
     }
 
     public void membersihkanRumah() {
+        this.status.add(new Aksi(this, "Membersihkan rumah", 2 * 60));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Yippi main musik");
+        try {
+            int waktu = 2 * 60;
+            int seconds = 0;
+            for (int i = 0; i < waktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Jago banget main musiknya kak :<");
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
+        this.isDoAksiAktif = false;
     }
 
     public void viewInfo() {
@@ -701,12 +762,30 @@ public class Sim {
     }
 
     public void proyekan() {
-        this.status.add(new Aksi(this, "proyekan", 3));
+        this.status.add(new Aksi(this, "Proyekan", 3));
+        this.isDoAksiAktif = true;
+        int indexStatus = this.status.size() - 1;
+        System.out.println("Proyekan dimulai, silahkan tunggu 3 menit!\nSemangat!!");
+        try {
+            int waktu = 3 * 60;
+            int seconds = 0;
+            for (int i = 0; i < waktu; i++) {
+                Thread.sleep(1000);
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Yeay kamu menyelesaikannya!");
+        this.isDoAksiAktif = false;
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() - 5);
         setUang(getUang() + 100);
-        int waktu = 180;
-        int indexStatus = this.status.size() - 1;
-        this.isDoAksiAktif = true;
 
     }
 }

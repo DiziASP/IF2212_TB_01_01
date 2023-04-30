@@ -427,7 +427,7 @@ public class App {
                         if (pilihan >= 1 && pilihan <= worldClock.getWorld().getJumlahSim()) {
                             indeksActiveSim = pilihan - 1;
                             System.out.println("Berhasil mengganti sim active menjadi "
-                                    + worldClock.getWorld().getSim(indeksActiveSim).getNamaLengkap());
+                            + worldClock.getWorld().getSim(indeksActiveSim).getNamaLengkap());
                         }
                     } else {
                         System.out.println("Input tidak valid!");
@@ -490,17 +490,13 @@ public class App {
                                         System.out.println("Apakah Anda ingin tidur? (Y/N)");
                                         String pilihanTidur = scanner.nextLine().toUpperCase();
                                         if (pilihanTidur.equals("Y")) {
-                                            executorService.execute(() -> {
-                                                worldClock.getWorld().getSim(idx).tidur();
-                                            });
+                                            worldClock.getWorld().getSim(idx).tidur();
                                         }
                                     } else if (furnitur.getAksi().equals("BUANG AIR")) {
                                         System.out.println("Apakah Anda ingin buang air? (Y/N)");
                                         String pilihanBuangAir = scanner.nextLine().toUpperCase();
                                         if (pilihanBuangAir.equals("Y")) {
-                                            executorService.execute(() -> {
                                                 worldClock.getWorld().getSim(idx).buangAir();
-                                            });
                                         }
                                     } else if (furnitur.getAksi().equals("MASAK")) {
                                         System.out.println("Apakah Anda ingin memasak? (Y/N)");
@@ -579,7 +575,8 @@ public class App {
                 System.out.println("4. Yoga");
                 System.out.println("5. Berdoa");
                 System.out.println("6. Melihat inventory");
-                System.out.println("7. Beli barang\n");
+                System.out.println("7. Beli barang");
+                System.out.println("8. Membersihkan rumah\n");
                 System.out.print("Pilih aksi yang ingin dilakukan: ");
                 command = scanner.nextLine().toUpperCase();
                 if (command.equals("KERJA")) {
@@ -615,6 +612,10 @@ public class App {
                             worldClock.getWorld().getSim(idx).beliBarang(cmd, kategori);
                         });
                     }
+                } else if (command.equals("MEMBERSIHKAN RUMAH")) {
+                    worldClock.getWorld().getSim(idx).membersihkanRumah();
+                } else {
+                    System.out.println("Input tidak valid! Silahkan coba lagi.\n");
                 }
             }
 

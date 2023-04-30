@@ -105,11 +105,6 @@ public class Furnitur extends Objek {
             harga = 40;
             panjang = 2;
             lebar = 1;
-        } else if (nama.equals("SAPU")) {
-            aksi = "MEMBERSIHKAN RUMAH";
-            harga = 10;
-            panjang = 1;
-            lebar = 1;
         } else if (nama.equals("LAPTOP")) {
             aksi = "PROYEKAN";
             harga = 300;
@@ -134,7 +129,6 @@ public class Furnitur extends Objek {
         furnitur.add(new Furnitur("ALAT LUKIS", new Point(-1, -1), false));
         furnitur.add(new Furnitur("ALAT MUSIK", new Point(-1, -1), false));
         furnitur.add(new Furnitur("SHOWER", new Point(-1, -1), false));
-        furnitur.add(new Furnitur("SAPU", new Point(-1, -1), false));
         furnitur.add(new Furnitur("LAPTOP", new Point(-1, -1), false));
         return furnitur;
     }

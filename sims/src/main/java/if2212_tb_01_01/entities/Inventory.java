@@ -54,6 +54,49 @@ public class Inventory<T extends Objek> {
         }
     }
 
+    public boolean isObjekAda(String nama) {
+        boolean found = false;
+        for (T x : inventory.keySet()) {
+            if (x.getNama().equals(nama)) {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
+
+    public int jumlahItem(String nama) {
+        int jumlah = 0;
+        for (T x : inventory.keySet()) {
+            if (x.getNama().equals(nama)) {
+                jumlah = inventory.get(x);
+                break;
+            }
+        }
+        return jumlah;
+    }
+
+    public void removeItem(String nama, int x){
+        boolean found = false;
+        for (T y : inventory.keySet()) {
+            if (y.getNama().equals(nama)) {
+                found = true;
+                int remainder = inventory.get(y) - x;
+                if (remainder > 1) {
+                    inventory.replace(y, remainder);
+                } else if (remainder == 0) {
+                    inventory.remove(y);
+                } else {
+                    System.out.println("Insufficient Materials!");
+                }
+                break;
+            }
+            if (!found) {
+                System.out.println("No item(s) to remove!");
+            }
+        }
+    }
+
     public void removeItem(T item, int quantity) {
         boolean found = false;
         for (T x : inventory.keySet()) {
