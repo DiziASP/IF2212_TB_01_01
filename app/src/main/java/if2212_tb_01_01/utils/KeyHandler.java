@@ -349,7 +349,12 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(3);
                             break;
                         case "tambah sim":
-                            gp.setGs(4);
+                            if (gp.worldClock.getIsCanAddSim()){
+                                gp.setGs(4);
+                                gp.worldClock.setIsCanAddSim(false);
+                            } else{
+                                // gabisa add sim
+                            }
                             break;
                         case "belanja":
                             gp.setGs(11);
@@ -493,7 +498,7 @@ public class KeyHandler implements KeyListener {
                             }
                                 break;
                         case "tidur":
-                            gp.getSim().tidur();
+                            gp.getSim().tidur(180);
                             break;
                         case "buang air":
                             break;
@@ -504,10 +509,10 @@ public class KeyHandler implements KeyListener {
                         case "berdoa":
                             break;
                         case "gambar":
-                            gp.getSim().melukis();
+                            gp.getSim().melukis(20);
                             break;
                         case "main musik":
-                            gp.getSim().bermainMusik();
+                            gp.getSim().bermainMusik(20);
                             break;
                         case "mandi":
                             break;

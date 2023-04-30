@@ -6,13 +6,19 @@ import if2212_tb_01_01.entities.world.World;
 
 public class WorldClock implements Runnable {
     GamePanel gp;
-    private volatile boolean running;
+    private volatile boolean running = true;
     private int minutes;
     private int seconds;
     private int daysInWorld;
     World world;
     private boolean isCanAddSim = true;
 
+    public boolean getIsCanAddSim() {
+        return isCanAddSim;
+    }
+    public void setIsCanAddSim(boolean isCanAddSim) {
+        this.isCanAddSim = isCanAddSim;
+    }
 
     public WorldClock(GamePanel gp, World world){
         this.gp =gp;
@@ -54,12 +60,12 @@ public class WorldClock implements Runnable {
     }
 
     public void checker10menit(){
-        if (world.getSim().getWaktuTidur()>0){
-            world.getSim().setWaktuTidur(0);
+        if (world.getSim(gp.getIndexActiveSim()).getWaktuTidur()>0){
+            world.getSim(gp.getIndexActiveSim()).setWaktuTidur(0);
         } else{
-            this.world.getSim().setWaktuTidur(0);
-            this.world.getSim().getKesejahteraan().setKesehatan(this.world.getSim().getKesejahteraan().getKesehatan()-5);
-            this.world.getSim().getKesejahteraan().setMood(this.world.getSim().getMood().getMood()-5);
+            this.world.getSim(gp.getIndexActiveSim()).setWaktuTidur(0);
+            this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().setKesehatan(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getKesehatan()-5);
+            this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().setMood(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getMood()-5);
         }
     }
 
@@ -79,6 +85,9 @@ public class WorldClock implements Runnable {
                             daysInWorld++;
                             minutes = 0;
                             checkerHarian();
+                        }
+                        if (minutes % 10 == 0 && seconds == 0) {
+                            checker10menit();
                         }
                     }
                 } catch (InterruptedException e) {
