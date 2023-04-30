@@ -1,6 +1,7 @@
 package if2212_tb_01_01.utils;
 
 import java.util.*;
+
 public class Point {
 
     /* Point Attributes */
@@ -22,7 +23,7 @@ public class Point {
         this.y = y;
     }
 
-    public Point(Point point){
+    public Point(Point point) {
         this.x = point.x;
         this.y = point.y;
     }
@@ -73,7 +74,7 @@ public class Point {
         this.y = y;
     }
 
-    public void setPoint(Integer x, Integer y){
+    public void setPoint(Integer x, Integer y) {
         setX(x);
         setY(y);
     }
@@ -82,52 +83,48 @@ public class Point {
         return (Math.abs(this.x - p.x) <= 1 && Math.abs(this.y - p.y) <= 1);
     }
 
-    public String toString(){
-        return ("("+ this.x +"," + this.y +")");
+    public String toString() {
+        return ("(" + this.x + "," + this.y + ")");
     }
 
-    public boolean isPointEqual(Point point){
+    public boolean isPointEqual(Point point) {
         return (this.x.equals(point.x) && this.y.equals(point.y));
     }
 
-    public boolean isPointEqual(int x, int y){
+    public boolean isPointEqual(int x, int y) {
         return (this.x.equals(x) && this.y.equals(y));
     }
 
-    public static Point makePoint(String input){
+    public static Point makePoint(String input) {
         StringBuilder x = new StringBuilder("");
         StringBuilder y = new StringBuilder("");
         int i = 0;
-        Point point = new Point(-1,-1);
+        Point point = new Point(-1, -1);
         boolean salahInput = false;
-        if(input.equals("")){
+        if (input.equals("")) {
             salahInput = true;
-        }
-        else{
-            while(!salahInput && i <input.length()){
-                if((input.charAt(i) >= '0') && (input.charAt(i) <= '9')){
+        } else {
+            while (!salahInput && i < input.length()) {
+                if ((input.charAt(i) >= '0') && (input.charAt(i) <= '9')) {
                     x.append(input.charAt(i));
                     i++;
-                }
-                else if(input.charAt(i) == ','){
+                } else if (input.charAt(i) == ',') {
                     i++;
-                    while(!salahInput && i <input.length()){
-                        if((input.charAt(i) >= '0') && (input.charAt(i) <= '9')){
+                    while (!salahInput && i < input.length()) {
+                        if ((input.charAt(i) >= '0') && (input.charAt(i) <= '9')) {
                             // y += input.charAt(i);
                             y.append(input.charAt(i));
                             i++;
-                        }
-                        else{
+                        } else {
                             salahInput = true;
                         }
                     }
-                }
-                else{
+                } else {
                     salahInput = true;
                 }
             }
         }
-        if(!salahInput){
+        if (!salahInput) {
             String X = x.toString();
             String Y = y.toString();
             point.setX(Integer.parseInt(X));
@@ -136,14 +133,14 @@ public class Point {
         return point;
     }
 
-    public static Point makeRandomizePoint(){
+    public static Point makeRandomizePoint() {
         Point point;
         Random rand = new Random();
         int min = 0;
         int max = 6;
         int randomNumX = rand.nextInt((max - min) + 1) + min;
         int randomNumY = rand.nextInt((max - min) + 1) + min;
-        point = new Point(randomNumX,randomNumY);
+        point = new Point(randomNumX, randomNumY);
         return point;
     }
 }

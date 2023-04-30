@@ -3,57 +3,50 @@ package if2212_tb_01_01.objects;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Makanan extends Objek{
+public class Makanan extends Objek {
     private Integer harga;
     private Integer kekenyangan;
     private static List<Makanan> listMakanan = makeListMakanan();
 
     // Constructor
-    public Makanan(String nama, Integer harga, Integer kekenyangan){
+    public Makanan(String nama, Integer harga, Integer kekenyangan) {
         super(nama, "makanan");
         this.harga = harga;
         this.kekenyangan = kekenyangan;
     }
 
     // Constructor Makanan
-    public Makanan(String nama){
+    public Makanan(String nama) {
         super(nama, "makanan");
-        if(nama == "NASI"){
+        if (nama == "NASI") {
             harga = 5;
             kekenyangan = 5;
-        }
-        else if (nama == "KENTANG"){
+        } else if (nama == "KENTANG") {
             harga = 3;
             kekenyangan = 4;
-        }
-        else if (nama == "AYAM"){
+        } else if (nama == "AYAM") {
             harga = 10;
             kekenyangan = 8;
-        }
-        else if (nama == "SAPI"){
+        } else if (nama == "SAPI") {
             harga = 12;
             kekenyangan = 15;
-        }
-        else if (nama == "WORTEL"){
+        } else if (nama == "WORTEL") {
             harga = 3;
             kekenyangan = 2;
-        }
-        else if(nama == "BAYAM"){
+        } else if (nama == "BAYAM") {
             harga = 3;
             kekenyangan = 2;
-        }
-        else if(nama == "KACANG"){
+        } else if (nama == "KACANG") {
             harga = 2;
-            kekenyangan =2;
-        }
-        else if(nama == "SUSU"){
+            kekenyangan = 2;
+        } else if (nama == "SUSU") {
             harga = 2;
             kekenyangan = 1;
         }
     }
 
     // Membuat list Makanan
-    private static List<Makanan> makeListMakanan(){
+    private static List<Makanan> makeListMakanan() {
         List<Makanan> makanan = new ArrayList<>();
         makanan.add(new Makanan("NASI"));
         makanan.add(new Makanan("KENTANG"));
@@ -66,8 +59,8 @@ public class Makanan extends Objek{
         return makanan;
     }
 
-    //getter method for listMakanan
-    public static List<Makanan> getListMakanan(){
+    // getter method for listMakanan
+    public static List<Makanan> getListMakanan() {
         return listMakanan;
     }
 
@@ -91,27 +84,29 @@ public class Makanan extends Objek{
         this.kekenyangan = kekenyangan;
     }
 
-    //Method for print list makanan yang dapat dibeli
-    public static void printListMakanan(){
+    // Method for print list makanan yang dapat dibeli
+    public static void printListMakanan() {
         int i = 1;
         System.out.println("List makanan yang dapat dibeli: ");
-        for(Makanan x : listMakanan){
-            System.out.println(i+". "+x.getNama()+" (Harga: "+x.getHarga()+" ,Kekenyangan: "+ x.getKekenyangan()+")");
+        for (Makanan x : listMakanan) {
+            System.out.println(
+                    i + ". " + x.getNama() + " (Harga: " + x.getHarga() + " ,Kekenyangan: " + x.getKekenyangan() + ")");
             i++;
         }
-    } 
-
-    public String getInfo(){
-        String ret = String.format("Nama: %s\nKategori: makananan\nHarga: %d\nKekenyangan: %d", this.getNama(), harga, kekenyangan);
-        return(ret);
     }
 
-    public void printInfo(){
+    public String getInfo() {
+        String ret = String.format("Nama: %s\nKategori: makananan\nHarga: %d\nKekenyangan: %d", this.getNama(), harga,
+                kekenyangan);
+        return (ret);
+    }
+
+    public void printInfo() {
         System.out.println(getInfo());
     }
 
     // public static Makanan getMakanan(String nama){
-    //     Makanan makanan = new Makanan(nama);
-    //     return makanan;
+    // Makanan makanan = new Makanan(nama);
+    // return makanan;
     // }
 }

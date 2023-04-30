@@ -17,7 +17,7 @@ public class World {
     private Boolean[][] mapRumah;
     private Boolean isGameEnd;
 
-    //Construktor
+    // Construktor
     public World(int panjang, int lebar) {
         this.panjang = panjang;
         this.lebar = lebar;
@@ -25,98 +25,95 @@ public class World {
         this.listSim = new ArrayList<Sim>();
         // this.worldClock = new WorldClock();
         mapRumah = new Boolean[this.panjang][this.lebar];
-        for(int i = 0;i<this.panjang;i++){
-            for(int j = 0;j<this.lebar;j++){
+        for (int i = 0; i < this.panjang; i++) {
+            for (int j = 0; j < this.lebar; j++) {
                 mapRumah[i][j] = false;
             }
         }
     }
 
-    //Method untuk print map world
-    public void printMapWorld(){
-        for(int k = 0; k < lebar;k++){
+    // Method untuk print map world
+    public void printMapWorld() {
+        for (int k = 0; k < lebar; k++) {
             System.out.print("x-");
-            if(k == lebar - 1){
+            if (k == lebar - 1) {
                 System.out.println("x");
-            }    
+            }
         }
-        for (int i = 0;i<panjang;i++){
-            for (int j = 0;j<lebar;j++){
-                if(!mapRumah[i][j]){
+        for (int i = 0; i < panjang; i++) {
+            for (int j = 0; j < lebar; j++) {
+                if (!mapRumah[i][j]) {
                     System.out.print("| ");
-                }
-                else{
+                } else {
                     System.out.print("|X");
                 }
-                if(j== lebar - 1){
+                if (j == lebar - 1) {
                     System.out.println("|");
                 }
             }
-            for(int k = 0; k < lebar;k++){
+            for (int k = 0; k < lebar; k++) {
                 System.out.print("x-");
-                if(k == lebar - 1){
+                if (k == lebar - 1) {
                     System.out.println("x");
-                }    
+                }
             }
         }
     }
 
-    //Getter method for panjang
+    // Getter method for panjang
     public int getPanjang() {
         return panjang;
     }
 
-    //Getter method for lebar
+    // Getter method for lebar
     public int getLebar() {
         return lebar;
     }
 
-    //Setter method for panjang
+    // Setter method for panjang
     public void setPanjang(int panjang) {
         this.panjang = panjang;
     }
 
-    //Setter method for lebar
+    // Setter method for lebar
     public void setLebar(int lebar) {
         this.lebar = lebar;
     }
 
-    //Getter method for Daftar Rumah 
+    // Getter method for Daftar Rumah
     public List<Rumah> getDaftarRumah() {
         return listRumah;
     }
 
-    //Mendapatkan rumah berdasarkan lokasi
-    public Rumah getRumah(Point point){
+    // Mendapatkan rumah berdasarkan lokasi
+    public Rumah getRumah(Point point) {
         boolean found = false;
         int i = 0;
-        while(!found && i < listRumah.size()){
-            if(listRumah.get(i).getPosisi().isPointEqual(point)){
+        while (!found && i < listRumah.size()) {
+            if (listRumah.get(i).getPosisi().isPointEqual(point)) {
                 found = true;
-            }
-            else{
+            } else {
                 i++;
             }
         }
         return listRumah.get(i);
     }
 
-    //Mendapatkan rumah berdasarkan lokasi
-    public Rumah getRumah(String kepemilikan){
+    // Mendapatkan rumah berdasarkan lokasi
+    public Rumah getRumah(String kepemilikan) {
         boolean found = false;
         int i = 0;
-        while(!found && i < listRumah.size()){
-            if(listRumah.get(i).getKepemilikan().equals(kepemilikan)){
+        while (!found && i < listRumah.size()) {
+            if (listRumah.get(i).getKepemilikan().equals(kepemilikan)) {
                 found = true;
-            }
-            else{
+            } else {
                 i++;
             }
         }
         return listRumah.get(i);
     }
 
-    //Memeriksa apakah posisi rumah sudah terisi
+    // Memeriksa apakah posisi rumah sudah terisi
     public boolean isPosisiTerisi(Point point) {
         for (Rumah rumah : listRumah) {
             if (rumah.getPosisi().isPointEqual(point)) {
@@ -125,6 +122,7 @@ public class World {
         }
         return false;
     }
+
     public void addRumah(Rumah rumah) {
         if (isPosisiTerisi(rumah.getPosisi())) {
             System.out.println("Posisi sudah terisi!");
@@ -132,14 +130,16 @@ public class World {
             this.listRumah.add(rumah);
         }
     }
+
     public void addRumah(Point posisi, String kepemilikan, String namaRuangan, Point posisiRuangan) {
         if (isPosisiTerisi(posisi)) {
             System.out.println("Posisi sudah terisi!");
         } else {
-            this.listRumah.add(new Rumah(posisi,kepemilikan,namaRuangan,posisiRuangan));
+            this.listRumah.add(new Rumah(posisi, kepemilikan, namaRuangan, posisiRuangan));
         }
     }
-    public void addRumah(String kepemilikan, String namaRuangan, Point posisiRuangan){
+
+    public void addRumah(String kepemilikan, String namaRuangan, Point posisiRuangan) {
         boolean isPosisiFound = false;
         while (isPosisiFound == false) {
             Random rand = new Random();
@@ -148,25 +148,26 @@ public class World {
             int randomX = rand.nextInt(max - min + 1) + min;
             int randomY = rand.nextInt(max - min + 1) + min;
             if (isPosisiTerisi(new Point(randomX, randomY)) == false) {
-                this.listRumah.add(new Rumah(new Point(randomX, randomY),kepemilikan, namaRuangan, posisiRuangan));
+                this.listRumah.add(new Rumah(new Point(randomX, randomY), kepemilikan, namaRuangan, posisiRuangan));
                 isPosisiFound = true;
-            } 
+            }
         }
     }
 
     public void removeRumah(Rumah rumah) {
         this.listRumah.remove(rumah);
-    } 
+    }
+
     // public WorldClock getWorldClock() {
-    //     return worldClock;
+    // return worldClock;
     // }
     // public void setWorldClock(WorldClock worldClock) {
-    //     this.worldClock = worldClock;
+    // this.worldClock = worldClock;
     // }
     public boolean isIdle() {
         boolean isIdle = false;
-        for (Sim sim : listSim){
-            if (sim.getStatus().size()==0){
+        for (Sim sim : listSim) {
+            if (sim.getStatus().size() == 0) {
                 isIdle = true;
             } else {
                 isIdle = false;
@@ -175,28 +176,35 @@ public class World {
         }
         return isIdle;
     }
+
     public boolean getIsGameEnd() {
         return isGameEnd;
     }
+
     // public void setIdle(boolean isIdle) {
-    //     this.isIdle = isIdle;
+    // this.isIdle = isIdle;
     // }
-    public Rumah getRumah(int x){
+    public Rumah getRumah(int x) {
         return this.listRumah.get(x);
     }
-    public Rumah getLastRumah(){
-        return this.listRumah.get(this.listRumah.size()-1);
+
+    public Rumah getLastRumah() {
+        return this.listRumah.get(this.listRumah.size() - 1);
     }
-    public Sim getSim(int x){
+
+    public Sim getSim(int x) {
         return this.listSim.get(x);
     }
-    public List<Sim> getListSim(){
+
+    public List<Sim> getListSim() {
         return this.listSim;
     }
-    public void addSim(Sim sim){
+
+    public void addSim(Sim sim) {
         this.listSim.add(sim);
     }
-    public int getJumlahSim(){
+
+    public int getJumlahSim() {
         return this.listSim.size();
     }
 

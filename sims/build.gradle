@@ -27,7 +27,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'if2212_tb_01_01.Main'
+    mainClass = 'if2212_tb_01_01.App'
 }
 
 tasks.named('test') {

@@ -12,6 +12,7 @@ public class Kesejahteraan {
         this.kesehatan = 100;
         this.kebersihan = 100;
     }
+
     public Kesejahteraan(Integer mood, Integer kekenyangan, Integer kesehatan, Integer kebersihan) {
         this.mood = mood;
         this.kekenyangan = kekenyangan;
@@ -42,9 +43,11 @@ public class Kesejahteraan {
     public void setKesehatan(Integer kesehatan) {
         this.kesehatan = kesehatan;
     }
+
     public void setKebersihan(Integer kebersihan) {
         this.kebersihan = kebersihan;
     }
+
     public Integer getKebersihan() {
         return kebersihan;
     }
