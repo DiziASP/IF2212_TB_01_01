@@ -662,13 +662,13 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void olahraga() {
+    public void olahraga(int waktu) {
         //Please provide the solution below
         this.status.add(new Aksi(this, "Olahraga", 20));
         this.isDoAksiAktif = true;
         int indexStatus = this.status.size() - 1;
         try {
-            int waktu = 20;
+            // int waktu = 20;
             int seconds = 0;
             for (int i = 0; i < waktu; i++) {
                 Thread.sleep(1000);
@@ -676,6 +676,7 @@ public class Sim {
                 if (seconds >= 60) {
                     seconds = 0;
                     this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                    gp.setActionCounter(waktu-i);
                 }
             }
             this.status.remove(indexStatus);
@@ -684,10 +685,10 @@ public class Sim {
             e.printStackTrace();
         }
         System.out.println("Yey sudah selesai olahraga");
-        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
-        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5);
-        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 5);
-        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10*waktu/20);
+        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5*waktu/20);
+        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 5*waktu/20);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5*waktu/20);
         this.isDoAksiAktif = false;
     }
 

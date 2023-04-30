@@ -33,7 +33,8 @@ public class GamePanel extends JPanel implements Runnable {
         // 11-tampilkan waktu
         // 12-tambah ruang, 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
 
-    TileManager tm;
+    // TileManager tm;
+    int actionCounter=0;
 
     ArrayList<String> opsiAksi = new ArrayList<String>();
 
@@ -134,6 +135,14 @@ public class GamePanel extends JPanel implements Runnable {
         return assetManager;
     }
 
+    public int getActionCounter() {
+        return actionCounter;
+    }
+
+    public void setActionCounter(int actionCounter) {
+        this.actionCounter = actionCounter;
+    }
+
     public int getGs() {
         return gameState;
     }
@@ -189,12 +198,12 @@ public class GamePanel extends JPanel implements Runnable {
         opsiAksi.add(0, aksi);
     }
 
-    public TileManager getTileManager(){
-        return tm;
-    }
-    public void setTileManager(TileManager tm){
-        this.tm = tm;
-    }
+    // public TileManager getTileManager(){
+    //     return tm;
+    // }
+    // public void setTileManager(TileManager tm){
+    //     this.tm = tm;
+    // }
 
     public void updateOpsiAksi(){
         opsiAksi.clear();

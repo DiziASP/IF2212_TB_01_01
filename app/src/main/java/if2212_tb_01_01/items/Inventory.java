@@ -56,6 +56,11 @@ public class Inventory {
        return(inventory.get(i).getAmount() >0);
     }
 
+
+    public boolean isItemSisa(Integer i){
+        return(((Furnitur)inventory.get(i)).getSisa() >0);
+     }
+
     public int jumlahItem(Integer i) {
         return(inventory.get(i).getAmount());
     }
@@ -64,7 +69,7 @@ public class Inventory {
         inventory.get(i).incAmount();
         // if (inventory.get(i) instanceof Furnitur){
         //     Furnitur in = (Furnitur) inventory.get(i);
-        //     // in.incAmountPut();
+        //     in.incAmountPut();
         // }
     }
 
