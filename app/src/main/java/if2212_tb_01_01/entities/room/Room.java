@@ -121,7 +121,7 @@ public class Room {
         Furnitur f = (Furnitur) inventory.getInventory().get(idx);
         Rectangle ia = new Rectangle(((x + 1) *tileSize) + 48, ((y + 1) * tileSize) + 24, f.getPanjang(), f.getLebar());
         ItemTracker it = new ItemTracker(idx, ia, x, y);
-        inventory.decItem(idx);
+        inventory.incItemPut(idx);
         // Furnitur furnitur = (Furnitur) inventory.getInventory().get(idx);
         // KasurQueenSize jam = KasurQueenSize.buildKasurQueenSize(0,0);
         daftarObjek.add(it);

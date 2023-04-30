@@ -129,4 +129,8 @@ public abstract class Furnitur extends Item {
 //        g2d.setColor(Color.YELLOW);
 //        g2d.fill(this.interactionArea);
     }
+
+    public int getSisa() {
+        return getAmount()-amountPut;
+    }
 }

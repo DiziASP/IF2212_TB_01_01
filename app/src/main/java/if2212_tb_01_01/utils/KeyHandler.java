@@ -228,12 +228,24 @@ public class KeyHandler implements KeyListener {
             if (gp.getSubState()==3){
                 if (k == 37){
                     pointer = (pointer+11)%12;
+                    while (!gp.getSim().getInventory().isItemSisa(pointer)){
+                        pointer = (pointer+11)%12;
+                    }
                 } else if (k == 39){
                     pointer = (pointer+1)%12;
+                    while (!gp.getSim().getInventory().isItemSisa(pointer)){
+                        pointer = (pointer+1)%12;
+                    }
                 } else if (k == 40){
                     pointer = (pointer+4)%12;
+                    while (!gp.getSim().getInventory().isItemSisa(pointer)){
+                        pointer = (pointer+4)%12;
+                    }
                 } else if (k == 38){
                     pointer = (pointer+8)%12;
+                    while (!gp.getSim().getInventory().isItemSisa(pointer)){
+                        pointer = (pointer+8)%12;
+                    }
                 }
             } else if (gp.getSubState()>=4 && gp.getSubState()<=6){
                 if (k == 37){
@@ -327,24 +339,25 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==3){
                     //pilih barang pasang
 
-                    if(gp.getSim().getInventory().isItemAda(pointer)){
+                    if(gp.getSim().getInventory().isItemSisa(pointer)){
                         gp.getSim().getInventory().decItem(pointer);
                         in1 = pointer;
                         pointer = 0;
                         errorCaught=false;
+                        gp.setSubState(4);
                     } else{
                         errorCaught = true;
                     }
                 } else if (gp.getSubState()==4){
                     //lokasi pasang
                     errorCaught = false;
-                    int y = ((Furnitur) gp.getSim().getInventory().getInventory().get(in1)).getLebar();
-                    int x = ((Furnitur) gp.getSim().getInventory().getInventory().get(in1)).getPanjang();
+                    int y = ((Furnitur) gp.getSim().getInventory().getInventory().get(in1)).getPanjang();
+                    int x = ((Furnitur) gp.getSim().getInventory().getInventory().get(in1)).getLebar();
                     int i=0; int j=0;
                     while (!errorCaught && i<y && j<x){
-                        if (pointer%6 + i >6 || pointer/6 +j >6){
+                        if (pointer/6 + i >6 || pointer%6 +j >6){
                             errorCaught = true;
-                        } else if (gp.getRoom().getMapRuangan()[pointer%6 + i][pointer/6 +j] != 0){
+                        } else if (gp.getRoom().getMapRuangan()[pointer/6 + i][pointer%6 +j] != -1){
                             errorCaught = true;
                         } else {
                             if (i<y){
@@ -355,9 +368,10 @@ public class KeyHandler implements KeyListener {
                         }
                     }
                     if (!errorCaught){
-                        gp.getRoom().pasangObjek(in1, pointer/6, pointer%6);
+                        gp.getRoom().pasangObjek(in1, pointer%6, pointer/6);
                         pointer=0;
                         in1=0;
+                        gp.setSubState(0);
                     }
 
                 } else if (gp.getSubState()==5){
@@ -538,13 +552,15 @@ public class KeyHandler implements KeyListener {
                     if (pointer<20){
                         gp.getSim().beliItem(pointer);
                     } else{
-                        // kompor
                         errorCaught = true;
                     }
                 } else if (arrowNum==1) {
                     if (pointer<12){
-                        gp.setGs(12);
-                        pointer = 0;
+                        if (gp.getSim().getInventory().isItemSisa(pointer)){
+                            in1=pointer;
+                            gp.setGs(6);
+                            gp.setSubState(4);
+                        }
                     } else {
                         // meja
                         errorCaught = true;

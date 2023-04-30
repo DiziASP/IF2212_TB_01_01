@@ -487,38 +487,98 @@ public class UI {
             g2.setColor(Constant.c5);
             g2.fillRect(Constant.tileSize*2 + j*Constant.tileSize, 72 + i*Constant.tileSize, Constant.tileSize, Constant.tileSize);
 
-            if (subState==4){
-                text = "Pilih lokasi untuk menaruh benda";
-            } else if (subState ==5){
-                text = "Pilih lokasi benda yang ingin dihapus";
-            } else if (subState ==6){
-                text = "Pilih lokasi benda yang ingin dipindahkan";
-            } else {
-                text = "Pilih lokasi untuk menaruh benda";
-            }
-            // text = "Pilih opsi edit ruangan:";
-            // pilihFurnitur(g2);
+            // if (subState==4){
+            //     text = "Pilih lokasi untuk menaruh benda";
+            // } else if (subState ==5){
+            //     text = "Pilih lokasi benda yang ingin dihapus";
+            // } else if (subState ==6){
+            //     text = "Pilih lokasi benda yang ingin dipindahkan";
+            // } else {
+            //     text = "Pilih lokasi untuk menaruh benda";
+            // }
+            // // text = "Pilih opsi edit ruangan:";
+            // // pilihFurnitur(g2);
 
         } else if (subState==3){
-            text = "Pilih furnitur untuk dipasang:";
+            text = "memilih furnitur\nyang ingin dipasang";
+            x = 10*Constant.tileSize-22;
+            y = Constant.tileSize+4;
+            g2.setColor(Constant.c6);
+            for (String line: text.split("\n")){
+                g2.drawString(line,x,y+=20);
+            }
+            Inventory items = gp.getSim().getInventory();
+
+            g2.setColor(Constant.c1);
+            g2.fillRect(Constant.tileSize*9+12, Constant.tileSize*2+8, 4*Constant.tileSize+72, 4*Constant.tileSize+14);
+            for (int i = 0; i< 3; i++){
+                for (int j=0; j<4; j++){
+                    x = Constant.tileSize*9 +16 + j*64;
+                    y = Constant.tileSize*2 + i*64+12;
+
+                    if (items.isItemSisa(i*4 + j)){
+                        outlinedRect(g2, x, y, 64, 64, 3, 3, Constant.c1, Constant.c2);
+                    } else{
+                        outlinedRect(g2, x, y, 64, 64, 3, 3, Constant.c1, Constant.c7);
+                    }
+
+                    Item item = items.getInventory().get(i*4+j);
+
+                    if (kh.getPointer() == i*4 + j){
+                        g2.setColor(Constant.c5);
+                        g2.fillRect(x+3, y+3, 58, 58);
+
+                        // if (items.isItemAda(i*4 + j)){
+                        //     g2.setColor(Constant.c2);
+                        // } else{
+                        //     g2.setColor(Constant.c7);
+                        // }
+                        outlinedRect(g2, Constant.tileSize, 24, Constant.tileSize*8, Constant.tileSize*8+12, 12, 12, Constant.c7, Constant.c2);
+
+                        g2.drawImage(item.getImage(), Constant.tileSize+ (Constant.tileSize*8-item.getIW())/2, (Constant.tileSize*6-item.getIH())/2, null);
+
+                        g2.setColor(Constant.c6);
+                        g2.setFont(f20);
+                        int x2 = Constant.tileSize*2-12;
+                        int y2 = Constant.tileSize*5+20;
+                        for (String line : item.getInfo().split("\n")){
+                            g2.drawString(line, x2, y2 += 20);
+                        }
+                    }
+                    g2.drawImage(item.getImage(), x+6, y+6, 52, 52, null);
+
+                }
+            }            
+
+            x = 10*Constant.tileSize;
+            y = Constant.tileSize;
+            g2.setColor(Constant.c6);
+            text = "> ENTER untuk memilih";
+            g2.drawString(text, x-22, y+Constant.tileSize*6 +30);
+
         } else if (subState==4){
-            text = "Masukkan lokasi benda yang ingin dihapus:";
+            text = "memilih lokasi benda\nyang ingin dipasang\n";
+            x = 10*Constant.tileSize-12;
+            y = Constant.tileSize;
+            for (String line: text.split("\n")){
+                g2.drawString(line,x,y+=28);
+            }
         } else if (subState==5){
-            text = "Masukkan lokasi benda yang ingin dipindah:";
+            text = "memilih lokasi benda\nyang ingin dihapus:";
         // } else if (subState==6){
         // } else if (subState==7){
         // } else if (subState==8){
         } else if (subState==9){
-            text = "Pilih makanan untuk dimakan:";
+            text = "memilih makanan untuk dimakan:";
         } else if (subState==10){
-            text = "Pilih menu untuk dimasak:";
+            text = "memilih menu untuk dimasak:";
         } else if (subState==11){
-            text = "Waktu sekarang:";
+            text = "waktu sekarang:";
         // } else if (subState==12){
         //     text = ""
         } else if (subState==13){
             g2.setFont(f20);
-            text = "Masukkan durasi " ;
+            text = "masukkan durasi " ;
             x = 10*Constant.tileSize-12;
             y = Constant.tileSize*3;
             g2.setColor(Constant.c6);
