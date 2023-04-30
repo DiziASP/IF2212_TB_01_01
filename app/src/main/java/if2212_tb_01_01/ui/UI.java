@@ -481,8 +481,8 @@ public class UI {
             }
 
         } else if (subState>=4 && subState<=7){
-            int i = kh.getArrowNum()/6;
-            int j = kh.getArrowNum()%6;
+            int i = kh.getPointer()/6;
+            int j = kh.getPointer()%6;
 
             g2.setColor(Constant.c5);
             g2.fillRect(Constant.tileSize*2 + j*Constant.tileSize, 72 + i*Constant.tileSize, Constant.tileSize, Constant.tileSize);
