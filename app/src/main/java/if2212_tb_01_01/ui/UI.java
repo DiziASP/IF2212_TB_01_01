@@ -450,10 +450,11 @@ public class UI {
         // 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
 
         g2.setColor(Constant.c7);
-            g2.fillRect(Constant.tileSize*9, 24, Constant.tileSize*6, Constant.tileSize*8);
-            g2.setColor(Constant.c2);
-            g2.fillRect(Constant.tileSize*9 +12, 36, Constant.tileSize*6-24, Constant.tileSize*8-12);
-            String text; int x; int y;
+        g2.fillRect(Constant.tileSize*9, 24, Constant.tileSize*6, Constant.tileSize*8);
+        g2.setColor(Constant.c5);
+        g2.fillRect(Constant.tileSize*9 +12, 36, Constant.tileSize*6-24, Constant.tileSize*8-12);
+        String text; int x; int y;
+        g2.setColor(Constant.c2);
 
         if (subState<=2 || subState==8){
             g2.setColor(Constant.c6);
@@ -554,7 +555,9 @@ public class UI {
             y = Constant.tileSize;
             g2.setColor(Constant.c6);
             text = "> ENTER untuk memilih";
-            g2.drawString(text, x-22, y+Constant.tileSize*6 +30);
+            g2.drawString(text, x-22, y+Constant.tileSize*6 +15);
+            text = "> ESC untuk kembali";
+            g2.drawString(text, x-22, y+Constant.tileSize*6 +35);
 
         } else if (subState==4){
             text = "memilih lokasi benda\nyang ingin dipasang\n";
@@ -569,9 +572,174 @@ public class UI {
         // } else if (subState==7){
         // } else if (subState==8){
         } else if (subState==9){
-            text = "memilih makanan untuk dimakan:";
+            text = "memilih makanan\nuntuk dimakan:";
+            x = 10*Constant.tileSize-22;
+            y = Constant.tileSize+24;
+            g2.setColor(Constant.c6);
+            for (String line: text.split("\n")){
+                g2.drawString(line,x,y+=20);
+            }
+            Inventory items = gp.getSim().getInventory();
+
+            g2.setColor(Constant.c1);
+            g2.fillRect(Constant.tileSize*9+12, Constant.tileSize*4-32, 4*Constant.tileSize+72, 4*Constant.tileSize-50);
+            if (kh.getPointer()<8){
+                for (int i = 0; i< 2; i++){
+                    for (int j=0; j<4; j++){
+                        if (i*4+j <8){
+                            x = Constant.tileSize*9 +16 + j*64;
+                            y = Constant.tileSize*2 + i*64 + 100-32;
+        
+                            if (items.isItemAda(i*4 + j+12)){
+                                outlinedRect(g2, x, y, 64, 64, 3, 3, Constant.c1, Constant.c2);
+                            } else{
+                                outlinedRect(g2, x, y, 64, 64, 3, 3, Constant.c1, Constant.c7);
+                            }
+        
+                            Item item = items.getInventory().get(i*4+j+12);
+        
+                            if (kh.getPointer() == i*4 + j){
+                                g2.setColor(Constant.c5);
+                                g2.fillRect(x+3, y+3, 58, 58);
+        
+                                if (items.isItemAda(i*4 + j+12)){
+                                    g2.setColor(Constant.c2);
+                                } else{
+                                    g2.setColor(Constant.c7);
+                                }
+                                outlinedRect(g2, Constant.tileSize, 24, Constant.tileSize*8, Constant.tileSize*8+12, 12, 12, Constant.c7, Constant.c2);
+        
+                                g2.drawImage(item.getImage(), Constant.tileSize+ (Constant.tileSize*8-item.getIW())/2, Constant.tileSize+ (Constant.tileSize*3-item.getIH())/2, null);
+        
+                                g2.setColor(Constant.c6);
+                                g2.setFont(f20);
+                                int x2 = Constant.tileSize*2-12;
+                                int y2 = Constant.tileSize*4+20;
+                                for (String line : item.getInfo().split("\n")){
+                                    g2.drawString(line, x2, y2 += 20);
+                                }
+                            }
+                            g2.drawImage(item.getImage(), x+6, y+6, 52, 52, null);
+        
+                        }
+                    }
+                }
+                Image img =  am.setup("/darrow", Constant.tileSize*2, Constant.tileSize);
+                g2.drawImage(img, 11*Constant.tileSize+36, 7*Constant.tileSize-24, 24, 12, null);
+            } else{
+                for (int i = 2; i< 4; i++){
+                    for (int j=0; j<4; j++){
+                        if (i*4+j <13){
+                            x = Constant.tileSize*9 +16 + j*64;
+                            y = Constant.tileSize*2 + i*64 + 100-32-129;
+        
+                            if (items.isItemAda(i*4 + j+12)){
+                                outlinedRect(g2, x, y, 64, 64, 3, 3, Constant.c1, Constant.c2);
+                            } else{
+                                outlinedRect(g2, x, y, 64, 64, 3, 3, Constant.c1, Constant.c7);
+                            }
+        
+                            Item item = items.getInventory().get(i*4+j+12);
+        
+                            if (kh.getPointer() == i*4 + j){
+                                g2.setColor(Constant.c5);
+                                g2.fillRect(x+3, y+3, 58, 58);
+        
+                                if (items.isItemAda(i*4 + j+12)){
+                                    g2.setColor(Constant.c2);
+                                } else{
+                                    g2.setColor(Constant.c7);
+                                }
+                                outlinedRect(g2, Constant.tileSize, 24, Constant.tileSize*8, Constant.tileSize*8+12, 12, 12, Constant.c7, Constant.c2);
+        
+                                g2.drawImage(item.getImage(), Constant.tileSize+ (Constant.tileSize*8-item.getIW())/2, Constant.tileSize+ (Constant.tileSize*3-item.getIH())/2, null);
+        
+                                g2.setColor(Constant.c6);
+                                g2.setFont(f20);
+                                int x2 = Constant.tileSize*2-12;
+                                int y2 = Constant.tileSize*4+20;
+                                for (String line : item.getInfo().split("\n")){
+                                    g2.drawString(line, x2, y2 += 20);
+                                }
+                            }
+                            g2.drawImage(item.getImage(), x+6, y+6, 52, 52, null);
+        
+                        }
+                    }
+                }
+                Image img =  am.setup("/uarrow", Constant.tileSize*2, Constant.tileSize);
+                g2.drawImage(img, 11*Constant.tileSize+36, 3*Constant.tileSize-5, 24, 12, null);
+            }     
+
+            x = 10*Constant.tileSize;
+            y = Constant.tileSize;
+            g2.setColor(Constant.c6);
+            text = "> ENTER untuk memilih";
+            g2.drawString(text, x-22, y+Constant.tileSize*6 +15);
+            text = "> ESC untuk kembali";
+            g2.drawString(text, x-22, y+Constant.tileSize*6 +35);
+
         } else if (subState==10){
-            text = "memilih menu untuk dimasak:";
+            text = "memilih menu\nuntuk dimasak:";
+            x = 10*Constant.tileSize-22;
+            y = Constant.tileSize+24;
+            g2.setColor(Constant.c6);
+            for (String line: text.split("\n")){
+                g2.drawString(line,x,y+=20);
+            }
+            Inventory items = gp.getSim().getInventory();
+
+            g2.setColor(Constant.c1);
+            g2.fillRect(Constant.tileSize*9+12, Constant.tileSize*4-32, 4*Constant.tileSize+72, 4*Constant.tileSize-50);
+            for (int i = 0; i< 2; i++){
+                for (int j=0; j<4; j++){
+                    if (i*4+j <5){
+                        x = Constant.tileSize*9 +16 + j*64;
+                        y = Constant.tileSize*2 + i*64 + 100-32;
+    
+                        if (items.isBisaMasak(i*4 + j+20)){
+                            outlinedRect(g2, x, y, 64, 64, 3, 3, Constant.c1, Constant.c2);
+                        } else{
+                            outlinedRect(g2, x, y, 64, 64, 3, 3, Constant.c1, Constant.c7);
+                        }
+    
+                        Item item = items.getInventory().get(i*4+j+20);
+    
+                        if (kh.getPointer() == i*4 + j){
+                            g2.setColor(Constant.c5);
+                            g2.fillRect(x+3, y+3, 58, 58);
+    
+                            if (items.isBisaMasak(i*4 + j+20)){
+                                g2.setColor(Constant.c2);
+                            } else{
+                                g2.setColor(Constant.c7);
+                            }
+                            outlinedRect(g2, Constant.tileSize, 24, Constant.tileSize*8, Constant.tileSize*8+12, 12, 12, Constant.c7, Constant.c2);
+    
+                            g2.drawImage(item.getImage(), Constant.tileSize+ (Constant.tileSize*8-item.getIW())/2, Constant.tileSize+ (Constant.tileSize*3-item.getIH())/2, null);
+    
+                            g2.setColor(Constant.c6);
+                            g2.setFont(f20);
+                            int x2 = Constant.tileSize*2-12;
+                            int y2 = Constant.tileSize*4+20;
+                            for (String line : item.getInfo().split("\n")){
+                                g2.drawString(line, x2, y2 += 20);
+                            }
+                        }
+                        g2.drawImage(item.getImage(), x+6, y+6, 52, 52, null);
+    
+                    }
+                }
+            }            
+
+            x = 10*Constant.tileSize;
+            y = Constant.tileSize;
+            g2.setColor(Constant.c6);
+            text = "> ENTER untuk memilih";
+            g2.drawString(text, x-22, y+Constant.tileSize*6 +15);
+            text = "> ESC untuk kembali";
+            g2.drawString(text, x-22, y+Constant.tileSize*6 +35);
+
         } else if (subState==11){
             text = "waktu sekarang:";
         // } else if (subState==12){
