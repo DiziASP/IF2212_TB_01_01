@@ -441,6 +441,26 @@ public class UI {
 
             drawInventory(g2, "shop", items);
         }
+        else if (gp.getGs() == 15){
+            // Loading Screen
+            g2.setColor(Constant.c5);
+            g2.fillRect(0,0,Constant.screenWidth,Constant.screenHeight);
+
+            g2.setFont(f80);
+            String text = "Loading...Please kindly wait!";
+
+            int x = centerX(g2,text);
+            int y = 5*Constant.tileSize;
+            g2.setColor(Constant.c1);
+            g2.drawString(text,x+2,y+2);
+            g2.setColor(Constant.c6);
+            g2.drawString(text,x,y);
+
+            x = Constant.screenWidth/2 - Constant.tileSize;
+            y = 6*Constant.tileSize;
+            Image img =  am.setup("/sandclock", Constant.tileSize*2, Constant.tileSize*2);
+            g2.drawImage(img, x, y, Constant.tileSize*2, Constant.tileSize*2, null);
+        }
     }
 
     private void drawSubWindow(Graphics2D g2, int subState){
