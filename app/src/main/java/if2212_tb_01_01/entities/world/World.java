@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.assets.tiles.Tile;
 import if2212_tb_01_01.utils.UtilityTool;
+import if2212_tb_01_01.entities.sim.Sim;
 
 import static if2212_tb_01_01.utils.Constant.*;
 
@@ -25,8 +26,7 @@ public class World {
     /* World Attributes */
     private int panjang;
     private int lebar;
-    // private WorldClock worldClock;
-    private boolean isIdle;
+    private ArrayList<Sim> listSim;
     private List<Object> listRumah;
     private Boolean[][] mapRumah;
 
@@ -39,8 +39,7 @@ public class World {
         this.panjang = maxWorldRows;
         this.lebar = maxWorldColumns;
         this.listRumah = new ArrayList<Object>();
-        // this.worldClock = new WorldClock();
-        this.isIdle = true;
+        this.listSim = new ArrayList<Sim>();
         mapRumah = new Boolean[this.panjang][this.lebar];
         for (int i = 0; i < this.panjang; i++) {
             for (int j = 0; j < this.lebar; j++) {
@@ -206,11 +205,16 @@ public class World {
     // }
 
     public boolean isIdle() {
+        boolean isIdle = false;
+        for (Sim sim : listSim) {
+            if (sim.getStatus().size() == 0) {
+                isIdle = true;
+            } else {
+                isIdle = false;
+                break;
+            }
+        }
         return isIdle;
-    }
-
-    public void setIdle(boolean isIdle) {
-        this.isIdle = isIdle;
     }
 
     // public Rumah getRumah(int x) {
@@ -220,4 +224,20 @@ public class World {
     // public Rumah getLastRumah() {
     // return this.listRumah.get(this.listRumah.size() - 1);
     // }
+
+    public Sim getSim(int x) {
+        return this.listSim.get(x);
+    }
+
+    public ArrayList<Sim> getListSim() {
+        return this.listSim;
+    }
+
+    public void addSim(Sim sim) {
+        this.listSim.add(sim);
+    }
+
+    public int getJumlahSim() {
+        return this.listSim.size();
+    }
 }

@@ -154,6 +154,7 @@ public class KeyHandler implements KeyListener {
             if(isEnterPressed()){
                 // this sim
                 gp.setSim(gp.getSimList().get(arrowNum));
+                gp.setIndexActiveSim(arrowNum);
                 if (gp.getRoom() != null){
                     gp.getRoom().setIsBuilded(false);
                 }
@@ -184,6 +185,7 @@ public class KeyHandler implements KeyListener {
                 if (!errorCaught){
                     Sim s = new Sim(gp, this, arrowNum+1, input, null);
                     gp.setSim(s);
+                    gp.setIndexActiveSim(gp.getSimList().size());
                     gp.addSimList(s);
 
                     gp.setGs(8);
@@ -347,7 +349,12 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(3);
                             break;
                         case "tambah sim":
-                            gp.setGs(4);
+                            if (gp.getWorldClock().getIsCanAddSim()){
+                                gp.setGs(4);
+                                gp.getWorldClock().setIsCanAddSim(false);
+                            } else{
+                                // gabisa add sim
+                            }
                             break;
                         case "belanja":
                             gp.setGs(11);
@@ -489,7 +496,7 @@ public class KeyHandler implements KeyListener {
                             }
                                 break;
                         case "tidur":
-                            gp.getSim().tidur();
+                            gp.getSim().tidur(180);
                             break;
                         case "buang air":
                             break;
@@ -500,10 +507,10 @@ public class KeyHandler implements KeyListener {
                         case "berdoa":
                             break;
                         case "gambar":
-                            gp.getSim().melukis();
+                            gp.getSim().melukis(20);
                             break;
                         case "main musik":
-                            gp.getSim().bermainMusik();
+                            gp.getSim().bermainMusik(20);
                             break;
                         case "mandi":
                             break;
