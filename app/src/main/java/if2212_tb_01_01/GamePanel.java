@@ -185,6 +185,12 @@ public class GamePanel extends JPanel implements Runnable {
         return IndexActiveSim = index;
     }
 
+    public WorldClock getWorldClock(){
+        return worldClock;
+    }
+    public void setWorldClock(WorldClock worldClock){
+        this.worldClock = worldClock;
+    }
 
     public ArrayList<Sim> getSimList(){
         return worldClock.getWorld().getListSim();

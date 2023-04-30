@@ -349,9 +349,9 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(3);
                             break;
                         case "tambah sim":
-                            if (gp.worldClock.getIsCanAddSim()){
+                            if (gp.getWorldClock().getIsCanAddSim()){
                                 gp.setGs(4);
-                                gp.worldClock.setIsCanAddSim(false);
+                                gp.getWorldClock().setIsCanAddSim(false);
                             } else{
                                 // gabisa add sim
                             }
