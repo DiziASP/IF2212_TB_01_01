@@ -17,7 +17,7 @@ public class App {
 
         public void show(boolean started) {
             if (!started) {
-                System.out.println("+-------- ------+");
+                System.out.println("+---------------+");
                 System.out.println("| List Menu :   |");
                 System.out.println("| 1. Start Game |");
                 System.out.println("| 2. Load Game  |");
@@ -165,6 +165,7 @@ public class App {
 
             // Menu nomor 5 (Harusnya udh aman sih tinggal thread waktunya aja)
             else if (command.equals("UPGRADE HOUSE")) {
+                final int idx = indeksActiveSim;
                 if (worldClock.getWorld().getSim(indeksActiveSim).getUang() < 1500) {
                     System.out.println("Uang tidak cukup! Upgrade house gagal dilakukan");
                 } else {
@@ -195,6 +196,7 @@ public class App {
                                         if (command.equals("ATAS")) {
                                             if (!worldClock.getWorld().getRumah(posisiRumah).adaRuangan(new Point(
                                                     posisiRuanganAcuan.getX(), posisiRuanganAcuan.getY() + 1))) {
+
                                                 posisiRuanganBaru = new Point(posisiRuanganAcuan.getX(),
                                                         posisiRuanganAcuan.getY() + 1);
                                                         worldClock.getWorld().getRumah(posisiRumah).upgradeRumah(namaRuangan,
@@ -203,6 +205,11 @@ public class App {
                                                         .setUang(worldClock.getWorld().getSim(indeksActiveSim).getUang() - 1500);
                                                 System.out.println(
                                                         "Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
+                                                        final Point pointruangan = posisiRuanganBaru;
+                                                        executorService.execute(() -> {
+                                                            worldClock.getWorld().getSim(idx).upgradeRumah(pointruangan);
+                                                        });
+                                                        
                                             } else {
                                                 System.out.println(
                                                         "Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
@@ -218,6 +225,10 @@ public class App {
                                                         .setUang(worldClock.getWorld().getSim(indeksActiveSim).getUang() - 1500);
                                                 System.out.println(
                                                         "Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
+                                                        final Point pointruangan = posisiRuanganBaru;
+                                                        executorService.execute(() -> {
+                                                            worldClock.getWorld().getSim(idx).upgradeRumah(pointruangan);
+                                                        });
                                             } else {
                                                 System.out.println(
                                                         "Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
@@ -233,6 +244,10 @@ public class App {
                                                         .setUang(worldClock.getWorld().getSim(indeksActiveSim).getUang() - 1500);
                                                 System.out.println(
                                                         "Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
+                                                        final Point pointruangan = posisiRuanganBaru;
+                                                        executorService.execute(() -> {
+                                                            worldClock.getWorld().getSim(idx).upgradeRumah(pointruangan);
+                                                        });
                                             } else {
                                                 System.out.println(
                                                         "Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
@@ -248,6 +263,10 @@ public class App {
                                                         .setUang(worldClock.getWorld().getSim(indeksActiveSim).getUang() - 1500);
                                                 System.out.println(
                                                         "Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
+                                                        final Point pointruangan = posisiRuanganBaru;
+                                                        executorService.execute(() -> {
+                                                            worldClock.getWorld().getSim(idx).upgradeRumah(pointruangan);
+                                                        });
                                             } else {
                                                 System.out.println(
                                                         "Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");

@@ -502,43 +502,8 @@ public class Sim {
         // Please provide the solution below
     }
 
-    public void upgradeRumah() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Pilih nomor ruangan yang ingin dijadikan acuan penambahan: ");
-        int pilihan1 = scanner.nextInt();
-        Ruangan ruangan = this.rumah.getDaftarRuangan().get(pilihan1 - 1);
-        System.out.println("Pilih posisi ruangan baru (atas/bawah/kiri/kanan): ");
-        String pilihan = scanner.nextLine();
+    public void upgradeRumah(Point point) {
         this.status.add(new Aksi(this, "Upgrade Rumah", 18));
-        Point point = new Point(-1, -1);
-        if (pilihan.equals("atas")) {
-            System.out.println("Masukkan nama ruangan: ");
-            String namaRuangan = scanner.nextLine();
-            point.setX(ruangan.getPosisi().getX());
-            point.setY(ruangan.getPosisi().getY() + 1);
-            this.rumah.addRuangan(new Ruangan(namaRuangan, point, false));
-        } else if (pilihan.equals("bawah")) {
-            System.out.println("Masukkan nama ruangan: ");
-            String namaRuangan = scanner.nextLine();
-            point.setX(ruangan.getPosisi().getX());
-            point.setY(ruangan.getPosisi().getY() - 1);
-            this.rumah.addRuangan(new Ruangan(namaRuangan, point, false));
-        } else if (pilihan.equals("kiri")) {
-            System.out.println("Masukkan nama ruangan: ");
-            String namaRuangan = scanner.nextLine();
-            point.setX(ruangan.getPosisi().getX() - 1);
-            point.setY(ruangan.getPosisi().getY());
-            this.rumah.addRuangan(new Ruangan(namaRuangan, point, false));
-        } else if (pilihan.equals("kanan")) {
-            System.out.println("Masukkan nama ruangan: ");
-            String namaRuangan = scanner.nextLine();
-            point.setX(ruangan.getPosisi().getX() + 1);
-            point.setY(ruangan.getPosisi().getY());
-            this.rumah.addRuangan(new Ruangan(namaRuangan, point, false));
-        }
-
-        System.out.println("Rumah sedang diupgrade, silahkan tunggu 18 menit!");
         int indexstatus = this.status.size() - 1;
         try {
             int waktu = 18 * 60;
