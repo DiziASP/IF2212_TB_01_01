@@ -100,6 +100,7 @@ public class KeyHandler implements KeyListener {
 
             } else if(isEscapePressed()){
                 //exit();
+                System.exit(0);
             } 
 
 

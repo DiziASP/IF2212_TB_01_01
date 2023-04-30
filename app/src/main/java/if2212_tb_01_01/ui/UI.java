@@ -588,31 +588,31 @@ public class UI {
                         g2.setColor(Constant.c5);
 
                         if (type =="inventory"){ 
-                            g2.fillRect(x2, y2 + kh.getArrowNum()*20, Constant.tileSize*9, 20);
+                             g2.fillRect(x2, y2 -7 + kh.getArrowNum()*20, Constant.tileSize*9, 20);
                             
                             if (item instanceof BahanMakanan){
-                                text = "Beli\nMakan";
+                                text = "Beli\nMakan\nKembali";
                             } else if (item instanceof Masakan){
-                                text = "Masak\nMakan";
+                                text = "Masak\nMakan\nKembali";
                             } else if (item instanceof Furnitur){
-                                text = "Beli\nPasang";
+                                text = "Beli\nPasang\nKembali";
                             }
-                            y2-=8;
+                            y2-=15;
                             g2.setColor(Constant.c6);
                             for (String line : text.split("\n")){
                                 g2.drawString(line, x2+48, y2 += 20);
                             }
                         } else if (type =="shop"){
-                            g2.fillRect(x2, y2 +10, Constant.tileSize*9, 20);
+                            g2.fillRect(x2, y2, Constant.tileSize*9, 20);
                             
                             if (item instanceof BahanMakanan){
-                                text = "Beli";
+                                text = "Beli\nKembali";
                             } else if (item instanceof Masakan){
-                                text = "Barang tidak bisa dibeli";
+                                text = "Barang tidak bisa dibeli\nKembali";
                             } else if (item instanceof Furnitur){
-                                text = "Beli";
+                                text = "Beli\nKembali";
                             }
-                            y2-=8;
+                            y2-=18;
                             g2.setColor(Constant.c6);
                             g2.drawString(text, x2+48, y2 + 30);
                             

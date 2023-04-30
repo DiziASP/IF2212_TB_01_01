@@ -179,6 +179,10 @@ public class Sim {
          this.currentRuangan = rumah.getRuanganAwal();
          //tes
          inventory.incItem(0);
+         inventory.incItem(3);
+         inventory.incItem(4);
+         inventory.incItem(6);
+         inventory.incItem(10);
         //  this.rumah = rumah;
         //  this.currentRuangan = rumah.getDaftarRuangan().get(0);
         //  this.posisiRumah = posisiRumah;
