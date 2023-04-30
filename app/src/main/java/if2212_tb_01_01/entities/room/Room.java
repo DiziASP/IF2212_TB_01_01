@@ -126,13 +126,6 @@ public class Room {
         // KasurQueenSize jam = KasurQueenSize.buildKasurQueenSize(0,0);
         daftarObjek.add(it);
         setMapRuangan(idx, it);
-        for (int i=0; i<6; i++){
-            System.out.println();
-
-            for (int j=0; j<6; j++){
-                System.out.print(mapRuangan[i][j]);
-            }
-        }
     }
 
     public int delObjek(int x, int y){

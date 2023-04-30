@@ -517,16 +517,54 @@ public class UI {
         // } else if (subState==12){
         //     text = ""
         } else if (subState==13){
-            text = "Masukkan durasi " + gp.getOpsiAksi(kh.getArrowNum());
+            g2.setFont(f20);
+            text = "Masukkan durasi " ;
+            x = 10*Constant.tileSize-12;
+            y = Constant.tileSize*3;
+            g2.setColor(Constant.c6);
+            g2.drawString(text,x,y);
+            text = kh.getInput() +":";
+            g2.drawString(text, x, y+24);
+
+            g2.setColor(Constant.c1);
+            g2.fillRect(x+20, y+Constant.tileSize, 3*Constant.tileSize, Constant.tileSize);
+
+            g2.setColor(Constant.c6);
+            g2.drawString(String.valueOf(kh.getIn1()), x+32, y+Constant.tileSize +28);
+
         } else if (subState==14){
-            g2.setColor(new Color (0,0,0,200));
-            x =3*Constant.tileSize+24;
-            y = 3*Constant.tileSize;
-            g2.fillRect(x,y,y,y);
+            // g2.setColor(new Color (0,0,0,200));
+            // x =3*Constant.tileSize+24;
+            // y = 3*Constant.tileSize;
+            // g2.fillRect(x,y,y,y);
+
+            x = 10*Constant.tileSize-12;
+            y = Constant.tileSize+24;
     
             g2.setColor(Constant.c6);
-            text = gp.getSim().getNamaLengkap() + " sedang " + gp.getOpsiAksi(kh.getArrowNum());
-            g2.drawString(text, y/2 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+24);
+            text = gp.getSim().getNamaLengkap();
+
+            if (gp.getActionCounter()==0){
+                y+=24;
+                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+2*Constant.tileSize);  
+                text = " sudah selesai " ;
+                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+2*Constant.tileSize+24);
+                text = kh.getInput() + "!";
+                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+3*Constant.tileSize);
+            } else{
+                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+72);  
+
+                text = " sedang " + kh.getInput() + "...";
+                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+2*Constant.tileSize);            
+    
+                text = gp.getActionCounter() +" detik";
+                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+4*Constant.tileSize);            
+                text = "tersisa";
+                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+4*Constant.tileSize +24);   
+            }
+
+                      
+
         } else if (subState==15){
             text = "Aksi berhasil dilakukan!";
         } else if (subState==16){

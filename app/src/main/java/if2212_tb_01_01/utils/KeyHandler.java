@@ -245,6 +245,15 @@ public class KeyHandler implements KeyListener {
                 } else if (k == 38){
                     pointer = (pointer+30)%36;
                 }
+            } else if (gp.getSubState()==13){
+                if (k>=48 && k<=57){
+                    in1 = (in1*10 + k-48);
+                    if (in1>1000000000){
+                        in1 = 1000000000;
+                    }
+                } else if (k==8){
+                    in1 = in1/10;
+                }
             }
 
             if(isEnterPressed()){
@@ -267,39 +276,9 @@ public class KeyHandler implements KeyListener {
                         case "keluar":
                             gp.setGs(7);
                             break;
-                        case "olahraga":
-                            gp.getSim().olahraga();
-                            break;
-                        case "tidur":
-                            gp.getSim().tidur();
-                            break;
-                        case "buang air":
-                            break;
-                        case "masak":
-                            gp.getSim().memasak("NASI KARI");
-                            break;
-                        case "makan":
-                            break;
-                        case "lihat waktu":
-                            break;
-                        case "yoga":
-                            break;
-                        case "berdoa":
-                            break;
-                        case "gambar":
-                            gp.getSim().melukis();
-                            break;
-                        case "main musik":
-                            gp.getSim().bermainMusik();
-                            break;
-                        case "mandi":
-                            break;
-                        case "bersihkan rumah":
-                            break;
-                        case "kerjakan proyek":
-                            break;
-                        case "pindah ruangan":
-                            break;
+                        default:
+                            input = gp.getOpsiAksi(arrowNum);  
+                            gp.setSubState(13);
                     }
                 } else if (gp.getSubState()==1){
                     //extra
@@ -417,8 +396,60 @@ public class KeyHandler implements KeyListener {
                     //tambah ruang
                 } else if (gp.getSubState()==13){
                     //durasi aksi
+                    switch (input){ 
+                        case "edit ruangan":
+                            gp.setSubState(2);
+                            break;
+                        case "opsi lain":
+                            gp.setSubState(1);
+                            break; 
+                        case "keluar":
+                            gp.setGs(7);
+                            break;
+                        case "olahraga":
+                            if (in1%20==0){
+                                gp.setSubState(14);
+                                gp.getSim().olahraga(in1);
+                            } else {
+                                errorCaught = true;
+                            }
+                                break;
+                        case "tidur":
+                            gp.getSim().tidur();
+                            break;
+                        case "buang air":
+                            break;
+                        case "masak":
+                            gp.getSim().memasak("NASI KARI");
+                            break;
+                        case "makan":
+                            break;
+                        case "lihat waktu":
+                            break;
+                        case "yoga":
+                            break;
+                        case "berdoa":
+                            break;
+                        case "gambar":
+                            gp.getSim().melukis();
+                            break;
+                        case "main musik":
+                            gp.getSim().bermainMusik();
+                            break;
+                        case "mandi":
+                            break;
+                        case "bersihkan rumah":
+                            break;
+                        case "kerjakan proyek":
+                            break;
+                        case "pindah ruangan":
+                            break;
+                    }                    
                 } else if (gp.getSubState()==14){
                     //aksi counter
+                    if (gp.getActionCounter()==0){
+                        gp.setSubState(0);
+                    }
                 } else if (gp.getSubState()==15){
                     //aksi berhasil
                 } else if (gp.getSubState()==16){
