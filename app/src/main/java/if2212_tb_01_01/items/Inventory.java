@@ -56,6 +56,11 @@ public class Inventory {
        return(inventory.get(i).getAmount() >0);
     }
 
+
+    public boolean isItemSisa(Integer i){
+        return(((Furnitur)inventory.get(i)).getSisa() >0);
+     }
+
     public int jumlahItem(Integer i) {
         return(inventory.get(i).getAmount());
     }
@@ -64,7 +69,7 @@ public class Inventory {
         inventory.get(i).incAmount();
         // if (inventory.get(i) instanceof Furnitur){
         //     Furnitur in = (Furnitur) inventory.get(i);
-        //     // in.incAmountPut();
+        //     in.incAmountPut();
         // }
     }
 
@@ -86,6 +91,32 @@ public class Inventory {
         inventory.clear();
     }
 
+    public boolean isBisaMasak(int idx){
+        boolean bisa = true;
+        Masakan masakan = (Masakan) this.getInventory().get(idx);
+        for (int itBahan : masakan.getIdxBahan()){
+            if (!this.isItemAda(itBahan)){
+                bisa = false;
+            }
+        }
+        return bisa;
+    }
+
+    public int getJumMakanan(){
+        int jumlah = 0;
+        for (int i=12; i<25; i++){
+            jumlah += getInventory().get(i).getAmount();
+        }
+        return jumlah;
+    }
+
+    public int getJumMasakan(){
+        int jumlah = 0;
+        for (int i=12; i<20; i++){
+            jumlah += getInventory().get(i).getAmount();
+        }
+        return jumlah;
+    }
     // public void displayInventory() {
     //     String text = "Inventory: ";
     //     boolean found = false;
