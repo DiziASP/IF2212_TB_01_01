@@ -456,10 +456,8 @@ public class KeyHandler implements KeyListener {
 
                 } else if (gp.getSubState()==10){
                     //pilih menu makanan
-                    for(int item : ((Masakan)gp.getSim().getInventory().getInventory().get(20+pointer)).getIdxBahan()){
-                        if (!gp.getSim().getInventory().isItemAda(item)){
-                            errorCaught = true;
-                        }
+                    if (gp.getSim().getInventory().isBisaMasak(pointer+20)){
+                        errorCaught = true;
                     }
                     if(!errorCaught){
                         // gp.getSim().getInventory().decItem(pointer);
