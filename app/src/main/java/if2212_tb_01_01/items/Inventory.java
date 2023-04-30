@@ -20,7 +20,7 @@ public class Inventory {
         inventory.put(6, (Item) new MejaKursi());
         inventory.put(7, (Item) new PC());
         inventory.put(8, (Item) new Piano());
-        inventory.put(9, (Item) new Pintu());
+        inventory.put(9, (Item) new Kanvas());
         inventory.put(10, (Item) new Toilet());
         inventory.put(11, (Item) new BakMandi());
         inventory.put(12, (Item) new BH_Ayam());
@@ -56,22 +56,69 @@ public class Inventory {
        return(inventory.get(i).getAmount() >0);
     }
 
+
+    public boolean isItemSisa(Integer i){
+        return(((Furnitur)inventory.get(i)).getSisa() >0);
+     }
+
     public int jumlahItem(Integer i) {
         return(inventory.get(i).getAmount());
     }
 
     public void incItem (Integer i) {
         inventory.get(i).incAmount();
+        // if (inventory.get(i) instanceof Furnitur){
+        //     Furnitur in = (Furnitur) inventory.get(i);
+        //     in.incAmountPut();
+        // }
     }
 
     public void decItem (Integer i) {
-        inventory.get(i).decAmount();
+        // inventory.get(i).decAmount();
+        if (inventory.get(i) instanceof Furnitur){
+            Furnitur in = (Furnitur) inventory.get(i);
+            in.decAmountPut();
+        } else {
+            inventory.get(i).decAmount();
+        }
+    }
+    public void incItemPut(Integer i){
+        if (inventory.get(i) instanceof Furnitur){
+            Furnitur in = (Furnitur) inventory.get(i);
+            in.incAmountPut();
+        }
     }
 
     public void clearIsi () {
         inventory.clear();
     }
 
+    public boolean isBisaMasak(int idx){
+        boolean bisa = true;
+        Masakan masakan = (Masakan) this.getInventory().get(idx);
+        for (int itBahan : masakan.getIdxBahan()){
+            if (!this.isItemAda(itBahan)){
+                bisa = false;
+            }
+        }
+        return bisa;
+    }
+
+    public int getJumMakanan(){
+        int jumlah = 0;
+        for (int i=12; i<25; i++){
+            jumlah += getInventory().get(i).getAmount();
+        }
+        return jumlah;
+    }
+
+    public int getJumMasakan(){
+        int jumlah = 0;
+        for (int i=12; i<20; i++){
+            jumlah += getInventory().get(i).getAmount();
+        }
+        return jumlah;
+    }
     // public void displayInventory() {
     //     String text = "Inventory: ";
     //     boolean found = false;
@@ -97,5 +144,15 @@ public class Inventory {
             }
         }
         return -1;
+    }
+
+    public int getHarga(int idx){
+        if (inventory.get(idx) instanceof Furnitur){
+            return (((Furnitur) inventory.get(idx)).getHarga());
+        } else if (inventory.get(idx) instanceof BahanMakanan){
+            return (((BahanMakanan) inventory.get(idx)).getHarga());
+        } else {
+            return -1;
+        }
     }
 } 

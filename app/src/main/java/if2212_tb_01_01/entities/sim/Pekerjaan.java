@@ -10,8 +10,9 @@ public class Pekerjaan {
     private Integer gaji;
 
     public Pekerjaan(){
-        this.namaKerja = "Badut Sulap";
-        this.gaji = 100;
+        Pekerjaan pekerjaan = randomizedPekerjaan();
+        this.namaKerja = pekerjaan.namaKerja;
+        this.gaji = pekerjaan.gaji;
     }
 
     /**
@@ -20,7 +21,7 @@ public class Pekerjaan {
      * @return namaKerja
      */
     public String getNamaKerja() {
-        return "namaKerja";
+        return this.namaKerja;
     }
 
     /**
@@ -73,8 +74,9 @@ public class Pekerjaan {
         public Pekerjaan build() {
             return new Pekerjaan(this);
         }
+    }
 
-        public Pekerjaan randomizedPekerjaan(){
+    public Pekerjaan randomizedPekerjaan(){
         List<Pekerjaan> pekerjaan = new ArrayList<>();
         pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Badut Sulap", 15).build());
         pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Koki", 30).build());
@@ -86,6 +88,6 @@ public class Pekerjaan {
         int max = 4;
         int randomNum = rand.nextInt((max - min) + 1) + min;
         return pekerjaan.get(randomNum);
-    }
+    
     }
 }

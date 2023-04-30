@@ -49,33 +49,29 @@ public class TileManager {
     }
 
     public void loadMap(String mapPath, int roomIndex, int height, int width) {
-        try {
-            InputStream inputStream = getClass().getResourceAsStream(mapPath);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-            int column = 0;
-            int row = 0;
-
-            while (column < width && row < height) {
-                String line = bufferedReader.readLine();
-
-                while (column < width) {
-                    String[] numbers = line.split(" ");
-                    int number = Integer.parseInt(numbers[column]);
-
-                    mapTileNumbers[roomIndex][row][column] = number;
-                    column++;
-                }
-                if (column == width) {
-                    column = 0;
-                    row++;
-                }
+        int worldColumn = 0; int worldRow = 0;
+        while (worldColumn < 8 && worldRow < 8) {
+            if (worldColumn%7==0 || worldRow%7==0){
+                mapTileNumbers[roomIndex][worldRow][worldColumn] = 2;
+            }else{
+                mapTileNumbers[roomIndex][worldRow][worldColumn] = 1;
             }
+            // int tileNumber = mapTileNumbers[roomIndex][worldRow][worldColumn];
+            // tiles[tileNumber].getSolidArea().setRect((roomX + worldColumn * tileSize),
+            //         (roomY + worldRow * tileSize),
+            //         tileSize, tileSize);
 
-            bufferedReader.close();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            // Debugging
+//             graphics2D.setColor(Color.BLUE);
+//             graphics2D.fill(tiles[tileNumber].getSolidArea());
+
+            worldColumn++;
+
+            if (worldColumn == 8) {
+                worldColumn = 0;
+                worldRow++;
+            }
         }
     }
 

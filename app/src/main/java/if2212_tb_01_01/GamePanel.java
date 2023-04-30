@@ -3,12 +3,13 @@ package if2212_tb_01_01;
 import static if2212_tb_01_01.utils.Constant.*;
 
 import if2212_tb_01_01.assets.AssetManager;
+import if2212_tb_01_01.assets.tiles.TileManager;
 import if2212_tb_01_01.entities.WorldClock;
 import if2212_tb_01_01.entities.house.House;
 import if2212_tb_01_01.entities.room.Room;
-import if2212_tb_01_01.entities.sim.Sim;
-import if2212_tb_01_01.entities.world.World;
-import if2212_tb_01_01.items.masakan.Bistik;
+import if2212_tb_01_01.entities.sim.*;
+import if2212_tb_01_01.entities.world.*;
+import if2212_tb_01_01.entities.world.Point;
 import if2212_tb_01_01.ui.UI;
 // import if2212_tb_01_01.ui.WelcomeUI;
 import if2212_tb_01_01.utils.CollisionHandler;
@@ -24,7 +25,17 @@ import java.util.Arrays;
 public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
     int gameState = 0;
-    // screen: 0-welcome, 1-setup, 2-help, 3-new, 4-stats, 5-ruangan, 6-world, 7-inventory
+    // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
+    // 9-inventory, 10-world kunjungan, 11-shop
+    int subState = 0;
+        // subState: 0-none, 1-tambahan, 2-pilihEditan, 3-pilihBarangPasang, 4-lokasiPasang, 5-lokasiBuang, 6-lokasiEdit, 7-lokasiBaru
+        // 8-cari kerja, 9-pilihMakanan, 10-pilihMenuMakanan
+        // 11-tampilkan waktu
+        // 12-tambah ruang, 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
+
+    // TileManager tm;
+    int actionCounter=0;
+
     ArrayList<String> opsiAksi = new ArrayList<String>();
 
     /* Generate Thread */
@@ -37,13 +48,14 @@ public class GamePanel extends JPanel implements Runnable {
     public final InteractionHandler interactionHandler = new InteractionHandler(this);
 
     private UI ui = new UI(this,keyHandler);
-    private Sim sim = new Sim(this, this.keyHandler, 1, "Sim");
-    private ArrayList<Sim> listSim = new ArrayList<Sim>();
-    private final House house = new House(this, this.sim);
-    public Room room = house.getRuangan("Test");
+    private Sim sim;
+    // private ArrayList<Sim> listSim = new ArrayList<Sim>();
+    private House house;
+    public Room room;
     private World world = new World(this);
+    private int IndexActiveSim;
 
-    WorldClock worldClock = new WorldClock(this);
+    WorldClock worldClock = new WorldClock(this, world);
 
 
     public GamePanel() {
@@ -60,9 +72,12 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         //readfile sim
         //test
-        listSim.add(new Sim(this, keyHandler, 2, "nadira"));
-        listSim.add(new Sim(this, keyHandler, 1, "naura"));
-        listSim.add(new Sim(this, keyHandler,7, "dizi"));
+        worldClock.getWorld().addSim(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
+        worldClock.getWorld().getSim(0).getRoomAwal().pasangObjek(4,0, 1);
+        worldClock.getWorld().addSim(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
+        worldClock.getWorld().getSim(1).getRoomAwal().pasangObjek(3,1, 0);
+        worldClock.getWorld().addSim(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
+        worldClock.getWorld().getSim(2).getRoomAwal().pasangObjek(6,2, 3);
     }
 
     public void startGameThread() {
@@ -73,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void startWorldClock(){
         Thread worldClockThread = new Thread(worldClock);
         worldClockThread.start();
+        
     }
 
     @Override
@@ -96,9 +112,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        // ui.update();
-        room.update();
-        sim.update();
+        ui.update();
+        if (gameState==6){
+            room.update(); //buggy kalo atas
+            sim.update();
+        }
     }
 
     @Override
@@ -118,6 +136,14 @@ public class GamePanel extends JPanel implements Runnable {
         return assetManager;
     }
 
+    public int getActionCounter() {
+        return actionCounter;
+    }
+
+    public void setActionCounter(int actionCounter) {
+        this.actionCounter = actionCounter;
+    }
+
     public int getGs() {
         return gameState;
     }
@@ -125,26 +151,53 @@ public class GamePanel extends JPanel implements Runnable {
     public void setGs(int gameState) {
         this.gameState = gameState;
         keyHandler.setArrowNum(0);
+        keyHandler.setErrorCaught(false);
+    }
+
+    public int getSubState() {
+        return subState;
+    }
+
+    public void setSubState(int subState) {
+        this.subState = subState;
+        keyHandler.setArrowNum(0);
     }
 
     public Room getRoom(){
         return room;
     }
 
+    public void setRoom(Room room){
+        this.room = room;
+    }
+
     public Sim getSim(){
-        return sim;
+        return worldClock.getWorld().getSim(IndexActiveSim);
     }
 
     public void setSim(Sim sim){
         this.sim = sim;
     }
+    public int getIndexActiveSim(){
+        return IndexActiveSim;
+    }
+    public int setIndexActiveSim(int index){
+        return IndexActiveSim = index;
+    }
+
+    public WorldClock getWorldClock(){
+        return worldClock;
+    }
+    public void setWorldClock(WorldClock worldClock){
+        this.worldClock = worldClock;
+    }
 
     public ArrayList<Sim> getSimList(){
-        return listSim;
+        return worldClock.getWorld().getListSim();
     }
 
     public void addSimList(Sim sim){
-        listSim.add(sim);
+        worldClock.getWorld().addSim(sim);
     }
 
     public ArrayList<String> getOpsiAksi(){
@@ -159,23 +212,50 @@ public class GamePanel extends JPanel implements Runnable {
         opsiAksi.add(0, aksi);
     }
 
+    // public TileManager getTileManager(){
+    //     return tm;
+    // }
+    // public void setTileManager(TileManager tm){
+    //     this.tm = tm;
+    // }
+
     public void updateOpsiAksi(){
         opsiAksi.clear();
 
-        if (!keyHandler.isSedangAksiAktif()){
-            // addOpsiAksi("tambah sim");
-            // addOpsiAksi("ganti sim");
-            // addOpsiAksi("cari kerja");
-            // addOpsiAksi("lihat inventory");
-            // addOpsiAksi("upgrade rumah"); 
-            // addOpsiAksi("beli barang");       
-            // addOpsiAksi("pasang barang");
-            // addOpsiAksi("kunjungi rumah");
+        if (subState==0){
+            addOpsiAksi("keluar");
             addOpsiAksi("opsi lain");
+            addOpsiAksi("edit ruangan");
             addOpsiAksi("olahraga");
             addOpsiAksi("yoga");
             addOpsiAksi("bersihkan rumah");
-            addOpsiAksi("berdoa");
+            addOpsiAksi("berdoa");            
+            addOpsiAksi("masak");
+            addOpsiAksi("makan");
+
+        } else if (subState==1){
+            //tambahan
+            addOpsiAksi("kembali");
+            addOpsiAksi("tambah sim");
+            addOpsiAksi("ganti sim");
+            //if
+            addOpsiAksi("cari kerja");
+
+            addOpsiAksi("lihat inventory");
+            addOpsiAksi("belanja");
+            addOpsiAksi("upgrade rumah"); 
+            addOpsiAksi("kunjungi rumah");
+        } else if (subState==2){
+            addOpsiAksi("kembali");
+            addOpsiAksi("hapus barang");
+            addOpsiAksi("pindahkan barang"); 
+            addOpsiAksi("tambahkan barang");
+        } else if (subState==8){
+            addOpsiAksi("badut sulap");
+            addOpsiAksi("koki");
+            addOpsiAksi("polisi");
+            addOpsiAksi("programmer");
+            addOpsiAksi("dokter");
         }
     }
 
@@ -184,20 +264,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         addOpsiAksi("keluar");
         addOpsiAksi("kembali");
-
-        if(keyHandler.isBisaTambah()){
-            addOpsiAksi("tambah sim");
-        }    
-        addOpsiAksi("ganti sim");
-
-        if (keyHandler.isBisaGantiKerja()){
-            addOpsiAksi("cari kerja");
-        }
-        addOpsiAksi("lihat inventory");
-        addOpsiAksi("upgrade rumah"); 
-        addOpsiAksi("beli barang");       
-        addOpsiAksi("ubah ruangan");
-        addOpsiAksi("kunjungi rumah");
     }
 
 
