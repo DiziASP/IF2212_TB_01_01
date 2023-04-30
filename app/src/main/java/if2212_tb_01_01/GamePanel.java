@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Room room;
     private World world = new World(this);
 
-    WorldClock worldClock = new WorldClock(this);
+    WorldClock worldClock = new WorldClock(this, world);
 
 
     public GamePanel() {
