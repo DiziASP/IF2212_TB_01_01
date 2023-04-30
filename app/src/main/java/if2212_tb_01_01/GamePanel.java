@@ -70,9 +70,12 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         //readfile sim
         //test
-        listSim.add(new Sim(this, keyHandler, 2, "nadira", new Point(1,1)));
         listSim.add(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
+        listSim.get(0).getRoomAwal().pasangObjek(4,0, 1);
+        listSim.add(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
+        listSim.get(1).getRoomAwal().pasangObjek(3,1, 0);
         listSim.add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
+        listSim.get(2).getRoomAwal().pasangObjek(6,2, 3);
     }
 
     public void startGameThread() {
@@ -137,6 +140,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setGs(int gameState) {
         this.gameState = gameState;
         keyHandler.setArrowNum(0);
+        keyHandler.setErrorCaught(false);
     }
 
     public int getSubState() {
@@ -211,6 +215,7 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("cari kerja");
 
             addOpsiAksi("lihat inventory");
+            addOpsiAksi("belanja");
             addOpsiAksi("upgrade rumah"); 
             addOpsiAksi("kunjungi rumah");
         } else if (subState==2){

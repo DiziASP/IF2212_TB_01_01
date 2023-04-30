@@ -20,7 +20,7 @@ public class Inventory {
         inventory.put(6, (Item) new MejaKursi());
         inventory.put(7, (Item) new PC());
         inventory.put(8, (Item) new Piano());
-        inventory.put(9, (Item) new Pintu());
+        inventory.put(9, (Item) new Kanvas());
         inventory.put(10, (Item) new Toilet());
         inventory.put(11, (Item) new BakMandi());
         inventory.put(12, (Item) new BH_Ayam());
@@ -62,10 +62,24 @@ public class Inventory {
 
     public void incItem (Integer i) {
         inventory.get(i).incAmount();
+        // if (inventory.get(i) instanceof Furnitur){
+        //     Furnitur in = (Furnitur) inventory.get(i);
+        //     // in.incAmountPut();
+        // }
     }
 
     public void decItem (Integer i) {
-        inventory.get(i).decAmount();
+        // inventory.get(i).decAmount();
+        if (inventory.get(i) instanceof Furnitur){
+            Furnitur in = (Furnitur) inventory.get(i);
+            in.decAmountPut();
+        }
+    }
+    public void incItemPut(Integer i){
+        if (inventory.get(i) instanceof Furnitur){
+            Furnitur in = (Furnitur) inventory.get(i);
+            in.incAmountPut();
+        }
     }
 
     public void clearIsi () {
@@ -97,5 +111,15 @@ public class Inventory {
             }
         }
         return -1;
+    }
+
+    public int getHarga(int idx){
+        if (inventory.get(idx) instanceof Furnitur){
+            return (((Furnitur) inventory.get(idx)).getHarga());
+        } else if (inventory.get(idx) instanceof BahanMakanan){
+            return (((BahanMakanan) inventory.get(idx)).getHarga());
+        } else {
+            return -1;
+        }
     }
 } 
