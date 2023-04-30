@@ -21,7 +21,7 @@ public class CollisionHandler {
         int roomY = (height - tileSize * 11) / 2;
 
         int worldColumn = (sim.getSolidArea().x - roomX)/tileSize;
-        int worldRow = (sim.getSolidArea().y - roomY)/tileSize;
+        int worldRow = (sim.getSolidArea().y- roomY)/tileSize;
 
         int tileNum = gp.room.getTileManager().getMapTileNumbers()[gp.room.getRoomIndex()][worldRow][worldColumn];
 
@@ -62,8 +62,8 @@ public class CollisionHandler {
         int roomX = (width - tileSize * 14) / 2;
         int roomY = (height - tileSize * 11) / 2;
 
-        int worldColumn = (sim.getSolidArea().x - roomX) / tileSize;
-        int worldRow = (sim.getSolidArea().y - roomY) / tileSize;
+        int worldColumn = (sim.getSolidArea().x +24- roomX) / tileSize;
+        int worldRow = (sim.getSolidArea().y +24-roomY) / tileSize;
 
         if (worldColumn <= 0 || worldColumn >= 6 || worldRow <= 0 || worldRow >= 6) {
             System.out.println("Out of bound");

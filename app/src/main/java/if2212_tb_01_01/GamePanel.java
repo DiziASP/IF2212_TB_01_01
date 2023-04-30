@@ -25,7 +25,7 @@ import java.util.Arrays;
 
 public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
-    int gameState = 0;
+    int gameState = 15;
     // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
     // 9-inventory, 10-world kunjungan, 11-shop, 12-MATI, 15-loadeng
     int subState = 0;
@@ -92,6 +92,8 @@ public class GamePanel extends JPanel implements Runnable {
         worldClock.getWorld().addSim(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
         worldClock.getWorld().getSim(2).getRoomAwal().pasangObjek(6,2, 3);
 
+        gameState=0;
+
     }
 
     public void startGameThread() {
@@ -128,7 +130,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         ui.update();
         if (gameState==6){
-            room.update(); //buggy kalo atas
+            room.update(); 
             sim.update();
         }
     }

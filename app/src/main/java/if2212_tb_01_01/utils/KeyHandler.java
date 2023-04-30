@@ -164,6 +164,7 @@ public class KeyHandler implements KeyListener {
                 gp.getRoom().setIsBuilded(true);
                 // gp.setTileManager(new TileManager(gp,1));
                 gp.setGs(5);
+                gp.setSubState(0);
             } else if(isEscapePressed()){
                 gp.setGs(1);
             } 
