@@ -9,6 +9,8 @@ import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.entities.world.Point;
 import if2212_tb_01_01.entities.world.World;
 import if2212_tb_01_01.ui.UI;
+import if2212_tb_01_01.items.Item;
+import if2212_tb_01_01.items.masakan.Masakan;
 import if2212_tb_01_01.items.furnitur.*;
 
 
@@ -43,40 +45,42 @@ public class KeyHandler implements KeyListener {
         // debugging
         // System.out.println(k + " " +(char) k);
         
+        if(gp.getSubState()!=13 && gp.getSubState()!=14){
+            switch (k) {    
+                
+                case KeyEvent.VK_W:
+                    upPressed = true;
+                    commandNum--;
+                    break;
+                case KeyEvent.VK_A:
+                    leftPressed = true;
+                    commandNum++;
+                    break;
+                case KeyEvent.VK_S:
+                    downPressed = true;
+                    break;
+                case KeyEvent.VK_D:
+                    rightPressed = true;
+                    break;
+                case KeyEvent.VK_E:
+                    EPressed = true;
+                    break;
 
-        switch (k) {
-            case KeyEvent.VK_W:
-                upPressed = true;
-                commandNum--;
-                break;
-            case KeyEvent.VK_A:
-                leftPressed = true;
-                commandNum++;
-                break;
-            case KeyEvent.VK_S:
-                downPressed = true;
-                break;
-            case KeyEvent.VK_D:
-                rightPressed = true;
-                break;
-            case KeyEvent.VK_E:
-                EPressed = true;
-                break;
-
-            case 38:
-            case 37:
-                arrowNum--;
-                break;
-            case 40:
-            case 39:
-                arrowNum++;
-                break; 
-            case KeyEvent.VK_ENTER:
-                enterPressed = true;
-                break;
-            case KeyEvent.VK_ESCAPE:
-                escapePressed = true;
-                break;
+                case 38:
+                case 37:
+                    arrowNum--;
+                    break;
+                case 40:
+                case 39:
+                    arrowNum++;
+                    break; 
+                case KeyEvent.VK_ENTER:
+                    enterPressed = true;
+                    break;
+                case KeyEvent.VK_ESCAPE:
+                    escapePressed = true;
+                    break;
+            }
         }
 
 
@@ -259,6 +263,38 @@ public class KeyHandler implements KeyListener {
                 } else if (k == 38){
                     pointer = (pointer+30)%36;
                 }
+            } else if(gp.getSubState()==9){
+                if (k == 37){
+                    pointer = (pointer+12)%13;
+                } else if (k == 39){
+                    pointer = (pointer+1)%13;
+                } else if (k == 40){
+                    if (pointer<8){
+                        pointer = (pointer+4)%13;
+                    } else if (pointer<12){
+                        pointer = (pointer+5)%13;
+                    } else{
+                        pointer = (pointer+1)%13;
+                    }
+                } else if (k == 38){
+                    if (pointer>3){
+                        pointer = (pointer+9)%13;
+                    } else if (pointer>0){
+                        pointer = (pointer+8)%13;
+                    } else{
+                        pointer = (pointer+12)%13;
+                    }
+                }
+            } else if(gp.getSubState()==10){
+                if (k == 37){
+                    pointer = (pointer+4)%5;
+                } else if (k == 39){
+                    pointer = (pointer+1)%5;
+                    } else if (k == 40){
+                    pointer = (pointer+4)%5;
+                } else if (k == 38){
+                    pointer = (pointer+4)%5;
+                }
             } else if (gp.getSubState()==13){
                 if (k>=48 && k<=57){
                     in1 = (in1*10 + k-48);
@@ -289,6 +325,12 @@ public class KeyHandler implements KeyListener {
                             break; 
                         case "keluar":
                             gp.setGs(7);
+                            break;
+                        case "makan":
+                            gp.setSubState(9);
+                            break; 
+                        case "masak":
+                            gp.setSubState(10);
                             break;
                         default:
                             input = gp.getOpsiAksi(arrowNum);  
@@ -402,10 +444,31 @@ public class KeyHandler implements KeyListener {
                         case "kembali":
                             gp.setSubState(0);
                     }
+
                 } else if (gp.getSubState()==9){
                     //pilih makanan
+                    if(gp.getSim().getInventory().isItemAda(12+pointer)){
+                        // gp.getSim().getInventory().decItem(pointer);
+                        in2 = pointer;
+                        errorCaught=false;
+                        gp.setSubState(13);
+                    } else{
+                        errorCaught = true;
+                    }
+
                 } else if (gp.getSubState()==10){
                     //pilih menu makanan
+                    for(int item : ((Masakan)gp.getSim().getInventory().getInventory().get(20+pointer)).getIdxBahan()){
+                        if (!gp.getSim().getInventory().isItemAda(item)){
+                            errorCaught = true;
+                        }
+                    }
+                    if(!errorCaught){
+                        // gp.getSim().getInventory().decItem(pointer);
+                        in2 = pointer;
+                        errorCaught=false;
+                        gp.setSubState(13);
+                    }
                 } else if (gp.getSubState()==11){
                     //tampilkan waktu
                 } else if (gp.getSubState()==12){
@@ -413,14 +476,13 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==13){
                     //durasi aksi
                     switch (input){ 
-                        case "edit ruangan":
-                            gp.setSubState(2);
-                            break;
-                        case "opsi lain":
-                            gp.setSubState(1);
+                        case "makan":
+                            gp.setSubState(14);
+                            // gp.getSim().makan(in2, in1);
                             break; 
-                        case "keluar":
-                            gp.setGs(7);
+                        case "masak":
+                            gp.setSubState(14);
+                            // gp.getSim().masak(in2, in1);
                             break;
                         case "olahraga":
                             if (in1%20==0){
@@ -434,11 +496,6 @@ public class KeyHandler implements KeyListener {
                             gp.getSim().tidur();
                             break;
                         case "buang air":
-                            break;
-                        case "masak":
-                            gp.getSim().memasak("NASI KARI");
-                            break;
-                        case "makan":
                             break;
                         case "lihat waktu":
                             break;

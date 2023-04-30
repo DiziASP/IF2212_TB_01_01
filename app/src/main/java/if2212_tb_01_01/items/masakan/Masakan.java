@@ -21,6 +21,30 @@ public class Masakan extends Item{
         return this.bahan;
     }
 
+    public List<Integer> getIdxBahan(){
+        ArrayList<Integer> listIdx = new ArrayList<Integer>();
+        for (BahanMakanan makanan : bahan){
+            if (makanan.getNama()=="AYAM"){
+                listIdx.add(12);
+            } else if (makanan.getNama()=="BAYAM"){
+                listIdx.add(13);
+            } else if (makanan.getNama()=="KACANG"){
+                listIdx.add(14);
+            } else if (makanan.getNama()=="KENTANG"){
+                listIdx.add(15);
+            } else if (makanan.getNama()=="NASI"){
+                listIdx.add(16);
+            } else if (makanan.getNama()=="SAPI"){
+                listIdx.add(17);
+            } else if (makanan.getNama()=="SUSU"){
+                listIdx.add(18);
+            } else if (makanan.getNama()=="WORTEL"){
+                listIdx.add(19);
+            }
+        }
+        return listIdx;
+    }
+    
     // Setter method for bahan
     public void setBahan(List<BahanMakanan> bahan) {
         this.bahan = bahan;
