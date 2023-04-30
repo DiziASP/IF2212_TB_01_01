@@ -261,9 +261,6 @@ public class KeyHandler implements KeyListener {
                         case "edit ruangan":
                             gp.setSubState(2);
                             break;
-                        case "beli barang":
-                            gp.setGs(11);
-                            break;
                         case "opsi lain":
                             gp.setSubState(1);
                             break; 
@@ -318,6 +315,9 @@ public class KeyHandler implements KeyListener {
                             break;
                         case "tambah sim":
                             gp.setGs(4);
+                            break;
+                        case "belanja":
+                            gp.setGs(11);
                             break;
                         case "lihat inventory":
                             gp.setGs(9);
@@ -488,7 +488,7 @@ public class KeyHandler implements KeyListener {
 
         } else if (gp.getGs() == 9){
             //inventory
-            arrowNum = (arrowNum+2)%2;
+            arrowNum = (arrowNum+3)%3;
 
             if (leftPressed){
                 pointer = (pointer+24)%25;
@@ -505,17 +505,21 @@ public class KeyHandler implements KeyListener {
             } else if(enterPressed){
                 if (arrowNum==0){
                     if (pointer<20){
-                        // gp.getSim().beliBarang(pointer);
+                        gp.getSim().beliItem(pointer);
                     } else{
                         // kompor
+                        errorCaught = true;
                     }
-                } else {
+                } else if (arrowNum==1) {
                     if (pointer<12){
                         gp.setGs(12);
                         pointer = 0;
                     } else {
                         // meja
+                        errorCaught = true;
                     }
+                } else{
+                    gp.setGs(6);
                 }
             }
 
@@ -531,7 +535,6 @@ public class KeyHandler implements KeyListener {
             } else if (escapePressed){
                 gp.setGs(7);
                 in1 = 0; in2 = 0;
-
             } else if(arrowNum==0){
                 if (k>=48 && k<=57){
                     in1 = in1*10 + k-48;
@@ -562,22 +565,23 @@ public class KeyHandler implements KeyListener {
             if(escapePressed){
                 gp.setGs(6);
             } else if(enterPressed){
-                if (pointer<20){
-                     gp.getSim().beliBarang(gp.getSim().getInventory().getInventory().get(pointer).getNama());
+                if (arrowNum==0){
+                    if (pointer<20){
+                        gp.getSim().beliItem(pointer);
+                    } else {
+                        errorCaught = true;
+                    }
+                } else {
+                    gp.setGs(6);
                 }
             }
-        } else if (gp.getGs() == 12){   
-            //edit room
+        // } else if (gp.getGs() == 12){   
+        //     //edit room
 
         } 
 
-
-
     } 
-        
-        
 
-    
     
 
     @Override

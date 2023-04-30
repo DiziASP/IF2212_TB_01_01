@@ -603,7 +603,7 @@ public class UI {
                                 g2.drawString(line, x2+48, y2 += 20);
                             }
                         } else if (type =="shop"){
-                            g2.fillRect(x2, y2, Constant.tileSize*9, 20);
+                            g2.fillRect(x2, y2 + kh.getArrowNum()*20, Constant.tileSize*9, 20);
                             
                             if (item instanceof BahanMakanan){
                                 text = "Beli\nKembali";
@@ -612,10 +612,11 @@ public class UI {
                             } else if (item instanceof Furnitur){
                                 text = "Beli\nKembali";
                             }
-                            y2-=18;
+                            y2-=8;
                             g2.setColor(Constant.c6);
-                            g2.drawString(text, x2+48, y2 + 30);
-                            
+                            for (String line : text.split("\n")){
+                                g2.drawString(line, x2+48, y2 += 20);
+                            }                            
                         }
                     }        
 

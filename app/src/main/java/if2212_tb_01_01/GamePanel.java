@@ -215,6 +215,7 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("cari kerja");
 
             addOpsiAksi("lihat inventory");
+            addOpsiAksi("belanja");
             addOpsiAksi("upgrade rumah"); 
             addOpsiAksi("kunjungi rumah");
         } else if (subState==2){

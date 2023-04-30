@@ -373,6 +373,36 @@ public class Sim {
         return this.rumah.getRuanganAwal();
     }
 
+    public void beliItem(int idx){
+        if (idx<20){
+            if (this.getInventory().getHarga(idx) <= getUang()){
+                int indexStatus = this.status.size() ;
+                Random rand = new Random();
+                int waktubeli = ((rand.nextInt(6) + 1))%5 * 30;
+                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
+                try {
+                    int waktu = waktubeli;
+                    int seconds = 0;
+                    for (int i = 0; i < waktu; i++) {
+                        Thread.sleep(1000);
+                        seconds++;
+                        if (seconds >= 60) {
+                            seconds = 0;
+                            this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                        }
+                        System.out.println(waktu-seconds);
+                    }
+                    this.status.remove(indexStatus);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                inventory.incItem(12);
+            }
+        } else {
+            kh.setErrorCaught(true);
+        }
+    }
+
     // public Point getPosisiRuangan(){
     //     return posisiRuangan;
     // }

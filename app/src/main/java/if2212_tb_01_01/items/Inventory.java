@@ -112,4 +112,14 @@ public class Inventory {
         }
         return -1;
     }
+
+    public int getHarga(int idx){
+        if (inventory.get(idx) instanceof Furnitur){
+            return (((Furnitur) inventory.get(idx)).getHarga());
+        } else if (inventory.get(idx) instanceof BahanMakanan){
+            return (((BahanMakanan) inventory.get(idx)).getHarga());
+        } else {
+            return -1;
+        }
+    }
 } 
