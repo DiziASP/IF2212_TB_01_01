@@ -109,6 +109,9 @@ public class Sim {
          Sim.world = world;
      }
      private boolean isDoAksiAktif;
+     private int waktuTidur=0;
+     private int waktuSudahKerja=0;
+     private boolean belumBerak=false;
      private ExecutorService executorService;
      //private Point posisiRumah;
      //private Point posisiRuangan;
@@ -121,7 +124,7 @@ public class Sim {
 
 
      //gui
-     private BufferedImage[][] image = new BufferedImage[10][20];
+    private BufferedImage[][] image = new BufferedImage[10][20];
     private int spriteIndex;
     private int spriteState;
     private int spriteCounter = 0;
@@ -398,7 +401,7 @@ public class Sim {
                             seconds = 0;
                             this.getAksi(indexStatus).kurangiMenitTersisa(1);
                         }
-                        System.out.println(waktu-seconds);
+                        System.out.println(waktubeli-seconds);
                     }
                     this.status.remove(indexStatus);
                 } catch (InterruptedException e) {
@@ -428,6 +431,13 @@ public class Sim {
     }
     public Aksi getAksi(int index){
         return status.get(index);
+    }
+
+    public int getWaktuTidur(){
+        return waktuTidur;
+    }
+    public void setWaktuTidur(int waktuTidur){
+        this.waktuTidur = waktuTidur;
     }
 
     public void substractUang(int uang){
@@ -664,36 +674,60 @@ public class Sim {
 
     public void olahraga(int waktu) {
         //Please provide the solution below
-        this.status.add(new Aksi(this, "Olahraga", 20));
-        this.isDoAksiAktif = true;
-        int indexStatus = this.status.size() - 1;
-        try {
-            // int waktu = 20;
-            int seconds = 0;
-            for (int i = 0; i < waktu; i++) {
-                Thread.sleep(1000);
-                seconds++;
-                if (seconds >= 60) {
-                    seconds = 0;
-                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
-                    gp.setActionCounter(waktu-i);
+        executorService.execute(() -> {
+            this.status.add(new Aksi(this, "Olahraga", 20));
+            this.isDoAksiAktif = true;
+            int indexStatus = this.status.size() - 1;
+            try {
+                // int waktu = 20;
+                int seconds = 0;
+                for (int i = 0; i < waktu; i++) {
+                    Thread.sleep(1000);
+                    seconds++;
+                    if (seconds >= 60) {
+                        seconds = 0;
+                        this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                        gp.setActionCounter(waktu-i);
+                    }
                 }
+                this.status.remove(indexStatus);
+    
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            this.status.remove(indexStatus);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Yey sudah selesai olahraga");
-        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10*waktu/20);
-        this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5*waktu/20);
-        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 5*waktu/20);
-        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5*waktu/20);
-        this.isDoAksiAktif = false;
+            System.out.println("Yey sudah selesai olahraga");
+            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10*waktu/20);
+            this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5*waktu/20);
+            this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 5*waktu/20);
+            this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5*waktu/20);
+            this.isDoAksiAktif = false;
+        });
     }
 
+    // public void tidur() {
+    //     //Please provide the solution below
+    //     Scanner scanner = new Scanner(System.in);
+    //     System.out.println("Masukkan waktu tidur (Kelipatan 4) dalam menit: ");
+    //     int waktuTidur = scanner.nextInt();
+    //     while (waktuTidur % 4 != 0) {
+    //         System.out.println("Masukkan waktu tidur (Kelipatan 4) dalam menit: ");
+    //         waktuTidur = scanner.nextInt();
+    //     }
+    //     final int waktu = waktuTidur*60;
+    //     this.status.add(new Aksi(this, "Tidur", waktuTidur));
+    //     int indexStatus = this.status.size() - 1;
+    //     this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
+    //     this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
+    //     this.isDoAksiAktif = true;
+    //     //ActionThread thread = new ActionThread(indexStatus,this,waktu);
+    //     //thread.start(); // memulai thread
+
+
+    //     // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt haduh gmn y
+    // }
+
     public void tidur() {
-        //Please provide the solution below
+        // Please provide the solution below
         Scanner scanner = new Scanner(System.in);
         System.out.println("Masukkan waktu tidur (Kelipatan 4) dalam menit: ");
         int waktuTidur = scanner.nextInt();
@@ -701,20 +735,29 @@ public class Sim {
             System.out.println("Masukkan waktu tidur (Kelipatan 4) dalam menit: ");
             waktuTidur = scanner.nextInt();
         }
-        final int waktu = waktuTidur*60;
         this.status.add(new Aksi(this, "Tidur", waktuTidur));
+        this.isDoAksiAktif = true;
         int indexStatus = this.status.size() - 1;
+        try {
+            int waktu = waktuTidur * 60;
+            int seconds = 0;
+            for (int i = 0; i < waktu; i++) {
+                Thread.sleep(1000); // tunggu 1 detik
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    this.getAksi(indexStatus).kurangiMenitTersisa(1);
+                }
+            }
+            this.status.remove(indexStatus);
+            this.isDoAksiAktif = false;
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Selamat bangun tidur!");
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
         this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
-        this.isDoAksiAktif = true;
-        //ActionThread thread = new ActionThread(indexStatus,this,waktu);
-        //thread.start(); // memulai thread
-
-
-        // nnti di main ada thread buat ngecek kl dia ga idle tp ga tidur 10 mnt haduh gmn y
-    }
-
-    public void makan() {
 
     }
 

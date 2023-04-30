@@ -12,9 +12,6 @@ public class WorldClock implements Runnable {
     private int daysInWorld;
     World world;
     private boolean isCanAddSim = true;
-    private boolean isCanChangePekerjaan = true;
-    private boolean isBelumBerakAbisMakan = false;
-
 
 
     public WorldClock(GamePanel gp, World world){
@@ -52,7 +49,19 @@ public class WorldClock implements Runnable {
         System.out.println(" Days: " + daysInWorld + " Minutes: " + minutes + "Seconds: " + seconds);
     }
 
-    
+    public void checkerHarian(){
+        isCanAddSim = true;
+    }
+
+    public void checker10menit(){
+        if (world.getSim().getWaktuTidur()>0){
+            world.getSim().setWaktuTidur(0);
+        } else{
+            this.world.getSim().setWaktuTidur(0);
+            this.world.getSim().getKesejahteraan().setKesehatan(this.world.getSim().getKesejahteraan().getKesehatan()-5);
+            this.world.getSim().getKesejahteraan().setMood(this.world.getSim().getMood().getMood()-5);
+        }
+    }
 
     @Override
     public void run() {
@@ -69,6 +78,7 @@ public class WorldClock implements Runnable {
                         if (minutes >= 12) {
                             daysInWorld++;
                             minutes = 0;
+                            checkerHarian();
                         }
                     }
                 } catch (InterruptedException e) {

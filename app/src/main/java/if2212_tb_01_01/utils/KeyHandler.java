@@ -150,6 +150,7 @@ public class KeyHandler implements KeyListener {
             if(isEnterPressed()){
                 // this sim
                 gp.setSim(gp.getSimList().get(arrowNum));
+                gp.setIndexActiveSim(arrowNum);
                 if (gp.getRoom() != null){
                     gp.getRoom().setIsBuilded(false);
                 }
@@ -180,6 +181,7 @@ public class KeyHandler implements KeyListener {
                 if (!errorCaught){
                     Sim s = new Sim(gp, this, arrowNum+1, input, null);
                     gp.setSim(s);
+                    gp.setIndexActiveSim(gp.getSimList().size());
                     gp.addSimList(s);
 
                     gp.setGs(8);

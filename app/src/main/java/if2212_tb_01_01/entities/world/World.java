@@ -26,7 +26,7 @@ public class World {
     /* World Attributes */
     private int panjang;
     private int lebar;
-    private List<Sim> listSim;
+    private ArrayList<Sim> listSim;
     private List<Object> listRumah;
     private Boolean[][] mapRumah;
 
@@ -39,6 +39,7 @@ public class World {
         this.panjang = maxWorldRows;
         this.lebar = maxWorldColumns;
         this.listRumah = new ArrayList<Object>();
+        this.listSim = new ArrayList<Sim>();
         mapRumah = new Boolean[this.panjang][this.lebar];
         for (int i = 0; i < this.panjang; i++) {
             for (int j = 0; j < this.lebar; j++) {
@@ -223,4 +224,20 @@ public class World {
     // public Rumah getLastRumah() {
     // return this.listRumah.get(this.listRumah.size() - 1);
     // }
+
+    public Sim getSim(int x) {
+        return this.listSim.get(x);
+    }
+
+    public ArrayList<Sim> getListSim() {
+        return this.listSim;
+    }
+
+    public void addSim(Sim sim) {
+        this.listSim.add(sim);
+    }
+
+    public int getJumlahSim() {
+        return this.listSim.size();
+    }
 }
