@@ -29,11 +29,11 @@ import java.util.Arrays;
 
 public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
-    int gameState = 15;
+    int gameState = 12;
     // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
     // 9-inventory, 10-world kunjungan, 11-shop, 12-MATI, 15-loadeng
     int subState = 0;
-        // subState: 0-none, 1-tambahan, 2-pilihEditan, 3-pilihBarangPasang, 4-lokasiPasang, 5-lokasiBuang, 6-lokasiEdit, 7-lokasiBaru
+        // subState: 0-none, 1-tambahan, 2-pilihEditan, 3-pilihBarangPasang, 4-lokasiPasang, 5-lokasiBuang, 6-lokasiEdit, 7-upgrade rumah
         // 8-cari kerja, 9-pilihMakanan, 10-pilihMenuMakanan
         // 11-tampilkan waktu
         // 12-tambah ruang, 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
@@ -96,13 +96,13 @@ public class GamePanel extends JPanel implements Runnable {
         //test
         worldClock.getWorld().getListSim().add(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
         worldClock.getWorld().getListSim().get(0).getRoomAwal().pasangObjek(4,0, 1);
-        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomAbove();
-        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomBelow();
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomAbove("Ruang Relaksasi");
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomBelow("Ruang Dandan");
         worldClock.getWorld().getListSim().add(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
-        worldClock.getWorld().getListSim().get(1).getRoomAwal().newRoomLeft();
+        worldClock.getWorld().getListSim().get(1).getRoomAwal().newRoomLeft("Ruang Depresi");
         worldClock.getWorld().getListSim().get(1).getRoomAwal().pasangObjek(3,1, 0);
         worldClock.getWorld().getListSim().add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
-        worldClock.getWorld().getListSim().get(2).getRoomAwal().newRoomRight();
+        worldClock.getWorld().getListSim().get(2).getRoomAwal().newRoomRight("Ruang Rindu");
         worldClock.getWorld().getListSim().get(2).getRoomAwal().pasangObjek(6,2, 3);
 
         worldClock.getWorld().addSim(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
@@ -173,7 +173,7 @@ public class GamePanel extends JPanel implements Runnable {
         //  sim.draw(g2d);
 
        ui.draw(g2d);
-//       System.out.println(keyHandler.getInput());
+       System.out.println(subState);
     }
 
 
