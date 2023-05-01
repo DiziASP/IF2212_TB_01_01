@@ -538,6 +538,7 @@ public class Sim {
                     
                 }
                 this.status.remove(indexStatus);
+                gp.setActionCounter(0);
     
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -572,6 +573,7 @@ public class Sim {
                     
                 }
                 this.status.remove(indexStatus);
+                gp.setActionCounter(0);
     
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -604,6 +606,7 @@ public class Sim {
             }
             this.status.remove(indexStatus);
             this.isDoAksiAktif = false;
+            gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -653,6 +656,7 @@ public class Sim {
                     }
                     this.status.remove(indexStatus);
                     this.isDoAksiAktif = false;
+                    gp.setActionCounter(0);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -682,6 +686,7 @@ public class Sim {
                         this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
+                    gp.setActionCounter(0);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -876,6 +881,7 @@ public class Sim {
                     
                 }
                 this.status.remove(indexStatus);
+                gp.setActionCounter(0);
     
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -901,7 +907,8 @@ public class Sim {
                     gp.setActionCounter(waktu-i);
                     
                 }
-                this.status.remove(indexStatus);
+                this.status.remove(indexStatus);            
+                gp.setActionCounter(0);
     
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -930,6 +937,7 @@ public class Sim {
                 gp.setActionCounter(waktu-i);
             }
             this.status.remove(indexStatus);
+            gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -955,6 +963,7 @@ public class Sim {
                 gp.setActionCounter(waktu-i);
             }
             this.status.remove(indexStatus);
+            gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -981,6 +990,7 @@ public class Sim {
                 gp.setActionCounter(waktu-i);
             }
             this.status.remove(indexStatus);
+            gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -1010,6 +1020,7 @@ public class Sim {
                 
             }
             this.status.remove(indexStatus);
+            gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -1037,6 +1048,7 @@ public class Sim {
                 gp.setActionCounter(waktu-i);
             }
             this.status.remove(indexStatus);
+            gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -1072,6 +1084,7 @@ public class Sim {
                 gp.setActionCounter(waktu-i);
             }
             this.status.remove(indexStatus);
+            gp.setActionCounter(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
