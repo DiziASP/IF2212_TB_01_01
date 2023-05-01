@@ -1,6 +1,5 @@
 package if2212_tb_01_01.items.furnitur;
 
-import if2212_tb_01_01.items.Item;
 
 import java.awt.*;
 
@@ -10,7 +9,7 @@ public class Toilet extends Furnitur  {
 
     public Toilet(){
         super("TOILET", "FURNITUR", "/images/furnitur/toilet.png", tileSize, tileSize);
-        setNamaAksi("BUANG AIR");
+        setNamaAksi("buang air");
         setHarga(50);
         setPanjang(1);
         setLebar(1);

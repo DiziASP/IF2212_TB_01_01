@@ -8,7 +8,7 @@ public class Kanvas extends Furnitur {
 
     public Kanvas(){
         super("KANVAS", "FURNITUR", "/images/furnitur/kanvas.png", 2*tileSize, 1*tileSize);
-        setNamaAksi("MELUKIS");
+        setNamaAksi("melukis");
         setHarga(50);
         setPanjang(1);
         setLebar(2);

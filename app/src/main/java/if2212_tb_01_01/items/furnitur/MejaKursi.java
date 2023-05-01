@@ -1,6 +1,5 @@
 package if2212_tb_01_01.items.furnitur;
 
-import if2212_tb_01_01.items.Item;
 
 import java.awt.*;
 

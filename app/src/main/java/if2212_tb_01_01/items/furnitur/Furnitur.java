@@ -14,16 +14,12 @@ public abstract class Furnitur extends Item {
     private int harga;
     private int panjang;
     private int lebar;
-    private int rotate;
     private int amountPut;
 
     public Furnitur(String nama, String kategori, String imagePath, int imageWidth, int imageHeight){
         super(nama, kategori, imagePath, imageWidth, imageHeight);
     }
 
-    //Membuat list Furnitur
-
-    //Getter method for listFurnitur
 
     //Getter method for aksi
     public String getNamaAksi(){
@@ -62,17 +58,6 @@ public abstract class Furnitur extends Item {
     public void setLebar(int lebar){
         this.lebar = lebar;
     }
-
-    // Getter method for isVertikal
-    // public boolean isVertikal(){
-    //     return isVertikal;
-    // }
-
-    // // Setter method for isVertikal
-    // public void setVertikal(boolean isVertikal){
-    //     this.isVertikal = isVertikal;
-    // }
-
     public String getInfo(){
         return "Nama: " + this.getNama() + "\n" +
                 "Jumlah: " + this.getAmount() + "\n" +
@@ -80,8 +65,6 @@ public abstract class Furnitur extends Item {
                 "Harga: " + this.harga + "\n" +
                 "Panjang: " + this.panjang + "\n" +
                 "Lebar: " + this.lebar + "\n" ;
-                // "Posisi: " + this.posisi + "\n" +
-                // "Vertikal: " + this.isVertikal + "\n";
     }
     public void printInfo(){
         System.out.println(getInfo());
@@ -125,9 +108,6 @@ public abstract class Furnitur extends Item {
     @Override
     public void draw(Graphics2D g2d, int positionX, int positionY){
         super.draw(g2d, positionX, positionY);
-        // Debugging
-//        g2d.setColor(Color.YELLOW);
-//        g2d.fill(this.interactionArea);
     }
 
     public int getSisa() {

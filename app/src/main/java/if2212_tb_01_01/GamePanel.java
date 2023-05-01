@@ -54,7 +54,6 @@ public class GamePanel extends JPanel implements Runnable {
     public Room room;
     private World world = new World(this);
     private int IndexActiveSim;
-
     WorldClock worldClock = new WorldClock(this, world);
 
 
@@ -64,7 +63,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-
         //test
         
     }

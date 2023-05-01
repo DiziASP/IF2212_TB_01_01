@@ -109,12 +109,15 @@ public class Sim {
          Sim.world = world;
      }
      private boolean isDoAksiAktif;
+ 
+    
+    
+    private boolean isDoAksiNonWaktu;
      private int waktuTidur=0;
      private int waktuSudahKerja=0;
      private boolean belumBerak=false;
      private ExecutorService executorService;
-     //private Point posisiRumah;
-     //private Point posisiRuangan;
+    
  
 
      // private Point posisi; yang butuh posisi kayanya rumah aja???
@@ -153,7 +156,6 @@ public class Sim {
          inventory.incItem(6);
          inventory.incItem(10);
          this.rumah = rumah;
-         //this.currentRuangan = rumah.getDaftarRuangan().get(0);
          setPosisiRumah(posisiRumah);
          this.currentRuangan = rumah.getRuanganAwal();
          executorService = Executors.newFixedThreadPool(10);
@@ -190,10 +192,6 @@ public class Sim {
          inventory.incItem(4);
          inventory.incItem(6);
          inventory.incItem(10);
-        //  this.rumah = rumah;
-        //  this.currentRuangan = rumah.getDaftarRuangan().get(0);
-        //  this.posisiRumah = posisiRumah;
-        //  this.posisiRuangan = posisiRuangan;
             executorService = Executors.newFixedThreadPool(10);
         
     }
@@ -292,12 +290,6 @@ public class Sim {
                 break;
         }
 
-        // Debugging
-
-//        g.setColor(Color.red);
-//        g.fill(solidArea);
-//        g.setColor(Color.yellow);
-//        g.fill(interactableArea);
         g.drawImage(sim, screenX, screenY, null);
     }
 
@@ -415,14 +407,6 @@ public class Sim {
         }
     }
 
-    // public Point getPosisiRuangan(){
-    //     return posisiRuangan;
-    // }
-
-    // public void setPosisiRuangan(Point posisiRuangan){
-    //     this.posisiRuangan = posisiRuangan;
-    // }
-
     public boolean getIsDoAksiAktif(){
         return isDoAksiAktif;
     }
@@ -456,20 +440,7 @@ public class Sim {
         this.interactableArea = interactableArea;
     }
 
-    //aksi
 
-
-    // public void viewLokasi(){
-    //     System.out.println("SIM " + namaLengkap + " saat ini sedang berada di rumah dengan lokasi " + posisiRumah.toString() + " pada ruangan dengan lokasi" + posisiRuangan.toString());
-    // }
-
-    // public void viewLokasi(Rumah currentLocationRumah){
-    //     System.out.println("SIM " + namaLengkap + " saat ini sedang berada di rumah dengan lokasi " + posisiRumah.toString() + " pada ruangan " + currentLocationRumah.getRuangan(posisiRuangan).getNama() + " dengan lokasi" + posisiRuangan.toString()+"\n");
-    // }
-
-    // public void viewInventory(){
-    //     inventory.displayInventory();
-    // }
 
 
     public Sim(String namaLengkap, Pekerjaan pekerjaan) {
@@ -539,62 +510,7 @@ public class Sim {
         this.currentPosition = currentPosition;
     }
 
-    // public void goToObject() {
-    //     System.out.println("Pilih objek yang ingin dikunjungi: ");
-    //     int i = 1;
-    //     for (Objek objek : this.currentRuangan.getDaftarObjek()) {
-    //         System.out.println(i + ". " + objek.getNama());
-    //         i++;
-    //     }
-    //     Scanner scanner = new Scanner(System.in);
-    //     int pilihan = scanner.nextInt();
-    //     Objek objek = this.currentRuangan.getDaftarObjek().get(pilihan - 1);
-    //     if (objek.getKategori().equals("peralatan")){
-    //         Furnitur furnitur = (Furnitur) objek;
-    //         if (furnitur.getAksi().equals("TIDUR")){
-    //             System.out.println("Apakah Anda ingin tidur? (Y/N)");
-    //             String pilihanTidur = scanner.next();
-    //             if (pilihanTidur.equals("Y")){
-    //                 this.tidur();
-    //             }
-    //         }
-    //         else if (furnitur.getAksi().equals("BUANG AIR")){
-    //             System.out.println("Apakah Anda ingin buang air? (Y/N)");
-    //             String pilihanBuangAir = scanner.next();
-    //             if (pilihanBuangAir.equals("Y")){
-    //                 this.buangAir();
-    //             }
-    //         } else if(furnitur.getAksi().equals("MASAK")){
-    //             System.out.println("Apakah Anda ingin memasak? (Y/N)");
-    //             String pilihanMasak = scanner.next();
-    //             if (pilihanMasak.equals("Y")){
-    //                 this.memasak();
-    //             }
-    //         } else if (furnitur.getAksi().equals("MAKAN")){
-    //             System.out.println("Apakah Anda ingin makan? (Y/N)");
-    //             String pilihanMakan = scanner.next();
-    //             if (pilihanMakan.equals("Y")){
-    //                 this.makan();
-    //             }
-    //         } else if(furnitur.getAksi().equals("MELIHAT WAKTU")){
-    //             System.out.println("Apakah Anda ingin melihat waktu? (Y/N)");
-    //             String pilihanLihatWaktu = scanner.next();
-    //             if (pilihanLihatWaktu.equals("Y")){
-    //                 this.melihatWaktu();
-    //             }
-    //         }
-    //     }
-    // }
-
-
     //Actions of Sim
-    public void addToInventory() {
-        //Please provide the solution below
-    }
-
-    public void removeFromInventory() {
-        //Please provide the solution below
-    }
 
     public void kerja(int waktu) { // waktu harus kelipatan 120 detik
         final int fwaktu = waktu;
@@ -691,12 +607,62 @@ public class Sim {
         });
     }
 
-    // public void memasak(int idx, int waktu){
 
-    // }
+    public void mulaiThreadbuangAirChecker(){
+        executorService.execute(() -> {
+            try{
+                Thread.sleep(1000*4*60);
+                if (this.belumBerak==true){
+                    this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() - 5);
+                    this.kesejahteraan.setMood(this.kesejahteraan.getMood() - 5);
+                    this.belumBerak = false; //balik ke state awal
+                }
+                
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        });
+    }
 
-    public void memasak(String nama) {
-        if (nama.equals("BISTIK")) {
+    public void makan(int idx, int waktu){
+        final int fwaktu = waktu;
+
+        if (idx<20){
+            executorService.execute(() -> {
+            int indexStatus = this.status.size() -1;
+                this.status.add(new Aksi(this,"Makan",fwaktu));
+                
+                try {
+                    int seconds = 0;
+                    for (int i = 0; i < fwaktu; i++) {
+                        Thread.sleep(1000);
+                        seconds++;
+                        if (seconds % 30 ==0){
+                            this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + 10);
+                            this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5);
+                            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 5);
+                        }
+                        this.getAksi(indexStatus).decDetikTersisa();
+                        
+                    }
+                    this.status.remove(indexStatus);
+                    this.isDoAksiAktif = false;
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                this.inventory.decItem(idx);
+                this.belumBerak=true;
+                System.out.println("Yey sudah makan");
+                mulaiThreadbuangAirChecker(); // abis tiap makan dia ngecek 4 menit sudah bab ap blm
+            });
+        } else {
+            kh.setErrorCaught(true);
+        }
+    }
+
+    public void memasak(int idx) {
+        if (idx==24) {
             if (inventory.isItemAda(15) && inventory.isItemAda(17)) {
                 Bistik bistik = new Bistik();
                 int waktumasak = (int) (bistik.getKekenyangan() * 1.5);
@@ -705,11 +671,9 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
-                            this.getAksi(indexStatus).decDetikTersisa();
+                        this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -723,7 +687,7 @@ public class Sim {
                 this.isDoAksiAktif = false;
             } 
         }
-        else if (nama.equals("NASI AYAM")) {
+        else if (idx==20) {
             if (inventory.isItemAda(16) && inventory.isItemAda(12)) {
                 NasiAyam nasiayam = new NasiAyam();
                 int waktumasak = (int) (nasiayam.getKekenyangan() * 1.5);
@@ -732,11 +696,9 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
-                            this.getAksi(indexStatus).decDetikTersisa();
+                        this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
 
@@ -752,7 +714,7 @@ public class Sim {
                 System.out.println("Bahan tidak tersedia.");
             }
         }
-        else if (nama.equals("NASI KARI")) {
+        else if (idx==21) {
             if (inventory.isItemAda(15) && inventory.isItemAda(17) && inventory.isItemAda(16) && inventory.isItemAda(19)) {
                 NasiKari nasikari = new NasiKari();
                 int waktumasak = (int) (nasikari.getKekenyangan() * 1.5);
@@ -761,10 +723,8 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
                         this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
@@ -781,7 +741,7 @@ public class Sim {
                 System.out.println("Bahan tidak tersedia.");
             }
         }
-        else if (nama.equals("SUSU KACANG")) {
+        else if (idx==22) {
             if (inventory.isItemAda(14) && inventory.isItemAda(18)) {
                 SusuKacang susukacang = new SusuKacang();
                 int waktumasak = (int) (susukacang.getKekenyangan() * 1.5);
@@ -790,10 +750,8 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
                         this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
@@ -810,7 +768,7 @@ public class Sim {
                 System.out.println("Bahan tidak tersedia.");
             }
         }
-        else if (nama.equals("TUMIS SAYUR")) {
+        else if (idx==23) {
             if (inventory.isItemAda(13) && inventory.isItemAda(19)) {
                 TumisSayur tumisSayur = new TumisSayur();
                 int waktumasak = (int) (tumisSayur.getKekenyangan() * 1.5);
@@ -819,10 +777,8 @@ public class Sim {
                 int indexStatus = this.status.size() - 1;
                 try {
                     int waktu = waktumasak;
-                    int seconds = 0;
                     for (int i = 0; i < waktu; i++) {
                         Thread.sleep(1000);
-                        seconds++;
                         this.getAksi(indexStatus).decDetikTersisa();
                     }
                     this.status.remove(indexStatus);
@@ -845,10 +801,6 @@ public class Sim {
     }
 
     public void berkunjung() {
-        //Please provide the solution below
-    }
-
-    public void buangAir() {
         //Please provide the solution below
     }
 
@@ -892,10 +844,41 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void melihatWaktu() {
-        //Please provide the solution below
-    }
+    // public void melihatWaktu() {
+    //     //Please provide the solution below
+    // } --> mellihat waktu pakai methodnya worldclock yach
 
+    public void buangAir(int waktu) {
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+            this.status.add(new Aksi(this, "Buang Air", fwaktu));
+            this.isDoAksiAktif = true;
+            this.belumBerak = false;
+            int indexStatus = this.status.size() - 1;
+            System.out.println("Sedang buang air");
+            try {
+                int seconds = 0;
+                for (int i = 0; i < fwaktu; i++) {
+                    Thread.sleep(1000);
+                    seconds++;
+                    if (seconds % 10 == 0) {
+                        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 20);
+                        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+                        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+                    }
+                    this.getAksi(indexStatus).decDetikTersisa();
+                    
+                }
+                this.status.remove(indexStatus);
+    
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Yeah lega dek kelar berak!");
+            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+            this.isDoAksiAktif = false;
+        });
+    }
     public void yoga(int waktu) {
         final int fwaktu = waktu;
         executorService.execute(() -> {
@@ -1092,6 +1075,4 @@ public class Sim {
 
 }
 }
-
-
 

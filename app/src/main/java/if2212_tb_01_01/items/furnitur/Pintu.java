@@ -6,7 +6,7 @@ import static if2212_tb_01_01.utils.Constant.*;
 public class Pintu extends Furnitur{
     public Pintu(){
         super("PINTU", "FURNITUR", "/images/furnitur/pintu.png", tileSize, 2*tileSize);
-        setNamaAksi("MASUK");
+        setNamaAksi("masuk");
         setHarga(0);
         setPanjang(2);
         setLebar(1);
