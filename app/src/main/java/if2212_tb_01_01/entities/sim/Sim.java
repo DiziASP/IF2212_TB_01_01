@@ -445,6 +445,9 @@ public class Sim {
     public boolean isCanChangePekerjaan(){
         return (waktuSudahKerja>=12);
     }
+    public void setWaktuSudahKerja(int waktuSudahKerja){
+        this.waktuSudahKerja = waktuSudahKerja;
+    }
 
     public void substractUang(int uang){
         this.uang -= uang;

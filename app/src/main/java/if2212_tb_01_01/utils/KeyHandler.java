@@ -343,7 +343,13 @@ public class KeyHandler implements KeyListener {
                             gp.setSubState(0);
                             break;
                         case "cari kerja":
-                            gp.setSubState(8);
+                            if (gp.getSim().isCanChangePekerjaan()){
+                                gp.setSubState(8);
+                                gp.getSim().setWaktuSudahKerja(0);
+                            }
+                            else {
+                                // gabisa cari kerja
+                            }
                             break;
                         case "ganti sim":
                             gp.setGs(3);
