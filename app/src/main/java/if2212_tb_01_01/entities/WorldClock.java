@@ -51,8 +51,18 @@ public class WorldClock implements Runnable {
     public World getWorld() {
         return world;
     }
-    public void melihatWaktu(){
-        System.out.println(" Days: " + daysInWorld + " Minutes: " + minutes + "Seconds: " + seconds);
+    public String melihatWaktu(){
+        String info = ("\nDays: " + daysInWorld + " Minutes: " + minutes + "Seconds: " + seconds + "\n");
+        if (world.getSim(gp.getIndexActiveSim()).getStatus().size()==0){
+            info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang tidak melakukan apa-apa.";
+        } else {
+            info+= "Wow " + world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang melakukan aksi: \n";
+            for (int i=0; i<world.getSim(gp.getIndexActiveSim()).getStatus().size(); i++){
+                info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang melakukan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getNama() + "\n";
+                info += "dengan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getDetikTersisa() + " detik tersisa."+ "\n";
+            }
+        }
+        return info;
     }
 
     public void checkerHarian(){
