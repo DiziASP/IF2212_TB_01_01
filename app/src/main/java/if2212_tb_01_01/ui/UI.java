@@ -1138,7 +1138,7 @@ public class UI {
         y+=space;
         g2.drawString(text, x, y);
 
-        text = s.getCurHouse().getPosisi().infoPoint();
+        text = gp.getRoom().getRoomName();
         x = x2;
         g2.drawString(text, x, y);
 

@@ -466,14 +466,35 @@ public class KeyHandler implements KeyListener {
                         errorCaught = true;
                     }
                 } else if (gp.getSubState()==7){
-                    //ruang baru
-//                    gp.getSim.tambahRuang(gp.getOpsiAksi(arrowNum));
+                    //ruang baru upgrade rumah
+                    switch(gp.getOpsiAksi(arrowNum)){
+                        case "kembali":
+                            gp.setSubState(0);
+                            break;
+                        case "atas":
+                            gp.getRoom().newRoomAbove();
+                            break;
+                        case "bawah":
+                            gp.getRoom().newRoomBelow();
+                            break;
+                        case "kanan":
+                            gp.getRoom().newRoomRight();
+                            break;
+                        case "kiri":
+                            gp.getRoom().newRoomLeft();
+                            break;
+                    }
+
                     gp.setSubState(0);
                 } else if (gp.getSubState()==8){
                     // cari kerja
                     switch (gp.getOpsiAksi(arrowNum)){ 
                         case "kembali":
                             gp.setSubState(0);
+                            break;
+                        default:
+//                            gp.getSim().setPekerjaan(gp.getOpsiAksi(arrowNum));
+                            break;
                     }
 
                 } else if (gp.getSubState()==9){
@@ -500,10 +521,9 @@ public class KeyHandler implements KeyListener {
                         gp.setSubState(0);
                     }
                 } else if (gp.getSubState()==11){
-                    //tampilkan waktu
-                    //gjd
+                    //berkunjung
                 } else if (gp.getSubState()==12){
-                    //tambah ruang
+                    //tambah ruang upgrade rumah
 
                 } else if (gp.getSubState()==13){
                     //durasi aksi
@@ -626,8 +646,8 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==15){
                     //aksi berhasil
                     gp.setSubState(0);
-                } else if (gp.getSubState()==16){
-                } 
+                } else if (gp.getSubState()==18){
+                }
             } else if(isEscapePressed()){
                 if (gp.getSubState()==3 ||gp.getSubState()==5 || gp.getSubState()==6 ||gp.getSubState()==9 || gp.getSubState()==10 || gp.getSubState()==12){
                     gp.setSubState(0);

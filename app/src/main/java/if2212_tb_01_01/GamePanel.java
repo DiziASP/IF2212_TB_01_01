@@ -314,7 +314,9 @@ public class GamePanel extends JPanel implements Runnable {
             }
             addOpsiAksi("lihat inventory");
             addOpsiAksi("belanja");
-            addOpsiAksi("upgrade rumah");
+            if (room == getSim().getCurRoom()) {
+                addOpsiAksi("upgrade rumah");
+            }
             addOpsiAksi("kunjungi rumah");
         } else if (subState==2){
             addOpsiAksi("kembali");
@@ -328,12 +330,26 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("polisi");
             addOpsiAksi("programmer");
             addOpsiAksi("dokter");
+        } else if (subState==7){
+            addOpsiAksi("kembali");
+            if (getSim().getCurRoom().getRoomRight() == null){
+                addOpsiAksi("kanan");
+            }
+            if (getSim().getCurRoom().getRoomLeft() == null){
+                addOpsiAksi("kiri");
+            }
+            if (getSim().getCurRoom().getRoomBelow() == null){
+                addOpsiAksi("bawah");
+            }
+            if (getSim().getCurRoom().getRoomAbove() == null){
+                addOpsiAksi("atas");
+            }
         }
+
     }
 
     public void updateMenu(){
         opsiAksi.clear();
-
         addOpsiAksi("keluar");
         addOpsiAksi("kembali");
     }
