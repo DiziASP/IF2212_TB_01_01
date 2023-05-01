@@ -778,6 +778,9 @@ public class Sim {
                 this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
                 this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
                 inventory.incItem(idx);
+                for(int index: masak.getIdxBahan()){
+                    inventory.decItem(index);
+                }
                 this.isDoAksiAktif = false;
             }
             else{
@@ -937,6 +940,7 @@ public class Sim {
     }
 
     public void berkunjung() {
+        
         //Please provide the solution below
     }
 
