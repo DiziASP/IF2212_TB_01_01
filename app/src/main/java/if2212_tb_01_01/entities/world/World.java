@@ -215,14 +215,12 @@ public class World {
     // }
 
     public boolean isIdle() {
-        boolean isIdle = false;
+        boolean isIdle = true;
         for (Sim sim : listSim) {
-            if (sim.getStatus().size() == 0) {
-                isIdle = true;
-            } else {
+            if (sim.getIsDoAksiAktif()) {
                 isIdle = false;
                 break;
-            }
+            } 
         }
         return isIdle;
     }
