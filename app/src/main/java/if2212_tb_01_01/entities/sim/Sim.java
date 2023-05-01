@@ -939,29 +939,113 @@ public class Sim {
         // }
     }
 
-    public void berkunjung() {
-        
+    public void berkunjung(Sim sim) {
+        Point rumahTujuan = sim.getRumah().getPosisi();
+        Point rumahDari = this.getRumah().getPosisi();
+        Double waktuPerjalanan = Math.sqrt((rumahTujuan.getX() - rumahDari.getX())*(rumahTujuan.getX() - rumahDari.getX()) + (rumahTujuan.getY() - rumahDari.getY())*(rumahTujuan.getY() - rumahDari.getY()));
+        int waktu = Math.round(waktuPerjalanan.floatValue());
+        this.status.add(new Aksi(this, "masak",0));
+                this.isDoAksiAktif = true;
+                int indexStatus = this.status.size() - 1;
+                try {
+                    for (int i = 0; i < waktu; i++) {
+                        Thread.sleep(1000);
+                        this.getAksi(indexStatus).decDetikTersisa();
+                    }
+                    this.status.remove(indexStatus);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //System.out.println("Berhasil berkunjung ke Rumah "+sim.getNamaLengkap());
+                this.setCurHouse(sim.getRumah());
+                this.setCurRoom(sim.getRumah().getRuanganAwal());
+                this.isDoAksiAktif = false;
         //Please provide the solution below
     }
 
-    public void upgradeRumah() {
+    public void upgradeRumah(Room ruangAcuan, String direction) {
         System.out.println("Pilih posisi ruangan baru (atas/bawah/kiri/kanan): ");
         Scanner scanner = new Scanner(System.in);
         String pilihan = scanner.nextLine();
-        // if (pilihan.equals("atas")) {
-        //     System.out.println("Masukkan nama ruangan: ");
-        //     String namaRuangan = scanner.nextLine();
-        //     this.rumah.addRuangan(new Ruangan(namaRuangan));
-            
-        // } else if (pilihan.equals("bawah")) {
-        //     this.rumah.addRuangan(new Ruangan("Ruangan Bawah", 0, -1));
-        // } else if (pilihan.equals("kiri")) {
-        //     this.rumah.addRuangan(new Ruangan("Ruangan Kiri", -1, 0));
-        // } else if (pilihan.equals("kanan")) {
-        //     this.rumah.addRuangan(new Ruangan("Ruangan Kanan", 1, 0));
-        // }
-
-
+        //asumsi opsi upgrade rumah ada kalo uang udh cukup
+        if(direction.equals("ATAS")){
+            if(ruangAcuan.getRoomAbove().equals(null)){
+                int waktu = 18*60;
+                this.status.add(new Aksi(this, "upgrade rumah",waktu));
+                this.isDoAksiAktif = true;
+                int indexStatus = this.status.size() - 1;
+                try {
+                    for (int i = 0; i < waktu; i++) {
+                        Thread.sleep(1000);
+                        this.getAksi(indexStatus).decDetikTersisa();
+                    }
+                    this.status.remove(indexStatus);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ruangAcuan.newRoomAbove(); //ngeset room di kanan
+                //Ruangan berhasil dibuat
+                this.isDoAksiAktif = false;
+            }
+        }
+        if(direction.equals("BAWAH")){
+            if(ruangAcuan.getRoomBelow().equals(null)){
+                int waktu = 18*60;
+                this.status.add(new Aksi(this, "upgrade rumah",waktu));
+                this.isDoAksiAktif = true;
+                int indexStatus = this.status.size() - 1;
+                try {
+                    for (int i = 0; i < waktu; i++) {
+                        Thread.sleep(1000);
+                        this.getAksi(indexStatus).decDetikTersisa();
+                    }
+                    this.status.remove(indexStatus);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ruangAcuan.newRoomBelow(); //ngeset room di bawah
+                this.isDoAksiAktif = false;
+            }
+        }
+        if(direction.equals("KIRI")){
+            if(ruangAcuan.getRoomLeft().equals(null)){
+                int waktu = 18*60;
+                this.status.add(new Aksi(this, "upgrade rumah",waktu));
+                this.isDoAksiAktif = true;
+                int indexStatus = this.status.size() - 1;
+                try {
+                    for (int i = 0; i < waktu; i++) {
+                        Thread.sleep(1000);
+                        this.getAksi(indexStatus).decDetikTersisa();
+                    }
+                    this.status.remove(indexStatus);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ruangAcuan.newRoomLeft(); //ngeset room di kiri
+                this.isDoAksiAktif = false;
+            }
+        }
+        if(direction.equals("KANAN")){
+            if(ruangAcuan.getRoomRight().equals(null)){
+                int waktu = 18*60;
+                this.status.add(new Aksi(this, "upgrade rumah",waktu));
+                this.isDoAksiAktif = true;
+                int indexStatus = this.status.size() - 1;
+                try {
+                    for (int i = 0; i < waktu; i++) {
+                        Thread.sleep(1000);
+                        this.getAksi(indexStatus).decDetikTersisa();
+                    }
+                    this.status.remove(indexStatus);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ruangAcuan.newRoomRight(); //ngeset room di kanan
+                this.isDoAksiAktif = false;
+            }
+        }
     }
 
 
