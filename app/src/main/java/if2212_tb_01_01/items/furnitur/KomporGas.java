@@ -8,7 +8,7 @@ public class KomporGas extends Furnitur {
 
     public KomporGas(){
         super("KOMPOR GAS", "FURNITUR", "/images/furnitur/kompor_gas.png", 2*tileSize, tileSize);
-        setNamaAksi("MASAK");
+        setNamaAksi("masak");
         setHarga(200);
         setPanjang(1);
         setLebar(2);

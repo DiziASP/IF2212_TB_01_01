@@ -20,6 +20,7 @@ public class Room {
     GamePanel gp;
     TileManager tm;
     /* Room Attribute */
+    private String roomName;
     private int roomIndex = 0;
     // private String roomName;
     private boolean isBuilded;
@@ -216,6 +217,15 @@ public class Room {
     // public String getRoomName() {
     //     return roomName;
     // }
+
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
 
     public void setMapRuangan(Integer itemIdx, ItemTracker item) {
 

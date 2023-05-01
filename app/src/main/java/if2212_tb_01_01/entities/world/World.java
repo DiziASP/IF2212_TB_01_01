@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.assets.tiles.Tile;
 import if2212_tb_01_01.utils.UtilityTool;
+import if2212_tb_01_01.entities.house.House;
 import if2212_tb_01_01.entities.sim.Sim;
 
 import static if2212_tb_01_01.utils.Constant.*;
@@ -116,56 +117,26 @@ public class World {
         this.lebar = lebar;
     }
 
-    // Getter method for Daftar Rumah
-    // public List<Rumah> getDaftarRumah() {
-    // return listRumah;
-    // }
-
-    // Mendapatkan rumah berdasarkan lokasi
-    // public Rumah getRumah(Point point) {
-    // boolean found = false;
-    // int i = 0;
-    // while (!found && i < listRumah.size()) {
-    // if (listRumah.get(i).getPosisi().isPointEqual(point)) {
-    // found = true;
-    // } else {
-    // i++;
-    // }
-    // }
-    // return listRumah.get(i);
-    // }
-
-    // Mendapatkan rumah berdasarkan lokasi
-    // public Rumah getRumah(String kepemilikan) {
-    // boolean found = false;
-    // int i = 0;
-    // while (!found && i < listRumah.size()) {
-    // if (listRumah.get(i).getKepemilikan().equals(kepemilikan)) {
-    // found = true;
-    // } else {
-    // i++;
-    // }
-    // }
-    // return listRumah.get(i);
-    // }
 
     // Memeriksa apakah posisi rumah sudah terisi
     public boolean isPosisiTerisi(Point point) {
-        // for (Rumah rumah : listRumah) {
-        // if (rumah.getPosisi().isPointEqual(point)) {
-        // return true;
-        // }
-        // }
+        for (int i = 0; i < listSim.size(); i++) {
+            if (listSim.get(i).getRumah().getPosisi().equals(point)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    // public void addRumah(Rumah rumah) {
-    // if (isPosisiTerisi(rumah.getPosisi())) {
-    // System.out.println("Posisi sudah terisi!");
-    // } else {
-    // this.listRumah.add(rumah);
-    // }
-    // }
+    public boolean isPosisiTerisi(int x, int y){
+        for (int i = 0; i < listSim.size()-1; i++) {
+            if (listSim.get(i).getRumah().getPosisi().getX() == x && listSim.get(i).getRumah().getPosisi().getY() == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void addRumah(Point posisi, String kepemilikan, String namaRuangan, Point posisiRuangan) {
         if (isPosisiTerisi(posisi)) {
@@ -192,17 +163,6 @@ public class World {
         }
     }
 
-    // public void removeRumah(Rumah rumah) {
-    // this.listRumah.remove(rumah);
-    // }
-
-    // public WorldClock getWorldClock() {
-    // return worldClock;
-    // }
-
-    // public void setWorldClock(WorldClock worldClock) {
-    // this.worldClock = worldClock;
-    // }
 
     public boolean isIdle() {
         boolean isIdle = false;
@@ -217,13 +177,6 @@ public class World {
         return isIdle;
     }
 
-    // public Rumah getRumah(int x) {
-    // return this.listRumah.get(x);
-    // }
-
-    // public Rumah getLastRumah() {
-    // return this.listRumah.get(this.listRumah.size() - 1);
-    // }
 
     public Sim getSim(int x) {
         return this.listSim.get(x);
@@ -235,6 +188,9 @@ public class World {
 
     public void addSim(Sim sim) {
         this.listSim.add(sim);
+    }
+    public void removeSim(Sim sim) {
+        this.listSim.remove(sim);
     }
 
     public int getJumlahSim() {
