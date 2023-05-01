@@ -570,22 +570,25 @@ public class UI {
         else if (gp.getGs() == 12){
             // Meninggal
 
-            g2.setColor(c7);
+            g2.setColor(c9);
             g2.fillRect(0,0,screenWidth,screenHeight);
 
-            Sim s = gp.getSim();
-            Inventory items = s.getInventory();
+//            Sim s = gp.getSim();
 
-            g2.setFont(f80);
-            String text = s.getNamaLengkap() + " belanja";
+            g2.setFont(f40);
+//            String text = s.getNamaLengkap() + " sudah meninggal dengan tenang";
+            String text = "Nadira" + " sudah meninggal dengan tenang";
             int x = centerX(g2,text);
-            int y = tileSize+12;
+            int y = tileSize*4;
             g2.setColor(c2);
             g2.drawString(text,x+3,y+3);
             g2.setColor(c6);
             g2.drawString(text,x,y);
 
-            drawInventory(g2, "shop", items);
+            x = screenWidth/2 - 2*tileSize;
+            y = 6*tileSize;
+            Image img =  am.setup("/deadcat", tileSize*2, tileSize*2);
+            g2.drawImage(img, x, y, tileSize*4, tileSize*4, null);
         }
         else if (gp.getGs() == 15){
             // Loading Screen

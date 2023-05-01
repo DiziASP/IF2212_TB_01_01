@@ -847,9 +847,12 @@ public class KeyHandler implements KeyListener {
                     gp.setGs(6);
                 }
             }
-        // } else if (gp.getGs() == 12){   
-        //     //edit room
-
+         } else if (gp.getGs() == 12){
+             // Kadek
+            if(enterPressed || escapePressed){
+                gp.setGs(0);
+                gp.setSubState(0);
+            }
         } 
 
     } 
