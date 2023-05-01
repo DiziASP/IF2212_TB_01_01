@@ -491,6 +491,7 @@ public class KeyHandler implements KeyListener {
                             break; 
                         case "masak":
                             gp.setSubState(14);
+
                             // gp.getSim().masak(in2, in1);
                             break;
                         case "olahraga":
@@ -542,7 +543,6 @@ public class KeyHandler implements KeyListener {
             
         } else if (gp.getGs() == 7){
             //pause menu
-
             arrowNum = (arrowNum+ 2)%2; 
 
             if (isEnterPressed()){
@@ -561,7 +561,6 @@ public class KeyHandler implements KeyListener {
     
         } else if (gp.getGs() == 8){
             //world (create)
-
             arrowNum = (arrowNum +2)%2;
             
             if(enterPressed){

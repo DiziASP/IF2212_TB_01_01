@@ -753,12 +753,12 @@ public class Sim {
         }
     }
 
-    public void memasak(String nama) {
-        if (nama.equals("BISTIK")) {
-            if (inventory.isItemAda(15) && inventory.isItemAda(17)) {
-                Bistik bistik = new Bistik();
-                int waktumasak = (int) (bistik.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",0));
+    public void memasak(int idx) {
+        if(idx>=20 && idx <=24){
+            if(inventory.isBisaMasak(idx)){
+                Masakan masak = (Masakan) inventory.getInventory().get(idx);
+                int waktumasak = (int) (masak.getKekenyangan() * 1.5);
+                this.status.add(new Aksi(this, "masak", waktumasak));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
                 try {
@@ -774,132 +774,166 @@ public class Sim {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Berhasil memasak bistik");
+                System.out.println("Berhasil memasak "+masak.getNama());
                 this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
                 this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
-                inventory.incItem(24);
+                inventory.incItem(idx);
                 this.isDoAksiAktif = false;
-            } 
-        }
-        else if (nama.equals("NASI AYAM")) {
-            if (inventory.isItemAda(16) && inventory.isItemAda(12)) {
-                NasiAyam nasiayam = new NasiAyam();
-                int waktumasak = (int) (nasiayam.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",0));
-                this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
-                try {
-                    int waktu = waktumasak;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                            this.getAksi(indexStatus).decDetikTersisa();
-                    }
-                    this.status.remove(indexStatus);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Berhasil memasak Nasi Ayam");
-                this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
-                this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
-                inventory.incItem(20);
-                this.isDoAksiAktif = false;
-            } else {
-                System.out.println("Bahan tidak tersedia.");
+            }
+            else{
+                System.out.println("Bahan tidak tersedia");
             }
         }
-        else if (nama.equals("NASI KARI")) {
-            if (inventory.isItemAda(15) && inventory.isItemAda(17) && inventory.isItemAda(16) && inventory.isItemAda(19)) {
-                NasiKari nasikari = new NasiKari();
-                int waktumasak = (int) (nasikari.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",0));
-                this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
-                try {
-                    int waktu = waktumasak;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        this.getAksi(indexStatus).decDetikTersisa();
-                    }
-                    this.status.remove(indexStatus);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Berhasil memasak Nasi Kari");
-                this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
-                this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
-                inventory.incItem(21);
-                this.isDoAksiAktif = false;
-            } else {
-                System.out.println("Bahan tidak tersedia.");
-            }
-        }
-        else if (nama.equals("SUSU KACANG")) {
-            if (inventory.isItemAda(14) && inventory.isItemAda(18)) {
-                SusuKacang susukacang = new SusuKacang();
-                int waktumasak = (int) (susukacang.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",0));
-                this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
-                try {
-                    int waktu = waktumasak;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        this.getAksi(indexStatus).decDetikTersisa();
-                    }
-                    this.status.remove(indexStatus);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Berhasil memasak Susu Kacang");
-                this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
-                this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
-                inventory.incItem(22);
-                this.isDoAksiAktif = false;
-            } else {
-                System.out.println("Bahan tidak tersedia.");
-            }
-        }
-        else if (nama.equals("TUMIS SAYUR")) {
-            if (inventory.isItemAda(13) && inventory.isItemAda(19)) {
-                TumisSayur tumisSayur = new TumisSayur();
-                int waktumasak = (int) (tumisSayur.getKekenyangan() * 1.5);
-                this.status.add(new Aksi(this, "masak",0));
-                this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
-                try {
-                    int waktu = waktumasak;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        this.getAksi(indexStatus).decDetikTersisa();
-                    }
-                    this.status.remove(indexStatus);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Berhasil memasak Tumis Sayur");
-                this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
-                this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
-                inventory.incItem(23);
-                this.isDoAksiAktif = false;
-            } else {
-                System.out.println("Bahan tidak tersedia.");
-            }
-        }
-        else {
+        else{    
             System.out.println("Tidak dapat memasak masakan tersebut.");
         }
+
+        // if (nama.equals("BISTIK")) {
+        //     if (inventory.isItemAda(15) && inventory.isItemAda(17)) {
+        //         Bistik bistik = new Bistik();
+        //         int waktumasak = (int) (bistik.getKekenyangan() * 1.5);
+        //         this.status.add(new Aksi(this, "masak",0));
+        //         this.isDoAksiAktif = true;
+        //         int indexStatus = this.status.size() - 1;
+        //         try {
+        //             int waktu = waktumasak;
+        //             int seconds = 0;
+        //             for (int i = 0; i < waktu; i++) {
+        //                 Thread.sleep(1000);
+        //                 seconds++;
+        //                     this.getAksi(indexStatus).decDetikTersisa();
+        //             }
+        //             this.status.remove(indexStatus);
+
+        //         } catch (InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //         System.out.println("Berhasil memasak bistik");
+        //         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        //         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        //         inventory.incItem(24);
+        //         this.isDoAksiAktif = false;
+        //     } 
+        // }
+        // else if (nama.equals("NASI AYAM")) {
+        //     if (inventory.isItemAda(16) && inventory.isItemAda(12)) {
+        //         NasiAyam nasiayam = new NasiAyam();
+        //         int waktumasak = (int) (nasiayam.getKekenyangan() * 1.5);
+        //         this.status.add(new Aksi(this, "masak",0));
+        //         this.isDoAksiAktif = true;
+        //         int indexStatus = this.status.size() - 1;
+        //         try {
+        //             int waktu = waktumasak;
+        //             int seconds = 0;
+        //             for (int i = 0; i < waktu; i++) {
+        //                 Thread.sleep(1000);
+        //                 seconds++;
+        //                     this.getAksi(indexStatus).decDetikTersisa();
+        //             }
+        //             this.status.remove(indexStatus);
+
+        //         } catch (InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //         System.out.println("Berhasil memasak Nasi Ayam");
+        //         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        //         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        //         inventory.incItem(20);
+        //         this.isDoAksiAktif = false;
+        //     } else {
+        //         System.out.println("Bahan tidak tersedia.");
+        //     }
+        // }
+        // else if (nama.equals("NASI KARI")) {
+        //     if (inventory.isItemAda(15) && inventory.isItemAda(17) && inventory.isItemAda(16) && inventory.isItemAda(19)) {
+        //         NasiKari nasikari = new NasiKari();
+        //         int waktumasak = (int) (nasikari.getKekenyangan() * 1.5);
+        //         this.status.add(new Aksi(this, "masak",0));
+        //         this.isDoAksiAktif = true;
+        //         int indexStatus = this.status.size() - 1;
+        //         try {
+        //             int waktu = waktumasak;
+        //             int seconds = 0;
+        //             for (int i = 0; i < waktu; i++) {
+        //                 Thread.sleep(1000);
+        //                 seconds++;
+        //                 this.getAksi(indexStatus).decDetikTersisa();
+        //             }
+        //             this.status.remove(indexStatus);
+
+        //         } catch (InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //         System.out.println("Berhasil memasak Nasi Kari");
+        //         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        //         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        //         inventory.incItem(21);
+        //         this.isDoAksiAktif = false;
+        //     } else {
+        //         System.out.println("Bahan tidak tersedia.");
+        //     }
+        // }
+        // else if (nama.equals("SUSU KACANG")) {
+        //     if (inventory.isItemAda(14) && inventory.isItemAda(18)) {
+        //         SusuKacang susukacang = new SusuKacang();
+        //         int waktumasak = (int) (susukacang.getKekenyangan() * 1.5);
+        //         this.status.add(new Aksi(this, "masak",0));
+        //         this.isDoAksiAktif = true;
+        //         int indexStatus = this.status.size() - 1;
+        //         try {
+        //             int waktu = waktumasak;
+        //             int seconds = 0;
+        //             for (int i = 0; i < waktu; i++) {
+        //                 Thread.sleep(1000);
+        //                 seconds++;
+        //                 this.getAksi(indexStatus).decDetikTersisa();
+        //             }
+        //             this.status.remove(indexStatus);
+
+        //         } catch (InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //         System.out.println("Berhasil memasak Susu Kacang");
+        //         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        //         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        //         inventory.incItem(22);
+        //         this.isDoAksiAktif = false;
+        //     } else {
+        //         System.out.println("Bahan tidak tersedia.");
+        //     }
+        // }
+        // else if (nama.equals("TUMIS SAYUR")) {
+        //     if (inventory.isItemAda(13) && inventory.isItemAda(19)) {
+        //         TumisSayur tumisSayur = new TumisSayur();
+        //         int waktumasak = (int) (tumisSayur.getKekenyangan() * 1.5);
+        //         this.status.add(new Aksi(this, "masak",0));
+        //         this.isDoAksiAktif = true;
+        //         int indexStatus = this.status.size() - 1;
+        //         try {
+        //             int waktu = waktumasak;
+        //             int seconds = 0;
+        //             for (int i = 0; i < waktu; i++) {
+        //                 Thread.sleep(1000);
+        //                 seconds++;
+        //                 this.getAksi(indexStatus).decDetikTersisa();
+        //             }
+        //             this.status.remove(indexStatus);
+
+        //         } catch (InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //         System.out.println("Berhasil memasak Tumis Sayur");
+        //         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        //         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        //         inventory.incItem(23);
+        //         this.isDoAksiAktif = false;
+        //     } else {
+        //         System.out.println("Bahan tidak tersedia.");
+        //     }
+        // }
+        // else {
+        //     System.out.println("Tidak dapat memasak masakan tersebut.");
+        // }
     }
 
     public void berkunjung() {

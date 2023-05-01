@@ -36,7 +36,6 @@ public class Inventory {
         inventory.put(22, (Item) new SusuKacang());
         inventory.put(23, (Item) new TumisSayur());
         inventory.put(24, (Item) new Bistik());
-        
     }
 
     public Map<Integer,Item> getInventory() {
