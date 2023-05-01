@@ -50,8 +50,6 @@ public class GamePanel extends JPanel implements Runnable {
     public final InteractionHandler interactionHandler = new InteractionHandler(this);
 
     private UI ui = new UI(this,keyHandler);
-    private Sim sim;
-    private ArrayList<Sim> listSim = new ArrayList<Sim>();
     private House house;
     public Room room;
     private World world = new World(this);
@@ -74,16 +72,16 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         //readfile sim
         //test
-        listSim.add(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
-        listSim.get(0).getRoomAwal().pasangObjek(4,0, 1);
-        listSim.get(0).getRoomAwal().newRoomAbove();
-        listSim.get(0).getRoomAwal().newRoomBelow();
-        listSim.add(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
-        listSim.get(1).getRoomAwal().newRoomLeft();
-        listSim.get(1).getRoomAwal().pasangObjek(3,1, 0);
-        listSim.add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
-        listSim.get(2).getRoomAwal().newRoomRight();
-        listSim.get(2).getRoomAwal().pasangObjek(6,2, 3);
+        worldClock.getWorld().getListSim().add(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().pasangObjek(4,0, 1);
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomAbove();
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomBelow();
+        worldClock.getWorld().getListSim().add(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
+        worldClock.getWorld().getListSim().get(1).getRoomAwal().newRoomLeft();
+        worldClock.getWorld().getListSim().get(1).getRoomAwal().pasangObjek(3,1, 0);
+        worldClock.getWorld().getListSim().add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
+        worldClock.getWorld().getListSim().get(2).getRoomAwal().newRoomRight();
+        worldClock.getWorld().getListSim().get(2).getRoomAwal().pasangObjek(6,2, 3);
 
         worldClock.getWorld().addSim(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
         worldClock.getWorld().getSim(0).getRoomAwal().pasangObjek(4,0, 1);
@@ -130,8 +128,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         ui.update();
         if (gameState==6){
-            room.update(); 
-            sim.update();
+            room.update();
+            worldClock.getWorld().getSim(IndexActiveSim).update();
+
         }
     }
 
@@ -200,7 +199,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setSim(Sim sim){
-        this.sim = sim;
+        int idx=-1;
+        for (int i=0; i < worldClock.getWorld().getListSim().size(); i++){
+            if (worldClock.getWorld().getListSim().get(i).equals(sim)){
+                idx=i;
+                break;
+            }
+        }
+        this.IndexActiveSim=idx;
     }
     public int getIndexActiveSim(){
         return IndexActiveSim;
@@ -261,7 +267,7 @@ public class GamePanel extends JPanel implements Runnable {
                 if (interact<-1){
                     addOpsiAksi("pindah ruangan");
                 } else{
-                    String opsi = ((Furnitur)sim.getInventory().getInventory().get(interact)).getNamaAksi();
+                    String opsi = ((Furnitur)worldClock.getWorld().getSim(IndexActiveSim).getInventory().getInventory().get(interact)).getNamaAksi();
                     addOpsiAksi(opsi);
                 }
             }
