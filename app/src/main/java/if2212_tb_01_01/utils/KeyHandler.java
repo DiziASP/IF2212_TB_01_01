@@ -348,7 +348,7 @@ public class KeyHandler implements KeyListener {
                                 gp.getSim().setWaktuSudahKerja(0);
                             }
                             else {
-                                // gabisa cari kerja
+                                gp.showNotification("Tidak bisa ganti pekerjaan! Kamu harus bekerja selama 12 menit.");
                             }
                             break;
                         case "ganti sim":
@@ -359,7 +359,7 @@ public class KeyHandler implements KeyListener {
                                 gp.setGs(4);
                                 gp.getWorldClock().setIsCanAddSim(false);
                             } else{
-                                // gabisa add sim
+                                gp.showNotification("Hold on! Kamu hari ini sudah menambahkan sim baru.");
                             }
                             break;
                         case "belanja":
@@ -495,11 +495,12 @@ public class KeyHandler implements KeyListener {
                             break;
                         case "olahraga":
                             if (in1%20==0){
-                                gp.setSubState(14);
-                                gp.getSim().olahraga(in1);
+                                    gp.setSubState(14);
+                                    gp.getSim().olahraga(in1);
                             } else {
-                                errorCaught = true;
-                            }
+                                    gp.showNotification("input harus kelipatan 20");
+                                    errorCaught = true;
+                                }
                                 break;
                         case "tidur":
                             gp.getSim().tidur(180);
