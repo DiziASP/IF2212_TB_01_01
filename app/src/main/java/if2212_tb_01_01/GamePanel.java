@@ -29,7 +29,7 @@ import java.util.Arrays;
 
 public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
-    int gameState = 0;
+    int gameState = 15;
     // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
     // 9-inventory, 10-world kunjungan, 11-shop, 12-MATI, 15-loadeng
     int subState = 0;
@@ -173,6 +173,7 @@ public class GamePanel extends JPanel implements Runnable {
         //  sim.draw(g2d);
 
        ui.draw(g2d);
+//       System.out.println(keyHandler.getInput());
     }
 
 
@@ -289,9 +290,7 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("olahraga");
             addOpsiAksi("yoga");
             addOpsiAksi("bersihkan rumah");
-            addOpsiAksi("berdoa");            
-            addOpsiAksi("masak"); //tes
-            addOpsiAksi("makan");
+            addOpsiAksi("berdoa");
 
             if (interact!=-1){
                 if (interact<-1){
@@ -305,14 +304,17 @@ public class GamePanel extends JPanel implements Runnable {
         } else if (subState==1){
             //tambahan
             addOpsiAksi("kembali");
-            addOpsiAksi("tambah sim");
+            if (worldClock.getIsCanAddSim()){
+                addOpsiAksi("tambah sim");
+            }
             addOpsiAksi("ganti sim");
             //if
-            addOpsiAksi("cari kerja");
-
+            if (getSim().isCanChangePekerjaan()){
+                addOpsiAksi("cari kerja");
+            }
             addOpsiAksi("lihat inventory");
             addOpsiAksi("belanja");
-            addOpsiAksi("upgrade rumah"); 
+            addOpsiAksi("upgrade rumah");
             addOpsiAksi("kunjungi rumah");
         } else if (subState==2){
             addOpsiAksi("kembali");

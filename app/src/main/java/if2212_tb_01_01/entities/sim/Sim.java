@@ -628,8 +628,8 @@ public class Sim {
         });
     }
 
-    public void makan(int idx, int waktu){
-        final int fwaktu = waktu;
+    public void makan(int idx){
+        final int fwaktu = 20;
 
         if (idx<20){
             executorService.execute(() -> {
@@ -934,7 +934,7 @@ public class Sim {
             e.printStackTrace();
         }
         System.out.println("Semoga doa mu terkabul!");
-        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + waktu/10);
         this.isDoAksiAktif = false;
         });
     }
@@ -1014,8 +1014,8 @@ public class Sim {
             e.printStackTrace();
         }
         System.out.println("Kren bngt banh lukisannya :<");
-        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
-        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30/waktu);
+        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10/waktu);
         this.isDoAksiAktif = false;
         });
     }

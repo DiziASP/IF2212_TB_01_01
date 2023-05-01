@@ -294,7 +294,7 @@ public class UI {
             
             
             g2.setFont(f40);
-            text = ">Klik Enter atau ESC untuk Kembali";
+            text = "> Klik Enter atau ESC untuk Kembali";
             x = centerX(g2,text);
             y = 10*Constant.tileSize+24;
             g2.drawString(text,x,y);
@@ -572,7 +572,7 @@ public class UI {
             g2.setColor(Constant.c5);
             g2.fillRect(0,0,Constant.screenWidth,Constant.screenHeight);
 
-            g2.setFont(f80);
+            g2.setFont(f40);
             String text = "Loading...Please kindly wait!";
 
             int x = centerX(g2,text);
@@ -918,7 +918,7 @@ public class UI {
             g2.setColor(Constant.c6);
             text = gp.getSim().getNamaLengkap();
 
-            if (gp.getActionCounter()==0){
+            if (!gp.getSim().getIsDoAksiAktif()){
                 y+=24;
                 g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+2*Constant.tileSize);  
                 text = " sudah selesai " ;
@@ -926,15 +926,18 @@ public class UI {
                 text = kh.getInput() + "!";
                 g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+3*Constant.tileSize);
             } else{
-                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+72);  
+                if (gp.getActionCounter()==0){}
+                else {
+                    g2.drawString(text, Constant.tileSize * 12 - ((int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2), y + 72);
 
-                text = " sedang " + kh.getInput() + "...";
-                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+2*Constant.tileSize);            
-    
-                text = gp.getActionCounter() +" detik";
-                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+4*Constant.tileSize);            
-                text = "tersisa";
-                g2.drawString(text, Constant.tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+4*Constant.tileSize +24);   
+                    text = " sedang " + kh.getInput() + "...";
+                    g2.drawString(text, Constant.tileSize * 12 - ((int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2), y + 2 * Constant.tileSize);
+
+                    text = gp.getActionCounter() + " detik";
+                    g2.drawString(text, Constant.tileSize * 12 - ((int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2), y + 4 * Constant.tileSize);
+                    text = "tersisa";
+                    g2.drawString(text, Constant.tileSize * 12 - ((int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2), y + 4 * Constant.tileSize + 24);
+                }
             }
 
                       
