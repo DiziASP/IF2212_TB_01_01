@@ -70,6 +70,7 @@ public class WorldClock implements Runnable {
             System.out.println("lu mati");
             world.removeSim(world.getSim(gp.getIndexActiveSim()));
             gp.setGs(12);
+            gp.setSubState(0);
         } 
     }
 
