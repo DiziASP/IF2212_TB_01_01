@@ -95,4 +95,52 @@ public class Inventory<T extends Objek> {
         }
     }
 
+<<<<<<< Updated upstream
 } 
+=======
+    public Integer JumlahMakanan(){
+        int jumlah = 0;
+        if(!inventory.isEmpty()){
+            for(T x: inventory.keySet()){
+                if(x.getKategori().equals("makanan") || x.getKategori().equals("masakan")){
+                    jumlah +=1;
+                }
+            }
+        }
+        return jumlah;
+    }
+
+    public void printInventoryMakanan(){
+        if (inventory.isEmpty()) {
+            System.out.println("Inventory is Empty");
+        }
+        else {
+            if(JumlahMakanan().equals(0)){
+                System.out.println("Tidak terdapat makanan di dalam inventory");
+            }
+            else{
+                int i = 1;
+                System.out.println("Berikut daftar makanan yang terdapat di inventory");
+                for (Map.Entry<T, Integer> entry : inventory.entrySet()) {
+                    if(entry.getKey().getKategori().equals("makanan") || entry.getKey().getKategori().equals("masakan")){
+                        System.out.println(i+". "+entry.getKey().getNama() + " : " + entry.getValue());
+                        i++;
+                    }
+                    
+                }
+            }    
+        }
+    }
+
+    public T getObjek(String nama){
+        T t = null;
+        for (T x : inventory.keySet()) {
+            if (x.getNama().equals(nama)) {
+                return x;
+            }
+        }
+        return t;
+    }
+
+}
+>>>>>>> Stashed changes

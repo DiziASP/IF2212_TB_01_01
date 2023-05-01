@@ -155,9 +155,16 @@ public class App{
                 listSim.get(indeksActiveSim).viewInventory();
             }
 
+<<<<<<< Updated upstream
             // Menu nomor 5 (Harusnya udh aman sih tinggal thread waktunya aja)
             else if (command.equals("UPGRADE HOUSE")){
                 if(listSim.get(indeksActiveSim).getUang() < 1500){
+=======
+            // Menu nomor 5 (AMAN)
+            else if (command.equals("UPGRADE HOUSE")) {
+                final int idx = indeksActiveSim;
+                if (worldClock.getWorld().getSim(indeksActiveSim).getUang() < 1) {
+>>>>>>> Stashed changes
                     System.out.println("Uang tidak cukup! Upgrade house gagal dilakukan");
                 }
                 else{
@@ -245,7 +252,10 @@ public class App{
                         //else sudah lewat exception
                     }
                 }
+<<<<<<< Updated upstream
                 
+=======
+>>>>>>> Stashed changes
             }
 
             //Menu nomor 6 (harusnya aman)

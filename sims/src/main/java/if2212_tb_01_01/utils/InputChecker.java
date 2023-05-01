@@ -57,4 +57,16 @@ public class InputChecker {
         }
         return point;
     }
+
+    //kalo salah return -999
+    public static Integer isWaktuValid(String input, Integer kelipatan){
+        Integer waktu = toAngka(input); //kalo input bukan angka bakal langsung return -999
+        if(!waktu.equals(-999)){
+            if(waktu % kelipatan != 0){
+                waktu = -999; //kalo input invalid bakal return -999
+                System.out.println("Input tidak valid! (Hint: masukkan waktu harus kelipataan "+kelipatan);
+            }
+        }
+        return waktu;
+    }
 }

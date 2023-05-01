@@ -188,4 +188,13 @@ public class World {
     }
     
 
+    public void printListRumah(){
+        System.out.println("Berikut list rumah yang dapat dikunjungi: ");
+        int i = 1;
+        for(Rumah x: listRumah){
+            System.out.println(i+". Rumah "+x.getKepemilikan()+" lokasi "+ x.getPosisi().toString());
+            i++;
+        }
+    }
+
 }
