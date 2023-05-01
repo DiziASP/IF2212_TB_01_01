@@ -109,10 +109,10 @@ public class Sim {
          Sim.world = world;
      }
      private boolean isDoAksiAktif;
- 
-    
-    
-    private boolean isDoAksiNonWaktu;
+     private int waktuAksiAktif=0;
+     public int getWaktuAksiAktif() {
+         return waktuAksiAktif;
+     }
      private int waktuTidur=0;
      private int waktuSudahKerja=0;
      private boolean belumBerak=false;
@@ -427,6 +427,9 @@ public class Sim {
     public boolean isCanChangePekerjaan(){
         return (waktuSudahKerja>=12);
     }
+    public void setWaktuSudahKerja(int waktuSudahKerja){
+        this.waktuSudahKerja = waktuSudahKerja;
+    }
 
     public void substractUang(int uang){
         this.uang -= uang;
@@ -545,12 +548,13 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void olahraga(int waktu) {
+    public void olahraga(final int fwaktu) {
         //Please provide the solution below
-        final int fwaktu = waktu;
         executorService.execute(() -> {
+            System.out.println("cokkkk");
             this.status.add(new Aksi(this, "Olahraga", fwaktu));
             this.isDoAksiAktif = true;
+            
             int indexStatus = this.status.size() - 1;
             try {
                 int seconds = 0;
@@ -564,7 +568,7 @@ public class Sim {
                         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
                     }
                     this.status.get(indexStatus).decDetikTersisa();
-                    gp.setActionCounter(waktu-i);
+                    gp.setActionCounter(fwaktu-i);
                     
                 }
                 this.status.remove(indexStatus);

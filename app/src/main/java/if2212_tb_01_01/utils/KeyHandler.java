@@ -357,7 +357,13 @@ public class KeyHandler implements KeyListener {
                             gp.setSubState(0);
                             break;
                         case "cari kerja":
-                            gp.setSubState(8);
+                            if (gp.getSim().isCanChangePekerjaan()){
+                                gp.setSubState(8);
+                                gp.getSim().setWaktuSudahKerja(0);
+                            }
+                            else {
+                                gp.showNotification("Tidak bisa ganti pekerjaan! Kamu harus bekerja selama 12 menit.");
+                            }
                             break;
                         case "ganti sim":
                             gp.setGs(3);
@@ -367,7 +373,7 @@ public class KeyHandler implements KeyListener {
                                 gp.setGs(4);
                                 gp.getWorldClock().setIsCanAddSim(false);
                             } else{
-                                // gabisa add sim
+                                gp.showNotification("Hold on! Kamu hari ini sudah menambahkan sim baru.");
                             }
                             break;
                         case "belanja":
@@ -503,11 +509,12 @@ public class KeyHandler implements KeyListener {
                             break;
                         case "olahraga":
                             if (in1%20==0){
-                                gp.setSubState(14);
-                                gp.getSim().olahraga(in1);
+                                    gp.setSubState(14);
+                                    gp.getSim().olahraga(in1);
                             } else {
-                                errorCaught = true;
-                            }
+                                    gp.showNotification("input harus kelipatan 20");
+                                    errorCaught = true;
+                                }
                                 break;
                         case "tidur":
                             gp.getSim().tidur(180);
@@ -574,17 +581,21 @@ public class KeyHandler implements KeyListener {
             //world (create)
 
             arrowNum = (arrowNum +2)%2;
-
+            
             if(enterPressed){
-                gp.setGs(5);
-                gp.getSim().setPosisiRumah(new Point(in1,in2));
-                gp.setRoom(gp.getSim().getRoomAwal());
-                gp.getRoom().setIsBuilded(true);
-                // gp.setTileManager(new TileManager(gp,1));
-
-
-                in1 = 0; in2 = 0;
-                input = "";
+                if (gp.getWorldClock().getWorld().isPosisiTerisi(in1, in2)){
+                    gp.showNotification("Posisi sudah terisi, pilih posisi lain!");
+                } else {
+                    gp.setGs(5);
+                    gp.getSim().setPosisiRumah(new Point(in1,in2));
+                    gp.setRoom(gp.getSim().getRoomAwal());
+                    gp.getRoom().setIsBuilded(true);
+                    // gp.setTileManager(new TileManager(gp,1));
+    
+    
+                    in1 = 0; in2 = 0;
+                    input = "";
+                }
             } else if (escapePressed){
                 gp.setGs(3);
                 in1 = 0; in2 = 0;
