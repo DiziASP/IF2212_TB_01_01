@@ -315,6 +315,31 @@ public class KeyHandler implements KeyListener {
                 } else if (k==8){
                     in1 = in1/10;
                 }
+            } else if (gp.getSubState()==7){
+                if (input.length()<14){
+                    if (k==32){
+                        input += (char) (k);
+                    }
+                    else if (k>=65 && k<=90){
+                        input += (char) (k+32);
+                    } else if (k>=48 && k<=57){
+                        input += (char) (k);
+                    }
+
+                }
+                if (k == 8){
+                    if (input.length()>0){
+                        input = input.substring(0, input.length() - 1);
+                    }
+                }
+            } else if (gp.getSubState()==11) {
+                int js = gp.getSimList().size() - 1;
+
+                if (js == gp.getIndexActiveSim()) {
+                    js++;
+                } else if (js > 0) {
+                    arrowNum = (arrowNum + js) % js;
+                }
             }
 
             if(isEnterPressed()){
@@ -347,8 +372,9 @@ public class KeyHandler implements KeyListener {
 //                            gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
-                        case "upgrade rumah":
+
                         case "kunjungi rumah":
+                            break;
 
                         default:
                             input = gp.getOpsiAksi(arrowNum);
@@ -389,7 +415,7 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(9);
                             break;
                         case "upgrade rumah":
-                            gp.setSubState(12);
+                            gp.setSubState(7);
                             break;
                         case "kunjungi rumah":
                             gp.setGs(10);
@@ -469,20 +495,24 @@ public class KeyHandler implements KeyListener {
                     //ruang baru upgrade rumah
                     switch(gp.getOpsiAksi(arrowNum)){
                         case "kembali":
+                            break;
+                        default:
+//                            gp.getRoom().upgrade(gp.getOpsiAksi(arrowNum), input);
+                            gp.showNotification("Upgrade dalam proses...");
                             gp.setSubState(0);
                             break;
-                        case "atas":
-                            gp.getRoom().newRoomAbove();
-                            break;
-                        case "bawah":
-                            gp.getRoom().newRoomBelow();
-                            break;
-                        case "kanan":
-                            gp.getRoom().newRoomRight();
-                            break;
-                        case "kiri":
-                            gp.getRoom().newRoomLeft();
-                            break;
+//                        case "atas":
+//                            gp.getRoom().newRoomAbove(input);
+//                            break;
+//                        case "bawah":
+//                            gp.getRoom().newRoomBelow(input);
+//                            break;
+//                        case "kanan":
+//                            gp.getRoom().newRoomRight(input);
+//                            break;
+//                        case "kiri":
+//                            gp.getRoom().newRoomLeft(input);
+//                            break;
                     }
 
                     gp.setSubState(0);
@@ -522,8 +552,17 @@ public class KeyHandler implements KeyListener {
                     }
                 } else if (gp.getSubState()==11){
                     //berkunjung
-                } else if (gp.getSubState()==12){
-                    //tambah ruang upgrade rumah
+
+                        // this sim
+
+                        gp.setRoom(gp.getSim().getCurRoom());
+                        gp.getRoom().setIsBuilded(true);
+                        // gp.setTileManager(new TileManager(gp,1));
+                        gp.setSubState(0);
+
+
+//                } else if (gp.getSubState()==12){
+//                    //tambah ruang upgrade rumah
 
                 } else if (gp.getSubState()==13){
                     //durasi aksi
