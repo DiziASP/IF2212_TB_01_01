@@ -11,6 +11,7 @@ import if2212_tb_01_01.entities.sim.*;
 import if2212_tb_01_01.entities.world.*;
 import if2212_tb_01_01.entities.world.Point;
 import if2212_tb_01_01.ui.UI;
+import if2212_tb_01_01.items.furnitur.*;
 // import if2212_tb_01_01.ui.WelcomeUI;
 import if2212_tb_01_01.utils.CollisionHandler;
 import if2212_tb_01_01.utils.InputListener;
@@ -30,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
     int gameState = 0;
     // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
-    // 9-inventory, 10-world kunjungan, 11-shop
+    // 9-inventory, 10-world kunjungan, 11-shop, 12-MATI, 15-loadeng
     int subState = 0;
         // subState: 0-none, 1-tambahan, 2-pilihEditan, 3-pilihBarangPasang, 4-lokasiPasang, 5-lokasiBuang, 6-lokasiEdit, 7-lokasiBaru
         // 8-cari kerja, 9-pilihMakanan, 10-pilihMenuMakanan
@@ -39,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // TileManager tm;
     int actionCounter=0;
+    int interact=-1;
 
     ArrayList<String> opsiAksi = new ArrayList<String>();
 
@@ -52,8 +54,6 @@ public class GamePanel extends JPanel implements Runnable {
     public final InteractionHandler interactionHandler = new InteractionHandler(this);
 
     private UI ui = new UI(this,keyHandler);
-    private Sim sim;
-    // private ArrayList<Sim> listSim = new ArrayList<Sim>();
     private House house;
     public Room room;
     private World world = new World(this);
@@ -94,12 +94,26 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         //readfile sim
         //test
+        worldClock.getWorld().getListSim().add(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().pasangObjek(4,0, 1);
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomAbove();
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomBelow();
+        worldClock.getWorld().getListSim().add(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
+        worldClock.getWorld().getListSim().get(1).getRoomAwal().newRoomLeft();
+        worldClock.getWorld().getListSim().get(1).getRoomAwal().pasangObjek(3,1, 0);
+        worldClock.getWorld().getListSim().add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
+        worldClock.getWorld().getListSim().get(2).getRoomAwal().newRoomRight();
+        worldClock.getWorld().getListSim().get(2).getRoomAwal().pasangObjek(6,2, 3);
+
         worldClock.getWorld().addSim(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
         worldClock.getWorld().getSim(0).getRoomAwal().pasangObjek(4,0, 1);
         worldClock.getWorld().addSim(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
         worldClock.getWorld().getSim(1).getRoomAwal().pasangObjek(3,1, 0);
         worldClock.getWorld().addSim(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
         worldClock.getWorld().getSim(2).getRoomAwal().pasangObjek(6,2, 3);
+
+        gameState=0;
+
     }
 
     public void startGameThread() {
@@ -136,8 +150,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         ui.update();
         if (gameState==6){
-            room.update(); //buggy kalo atas
-            sim.update();
+            room.update();
+            worldClock.getWorld().getSim(IndexActiveSim).update();
+
         }
     }
     public void showNotification(String message) {
@@ -193,6 +208,14 @@ public class GamePanel extends JPanel implements Runnable {
         keyHandler.setArrowNum(0);
     }
 
+    public int getInteract() {
+        return interact;
+    }
+
+    public void setInteract(int interact) {
+        this.interact = interact;
+    }
+
     public Room getRoom(){
         return room;
     }
@@ -206,7 +229,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setSim(Sim sim){
-        this.sim = sim;
+        int idx=-1;
+        for (int i=0; i < worldClock.getWorld().getListSim().size(); i++){
+            if (worldClock.getWorld().getListSim().get(i).equals(sim)){
+                idx=i;
+                break;
+            }
+        }
+        this.IndexActiveSim=idx;
     }
     public int getIndexActiveSim(){
         return IndexActiveSim;
@@ -260,8 +290,17 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("yoga");
             addOpsiAksi("bersihkan rumah");
             addOpsiAksi("berdoa");            
-            addOpsiAksi("masak");
+            addOpsiAksi("masak"); //tes
             addOpsiAksi("makan");
+
+            if (interact!=-1){
+                if (interact<-1){
+                    addOpsiAksi("pindah ruangan");
+                } else{
+                    String opsi = ((Furnitur)worldClock.getWorld().getSim(IndexActiveSim).getInventory().getInventory().get(interact)).getNamaAksi();
+                    addOpsiAksi(opsi);
+                }
+            }
 
         } else if (subState==1){
             //tambahan
@@ -281,6 +320,7 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("pindahkan barang"); 
             addOpsiAksi("tambahkan barang");
         } else if (subState==8){
+            addOpsiAksi("kembali");
             addOpsiAksi("badut sulap");
             addOpsiAksi("koki");
             addOpsiAksi("polisi");

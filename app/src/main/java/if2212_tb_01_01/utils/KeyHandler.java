@@ -18,6 +18,7 @@ import java.awt.event.KeyListener;
 
 import if2212_tb_01_01.GamePanel;
 
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class KeyHandler implements KeyListener {
@@ -135,7 +136,7 @@ public class KeyHandler implements KeyListener {
         } else if (gp.getGs() == 2){
             //help
 
-            // arrowNum = (arrowNum%3);
+            arrowNum = (arrowNum +5)%5;
 
             if(isEnterPressed() || isEscapePressed()){
                 gp.setGs(0);
@@ -163,6 +164,7 @@ public class KeyHandler implements KeyListener {
                 gp.getRoom().setIsBuilded(true);
                 // gp.setTileManager(new TileManager(gp,1));
                 gp.setGs(5);
+                gp.setSubState(0);
             } else if(isEscapePressed()){
                 gp.setGs(1);
             } 
@@ -317,6 +319,18 @@ public class KeyHandler implements KeyListener {
                 if (gp.getSubState()==0){
                     //utama
                     switch (gp.getOpsiAksi(arrowNum)){ 
+                        case "pindah ruangan":
+                            if (gp.getInteract()==-5){
+                                gp.setRoom(gp.getRoom().getRoomLeft());
+                                // gp.getSim().setSolidArea(new Rectangle());
+                            } else if (gp.getInteract()==-4){
+                                gp.setRoom(gp.getRoom().getRoomAbove());
+                            } else if (gp.getInteract()==-3){
+                                gp.setRoom(gp.getRoom().getRoomRight());
+                            } else if (gp.getInteract()==-2){
+                                gp.setRoom(gp.getRoom().getRoomBelow());
+                            }
+                            break;
                         case "edit ruangan":
                             gp.setSubState(2);
                             break;
@@ -525,8 +539,7 @@ public class KeyHandler implements KeyListener {
                             break;
                         case "kerjakan proyek":
                             break;
-                        case "pindah ruangan":
-                            break;
+                        
                     }                    
                 } else if (gp.getSubState()==14){
                     //aksi counter
@@ -538,7 +551,11 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==16){
                 } 
             } else if(isEscapePressed()){
-                gp.setGs(7);
+                if (gp.getSubState()==3 ||gp.getSubState()==5 || gp.getSubState()==6 ||gp.getSubState()==9 || gp.getSubState()==10 || gp.getSubState()==12){
+                    gp.setSubState(0);
+                } else{
+                    gp.setGs(7);
+                }
             }
             
         } else if (gp.getGs() == 7){

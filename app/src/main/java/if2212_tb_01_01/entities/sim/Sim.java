@@ -203,6 +203,9 @@ public class Sim {
     }
 
     public void update() {
+    }
+
+    public void draw(Graphics2D g) {
         if (kh.isUpPressed() ||
                 kh.isLeftPressed() ||
                 kh.isRightPressed() ||
@@ -225,8 +228,9 @@ public class Sim {
                 interactableArea.setLocation(screenX + tileSize + speed, screenY);
             }
 
-            isCollision = gp.collisionHandler.checkTileCollision(this) ||gp.collisionHandler.checkObjectCollision(this);
-            System.out.println(gp.interactionHandler.checkOnInteractionRange(this)); /* Ini buat interaction, nanti sesuain aja */
+            isCollision = gp.collisionHandler.checkTileCollision(gp.getSim()) || gp.collisionHandler.checkObjectCollision(gp.getSim());
+            gp.setInteract(gp.interactionHandler.checkOnInteractionRange(gp.getSim()));
+            System.out.println(gp.interactionHandler.checkOnInteractionRange(gp.getSim())); /* Ini buat interaction, nanti sesuain aja */
             if (!isCollision) {
                 if (kh.isUpPressed()) {
                     screenY -= speed;
@@ -250,9 +254,7 @@ public class Sim {
                 }
             }
         }
-    }
-
-    public void draw(Graphics2D g) {
+        
         BufferedImage sim = null;
 
         switch (direction) {

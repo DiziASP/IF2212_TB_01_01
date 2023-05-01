@@ -6,7 +6,7 @@ import static if2212_tb_01_01.utils.Constant.*;
 public class BakMandi extends Furnitur{
     public BakMandi(){
         super("BAK MANDI", "FURNITUR", "/images/furnitur/bak_mandi.png", 2*tileSize, 1*tileSize);
-        setNamaAksi("MANDI");
+        setNamaAksi("mandi");
         setHarga(50);
         setPanjang(1);
         setLebar(2);
