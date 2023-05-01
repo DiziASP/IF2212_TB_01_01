@@ -563,17 +563,21 @@ public class KeyHandler implements KeyListener {
             //world (create)
 
             arrowNum = (arrowNum +2)%2;
-
+            
             if(enterPressed){
-                gp.setGs(5);
-                gp.getSim().setPosisiRumah(new Point(in1,in2));
-                gp.setRoom(gp.getSim().getRoomAwal());
-                gp.getRoom().setIsBuilded(true);
-                // gp.setTileManager(new TileManager(gp,1));
-
-
-                in1 = 0; in2 = 0;
-                input = "";
+                if (gp.getWorldClock().getWorld().isPosisiTerisi(in1, in2)){
+                    gp.showNotification("Posisi sudah terisi, pilih posisi lain!");
+                } else {
+                    gp.setGs(5);
+                    gp.getSim().setPosisiRumah(new Point(in1,in2));
+                    gp.setRoom(gp.getSim().getRoomAwal());
+                    gp.getRoom().setIsBuilded(true);
+                    // gp.setTileManager(new TileManager(gp,1));
+    
+    
+                    in1 = 0; in2 = 0;
+                    input = "";
+                }
             } else if (escapePressed){
                 gp.setGs(3);
                 in1 = 0; in2 = 0;
