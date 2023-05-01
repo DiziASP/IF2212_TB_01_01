@@ -18,7 +18,11 @@ import if2212_tb_01_01.utils.InputListener;
 import if2212_tb_01_01.utils.InteractionHandler;
 import if2212_tb_01_01.utils.KeyHandler;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,8 +58,9 @@ public class GamePanel extends JPanel implements Runnable {
     public Room room;
     private World world = new World(this);
     private int IndexActiveSim;
-
     WorldClock worldClock = new WorldClock(this, world);
+    private JLabel notificationLabel;
+    private Timer notificationTimer;
 
 
     public GamePanel() {
@@ -64,6 +69,23 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        notificationLabel = new JLabel();
+        add(notificationLabel);
+        
+        notificationLabel = new JLabel();
+        add(notificationLabel);
+        Color textColor = Color.WHITE;
+        notificationLabel.setFont(new Font("Courier New", Font.BOLD, 18));
+        notificationLabel.setForeground(new Color(0xFDFFFF));
+
+        // Inisialisasi timer dengan durasi 3 detik
+        notificationTimer = new Timer(2500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearNotification();
+            }
+        });
+        notificationTimer.setRepeats(false); // Menjalankan timer hanya satu kali
 
         //test
         
@@ -133,6 +155,14 @@ public class GamePanel extends JPanel implements Runnable {
 
         }
     }
+    public void showNotification(String message) {
+        notificationLabel.setText(message);
+        notificationTimer.start();
+    }
+    public void clearNotification() {
+        notificationLabel.setText("");
+    }
+
 
     @Override
     public void paintComponent(Graphics g) {

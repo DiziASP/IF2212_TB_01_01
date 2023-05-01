@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.assets.tiles.Tile;
 import if2212_tb_01_01.utils.UtilityTool;
+import if2212_tb_01_01.entities.house.House;
 import if2212_tb_01_01.entities.sim.Sim;
 
 import static if2212_tb_01_01.utils.Constant.*;
@@ -151,11 +152,20 @@ public class World {
 
     // Memeriksa apakah posisi rumah sudah terisi
     public boolean isPosisiTerisi(Point point) {
-        // for (Rumah rumah : listRumah) {
-        // if (rumah.getPosisi().isPointEqual(point)) {
-        // return true;
-        // }
-        // }
+        for (int i = 0; i < listSim.size(); i++) {
+            if (listSim.get(i).getRumah().getPosisi().equals(point)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPosisiTerisi(int x, int y){
+        for (int i = 0; i < listSim.size()-1; i++) {
+            if (listSim.get(i).getRumah().getPosisi().getX() == x && listSim.get(i).getRumah().getPosisi().getY() == y) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -235,6 +245,9 @@ public class World {
 
     public void addSim(Sim sim) {
         this.listSim.add(sim);
+    }
+    public void removeSim(Sim sim) {
+        this.listSim.remove(sim);
     }
 
     public int getJumlahSim() {
