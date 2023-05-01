@@ -236,6 +236,9 @@ public class World {
     public void addSim(Sim sim) {
         this.listSim.add(sim);
     }
+    public void removeSim(Sim sim) {
+        this.listSim.remove(sim);
+    }
 
     public int getJumlahSim() {
         return this.listSim.size();

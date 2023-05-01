@@ -55,6 +55,14 @@ public class WorldClock implements Runnable {
         System.out.println(" Days: " + daysInWorld + " Minutes: " + minutes + "Seconds: " + seconds);
     }
 
+    public void checkKematian(){
+        if (world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getMood()<=0 || world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getKekenyangan()<=0 || world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getKesehatan()<=0 ){
+            System.out.println("lu mati");
+            world.removeSim(world.getSim(gp.getIndexActiveSim()));
+            gp.setGs(12);
+        } 
+    }
+
     public void checkerHarian(){
         isCanAddSim = true;
     }
@@ -90,6 +98,7 @@ public class WorldClock implements Runnable {
                             checker10menit();
                         }
                     }
+                    checkKematian();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -100,5 +109,6 @@ public class WorldClock implements Runnable {
     public void updateSimStatus(){
 //        sim.getStatus().remove(indexStatus);
     }
+    
 
 }

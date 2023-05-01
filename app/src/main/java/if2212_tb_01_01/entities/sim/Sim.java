@@ -109,6 +109,10 @@ public class Sim {
          Sim.world = world;
      }
      private boolean isDoAksiAktif;
+ 
+    
+    
+    private boolean isDoAksiNonWaktu;
      private int waktuTidur=0;
      private int waktuSudahKerja=0;
      private boolean belumBerak=false;
@@ -693,6 +697,112 @@ public class Sim {
 
     // }
 
+    public void mulaiThreadbuangAirChecker(){
+        executorService.execute(() -> {
+            try{
+                Thread.sleep(1000*4*60);
+                if (this.belumBerak==true){
+                    this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() - 5);
+                    this.kesejahteraan.setMood(this.kesejahteraan.getMood() - 5);
+                    this.belumBerak = false; //balik ke state awal
+                }
+                
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void makan(int idx, int waktu){
+        final int fwaktu = waktu;
+
+        if (idx<20){
+            executorService.execute(() -> {
+            int indexStatus = this.status.size() -1;
+                this.status.add(new Aksi(this,"Makan",fwaktu));
+                
+                try {
+                    int seconds = 0;
+                    for (int i = 0; i < fwaktu; i++) {
+                        Thread.sleep(1000);
+                        seconds++;
+                        if (seconds % 30 ==0){
+                            this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + 10);
+                            this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5);
+                            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 5);
+                        }
+                        this.getAksi(indexStatus).decDetikTersisa();
+                        
+                    }
+                    this.status.remove(indexStatus);
+                    this.isDoAksiAktif = false;
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                this.inventory.decItem(idx);
+                this.belumBerak=true;
+                System.out.println("Yey sudah makan");
+                mulaiThreadbuangAirChecker(); // abis tiap makan dia ngecek 4 menit sudah bab ap blm
+            });
+        } else {
+            kh.setErrorCaught(true);
+        }
+    }
+
+    public void mulaiThreadbuangAirChecker(){
+        executorService.execute(() -> {
+            try{
+                Thread.sleep(1000*4*60);
+                if (this.belumBerak==true){
+                    this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() - 5);
+                    this.kesejahteraan.setMood(this.kesejahteraan.getMood() - 5);
+                    this.belumBerak = false; //balik ke state awal
+                }
+                
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void makan(int idx, int waktu){
+        final int fwaktu = waktu;
+
+        if (idx<20){
+            executorService.execute(() -> {
+            int indexStatus = this.status.size() -1;
+                this.status.add(new Aksi(this,"Makan",fwaktu));
+                
+                try {
+                    int seconds = 0;
+                    for (int i = 0; i < fwaktu; i++) {
+                        Thread.sleep(1000);
+                        seconds++;
+                        if (seconds % 30 ==0){
+                            this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + 10);
+                            this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5);
+                            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 5);
+                        }
+                        this.getAksi(indexStatus).decDetikTersisa();
+                        
+                    }
+                    this.status.remove(indexStatus);
+                    this.isDoAksiAktif = false;
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                this.inventory.decItem(idx);
+                this.belumBerak=true;
+                System.out.println("Yey sudah makan");
+                mulaiThreadbuangAirChecker(); // abis tiap makan dia ngecek 4 menit sudah bab ap blm
+            });
+        } else {
+            kh.setErrorCaught(true);
+        }
+    }
+
     public void memasak(int idx) {
         if (idx==24) {
             if (inventory.isItemAda(15) && inventory.isItemAda(17)) {
@@ -836,10 +946,6 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void buangAir() {
-        //Please provide the solution below
-    }
-
     public void upgradeRumah() {
         System.out.println("Pilih posisi ruangan baru (atas/bawah/kiri/kanan): ");
         Scanner scanner = new Scanner(System.in);
@@ -880,10 +986,41 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void melihatWaktu() {
-        //Please provide the solution below
-    }
+    // public void melihatWaktu() {
+    //     //Please provide the solution below
+    // } --> mellihat waktu pakai methodnya worldclock yach
 
+    public void buangAir(int waktu) {
+        final int fwaktu = waktu;
+        executorService.execute(() -> {
+            this.status.add(new Aksi(this, "Buang Air", fwaktu));
+            this.isDoAksiAktif = true;
+            this.belumBerak = false;
+            int indexStatus = this.status.size() - 1;
+            System.out.println("Sedang buang air");
+            try {
+                int seconds = 0;
+                for (int i = 0; i < fwaktu; i++) {
+                    Thread.sleep(1000);
+                    seconds++;
+                    if (seconds % 10 == 0) {
+                        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 20);
+                        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+                        this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
+                    }
+                    this.getAksi(indexStatus).decDetikTersisa();
+                    
+                }
+                this.status.remove(indexStatus);
+    
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Yeah lega dek kelar berak!");
+            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+            this.isDoAksiAktif = false;
+        });
+    }
     public void yoga(int waktu) {
         final int fwaktu = waktu;
         executorService.execute(() -> {
