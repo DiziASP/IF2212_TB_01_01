@@ -116,38 +116,6 @@ public class World {
         this.lebar = lebar;
     }
 
-    // Getter method for Daftar Rumah
-    // public List<Rumah> getDaftarRumah() {
-    // return listRumah;
-    // }
-
-    // Mendapatkan rumah berdasarkan lokasi
-    // public Rumah getRumah(Point point) {
-    // boolean found = false;
-    // int i = 0;
-    // while (!found && i < listRumah.size()) {
-    // if (listRumah.get(i).getPosisi().isPointEqual(point)) {
-    // found = true;
-    // } else {
-    // i++;
-    // }
-    // }
-    // return listRumah.get(i);
-    // }
-
-    // Mendapatkan rumah berdasarkan lokasi
-    // public Rumah getRumah(String kepemilikan) {
-    // boolean found = false;
-    // int i = 0;
-    // while (!found && i < listRumah.size()) {
-    // if (listRumah.get(i).getKepemilikan().equals(kepemilikan)) {
-    // found = true;
-    // } else {
-    // i++;
-    // }
-    // }
-    // return listRumah.get(i);
-    // }
 
     // Memeriksa apakah posisi rumah sudah terisi
     public boolean isPosisiTerisi(Point point) {
@@ -159,13 +127,6 @@ public class World {
         return false;
     }
 
-    // public void addRumah(Rumah rumah) {
-    // if (isPosisiTerisi(rumah.getPosisi())) {
-    // System.out.println("Posisi sudah terisi!");
-    // } else {
-    // this.listRumah.add(rumah);
-    // }
-    // }
 
     public void addRumah(Point posisi, String kepemilikan, String namaRuangan, Point posisiRuangan) {
         if (isPosisiTerisi(posisi)) {
@@ -192,17 +153,6 @@ public class World {
         }
     }
 
-    // public void removeRumah(Rumah rumah) {
-    // this.listRumah.remove(rumah);
-    // }
-
-    // public WorldClock getWorldClock() {
-    // return worldClock;
-    // }
-
-    // public void setWorldClock(WorldClock worldClock) {
-    // this.worldClock = worldClock;
-    // }
 
     public boolean isIdle() {
         boolean isIdle = false;
@@ -217,13 +167,6 @@ public class World {
         return isIdle;
     }
 
-    // public Rumah getRumah(int x) {
-    // return this.listRumah.get(x);
-    // }
-
-    // public Rumah getLastRumah() {
-    // return this.listRumah.get(this.listRumah.size() - 1);
-    // }
 
     public Sim getSim(int x) {
         return this.listSim.get(x);

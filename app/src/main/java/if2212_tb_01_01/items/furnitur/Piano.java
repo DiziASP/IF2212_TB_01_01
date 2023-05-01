@@ -7,7 +7,7 @@ public class Piano extends Furnitur{
 
     public Piano(){
         super("PIANO", "FURNITUR", "/images/furnitur/piano.png", 2*tileSize, 2*tileSize);
-        setNamaAksi("BERMAIN");
+        setNamaAksi("Main musik");
         setHarga(50);
         setPanjang(2);
         setLebar(2);

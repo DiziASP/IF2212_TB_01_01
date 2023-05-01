@@ -1,6 +1,5 @@
 package if2212_tb_01_01.items.furnitur;
 
-import if2212_tb_01_01.items.Item;
 
 import java.awt.*;
 
@@ -10,7 +9,7 @@ public class MejaKursi extends Furnitur  {
 
     public MejaKursi(){
         super("MEJA DAN KURSI", "FURNITUR", "/images/furnitur/meja_dan_kursi.png", 3*tileSize, 3*tileSize);
-        setNamaAksi("MAKAN");
+        setNamaAksi("makan");
         setHarga(50);
         setPanjang(3);
         setLebar(3);

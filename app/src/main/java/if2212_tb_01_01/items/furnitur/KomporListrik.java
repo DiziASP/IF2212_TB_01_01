@@ -8,7 +8,7 @@ public class KomporListrik extends Furnitur {
 
     public KomporListrik(){
         super("KOMPOR LISTRIK", "FURNITUR", "/images/furnitur/kompor_listrik.png", 2*tileSize, tileSize);
-        setNamaAksi("MASAK");
+        setNamaAksi("masak");
         setHarga(200);
         setPanjang(1);
         setLebar(2);

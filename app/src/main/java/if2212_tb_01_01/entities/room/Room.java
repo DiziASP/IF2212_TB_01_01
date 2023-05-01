@@ -11,8 +11,6 @@ import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.items.Inventory;
 import if2212_tb_01_01.items.Item;
 import if2212_tb_01_01.items.furnitur.Furnitur;
-import if2212_tb_01_01.items.furnitur.Jam;
-import if2212_tb_01_01.items.furnitur.KasurQueenSize;
 
 public class Room {
     GamePanel gp;
@@ -81,8 +79,6 @@ public class Room {
 
     public Room(GamePanel gp, boolean isBuilded, Sim sim) {
         this.gp = gp;
-        // this.roomName = roomName;
-
         totalRuangan++;
         this.roomIndex = totalRuangan;
 
@@ -98,23 +94,6 @@ public class Room {
                 mapRuangan[i][j] = -1;
             }
         }
-
-        // if (this.isBuilded) {
-            // Awal game ruangan langsung jadi
-
-            /* Ini boleh di bikin fungsi biar bisa langsung setup ketiga method ini DAN INI HARUS ADA TIGA2NYA DENGAN STRUKTUR BEGINI, GABOLEH NGGAK*/
- 
-
-//            setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-//            daftarObjek.add(new Item());
-//            setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-//            daftarObjek.add(new Item());
-//            setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-//            daftarObjek.add(new Item());
-//            setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-//            daftarObjek.add(new Item());
-//            setMapRuangan(daftarObjek.get(daftarObjek.size() - 1));
-        // }
     }
 
     public void pasangObjek(int idx, int x, int y){
@@ -122,8 +101,6 @@ public class Room {
         Rectangle ia = new Rectangle(((x + 1) *tileSize) + 48, ((y + 1) * tileSize) + 24, f.getPanjang(), f.getLebar());
         ItemTracker it = new ItemTracker(idx, ia, x, y);
         inventory.incItemPut(idx);
-        // Furnitur furnitur = (Furnitur) inventory.getInventory().get(idx);
-        // KasurQueenSize jam = KasurQueenSize.buildKasurQueenSize(0,0);
         daftarObjek.add(it);
         setMapRuangan(idx, it);
     }
@@ -179,10 +156,6 @@ public class Room {
         return roomIndex;
     }
 
-    // public String getRoomName() {
-    //     return roomName;
-    // }
-
     public void setMapRuangan(Integer itemIdx, ItemTracker item) {
 
         //  if (!item.isVertikal()) {
@@ -193,23 +166,8 @@ public class Room {
                 mapRuangan[i][j] = itemIdx;
                }
             }
-    //      }
-    //      else {
-    //         for (int i = item.getPosisi().y; i < item.getPosisi().getY() +
-    //             item.getLebar(); i++) {
-
-    //             for (int j = item.getPosisi().x; j < item.getPosisi().getX() +
-    //                 item.getPanjang(); j++) {
-    //                 mapRuangan[i][j] = item;
-    //             }
-    //         }
          }
     
-    // pake pasang aj   
-    // public void addObjek(int idx, int x, int y) {
-    //     daftarObjek.add(new ItemTracker(idx,x,y));
-        
-    // }
 
     public List<ItemTracker> getDaftarObjek() {
         return daftarObjek;

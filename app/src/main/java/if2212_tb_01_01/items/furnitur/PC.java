@@ -8,7 +8,7 @@ public class PC extends Furnitur{
 
     public PC(){
         super("PC", "FURNITUR", "/images/furnitur/pc.png", tileSize, tileSize);
-        setNamaAksi("MENGGUNAKAN");
+        setNamaAksi("proyekan");
         setHarga(50);
         setPanjang(1);
         setLebar(1);

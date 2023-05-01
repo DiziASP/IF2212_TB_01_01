@@ -67,10 +67,6 @@ public class Inventory {
 
     public void incItem (Integer i) {
         inventory.get(i).incAmount();
-        // if (inventory.get(i) instanceof Furnitur){
-        //     Furnitur in = (Furnitur) inventory.get(i);
-        //     in.incAmountPut();
-        // }
     }
 
     public void decItem (Integer i) {
@@ -119,24 +115,7 @@ public class Inventory {
         }
         return jumlah;
     }
-    // public void displayInventory() {
-    //     String text = "Inventory: ";
-    //     boolean found = false;
-    //     for (Integer i=0; i<25; i++){
-            
-    //         if (isItemAda(i)){
-    //             found = true;
-
-    //             Item item = inventory.get(i);
-    //             text += item.getInfo() + "\n\n";
-    //         }
-    //     } 
-    //     else {
-    //         for (Map.Entry<Integer, Item> entry : inventory.entrySet()) {
-    //             System.out.println(entry.getKey().getNama() + " : " + entry.getValue());
-    //         }
-    //     }
-    // }
+    
     public int getKey(Item item){
         for (Map.Entry<Integer, Item> entry : inventory.entrySet()) {
             if (entry.getValue().getClass().equals(item.getClass())){

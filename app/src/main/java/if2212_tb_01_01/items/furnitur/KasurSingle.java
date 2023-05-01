@@ -1,6 +1,5 @@
 package if2212_tb_01_01.items.furnitur;
 
-import if2212_tb_01_01.items.Item;
 
 import java.awt.*;
 
@@ -10,7 +9,7 @@ public class KasurSingle extends Furnitur  {
 
     public KasurSingle(){
         super("KASUR SINGLE", "FURNITUR", "/images/furnitur/kasur_single.png", tileSize, 4*tileSize);
-        setNamaAksi("TIDUR");
+        setNamaAksi("tidur");
         setHarga(50);
         setPanjang(4);
         setLebar(1);
