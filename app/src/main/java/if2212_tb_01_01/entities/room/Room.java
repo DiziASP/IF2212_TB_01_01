@@ -141,7 +141,8 @@ public class Room {
                     if (daftarObjek.get(m).getY() <= y && daftarObjek.get(m).getY()+a > y){
                         found = true;
                     } else {m++;}
-                } else{m++;}
+                } else{m++;
+                }
                 
             }
   

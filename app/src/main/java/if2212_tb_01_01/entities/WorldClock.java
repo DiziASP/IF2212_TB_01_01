@@ -51,8 +51,8 @@ public class WorldClock implements Runnable {
     public World getWorld() {
         return world;
     }
-    public void melihatWaktu(){
-        System.out.println(" Days: " + daysInWorld + " Minutes: " + minutes + "Seconds: " + seconds);
+    public String melihatWaktu(){
+        return (" Days: " + daysInWorld + " Minutes: " + minutes + "Seconds: " + seconds);
     }
 
     public void checkKematian(){

@@ -495,6 +495,8 @@ public class KeyHandler implements KeyListener {
                             break;
                         case "olahraga":
                             if (in1%20==0){
+                                    System.out.println("masuk");
+                                    System.out.println(gp.getSim().getNamaLengkap());
                                     gp.setSubState(14);
                                     gp.getSim().olahraga(in1);
                             } else {
@@ -520,6 +522,7 @@ public class KeyHandler implements KeyListener {
                             gp.getSim().bermainMusik(20);
                             break;
                         case "mandi":
+                        
                             break;
                         case "bersihkan rumah":
                             break;

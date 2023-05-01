@@ -68,7 +68,7 @@ public class Sim {
             listAksiAktif.add(new Aksi("OLAHRAGA", false));
             listAksiAktif.add(new Aksi ("TIDUR", true));
             listAksiAktif.add(new Aksi ("MAKAN", true));
-            listAksiAktif.add(new Aksi ("MEMASAK", true));
+            listAksiAktif.add(new Aksi ("MASAK", true));
             listAksiAktif.add(new Aksi ("BERKUNJUNG", false));
             listAksiAktif.add(new Aksi ("BUANG AIR", true));
             listAksiAktif.add(new Aksi ("YOGA", false));
@@ -731,9 +731,8 @@ public class Sim {
                         Thread.sleep(1000);
                         seconds++;
                         if (seconds % 30 ==0){
-                            this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + 10);
-                            this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 5);
-                            this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 5);
+                            this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + ((Masakan)(this.inventory.getInventory().get(idx))).getKekenyangan());
+                            
                         }
                         this.getAksi(indexStatus).decDetikTersisa();
                         
