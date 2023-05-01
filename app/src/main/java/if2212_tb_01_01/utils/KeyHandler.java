@@ -136,7 +136,7 @@ public class KeyHandler implements KeyListener {
         } else if (gp.getGs() == 2){
             //help
 
-            // arrowNum = (arrowNum%3);
+            arrowNum = (arrowNum +5)%5;
 
             if(isEnterPressed() || isEscapePressed()){
                 gp.setGs(0);

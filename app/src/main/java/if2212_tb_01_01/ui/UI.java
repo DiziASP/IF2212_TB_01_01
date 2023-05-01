@@ -138,40 +138,166 @@ public class UI {
         } else if (gp.getGs() == 2) {
             g2.setColor(Constant.c5);
             g2.fillRect(0,0,Constant.screenWidth,Constant.screenHeight);
+            String text;
+            int x; int y;
 
-            g2.setFont(f80);
-            String text = "Help [placeholder]";
-            int x = centerX(g2,text);
-            int y = 3*Constant.tileSize;
-            g2.setColor(Constant.c1);
-            g2.drawString(text,x+2,y+2);
-            g2.setColor(Constant.c6);
-            g2.drawString(text,x,y);
+            x = 24;
+            y = 5*Constant.tileSize;
+            Image img =  am.setup("/larrow", 24, Constant.tileSize*1);
+            g2.drawImage(img, x, y, 24, Constant.tileSize*1, null);
+
+            x = Constant.tileSize*15;
+            img =  am.setup("/rarrow", 24, Constant.tileSize*1);
+            g2.drawImage(img, x, y, 24, Constant.tileSize*1, null);
 
             
-            g2.setFont(f20);
-            text = "Kamu dapat melakukan aksi apapun yang kamu inginkan";
-            x = centerX(g2,text);
-            y += 2*Constant.tileSize;
-            g2.drawString(text,x,y);
+            if (kh.getArrowNum()==0){
+                g2.setFont(f80);
+                text = "Help";
+                x = centerX(g2,text);
+                y = 3*Constant.tileSize-24;
+                g2.setColor(Constant.c1);
+                g2.drawString(text,x+2,y+2);
+                g2.setColor(Constant.c6);
+                g2.drawString(text,x,y);
 
-            text = "sebagai SIM yang kamu pilih. Kreasikan rumah impianmu!";
-            x = centerX(g2,text);
-            y += Constant.tileSize;
-            g2.drawString(text,x,y);
+                y+=Constant.tileSize;
+                g2.setFont(f20);
 
-            text = "Tetapi jangan lupa untuk menjaga diri ya^^";
-            x = centerX(g2,text);
-            y += Constant.tileSize;
-            g2.drawString(text,x,y);
+                text = "Gunakan Arrow Key (atas, bawah, kanan, kiri) untuk\n"+ 
+                "memilih menu/aksi yang ingin dilakukan, dan tekan\n" + 
+                "Enter untuk memilihnya. Untuk keluar, tekan Escape.\n\n" +
+                "Untuk menggerakkan SIM, gunakan Key\n"+
+                "W, A, S, dan D pada Keyboard.";
+
+                for (String line: text.split("\n")){
+                    g2.drawString(line,centerX(g2, line),y+=40);
+                }
+            } else if (kh.getArrowNum()==1){
+                g2.setFont(f80);
+                text = "Tentang Permainan";
+                x = centerX(g2,text);
+                y = 3*Constant.tileSize-24;
+                g2.setColor(Constant.c1);
+                g2.drawString(text,x+2,y+2);
+                g2.setColor(Constant.c6);
+                g2.drawString(text,x,y);
+
+                y+=2*Constant.tileSize;
+                g2.setFont(f20);
+
+                text = "Kamu dapat menjalankan Simulasi kehidupan sehari-\n" +
+                "hari sebagai sebuah Sim. Tujuan dari permainan ini\n"
+                + "adalah menjaga kesejahteraan Sim agar tidak mati.";
+
+                for (String line: text.split("\n")){
+                    g2.drawString(line,centerX(g2, line),y+=Constant.tileSize);
+                }
+            } else if (kh.getArrowNum()==2){
+                g2.setFont(f80);
+                text = "Kesejahteraan SIM";
+                x = centerX(g2,text);
+                y = 3*Constant.tileSize-24;
+                g2.setColor(Constant.c1);
+                g2.drawString(text,x+2,y+2);
+                g2.setColor(Constant.c6);
+                g2.drawString(text,x,y);
+
+                y+=Constant.tileSize;
+                g2.setFont(f20);
+
+                text = "Kesejahteraan Sim terdiri dari 4 bagian, yaitu\n" +
+                 "mood, kekenyangan, kesehatan dan kebersihan. Mood\n" +
+                 "menunjukkan kesehatan mental dari Sim, kekenyangan\n"+
+                 "menunjukkan apakah Sim kurang gizi atau tidak,\n" +
+                 "kesehatan menunjukkan seberapa penyakitan sebuah\n" +
+                 "Sim, dan kebersihan menunjukan seberapa jorok Sim\n" +
+                 "tersebut. Keempat hal tersebut diukur dalam range\n" +
+                 "0-100. Ketika salah satu tingkat kesejahteraan\n" +
+                 "mencapai 0, Sim akan mati.";
+
+                 for (String line: text.split("\n")){
+                    g2.drawString(line,centerX(g2, line),y+=30);
+                 }
+                } else if (kh.getArrowNum()==3){
+                    g2.setFont(f80);
+                    text = "Aktivitas dengan Objek";
+                    x = centerX(g2,text);
+                    y = 3*Constant.tileSize-24;
+                    g2.setColor(Constant.c1);
+                    g2.drawString(text,x+2,y+2);
+                    g2.setColor(Constant.c6);
+                    g2.drawString(text,x,y);
+    
+                    y+=Constant.tileSize;
+                    g2.setFont(f20);
+    
+                    text = "Terdapat objek-objek yang dapat membantu Sim\n" +
+                     "bertahan hidup. Objek tersebut terbagi menjadi 3\n" +
+                     "kategori, yaitu furnitur, bahan makanan, dan\n"+
+                     "masakan. Furnitur digunakan untuk melakukan\n" +
+                     "aktivitas yang dapat digunakan untuk meningkatkan\n" +
+                     "atau menurunkan kesejahteraan Sim. Bahan makanan\n" +
+                     "merupakan bahan-bahan yang dapat diolah menjadi\n" +
+                     "sebuah masakan.\n";    
+                     for (String line: text.split("\n")){
+                        g2.drawString(line,centerX(g2, line),y+=30);
+                    } 
+                }else if (kh.getArrowNum()==4){
+                    g2.setFont(f80);
+                    text = "Memperoleh Objek";
+                    x = centerX(g2,text);
+                    y = 3*Constant.tileSize-24;
+                    g2.setColor(Constant.c1);
+                    g2.drawString(text,x+2,y+2);
+                    g2.setColor(Constant.c6);
+                    g2.drawString(text,x,y);
+    
+                    y+=Constant.tileSize;
+                    g2.setFont(f20);
+    
+                    text = "Sim dapat memperoleh objek dengan membeli atau \n" +
+                     "memasaknya. Objek yang bisa dibeli adalah furnitur\n" +
+                     "dan bahan makanan, sedangkan masakan hanya bisa\n"+
+                     "diperoleh dengan aktivitas memasak. Jangan lupa\n" +
+                     "beli barang membutuhkan UANG. Uang harus\n" +
+                     "didapatkan dengan cara bekerja. Karena bahkan \n"+
+                     "dalam permainan ini kita semua masih seorang\n"+
+                     "korporat ><.";
+                     for (String line: text.split("\n")){
+                        g2.drawString(line,centerX(g2, line),y+=30);
+                    }
+                }else if (kh.getArrowNum()==5){
+                        g2.setFont(f80);
+                        text = "Kehidupan SIM";
+                        x = centerX(g2,text);
+                        y = 3*Constant.tileSize;
+                        g2.setColor(Constant.c1);
+                        g2.drawString(text,x+2,y+2);
+                        g2.setColor(Constant.c6);
+                        g2.drawString(text,x,y);
+        
+                        y+=Constant.tileSize;
+                        g2.setFont(f20);
+        
+                        text = "Tiap Sim memiliki rumah mereka masing-masing.\n" +
+                         "Rumah ini terdiri dari ruangan-ruangan yang dapat\n" +
+                         "kamu tata untuk mendukung kesehariannya. Sim\n"+
+                         "dapat berjalan berpindah ruangan, dan kalau\n" +
+                         "aktivitas yang dapat digunakan untuk meningkatkan\n" +
+                         "kesepian, bisa kok berkunjung ke rumah lainnya.\n";
+                         for (String line: text.split("\n")){
+                            g2.drawString(line,centerX(g2, line),y+=40);
+                        }
+                
+            }
             
-
+            
             g2.setFont(f40);
-            text = "Kembali";
+            text = ">Klik Enter atau ESC untuk Kembali";
             x = centerX(g2,text);
-            y += 2*Constant.tileSize;
+            y = 10*Constant.tileSize+24;
             g2.drawString(text,x,y);
-            g2.drawString(">",x-40,y);
             
 
         } else if (gp.getGs() == 3){
