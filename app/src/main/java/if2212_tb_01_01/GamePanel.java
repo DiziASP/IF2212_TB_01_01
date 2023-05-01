@@ -29,7 +29,7 @@ import java.util.Arrays;
 
 public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
-    int gameState = 12;
+    int gameState = 15;
     // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
     // 9-inventory, 10-world kunjungan, 11-shop, 12-MATI, 15-loadeng
     int subState = 0;
