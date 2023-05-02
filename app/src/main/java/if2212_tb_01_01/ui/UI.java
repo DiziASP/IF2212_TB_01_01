@@ -938,8 +938,34 @@ public class UI {
             g2.drawString(text, x-22, y+tileSize*6 +35);
 
         } else if (subState==11){
-            text = "waktu sekarang:";
-        // } else if (subState==12){
+            g2.setFont(f20);
+            x = 9*tileSize+24;
+            y = tileSize*2-24;
+            g2.setColor(c6);
+            text = "pilih teman\nuntuk dikunjungi!"; //masukinnnnnnnn
+            for (String line : text.split("\n")){
+                g2.drawString(line,x+ x+ centerX(g2, line, tileSize*5),y+=24);
+            }
+            
+
+            Sim s = gp.getSim(kh.getArrowNum());
+
+            String path = String.format("/images/sim/%d/down1", s.getSpriteIndex());
+            Image img =  am.setup(path, tileSize*2, tileSize*2);
+            g2.drawImage(img, x+tileSize*3/2, y+24, tileSize*2, tileSize*2, null);
+
+            y+=tileSize*4-24;
+            text = "rumah " + s.getNamaLengkap(); //masukinnnnnnnn
+            g2.drawString(text,x + centerX(g2, text, tileSize*5),y);
+            text = "posisi: " + s.getPosisiRumah().infoPoint();
+            g2.drawString(text,x + centerX(g2, text, tileSize*5),y+28);
+
+            text = "> ENTER untuk memilih";
+            g2.drawString(text, x-22, y+tileSize*6 +15);
+            text = "> ESC untuk kembali";
+            g2.drawString(text, x-22, y+tileSize*6 +35);
+
+            // } else if (subState==12){
         //     text = ""
         } else if (subState==13){
             g2.setFont(f20);
@@ -1244,6 +1270,13 @@ public class UI {
         int len = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
 
         int x = screenWidth/2 - len/2;
+        return x;
+    }
+
+    public int centerX(Graphics2D g2, String text, int width){
+        int len = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
+
+        int x = width/2 - len/2;
         return x;
     }
 }
