@@ -373,7 +373,7 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(7);
                             break;
                         case "lihat waktu":
-//                            gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
+                           gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
 
@@ -562,7 +562,7 @@ public class KeyHandler implements KeyListener {
                         gp.setRoom(s.getRoomAwal());
                         gp.getRoom().setIsBuilded(true);
                         gp.showNotification("berkunjung ke rumah "+s.getNamaLengkap());
-                        gp.setSubState(0);
+                        gp.setSubState(16);
 
 
 //                } else if (gp.getSubState()==12){
@@ -689,7 +689,37 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==15){
                     //aksi berhasil
                     gp.setSubState(0);
-                } else if (gp.getSubState()==18){
+                } else if (gp.getSubState()==16){
+                    //rumah orang
+                    switch(gp.getOpsiAksi(arrowNum)){
+                        case "keluar":
+                            gp.setGs(7);
+                            break;
+                        case "pulang":
+                            gp.setSubState(0);
+                            gp.setRoom(gp.getSim().getRoomAwal());
+                            break; 
+                        case "pindah ruangan":
+                            if (gp.getInteract()==-5){
+                                gp.setRoom(gp.getRoom().getRoomLeft());
+                                // gp.getSim().setSolidArea(new Rectangle());
+                            } else if (gp.getInteract()==-4){
+                                gp.setRoom(gp.getRoom().getRoomAbove());
+                            } else if (gp.getInteract()==-3){
+                                gp.setRoom(gp.getRoom().getRoomRight());
+                            } else if (gp.getInteract()==-2){
+                                gp.setRoom(gp.getRoom().getRoomBelow());
+                            }
+                            break;
+                        case "lihat waktu":
+                           gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
+                            gp.setSubState(0);
+                            break;
+                        default:
+                            input = gp.getOpsiAksi(arrowNum);
+                            gp.setSubState(13);
+                            break;
+                    }
                 }
             } else if(isEscapePressed()){
                 if (gp.getSubState()==3 ||gp.getSubState()==5 || gp.getSubState()==6 ||gp.getSubState()==9 || gp.getSubState()==10 || gp.getSubState()==12){

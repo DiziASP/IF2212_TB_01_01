@@ -625,7 +625,7 @@ public class UI {
         String text; int x; int y;
         g2.setColor(c2);
 
-        if (subState<=2 || subState==8){
+        if (subState<=2 || subState==8 || subState==16){
             g2.setColor(c6);
             if(subState==8){
                 text = "Pilih pekerjaan barumu:";
