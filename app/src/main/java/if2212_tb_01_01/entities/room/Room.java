@@ -20,6 +20,7 @@ public class Room {
     GamePanel gp;
     TileManager tm;
     /* Room Attribute */
+    private String roomName;
     private int roomIndex = 0;
     // private String roomName;
     private boolean isBuilded;
@@ -93,6 +94,7 @@ public class Room {
         daftarObjek = new ArrayList<ItemTracker>(kapasitas);
         this.isBuilded = isBuilded;
         this.inventory = sim.getInventory();
+        this.roomName = "Ruang Utama";
 
         for (int i=0; i<6; i++){
             for (int j=0; j<6; j++){
@@ -101,7 +103,7 @@ public class Room {
         }
     }
 
-    public Room(GamePanel gp, boolean isBuilded) {
+    public Room(GamePanel gp, boolean isBuilded, String roomName) {
         this.gp = gp;
         // this.roomName = roomName;
 
@@ -111,7 +113,9 @@ public class Room {
         this.tm = new TileManager(gp, roomIndex);
         /* Initialize Room Attributes */
         daftarObjek = new ArrayList<ItemTracker>(kapasitas);
-        this.isBuilded = isBuilded; 
+        this.isBuilded = isBuilded;
+        this.roomName = roomName;
+
 
         for (int i=0; i<6; i++){
             for (int j=0; j<6; j++){
@@ -217,6 +221,15 @@ public class Room {
     //     return roomName;
     // }
 
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
     public void setMapRuangan(Integer itemIdx, ItemTracker item) {
 
         //  if (!item.isVertikal()) {
@@ -266,9 +279,10 @@ public class Room {
     }
 
 
-    public void newRoomBelow() {
-        Room roomBelow = new Room(gp, false);
+    public void newRoomBelow( String roomName) {
+        Room roomBelow = new Room(gp, false, roomName);
         roomBelow.setInventory(this.inventory);
+        roomBelow.setRoomName(roomName);
         roomBelow.roomAbove = this;
         this.roomBelow = roomBelow;
     }
@@ -277,9 +291,10 @@ public class Room {
         return roomAbove;
     }
 
-    public void newRoomAbove() {
-        Room roomAbove = new Room(gp, false);
+    public void newRoomAbove(String roomName) {
+        Room roomAbove = new Room(gp, false, roomName);
         roomAbove.setInventory(this.inventory);
+        roomAbove.setRoomName(roomName);
         roomAbove.roomBelow = this;
         this.roomAbove = roomAbove;
     }
@@ -292,9 +307,10 @@ public class Room {
         return roomLeft;
     }
 
-    public void newRoomLeft() {
-        Room roomLeft = new Room(gp, false);
+    public void newRoomLeft(String roomName) {
+        Room roomLeft = new Room(gp, false, roomName);
         roomLeft.setInventory(this.inventory);
+        roomLeft.setRoomName(roomName);
         roomLeft.roomRight = this;
         this.roomLeft = roomLeft;
     }
@@ -303,9 +319,10 @@ public class Room {
         return roomRight;
     }
 
-    public void newRoomRight() {
-        Room roomRight = new Room(gp, false);
+    public void newRoomRight(String roomName) {
+        Room roomRight = new Room(gp, false, roomName);
         roomRight.setInventory(this.inventory);
+        roomRight.setRoomName(roomName);
         roomRight.roomLeft = this;
         this.roomRight = roomRight;
     }
