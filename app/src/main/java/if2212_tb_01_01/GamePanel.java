@@ -31,12 +31,12 @@ public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
     int gameState = 15;
     // gameState: 0-welcome, 1-setup, 2-help, 3-choose, 4-new, 5-stats, 6-ruangan, 7-pause, 8-create world, 
-    // 9-inventory, 10-world kunjungan, 11-shop, 12-MATI, 15-loadeng
+    // 9-inventory, , 11-shop, 12-MATI, 15-loadeng
     int subState = 0;
         // subState: 0-none, 1-tambahan, 2-pilihEditan, 3-pilihBarangPasang, 4-lokasiPasang, 5-lokasiBuang, 6-lokasiEdit, 7-upgrade rumah
         // 8-cari kerja, 9-pilihMakanan, 10-pilihMenuMakanan
-        // 11-tampilkan waktu
-        // 12-tambah ruang, 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-batalkanAksi??
+        // 11-pilih kunjung
+        // 12-tambah ruang, 13-durasiAksi, 14-aksiCounter, 15-aksiBerhasil, 16-kunjung2
 
     // TileManager tm;
     int actionCounter=0;
@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private UI ui = new UI(this,keyHandler);
     private House house;
-    public Room room;
+    // public Room room;
     private World world = new World(this);
     private int IndexActiveSim;
     WorldClock worldClock = new WorldClock(this, world);
@@ -96,21 +96,21 @@ public class GamePanel extends JPanel implements Runnable {
         //test
         worldClock.getWorld().getListSim().add(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
         worldClock.getWorld().getListSim().get(0).getRoomAwal().pasangObjek(4,0, 1);
-        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomAbove("Ruang Relaksasi");
-        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomBelow("Ruang Dandan");
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomAbove("ruang relaksasi");
+        worldClock.getWorld().getListSim().get(0).getRoomAwal().newRoomBelow("ruang dandan");
         worldClock.getWorld().getListSim().add(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
-        worldClock.getWorld().getListSim().get(1).getRoomAwal().newRoomLeft("Ruang Depresi");
+        worldClock.getWorld().getListSim().get(1).getRoomAwal().newRoomLeft("ruang depresi");
         worldClock.getWorld().getListSim().get(1).getRoomAwal().pasangObjek(3,1, 0);
         worldClock.getWorld().getListSim().add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
-        worldClock.getWorld().getListSim().get(2).getRoomAwal().newRoomRight("Ruang Rindu");
+        worldClock.getWorld().getListSim().get(2).getRoomAwal().newRoomRight("ruang rindu");
         worldClock.getWorld().getListSim().get(2).getRoomAwal().pasangObjek(6,2, 3);
 
-        worldClock.getWorld().addSim(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
-        worldClock.getWorld().getSim(0).getRoomAwal().pasangObjek(4,0, 1);
-        worldClock.getWorld().addSim(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
-        worldClock.getWorld().getSim(1).getRoomAwal().pasangObjek(3,1, 0);
-        worldClock.getWorld().addSim(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
-        worldClock.getWorld().getSim(2).getRoomAwal().pasangObjek(6,2, 3);
+        // worldClock.getWorld().addSim(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
+        // worldClock.getWorld().getSim(0).getRoomAwal().pasangObjek(4,0, 1);
+        // worldClock.getWorld().addSim(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
+        // worldClock.getWorld().getSim(1).getRoomAwal().pasangObjek(3,1, 0);
+        // worldClock.getWorld().addSim(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
+        // worldClock.getWorld().getSim(2).getRoomAwal().pasangObjek(6,2, 3);
 
         gameState=0;
 
@@ -150,7 +150,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         ui.update();
         if (gameState==6){
-            room.update();
+            getRoom().update();
             worldClock.getWorld().getSim(IndexActiveSim).update();
 
         }
@@ -173,7 +173,6 @@ public class GamePanel extends JPanel implements Runnable {
         //  sim.draw(g2d);
 
        ui.draw(g2d);
-       System.out.println(subState);
     }
 
 
@@ -218,15 +217,19 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public Room getRoom(){
-        return room;
+        return getSim().getCurRoom();
     }
 
     public void setRoom(Room room){
-        this.room = room;
+        getSim().setCurRoom(room);;
     }
 
     public Sim getSim(){
         return worldClock.getWorld().getSim(IndexActiveSim);
+    }
+
+    public Sim getSim(int idx){
+        return worldClock.getWorld().getSim(idx);
     }
 
     public void setSim(Sim sim){
@@ -286,6 +289,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (subState==0){
             addOpsiAksi("keluar");
             addOpsiAksi("opsi lain");
+            
             addOpsiAksi("edit ruangan");
             addOpsiAksi("olahraga");
             addOpsiAksi("yoga");
@@ -301,7 +305,22 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-        } else if (subState==1){
+        } else if(subState==16){
+            addOpsiAksi("keluar");
+            addOpsiAksi("pulang");
+            addOpsiAksi("olahraga");
+            addOpsiAksi("yoga");
+            addOpsiAksi("bersihkan rumah");
+            addOpsiAksi("berdoa");
+            if (interact!=-1){
+                if (interact<-1){
+                    addOpsiAksi("pindah ruangan");
+                } else{
+                    String opsi = ((Furnitur)worldClock.getWorld().getSim(IndexActiveSim).getInventory().getInventory().get(interact)).getNamaAksi();
+                    addOpsiAksi(opsi);
+                }
+            }
+        }else if (subState==1){
             //tambahan
             addOpsiAksi("kembali");
             if (worldClock.getIsCanAddSim()){
@@ -314,7 +333,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
             addOpsiAksi("lihat inventory");
             addOpsiAksi("belanja");
-            if (room == getSim().getCurRoom()) {
+            if (getRoom() == getSim().getCurRoom()) {
                 addOpsiAksi("upgrade rumah");
             }
             addOpsiAksi("kunjungi rumah");
