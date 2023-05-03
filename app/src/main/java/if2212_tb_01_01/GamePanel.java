@@ -26,6 +26,7 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.swing.border.Border;
 
 public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
@@ -74,12 +75,14 @@ public class GamePanel extends JPanel implements Runnable {
         
         notificationLabel = new JLabel();
         add(notificationLabel);
-        Color textColor = Color.WHITE;
         notificationLabel.setFont(new Font("Courier New", Font.BOLD, 18));
         notificationLabel.setForeground(new Color(0xFDFFFF));
+        notificationLabel.setBackground(c2);
+        notificationLabel.setOpaque(true);
+        // notificationLabel.setOpaque(true);
 
         // Inisialisasi timer dengan durasi 3 detik
-        notificationTimer = new Timer(2500, new ActionListener() {
+        notificationTimer = new Timer(2800, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearNotification();
@@ -161,6 +164,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void clearNotification() {
         notificationLabel.setText("");
+        notificationLabel.setVisible(false);
     }
 
 
@@ -372,6 +376,9 @@ public class GamePanel extends JPanel implements Runnable {
         addOpsiAksi("keluar");
         addOpsiAksi("kembali");
     }
+
+
+
 
 
 }

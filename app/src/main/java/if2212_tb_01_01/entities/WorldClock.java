@@ -62,6 +62,7 @@ public class WorldClock implements Runnable {
                 info += "dengan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getDetikTersisa() + " detik tersisa."+ "\n";
             }
         }
+        System.out.println(info);
         return info;
     }
 

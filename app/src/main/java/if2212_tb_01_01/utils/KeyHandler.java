@@ -373,7 +373,7 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(7);
                             break;
                         case "lihat waktu":
-                           gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
+                            gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
 
@@ -416,7 +416,11 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(9);
                             break;
                         case "upgrade rumah":
-                            gp.setSubState(7);
+                            if (gp.getSim().getUang()>=1500){
+                                gp.setSubState(7);
+                            } else{
+                                gp.showNotification("Butuh uang sebesar 1500 untuk upgrade rumah!");
+                            }
                             break;
                         case "kunjungi rumah":
                             gp.setSubState(11);
