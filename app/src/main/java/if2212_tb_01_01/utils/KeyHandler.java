@@ -635,6 +635,7 @@ public class KeyHandler implements KeyListener {
                                     gp.getSim().berdoa(in1);
                             } else {
                                 gp.showNotification("ga malu cepet banget berdoanya??");
+                                // gp.showNotification(gp.getWorldClock().melihatWaktu());
                                 errorCaught = true;
                             }
                             break;

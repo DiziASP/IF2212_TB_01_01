@@ -159,6 +159,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void showNotification(String message) {
+        notificationLabel.setVisible(true);
         notificationLabel.setText(message);
         notificationTimer.start();
     }
