@@ -572,14 +572,6 @@ public class KeyHandler implements KeyListener {
                     //durasi aksi
                     System.out.println(input);
                     switch (input){ 
-//                        case "makan":
-//                            gp.setSubState(14);
-//                             gp.getSim().makan(in2, in1);
-//                            break;
-//                        case "masak":
-//                            gp.setSubState(14);
-//                            // gp.getSim().masak(in2, in1);
-//                            break;
                         case "olahraga":
                             if (in1%20==0){
                                     gp.setSubState(14);

@@ -34,7 +34,7 @@ public abstract class Item implements Serializable {
         this.nama = nama;
         this.kategori = kategori;
 
-        this.imagePath = imagePath.substring(0, imagePath.length()-4);
+        this.imagePath = imagePath;
         this.image = setup(imagePath, imageWidth, imageHeight);
         this.iw = imageWidth;
         this.ih = imageHeight;
