@@ -699,6 +699,7 @@ public class UI {
                 g2.drawString(line,x,y+=20);
             }
             Inventory items = gp.getSim().getInventory();
+            Image img;
 
             g2.setColor(c1);
             g2.fillRect(tileSize*9+12, tileSize*2+8, 4*tileSize+72, 4*tileSize+14);
@@ -726,7 +727,8 @@ public class UI {
                         // }
                         outlinedRect(g2, tileSize, 24, tileSize*8, tileSize*8+12, 12, 12, c7, c2);
 
-                        g2.drawImage(item.getImage(), tileSize+ (tileSize*8-item.getIW())/2, (tileSize*6-item.getIH())/2, null);
+                        img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                        g2.drawImage(img, tileSize+ (tileSize*8-item.getIW())/2, (tileSize*6-item.getIH())/2, null);
 
                         g2.setColor(c6);
                         g2.setFont(f20);
@@ -736,7 +738,8 @@ public class UI {
                             g2.drawString(line, x2, y2 += 20);
                         }
                     }
-                    g2.drawImage(item.getImage(), x+6, y+6, 52, 52, null);
+                    img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                    g2.drawImage(img, x+6, y+6, 52, 52, null);
 
                 }
             }
@@ -758,6 +761,7 @@ public class UI {
                 g2.drawString(line, x, y += 20);
             }
             Inventory items = gp.getSim().getInventory();
+            Image img;
 
             g2.setColor(c1);
             g2.fillRect(tileSize * 9 + 12, tileSize * 4 - 32, 4 * tileSize + 72, 4 * tileSize - 50);
@@ -787,7 +791,8 @@ public class UI {
                                 }
                                 outlinedRect(g2, tileSize, 24, tileSize * 8, tileSize * 8 + 12, 12, 12, c7, c2);
 
-                                g2.drawImage(item.getImage(), tileSize + (tileSize * 8 - item.getIW()) / 2, tileSize + (tileSize * 3 - item.getIH()) / 2, null);
+                                img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                                g2.drawImage(img, tileSize + (tileSize * 8 - item.getIW()) / 2, tileSize + (tileSize * 3 - item.getIH()) / 2, null);
 
                                 g2.setColor(c6);
                                 g2.setFont(f20);
@@ -797,12 +802,13 @@ public class UI {
                                     g2.drawString(line, x2, y2 += 20);
                                 }
                             }
-                            g2.drawImage(item.getImage(), x + 6, y + 6, 52, 52, null);
+                            img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                            g2.drawImage(img, x + 6, y + 6, 52, 52, null);
 
                         }
                     }
                 }
-                Image img = am.setup("/darrow", tileSize * 2, tileSize);
+                img = am.setup("/darrow", tileSize * 2, tileSize);
                 g2.drawImage(img, 11 * tileSize + 36, 7 * tileSize - 24, 24, 12, null);
             } else {
                 for (int i = 2; i < 4; i++) {
@@ -830,7 +836,8 @@ public class UI {
                                 }
                                 outlinedRect(g2, tileSize, 24, tileSize * 8, tileSize * 8 + 12, 12, 12, c7, c2);
 
-                                g2.drawImage(item.getImage(), tileSize + (tileSize * 8 - item.getIW()) / 2, tileSize + (tileSize * 3 - item.getIH()) / 2, null);
+                                img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                                g2.drawImage(img, tileSize + (tileSize * 8 - item.getIW()) / 2, tileSize + (tileSize * 3 - item.getIH()) / 2, null);
 
                                 g2.setColor(c6);
                                 g2.setFont(f20);
@@ -840,12 +847,13 @@ public class UI {
                                     g2.drawString(line, x2, y2 += 20);
                                 }
                             }
-                            g2.drawImage(item.getImage(), x + 6, y + 6, 52, 52, null);
+                            img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                            g2.drawImage(img, x + 6, y + 6, 52, 52, null);
 
                         }
                     }
                 }
-                Image img = am.setup("/uarrow", tileSize * 2, tileSize);
+                img = am.setup("/uarrow", tileSize * 2, tileSize);
                 g2.drawImage(img, 11 * tileSize + 36, 3 * tileSize - 5, 24, 12, null);
             }
 
@@ -917,6 +925,7 @@ public class UI {
                         }
     
                         Item item = items.getInventory().get(i*4+j+20);
+                        Image img;
     
                         if (kh.getPointer() == i*4 + j){
                             g2.setColor(c5);
@@ -929,7 +938,8 @@ public class UI {
                             }
                             outlinedRect(g2, tileSize, 24, tileSize*8, tileSize*8+12, 12, 12, c7, c2);
     
-                            g2.drawImage(item.getImage(), tileSize+ (tileSize*8-item.getIW())/2, tileSize+ (tileSize*3-item.getIH())/2, null);
+                            img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                            g2.drawImage(img, tileSize+ (tileSize*8-item.getIW())/2, tileSize+ (tileSize*3-item.getIH())/2, null);
     
                             g2.setColor(c6);
                             g2.setFont(f20);
@@ -939,7 +949,8 @@ public class UI {
                                 g2.drawString(line, x2, y2 += 20);
                             }
                         }
-                        g2.drawImage(item.getImage(), x+6, y+6, 52, 52, null);
+                        img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                        g2.drawImage(img, x+6, y+6, 52, 52, null);
     
                     }
                 }
@@ -1055,6 +1066,7 @@ public class UI {
             g2.setColor(c6);
             g2.setFont(f20);
             g2.drawString("Uang: " + gp.getSim().getUang(), tileSize+20, tileSize*2-5);
+            Image img;
 
 
 
@@ -1082,8 +1094,8 @@ public class UI {
                         }
                         g2.fillRect(tileSize +27, tileSize*2+3, tileSize*5+18, tileSize*7+18);
 
-
-                        g2.drawImage(item.getImage(), tileSize+ (tileSize*7-item.getIW())/2, tileSize*2 + (tileSize*5-item.getIH())/2, null);
+                        img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                        g2.drawImage(img, tileSize+ (tileSize*7-item.getIW())/2, tileSize*2 + (tileSize*5-item.getIH())/2, null);
                         g2.setColor(c6);
                         g2.setFont(f20);
                         int x2 = tileSize*2-12;
@@ -1131,8 +1143,8 @@ public class UI {
                             }                            
                         }
                     }        
-
-                    g2.drawImage(item.getImage(), x+6, y+6, 60, 60, null);
+                    img =  am.setup(item.getImagePath(), tileSize*2, tileSize*2);
+                    g2.drawImage(img, x+6, y+6, 60, 60, null);
                 }
             }
     }

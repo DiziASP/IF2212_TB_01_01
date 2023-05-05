@@ -111,6 +111,8 @@ public class WorldClock implements Runnable {
                                         }
                                         sim.getStatus().remove(i);
                                         
+
+                                        
                                     }
                                     else{
                                         i++;
