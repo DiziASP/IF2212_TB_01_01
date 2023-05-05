@@ -376,6 +376,14 @@ public class KeyHandler implements KeyListener {
                            gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
+                        case "makan":
+                            gp.setSubState(9);
+                            // gp.getSim().makan(in2, in1);
+                            break;
+                        case "masak":
+                            gp.setSubState(10);
+                            // gp.getSim().masak(in2, in1);
+                            break;
 
                         default:
                             input = gp.getOpsiAksi(arrowNum);
