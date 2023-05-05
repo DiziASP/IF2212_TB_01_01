@@ -167,11 +167,11 @@ public class World {
     public boolean isIdle() {
         boolean isIdle = false;
         for (Sim sim : listSim) {
-            if (sim.getStatus().size() == 0) {
-                isIdle = true;
-            } else {
+            if (sim.getIsDoAksiAktif()) {
                 isIdle = false;
                 break;
+            } else {
+                isIdle = true;
             }
         }
         return isIdle;

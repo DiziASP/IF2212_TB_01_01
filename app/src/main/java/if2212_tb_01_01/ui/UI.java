@@ -68,7 +68,7 @@ public class UI {
             g2.setFont(f40);
             text = "Play Game!";
             x = centerX(g2,text);
-            y += 4*tileSize;
+            y += 4*tileSize-30;
             g2.drawString(text,x,y);
             if (kh.getArrowNum()==0){
                 g2.drawString(">",x-40,y);
@@ -82,11 +82,19 @@ public class UI {
                 g2.drawString(">",x-40,y);
             }
 
-            text = "Exit";
+            text = "Save & Exit";
             x = centerX(g2,text);
             y += tileSize;
             g2.drawString(text,x,y);
             if (kh.getArrowNum()==2){
+                g2.drawString(">",x-40,y);
+            }
+
+            text = "Exit";
+            x = centerX(g2,text);
+            y += tileSize;
+            g2.drawString(text,x,y);
+            if (kh.getArrowNum()==3){
                 g2.drawString(">",x-40,y);
             }
 
@@ -113,7 +121,7 @@ public class UI {
             g2.setFont(f40);
             text = "Pilih SIM";
             x = centerX(g2,text);
-            y += 4*tileSize;
+            y += 4*tileSize-30;
             g2.drawString(text,x,y);
             if (kh.getArrowNum()==0){
                 g2.drawString(">",x-40,y);
@@ -127,11 +135,19 @@ public class UI {
                 g2.drawString(">",x-40,y);
             }
 
-            text = "Kembali";
+            text = "Load SIM";
             x = centerX(g2,text);
             y += tileSize;
             g2.drawString(text,x,y);
             if (kh.getArrowNum()==2){
+                g2.drawString(">",x-40,y);
+            }
+
+            text = "Kembali";
+            x = centerX(g2,text);
+            y += tileSize;
+            g2.drawString(text,x,y);
+            if (kh.getArrowNum()==3){
                 g2.drawString(">",x-40,y);
             }
 
@@ -1035,6 +1051,10 @@ public class UI {
     private void drawInventory(Graphics2D g2, String type, Inventory items){
         g2.setColor(c1);
             g2.fillRect(tileSize, tileSize +24, tileSize*14, tileSize*9+24);
+
+            g2.setColor(c6);
+            g2.setFont(f20);
+            g2.drawString("Uang: " + gp.getSim().getUang(), tileSize+20, tileSize*2-5);
 
 
 

@@ -1,6 +1,7 @@
 package if2212_tb_01_01.entities;
 
 import if2212_tb_01_01.GamePanel;
+import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.entities.world.World;
 
 
@@ -96,6 +97,30 @@ public class WorldClock implements Runnable {
                 try {
                     Thread.sleep(1000); // Tunggu 1 detik
                     if (!world.isIdle()) {
+                        for(Sim sim: getWorld().getListSim()){
+                            int i = 0;
+                            while(i < sim.getStatus().size()){
+                                if(sim.getStatus().get(i).getIsAksiPasif()){
+                                    sim.getStatus().get(i).decDetikTersisa();
+                                    System.out.println(sim.getStatus().get(i).getDetikTersisa());
+                                    if(sim.getStatus().get(i).getDetikTersisa() == 0){
+                                        if (sim.getStatus().get(i).getNama().equals("beli barang")){
+                                            sim.getInventory().incItem(sim.getStatus().get(i).getIndexBeli());
+                                        } else if (sim.getStatus().get(i).getNama().equals("upgrade rumah")){
+                                            sim.getStatus().get(i).getRoomUpgrade().setIsBuilded(true);
+                                        }
+                                        sim.getStatus().remove(i);
+                                        
+                                    }
+                                    else{
+                                        i++;
+                                    }
+                                }
+                                else {
+                                    i++;
+                                } 
+                            }
+                        }
                         seconds++;
     
                         if (seconds >= 60) {
