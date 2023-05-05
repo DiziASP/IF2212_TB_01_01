@@ -229,10 +229,35 @@ public class Sim {
          inventory.incItem(4);
          inventory.incItem(6);
          inventory.incItem(10);
+
         
          //execute actions
          executorService = Executors.newFixedThreadPool(10);
         
+    }
+
+    public Sim(GamePanel gp, KeyHandler kh, int spriteIndex, String namaLengkap, Pekerjaan pekerjaan,
+               int uang, Inventory inventory, Kesejahteraan kesejahteraan, House house, Room currentRuangan){
+        this.gp = gp;
+        this.kh = kh;
+        this.spriteIndex = spriteIndex;
+        this.spriteState = 1;
+        getAnimationImage();
+
+        setScreenX(4*tileSize + roomX);
+        setScreenY(4*tileSize + roomY);
+        this.solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
+        this.interactableArea = new Rectangle(screenX, screenY - tileSize, tileSize, tileSize);
+
+         this.pekerjaan = pekerjaan;
+         this.kesejahteraan = kesejahteraan;
+         this.uang = uang;
+         this.namaLengkap = namaLengkap;
+         this.inventory = inventory;
+         this.rumah = house;
+         this.currentPosition = house;
+         this.currentRuangan = house.getRuanganAwal();
+
     }
 
     public void update() {
@@ -447,7 +472,7 @@ public class Sim {
     }
 
     public boolean isCanChangePekerjaan(){
-        return (waktuSudahKerja>=12);
+        return (waktuSudahKerja>=120); 
     }
     public void setWaktuSudahKerja(int waktuSudahKerja){
         this.waktuSudahKerja = waktuSudahKerja;
@@ -553,6 +578,7 @@ public class Sim {
                     } if (seconds %30 ==0 && i!=0){
                         this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan()-10);
                         this.kesejahteraan.setMood(this.kesejahteraan.getMood()-10);
+                        this.uang+=100;
                     }
                     aksi.decDetikTersisa();
                     gp.setActionCounter(waktu-i);

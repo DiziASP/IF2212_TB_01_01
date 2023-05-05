@@ -1,12 +1,13 @@
 package if2212_tb_01_01.items;
 
+import java.io.Serializable;
 import java.util.*;
 
 import if2212_tb_01_01.items.furnitur.*;
 import if2212_tb_01_01.items.masakan.*;
 import if2212_tb_01_01.items.bahanmakanan.*;
 
-public class Inventory {
+public class Inventory implements Serializable {
     private Map<Integer, Item> inventory;
 
     public Inventory() {

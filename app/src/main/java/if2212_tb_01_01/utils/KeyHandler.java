@@ -108,7 +108,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(2);
                         break;
                     case 2:
-                        //save
+                        gp.saveLoad.save();
                         System.exit(0);
                         break;
                     case 3:
@@ -135,7 +135,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(4);
                         break;
                     case 2:
-                        //load
+                        gp.saveLoad.load();
                         break;
                     case 3:
                         gp.setGs(0);
@@ -572,14 +572,6 @@ public class KeyHandler implements KeyListener {
                     //durasi aksi
                     System.out.println(input);
                     switch (input){ 
-//                        case "makan":
-//                            gp.setSubState(14);
-//                             gp.getSim().makan(in2, in1);
-//                            break;
-//                        case "masak":
-//                            gp.setSubState(14);
-//                            // gp.getSim().masak(in2, in1);
-//                            break;
                         case "olahraga":
                             if (in1%20==0){
                                     gp.setSubState(14);
