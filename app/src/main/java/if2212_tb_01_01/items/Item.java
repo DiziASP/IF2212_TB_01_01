@@ -7,11 +7,12 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Objects;
 
 import static if2212_tb_01_01.utils.Constant.*;
 
-public abstract class Item {
+public abstract class Item implements Serializable {
     private String nama;
     private String kategori;
     private String imagePath;
@@ -19,7 +20,7 @@ public abstract class Item {
     private int iw;
     private int ih;
 
-    private BufferedImage image;
+//    private BufferedImage image;
 
     /**
      * Constructor untuk Item
@@ -32,6 +33,7 @@ public abstract class Item {
     public Item(String nama, String kategori, String imagePath, int imageWidth, int imageHeight){
         this.nama = nama;
         this.kategori = kategori;
+
         this.imagePath = imagePath.substring(0, imagePath.length()-4);
         this.image = setup(imagePath, imageWidth, imageHeight);
         this.iw = imageWidth;
@@ -40,12 +42,25 @@ public abstract class Item {
     }
 
     public void draw(Graphics2D g2d, int positionX, int positionY){
-
+        BufferedImage image = setup(this.imagePath, this.iw, this.ih);
         int width = g2d.getClipBounds().width;
         int height = g2d.getClipBounds().height;
 
         int roomX = (width - tileSize * 14) / 2;
         int roomY = (height - tileSize * 11) / 2;
+        g2d.drawImage(image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), null);
+
+
+    }
+
+    public void draw(Graphics2D g2d, int positionX, int positionY, int w, int h){
+        BufferedImage image = setup(this.imagePath, w, h);
+        int width = g2d.getClipBounds().width;
+        int height = g2d.getClipBounds().height;
+
+        int roomX = (width - tileSize * 14) / 2;
+        int roomY = (height - tileSize * 11) / 2;
+
         g2d.drawImage(image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), null);
     }
 
@@ -87,6 +102,9 @@ public abstract class Item {
         this.kategori = kategori;
     }
 
+    public String getImagePath(){
+        return this.imagePath;
+    }
     public int getAmount(){
         return this.amount;
     }
@@ -99,9 +117,9 @@ public abstract class Item {
         this.amount--;
     }
 
-    public BufferedImage getImage(){
-        return this.image;
-    }
+//    public BufferedImage getImage(){
+//        return this.image;
+//    }
 
     public String getImagePath(){
         return this.imagePath;

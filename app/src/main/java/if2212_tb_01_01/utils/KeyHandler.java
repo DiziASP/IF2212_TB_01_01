@@ -108,7 +108,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(2);
                         break;
                     case 2:
-                        //save
+                        gp.saveLoad.save();
                         System.exit(0);
                         break;
                     case 3:

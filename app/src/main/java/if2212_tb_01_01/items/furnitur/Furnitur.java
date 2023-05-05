@@ -6,7 +6,7 @@ import java.awt.*;
 
 import static if2212_tb_01_01.utils.Constant.*;
 
-public abstract class Furnitur extends Item {
+public abstract class Furnitur extends Item{
     private Rectangle interactionArea;
 
     private Point posisi;

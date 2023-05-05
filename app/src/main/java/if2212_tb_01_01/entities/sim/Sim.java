@@ -229,10 +229,35 @@ public class Sim {
          inventory.incItem(4);
          inventory.incItem(6);
          inventory.incItem(10);
+
         
          //execute actions
          executorService = Executors.newFixedThreadPool(10);
         
+    }
+
+    public Sim(GamePanel gp, KeyHandler kh, int spriteIndex, String namaLengkap, Pekerjaan pekerjaan,
+               int uang, Inventory inventory, Kesejahteraan kesejahteraan, House house, Room currentRuangan){
+        this.gp = gp;
+        this.kh = kh;
+        this.spriteIndex = spriteIndex;
+        this.spriteState = 1;
+        getAnimationImage();
+
+        setScreenX(4*tileSize + roomX);
+        setScreenY(4*tileSize + roomY);
+        this.solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
+        this.interactableArea = new Rectangle(screenX, screenY - tileSize, tileSize, tileSize);
+
+         this.pekerjaan = pekerjaan;
+         this.kesejahteraan = kesejahteraan;
+         this.uang = uang;
+         this.namaLengkap = namaLengkap;
+         this.inventory = inventory;
+         this.rumah = house;
+         this.currentPosition = house;
+         this.currentRuangan = house.getRuanganAwal();
+
     }
 
     public void update() {

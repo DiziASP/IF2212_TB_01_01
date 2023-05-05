@@ -1,10 +1,11 @@
 package if2212_tb_01_01.entities.sim;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Pekerjaan {
+public class Pekerjaan implements Serializable {
     /* Attributes */
     private String namaKerja;
     private Integer gaji;

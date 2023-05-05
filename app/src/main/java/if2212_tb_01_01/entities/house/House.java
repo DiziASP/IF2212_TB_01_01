@@ -5,7 +5,9 @@ import if2212_tb_01_01.entities.room.Room;
 import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.entities.world.*;
 
-public class House {
+import java.io.Serializable;
+
+public class House implements Serializable {
     GamePanel gp;
     // private List<Room> daftarRuangan;
     private Room ruanganAwal;
