@@ -1144,8 +1144,8 @@ public class UI {
 //                    item.draw(g2, x+6, y+6, 60, 60); ///sini
 
 
-                    img =  am.setup(item.getImagePath(), 60, 60);
-                    g2.drawImage(img, x+6, y+6, 60, 60, null);
+                    // img =  am.setup(item.getImagePath(), 60, 60);
+                    g2.drawImage(item.getImage(), x+6, y+6, 60, 60, null);
                 }
             }
     }

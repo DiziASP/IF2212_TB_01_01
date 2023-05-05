@@ -20,7 +20,7 @@ public abstract class Item implements Serializable {
     private int iw;
     private int ih;
 
-//    private BufferedImage image;
+   private BufferedImage image;
 
     /**
      * Constructor untuk Item
@@ -102,9 +102,6 @@ public abstract class Item implements Serializable {
         this.kategori = kategori;
     }
 
-    public String getImagePath(){
-        return this.imagePath;
-    }
     public int getAmount(){
         return this.amount;
     }
@@ -117,9 +114,9 @@ public abstract class Item implements Serializable {
         this.amount--;
     }
 
-//    public BufferedImage getImage(){
-//        return this.image;
-//    }
+   public BufferedImage getImage(){
+       return this.image;
+   }
 
     public String getImagePath(){
         return this.imagePath;

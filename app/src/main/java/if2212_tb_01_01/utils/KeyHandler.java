@@ -135,7 +135,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(4);
                         break;
                     case 2:
-                        //load
+                        gp.saveLoad.load();
                         break;
                     case 3:
                         gp.setGs(0);
