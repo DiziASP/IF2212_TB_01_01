@@ -202,10 +202,9 @@ public class KeyHandler implements KeyListener {
                 if (!errorCaught){
                     Sim s = new Sim(gp, this, arrowNum+1, input, null);
                     input = "";
+                    gp.getWorldClock().getWorld().addSim(s);
+                    gp.setIndexActiveSim(gp.getSimList().size()-1);
                     gp.setSim(s);
-                    gp.setIndexActiveSim(gp.getSimList().size());
-                    gp.addSimList(s);
-
                     gp.setGs(8);
                 }
 
