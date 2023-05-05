@@ -1036,6 +1036,8 @@ public class UI {
         g2.setColor(c1);
             g2.fillRect(tileSize, tileSize +24, tileSize*14, tileSize*9+24);
 
+            g2.drawString("Uang: " + gp.getSim().getUang(), tileSize, tileSize);
+
 
 
             for (int i = 0; i< 5; i++){

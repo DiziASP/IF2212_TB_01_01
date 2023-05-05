@@ -510,22 +510,10 @@ public class KeyHandler implements KeyListener {
                         case "kembali":
                             break;
                         default:
-                            // gp.getRoom().upgrade(gp.getOpsiAksi(arrowNum), input);
+                            gp.getSim().upgradeRumah(gp.getOpsiAksi(arrowNum), input);
                             gp.showNotification("Upgrade dalam proses...");
                             gp.setSubState(0);
                             break;
-//                        case "atas":
-//                            gp.getRoom().newRoomAbove(input);
-//                            break;
-//                        case "bawah":
-//                            gp.getRoom().newRoomBelow(input);
-//                            break;
-//                        case "kanan":
-//                            gp.getRoom().newRoomRight(input);
-//                            break;
-//                        case "kiri":
-//                            gp.getRoom().newRoomLeft(input);
-//                            break;
                     }
 
                     gp.setSubState(0);
@@ -547,21 +535,25 @@ public class KeyHandler implements KeyListener {
                         in2 = pointer;
                         errorCaught=false;
                         gp.getSim().makan(pointer+12);
-                        gp.setSubState(0);
+                        input = "makan";
+                        gp.setSubState(14);
                     } else{
                         errorCaught = true;
+                        gp.showNotification("Kamu tidak punya makanan itu!");
                     }
 
                 } else if (gp.getSubState()==10){
                     //pilih menu makanan
                     if (gp.getSim().getInventory().isBisaMasak(pointer+20)){
                         errorCaught = true;
+                        gp.showNotification("Bahan tidak tersedia:(");
                     }
                     if(!errorCaught){
                          gp.getSim().memasak(pointer+20);
 //                        in2 = pointer;
                         errorCaught=false;
-                        gp.setSubState(0);
+                        input = "masak";
+                        gp.setSubState(14);
                     }
                 } else if (gp.getSubState()==11){
                     //berkunjung
@@ -655,6 +647,7 @@ public class KeyHandler implements KeyListener {
                             break;
                         case "main musik":
                             if (in1%20==0){
+                                    gp.soundManager.play();
                                     gp.setSubState(14);
                                     gp.getSim().bermainMusik(in1);
                             } else {
@@ -694,6 +687,7 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==14){
                     //aksi counter
                     if (gp.getActionCounter()==0){
+                        gp.soundManager.stop();
                         gp.setSubState(0);
                     }
                 } else if (gp.getSubState()==15){

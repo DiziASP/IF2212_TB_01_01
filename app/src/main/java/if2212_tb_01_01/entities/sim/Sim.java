@@ -39,10 +39,13 @@ public class Sim {
         private Sim sim;
         private int detikTersisa;
         private boolean isButuhObjek;
+        private int indexBeli;
+        private boolean isAksiPasif;
         public Aksi(Sim sim, String nama, int jumlahSeconds){
             this.sim = sim;
             this.nama = nama;
             this.detikTersisa = jumlahSeconds;
+            this.isAksiPasif =false;
         }
         public Aksi(String nama, boolean isButuhObjek){
             this.nama = nama;
@@ -50,8 +53,27 @@ public class Sim {
             this.detikTersisa = -1;
             this.sim = null;
         }
+
+        public Aksi(Sim sim, String nama, int jumlahSeconds, boolean isAksiPasif){
+            this.sim = sim;
+            this.nama = nama;
+            this.detikTersisa = jumlahSeconds;
+            this.isAksiPasif = isAksiPasif;
+        }
+
+        public Aksi(Sim sim, String nama, int jumlahSeconds, boolean isAksiPasif, int indexBeli){
+            this.sim = sim;
+            this.nama = nama;
+            this.detikTersisa = jumlahSeconds;
+            this.isAksiPasif = isAksiPasif;
+            this.indexBeli = indexBeli;
+        }
+
         public String getNama(){
             return nama;
+        }
+        public boolean getIsAksiPasif(){
+            return isAksiPasif;
         }
         public int getDetikTersisa(){
             return detikTersisa;
@@ -61,6 +83,9 @@ public class Sim {
         }
         public void decDetikTersisa(){
             this.detikTersisa -= 1;
+        }
+        public int getIndexBeli(){
+            return indexBeli;
         }
         public static List<Aksi> getDaftarAksiAktif(){
             List<Aksi> listAksiAktif = new ArrayList<Aksi>();
@@ -380,28 +405,28 @@ public class Sim {
     public void beliItem(int idx){
         if (idx<20){
             executorService.execute(() -> {
-            int indexStatus = this.status.size() -1;
             if (this.getInventory().getHarga(idx) <= getUang()){
                 this.substractUang(this.getInventory().getHarga(idx));
                 Random rand = new Random();
                 int waktubeli = ((rand.nextInt(6) + 1))%5 * 30;
-                this.status.add(new Aksi(this,"beliBarang",(int) (waktubeli/60)));
-                
-                try {
-                    int waktu = waktubeli;
-                    int seconds = 0;
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        seconds++;
-                        this.getAksi(indexStatus).decDetikTersisa();
-                        System.out.println(waktubeli-i);
-                    }
-                    this.status.remove(indexStatus);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                this.inventory.incItem(idx);
-                
+                this.status.add(new Aksi(this,"beli barang",(int) (waktubeli/60), true, idx));
+                int indexStatus = this.status.size() -1;
+                // if (this.isDoAksiAktif){
+                //     try {
+                //         int waktu = waktubeli;
+                //         int seconds = 0;
+                //         for (int i = 0; i < waktu; i++) {
+                //             Thread.sleep(1000);
+                //             seconds++;
+                //             this.getAksi(indexStatus).decDetikTersisa();
+                //             System.out.println(waktubeli-i);
+                //         }
+                //         this.status.remove(indexStatus);
+                //     } catch (InterruptedException e) {
+                //         e.printStackTrace();
+                //     }
+                //     this.inventory.incItem(idx);
+                // }
             }
         });
         } else {
@@ -868,12 +893,13 @@ public class Sim {
         //Please provide the solution below
     }
 
-    public void upgradeRumah(Room ruangAcuan, String direction, String namaRuang) {
-        if(direction.equals("ATAS")){
-            if(ruangAcuan.getRoomAbove().equals(null)){
+    public void upgradeRumah(String direction, String namaRuang) {
+        if(direction.equals("atas")){
+            if(getCurRoom().getRoomAbove().equals(null)){
                 executorService.execute(() -> {
+                
                 int waktu = 18*60;
-                ruangAcuan.newRoomAbove(namaRuang); //ngeset room di atas
+                getCurRoom().newRoomAbove(namaRuang, false); //ngeset room di atas
                 this.status.add(new Aksi(this, "upgrade rumah",waktu));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
@@ -885,7 +911,7 @@ public class Sim {
                     }
                     gp.setActionCounter(0);
                     this.uang -= 1500;
-                    ruangAcuan.getRoomAbove().setIsBuilded(true);
+                    getCurRoom().getRoomAbove().setIsBuilded(true);
                     this.isDoAksiAktif = false;
                     this.status.remove(indexStatus);
                 } catch (InterruptedException e) {
@@ -897,11 +923,11 @@ public class Sim {
             } 
         
         }
-        if(direction.equals("BAWAH")){
-            if(ruangAcuan.getRoomBelow().equals(null)){
+        if(direction.equals("bawah")){
+            if(getCurRoom().getRoomBelow().equals(null)){
                 executorService.execute(() -> {
                 int waktu = 18*60;
-                ruangAcuan.newRoomBelow(namaRuang); //ngeset room di bawah
+                getCurRoom().newRoomBelow(namaRuang, false); //ngeset room di bawah
                 this.status.add(new Aksi(this, "upgrade rumah",waktu));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
@@ -913,7 +939,7 @@ public class Sim {
                     }
                     this.status.remove(indexStatus);
                     this.uang -= 1500;
-                    ruangAcuan.getRoomBelow().setIsBuilded(true);
+                    getCurRoom().getRoomBelow().setIsBuilded(true);
                     gp.setActionCounter(0);
                     this.isDoAksiAktif = false;
                 } catch (InterruptedException e) {
@@ -923,12 +949,12 @@ public class Sim {
             });
             }
         }
-        if(direction.equals("KIRI")){
-            if(ruangAcuan.getRoomLeft().equals(null)){
+        if(direction.equals("kiri")){
+            if(getCurRoom().getRoomLeft()==null){
                 executorService.execute(() -> {
                 int waktu = 18*60;
                 this.status.add(new Aksi(this, "upgrade rumah",waktu));
-                ruangAcuan.newRoomLeft(namaRuang);
+                getCurRoom().newRoomLeft(namaRuang, false);
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
                 try {
@@ -939,7 +965,7 @@ public class Sim {
                     }
                     this.status.remove(indexStatus);
                     this.uang -= 1500;
-                    ruangAcuan.getRoomLeft().setIsBuilded(true);
+                    getCurRoom().getRoomLeft().setIsBuilded(true);
                     this.isDoAksiAktif = false;
                     gp.setActionCounter(0);
                 } catch (InterruptedException e) {
@@ -948,11 +974,11 @@ public class Sim {
                 });
             }
         }
-        if(direction.equals("KANAN")){
-            if(ruangAcuan.getRoomRight().equals(null)){
+        if(direction.equals("kanan")){
+            if(getCurRoom().getRoomRight().equals(null)){
                 executorService.execute(() -> {
                 int waktu = 18*60;
-                ruangAcuan.newRoomRight(namaRuang); //ngeset room di kanan
+                getCurRoom().newRoomRight(namaRuang, false); //ngeset room di kanan
                 this.status.add(new Aksi(this, "upgrade rumah",waktu));
                 this.isDoAksiAktif = true;
                 int indexStatus = this.status.size() - 1;
@@ -964,7 +990,7 @@ public class Sim {
                     }
                     this.status.remove(indexStatus);
                     this.uang -= 1500;
-                    ruangAcuan.getRoomRight().setIsBuilded(true);
+                    getCurRoom().getRoomRight().setIsBuilded(true);
                     this.isDoAksiAktif = false;
                     gp.setActionCounter(0);
                 } catch (InterruptedException e) {
@@ -976,16 +1002,6 @@ public class Sim {
         }
     }
 
-    public void berpindahRuangan(Room tujuanruangan) {
-        // Harus diubah2 lagi sih
-//        if (rumah.getDaftarRuangan().contains(tujuanruangan)) {
-//            currentRuangan = tujuanruangan;
-//            this.status.add(new Aksi(this,"berpindahRuangan", 0));
-//            System.out.println("Sim berhasil berpindah ke " + currentRuangan.getRoomName());
-//        } else {
-//            System.out.println("Ruangan tidak tersedia");
-//        }
-    }
 
     public void melihatInventory() {
         //Please provide the solution below
@@ -1273,8 +1289,13 @@ public class Sim {
 
     public void pindahRuangan(){
         if (gp.getInteract()==-5){
-            currentRuangan = currentRuangan.getRoomLeft();
-            setSolidArea(3, 0);
+            if (currentRuangan.getRoomLeft().getIsBuilded()){
+                currentRuangan = currentRuangan.getRoomLeft();
+                setSolidArea(3, 0);
+            } else {
+                gp.showNotification("Ruangan belum selesai dibangun!");
+            }
+            
         } else if (gp.getInteract()==-4){
             currentRuangan = currentRuangan.getRoomAbove();
             setSolidArea(0,4);
