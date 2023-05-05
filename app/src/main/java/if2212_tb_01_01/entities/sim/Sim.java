@@ -660,8 +660,12 @@ public class Sim {
                         Thread.sleep(1000);
                         seconds++;
                         if (seconds % 30 ==0 && i!=0){
-                            //Ini ganti
-                            this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + ((Masakan)this.inventory.getInventory().get(idx)).getKekenyangan());
+                            if (this.inventory.getInventory().get(idx) instanceof Masakan){
+                                this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + ((Masakan)this.inventory.getInventory().get(idx)).getKekenyangan());
+                            } else if (this.inventory.getInventory().get(idx) instanceof BahanMakanan){
+                                this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + ((BahanMakanan)this.inventory.getInventory().get(idx)).getKekenyangan());
+                            }
+                            
                         }
                         aksi.decDetikTersisa();
                         gp.setActionCounter(fwaktu-i);
