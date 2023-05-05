@@ -97,7 +97,7 @@ public class KeyHandler implements KeyListener {
         if (gp.getGs() == 0){
             //welcome
 
-            arrowNum = (arrowNum+3)%3;
+            arrowNum = (arrowNum+4)%4;
 
             if(k == KeyEvent.VK_ENTER){
                 switch(arrowNum){
@@ -108,8 +108,11 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(2);
                         break;
                     case 2:
+                        //save
                         System.exit(0);
                         break;
+                    case 3:
+                        System.exit(0);
                 }
 
             } else if(isEscapePressed()){
@@ -121,7 +124,7 @@ public class KeyHandler implements KeyListener {
         } else if (gp.getGs() == 1){
             //setup
 
-            arrowNum = (arrowNum+3) %3;
+            arrowNum = (arrowNum+4) %4;
 
             if(k == KeyEvent.VK_ENTER){
                 switch(arrowNum){
@@ -132,6 +135,9 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(4);
                         break;
                     case 2:
+                        //load
+                        break;
+                    case 3:
                         gp.setGs(0);
                         break;
                 }
@@ -363,7 +369,7 @@ public class KeyHandler implements KeyListener {
                         case "keluar":
                             gp.setGs(7);
                             break;
-                        case "lihat waktu":
+                        case "melihat waktu":
                             gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
@@ -458,9 +464,6 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==4){
                     //lokasi pasang
                     errorCaught = false;
-                    if (pointer/6 == (gp.getSim().getSolidArea().getY()/tileSize - 4) || pointer%6 == (gp.getSim().getSolidArea().getX()/tileSize - 4)){
-                        errorCaught = true;
-                    }
 
                     int y = ((Furnitur) gp.getSim().getInventory().getInventory().get(in1)).getPanjang();
                     int x = ((Furnitur) gp.getSim().getInventory().getInventory().get(in1)).getLebar();
@@ -486,6 +489,9 @@ public class KeyHandler implements KeyListener {
                         in1=0;
                         gp.getSim().setSolidArea();
                         gp.setSubState(0);
+                        errorCaught = false;
+                    } else {
+                        gp.showNotification("barang tidak boleh menimpa barang lain!");
                     }
 
                 } else if (gp.getSubState()==5){
@@ -513,6 +519,7 @@ public class KeyHandler implements KeyListener {
                             gp.getSim().upgradeRumah(gp.getOpsiAksi(arrowNum), input);
                             gp.showNotification("Upgrade dalam proses...");
                             gp.setSubState(0);
+                            input = "";
                             break;
                     }
 
@@ -531,27 +538,21 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==9){
                     //pilih makanan
                     if(gp.getSim().getInventory().isItemAda(12+pointer)){
-                        // gp.getSim().getInventory().decItem(pointer);
                         in2 = pointer;
-                        errorCaught=false;
                         gp.getSim().makan(pointer+12);
                         input = "makan";
                         gp.setSubState(14);
                     } else{
-                        errorCaught = true;
                         gp.showNotification("Kamu tidak punya makanan itu!");
                     }
 
                 } else if (gp.getSubState()==10){
                     //pilih menu makanan
-                    if (gp.getSim().getInventory().isBisaMasak(pointer+20)){
-                        errorCaught = true;
+                    if (!gp.getSim().getInventory().isBisaMasak(pointer+20)){
                         gp.showNotification("Bahan tidak tersedia:(");
                     }
-                    if(!errorCaught){
-                         gp.getSim().memasak(pointer+20);
-//                        in2 = pointer;
-                        errorCaught=false;
+                    else{
+                        gp.getSim().memasak(pointer+20);
                         input = "masak";
                         gp.setSubState(14);
                     }
@@ -706,8 +707,8 @@ public class KeyHandler implements KeyListener {
                         case "pindah ruangan":
                             gp.getSim().pindahRuangan();
                             break;
-                        case "lihat waktu":
-                           gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
+                        case "melihat waktu":
+                           gp.showNotification(gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
                         default:
@@ -805,8 +806,9 @@ public class KeyHandler implements KeyListener {
                 if (arrowNum==0){
                     if (pointer<20){
                         gp.getSim().beliItem(pointer);
+                        gp.showNotification("item dalam pengiriman!");
                     } else{
-                        errorCaught = true;
+                        gp.showNotification("masakan tidak dapat dibeli!");
                     }
                 } else if (arrowNum==1) {
                     if (pointer<12){
@@ -814,10 +816,11 @@ public class KeyHandler implements KeyListener {
                             in1=pointer;
                             gp.setGs(6);
                             gp.setSubState(4);
+                        } else {
+                            gp.showNotification("tidak ada sisa barang untuk dipasang!");
                         }
                     } else {
-                        // meja
-                        errorCaught = true;
+                        gp.showNotification("dekati meja makan!");;
                     }
                 } else{
                     gp.setGs(6);
@@ -850,7 +853,7 @@ public class KeyHandler implements KeyListener {
         //         }
         //     }
         } else if (gp.getGs() == 11){   
-            //shop 
+            //shop belanja
             arrowNum = (arrowNum+2)%2;
 
             if (leftPressed){
@@ -865,12 +868,14 @@ public class KeyHandler implements KeyListener {
 
             if(escapePressed){
                 gp.setGs(6);
+
             } else if(enterPressed){
                 if (arrowNum==0){
                     if (pointer<20){
                         gp.getSim().beliItem(pointer);
                     } else {
                         errorCaught = true;
+                        gp.showNotification("masakan tidak dapat dibeli!");
                     }
                 } else {
                     gp.setGs(6);

@@ -411,26 +411,11 @@ public class Sim {
                 int waktubeli = ((rand.nextInt(6) + 1))%5 * 30;
                 this.status.add(new Aksi(this,"beli barang",(int) (waktubeli/60), true, idx));
                 int indexStatus = this.status.size() -1;
-                // if (this.isDoAksiAktif){
-                //     try {
-                //         int waktu = waktubeli;
-                //         int seconds = 0;
-                //         for (int i = 0; i < waktu; i++) {
-                //             Thread.sleep(1000);
-                //             seconds++;
-                //             this.getAksi(indexStatus).decDetikTersisa();
-                //             System.out.println(waktubeli-i);
-                //         }
-                //         this.status.remove(indexStatus);
-                //     } catch (InterruptedException e) {
-                //         e.printStackTrace();
-                //     }
-                //     this.inventory.incItem(idx);
-                // }
+                gp.showNotification(this.getInventory().getInventory().get(idx).getNama() + " dalam pengiriman!");
             }
         });
         } else {
-            kh.setErrorCaught(true);
+            gp.showNotification("uang tidak cukup!");
         }
     }
 
