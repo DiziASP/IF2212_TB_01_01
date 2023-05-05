@@ -13,10 +13,7 @@ import if2212_tb_01_01.entities.world.Point;
 import if2212_tb_01_01.ui.UI;
 import if2212_tb_01_01.items.furnitur.*;
 // import if2212_tb_01_01.ui.WelcomeUI;
-import if2212_tb_01_01.utils.CollisionHandler;
-import if2212_tb_01_01.utils.InputListener;
-import if2212_tb_01_01.utils.InteractionHandler;
-import if2212_tb_01_01.utils.KeyHandler;
+import if2212_tb_01_01.utils.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final KeyHandler keyHandler = new KeyHandler(this);
     public final CollisionHandler collisionHandler = new CollisionHandler(this);
     public final InteractionHandler interactionHandler = new InteractionHandler(this);
+    public final SoundManager soundManager =  new SoundManager();
 
     private UI ui = new UI(this,keyHandler);
     private House house;
@@ -114,6 +112,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         gameState=0;
 
+        /* Play Music */
+        soundManager.setFile(0);
+        soundManager.play();
     }
 
     public void startGameThread() {

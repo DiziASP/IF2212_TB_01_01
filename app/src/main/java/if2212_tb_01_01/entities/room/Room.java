@@ -27,10 +27,10 @@ public class Room {
     private List<ItemTracker> daftarObjek;
     private static final Integer kapasitas = 36;
     private Integer[][] mapRuangan = new Integer[6][6];
-    private Room roomLeft = null;
-    private Room roomRight = null;
-    private Room roomBelow = null;
-    private Room roomAbove = null;
+    public Room roomLeft = null;
+    public Room roomRight = null;
+    public Room roomBelow = null;
+    public Room roomAbove = null;
 
     Inventory inventory;
 
@@ -283,6 +283,21 @@ public class Room {
         Room roomBelow = new Room(gp, false, roomName);
         roomBelow.setInventory(this.inventory);
         roomBelow.setRoomName(roomName);
+
+        if(this.roomLeft != null || this.roomRight != null){
+            /* Check Room on the left bottom*/
+            if (this.roomLeft.roomBelow != null) {
+                roomBelow.roomLeft = this.roomLeft.roomBelow;
+                this.roomLeft.roomBelow.roomRight = roomBelow;
+            }
+
+            /* Check Room on the right bottom */
+            if (this.roomRight.roomBelow != null) {
+                roomBelow.roomRight = this.roomRight.roomBelow;
+                this.roomRight.roomBelow.roomLeft = roomBelow;
+            }
+        }
+
         roomBelow.roomAbove = this;
         this.roomBelow = roomBelow;
     }
@@ -295,6 +310,21 @@ public class Room {
         Room roomAbove = new Room(gp, false, roomName);
         roomAbove.setInventory(this.inventory);
         roomAbove.setRoomName(roomName);
+
+        /* Check Room on the left above */
+        if(this.roomLeft != null || this.roomRight != null){
+            if (this.roomLeft.roomAbove != null) {
+                roomAbove.roomLeft = this.roomLeft.roomAbove;
+                this.roomLeft.roomAbove = roomAbove;
+            }
+
+            /* Check Room on the right above */
+            if (this.roomRight.roomAbove != null) {
+                roomAbove.roomRight = this.roomRight.roomAbove;
+                this.roomRight.roomAbove.roomLeft = roomAbove;
+            }
+        }
+
         roomAbove.roomBelow = this;
         this.roomAbove = roomAbove;
     }
@@ -311,6 +341,19 @@ public class Room {
         Room roomLeft = new Room(gp, false, roomName);
         roomLeft.setInventory(this.inventory);
         roomLeft.setRoomName(roomName);
+
+        if(this.roomAbove != null || this.roomBelow != null){
+            if (this.roomAbove.roomLeft != null) {
+                roomLeft.roomAbove = this.roomAbove.roomLeft;
+                this.roomAbove.roomLeft.roomBelow = roomLeft;
+            }
+
+            /* Check Room on the right above */
+            if (this.roomBelow.roomLeft != null) {
+                roomLeft.roomBelow = this.roomBelow.roomLeft;
+                this.roomBelow.roomLeft.roomAbove = roomLeft;
+            }
+        }
         roomLeft.roomRight = this;
         this.roomLeft = roomLeft;
     }
@@ -323,6 +366,20 @@ public class Room {
         Room roomRight = new Room(gp, false, roomName);
         roomRight.setInventory(this.inventory);
         roomRight.setRoomName(roomName);
+
+        if(this.roomAbove != null || this.roomBelow != null){
+            if (this.roomAbove.roomRight != null) {
+                roomRight.roomAbove = this.roomAbove.roomRight;
+                this.roomAbove.roomRight.roomBelow = roomRight;
+            }
+
+            /* Check Room on the right above */
+            if (this.roomBelow.roomRight != null) {
+                roomRight.roomBelow = this.roomBelow.roomRight;
+                this.roomBelow.roomRight.roomAbove = roomRight;
+            }
+        }
+
         roomRight.roomLeft = this;
         this.roomRight = roomRight;
     }
