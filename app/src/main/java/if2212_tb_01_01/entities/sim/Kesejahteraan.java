@@ -1,6 +1,8 @@
 package if2212_tb_01_01.entities.sim;
 
-public class Kesejahteraan {
+import java.io.Serializable;
+
+public class Kesejahteraan implements Serializable {
     private Integer mood;
     private Integer kekenyangan;
     private Integer kesehatan;

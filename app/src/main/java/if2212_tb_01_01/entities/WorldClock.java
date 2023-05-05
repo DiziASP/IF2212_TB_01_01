@@ -3,8 +3,10 @@ package if2212_tb_01_01.entities;
 import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.entities.world.World;
 
+import java.io.Serializable;
 
-public class WorldClock implements Runnable {
+
+public class WorldClock implements Runnable, Serializable {
     GamePanel gp;
     private volatile boolean running = true;
     private int minutes;

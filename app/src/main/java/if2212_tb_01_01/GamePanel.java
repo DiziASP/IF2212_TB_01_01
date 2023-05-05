@@ -4,6 +4,7 @@ import static if2212_tb_01_01.utils.Constant.*;
 
 import if2212_tb_01_01.assets.AssetManager;
 import if2212_tb_01_01.assets.tiles.TileManager;
+import if2212_tb_01_01.config.Config;
 import if2212_tb_01_01.entities.WorldClock;
 import if2212_tb_01_01.entities.house.House;
 import if2212_tb_01_01.entities.room.Room;
@@ -50,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final CollisionHandler collisionHandler = new CollisionHandler(this);
     public final InteractionHandler interactionHandler = new InteractionHandler(this);
     public final SoundManager soundManager =  new SoundManager();
+    public final Config saveLoad = new Config(this);
 
     private UI ui = new UI(this,keyHandler);
     private House house;
@@ -109,7 +111,7 @@ public class GamePanel extends JPanel implements Runnable {
         worldClock.getWorld().getSim(1).getRoomAwal().pasangObjek(3,1, 0);
         worldClock.getWorld().addSim(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
         worldClock.getWorld().getSim(2).getRoomAwal().pasangObjek(6,2, 3);
-
+//        saveLoad.load();
         gameState=0;
 
         /* Play Music */
@@ -355,5 +357,8 @@ public class GamePanel extends JPanel implements Runnable {
         addOpsiAksi("kembali");
     }
 
+    public KeyHandler getKeyHandler(){
+        return keyHandler;
+    }
 
 }
