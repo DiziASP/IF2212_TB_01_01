@@ -369,7 +369,7 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(7);
                             break;
                         case "melihat waktu":
-                            gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
+                            gp.showNotification(gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
                         case "makan":
@@ -706,7 +706,7 @@ public class KeyHandler implements KeyListener {
                             gp.getSim().pindahRuangan();
                             break;
                         case "melihat waktu":
-                           gp.showNotification(gp.getWorldClock().melihatWaktu());
+                            gp.showNotification(gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
                         default:

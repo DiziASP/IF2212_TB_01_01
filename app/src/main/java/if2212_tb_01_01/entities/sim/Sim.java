@@ -540,9 +540,8 @@ public class Sim {
     public void kerja(int waktu) { // waktu harus kelipatan 120 detik
         final int fwaktu = waktu;
         executorService.execute(() -> {
-            this.status.add(new Aksi(this, "Kerja", fwaktu));
+            Aksi aksi = new Aksi(this, "kerja", fwaktu);
             this.isDoAksiAktif = true;
-            int indexStatus = this.status.size() - 1;
             try {
                 int seconds = 0;
                 for (int i = 0; i < fwaktu; i++) {
@@ -555,11 +554,10 @@ public class Sim {
                         this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan()-10);
                         this.kesejahteraan.setMood(this.kesejahteraan.getMood()-10);
                     }
-                    this.status.get(indexStatus).decDetikTersisa();
+                    aksi.decDetikTersisa();
                     gp.setActionCounter(waktu-i);
                     
                 }
-                this.status.remove(indexStatus);
                 gp.setActionCounter(0);
     
             } catch (InterruptedException e) {
@@ -574,10 +572,8 @@ public class Sim {
     public void olahraga(final int fwaktu) {
         //Please provide the solution below
         executorService.execute(() -> {
-            this.status.add(new Aksi(this, "Olahraga", fwaktu));
+            Aksi aksi = new Aksi(this, "olahraga", fwaktu);
             this.isDoAksiAktif = true;
-            
-            int indexStatus = this.status.size() - 1;
             try {
                 int seconds = 0;
                 for (int i = 0; i < fwaktu; i++) {
@@ -589,11 +585,10 @@ public class Sim {
                         this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 5);
                         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
                     }
-                    this.status.get(indexStatus).decDetikTersisa();
+                    aksi.decDetikTersisa();
                     gp.setActionCounter(fwaktu-i);
                     
                 }
-                this.status.remove(indexStatus);
                 gp.setActionCounter(0);
     
             } catch (InterruptedException e) {
@@ -609,23 +604,21 @@ public class Sim {
     public void tidur(int waktu) {
         final int fwaktu = waktu;
         executorService.execute(() -> {
-        this.status.add(new Aksi(this, "Tidur", fwaktu));
+            Aksi aksi = new Aksi(this, "tidur", fwaktu);
         this.isDoAksiAktif = true;
-        int indexStatus = this.status.size() - 1;
         try {
             int seconds = 0;
             for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000); // tunggu 1 detik
                 seconds++;
-                this.getAksi(indexStatus).decDetikTersisa();
+                aksi.decDetikTersisa();
                 gp.setActionCounter(waktu-i);
                 this.waktuTidur++;
-                if (seconds % 120==0 && i!=0){
+                if (seconds % 240==0 && i!=0){
                     this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
                     this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() + 20);
                 }
             }
-            this.status.remove(indexStatus);
             this.isDoAksiAktif = false;
             gp.setActionCounter(0);
 
@@ -645,6 +638,7 @@ public class Sim {
                     this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() - 5);
                     this.kesejahteraan.setMood(this.kesejahteraan.getMood() - 5);
                     this.belumBerak = false; //balik ke state awal
+                    System.out.println("Aduh berak di celana");
                 }
                 
             } catch (InterruptedException e){
@@ -654,27 +648,25 @@ public class Sim {
     }
 
     public void makan(int idx){
-        final int fwaktu = 20;
+        final int fwaktu = 30;
 
         if (idx<20){
             executorService.execute(() -> {
-            int indexStatus = this.status.size() -1;
-                this.status.add(new Aksi(this,"Makan",fwaktu));
-                
+                Aksi aksi = new Aksi(this, "makan", fwaktu);
+                this.isDoAksiAktif = true;
                 try {
                     int seconds = 0;
                     for (int i = 0; i < fwaktu; i++) {
                         Thread.sleep(1000);
                         seconds++;
                         if (seconds % 30 ==0 && i!=0){
+                            //Ini ganti
                             this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() + ((Masakan)this.inventory.getInventory().get(idx)).getKekenyangan());
                         }
-                        this.getAksi(indexStatus).decDetikTersisa();
+                        aksi.decDetikTersisa();
                         gp.setActionCounter(fwaktu-i);
                         
                     }
-                    this.status.remove(indexStatus);
-                    this.inventory.decItem(idx);
                     this.isDoAksiAktif = false;
                     gp.setActionCounter(0);
                     this.inventory.decItem(idx);
@@ -695,17 +687,15 @@ public class Sim {
                 executorService.execute(() -> {
                     Bistik bistik = new Bistik();
                     int waktumasak = (int) (bistik.getKekenyangan() * 1.5);
-                    this.status.add(new Aksi(this, "masak",0));
+                    Aksi aksi = new Aksi(this, "masak", waktumasak);
                     this.isDoAksiAktif = true;
-                    int indexStatus = this.status.size() - 1;
                     try {
                         int waktu = waktumasak;
                         for (int i = 0; i < waktu; i++) {
                             Thread.sleep(1000);
-                            this.getAksi(indexStatus).decDetikTersisa();
+                            aksi.decDetikTersisa();
                             gp.setActionCounter(waktu-i);
                         }
-                        this.status.remove(indexStatus);
                         this.inventory.decItem(15);
                         this.inventory.decItem(17);
                         gp.setActionCounter(0);
@@ -726,17 +716,15 @@ public class Sim {
                 executorService.execute(() -> {
                     NasiAyam nasiayam = new NasiAyam();
                     int waktumasak = (int) (nasiayam.getKekenyangan() * 1.5);
-                    this.status.add(new Aksi(this, "masak",0));
+                    Aksi aksi = new Aksi(this, "berdoa", waktumasak);
                     this.isDoAksiAktif = true;
-                    int indexStatus = this.status.size() - 1;
                     try {
                         int waktu = waktumasak;
                         for (int i = 0; i < waktu; i++) {
                             Thread.sleep(1000);
-                            this.getAksi(indexStatus).decDetikTersisa();
+                            aksi.decDetikTersisa();
                             gp.setActionCounter(waktu-i);
                         }
-                        this.status.remove(indexStatus);
                         this.inventory.decItem(16);
                         this.inventory.decItem(12);
                         gp.setActionCounter(0);
@@ -759,17 +747,15 @@ public class Sim {
                 executorService.execute(() -> {
                     NasiKari nasikari = new NasiKari();
                     int waktumasak = (int) (nasikari.getKekenyangan() * 1.5);
-                    this.status.add(new Aksi(this, "masak",0));
+                    Aksi aksi = new Aksi(this, "masak", waktumasak);
                     this.isDoAksiAktif = true;
-                    int indexStatus = this.status.size() - 1;
                     try {
                         int waktu = waktumasak;
                         for (int i = 0; i < waktu; i++) {
                             Thread.sleep(1000);
-                            this.getAksi(indexStatus).decDetikTersisa();
+                            aksi.decDetikTersisa();
                             gp.setActionCounter(waktu-i);
                         }
-                        this.status.remove(indexStatus);
                         this.inventory.decItem(15);
                         this.inventory.decItem(17);
                         this.inventory.decItem(16);
@@ -794,17 +780,15 @@ public class Sim {
                 executorService.execute(() -> {
                     SusuKacang susukacang = new SusuKacang();
                     int waktumasak = (int) (susukacang.getKekenyangan() * 1.5);
-                    this.status.add(new Aksi(this, "masak",0));
+                    Aksi aksi = new Aksi(this, "masak", waktumasak);
                     this.isDoAksiAktif = true;
-                    int indexStatus = this.status.size() - 1;
                     try {
                         int waktu = waktumasak;
                         for (int i = 0; i < waktu; i++) {
                             Thread.sleep(1000);
-                            this.getAksi(indexStatus).decDetikTersisa();
+                            aksi.decDetikTersisa();
                             gp.setActionCounter(waktu-i);
                         }
-                        this.status.remove(indexStatus);
                         this.inventory.decItem(14);
                         this.inventory.decItem(18);
                         gp.setActionCounter(0);
@@ -827,17 +811,15 @@ public class Sim {
                 executorService.execute(() -> {
                     TumisSayur tumisSayur = new TumisSayur();
                     int waktumasak = (int) (tumisSayur.getKekenyangan() * 1.5);
-                    this.status.add(new Aksi(this, "masak",0));
+                    Aksi aksi = new Aksi(this, "masak", waktumasak);
                     this.isDoAksiAktif = true;
-                    int indexStatus = this.status.size() - 1;
                     try {
                         int waktu = waktumasak;
                         for (int i = 0; i < waktu; i++) {
                             Thread.sleep(1000);
-                            this.getAksi(indexStatus).decDetikTersisa();
+                            aksi.decDetikTersisa();
                             gp.setActionCounter(waktu-i);
                         }
-                        this.status.remove(indexStatus);
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -864,21 +846,18 @@ public class Sim {
     public void berkunjung(Point posisi) {
         executorService.execute(() -> {
             try {
-                this.status.add(new Aksi(this, "berkunjung",0));
                 this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
                 double waktu = Math.sqrt(Math.pow(this.rumah.getPosisi().getX() - posisi.getX(), 2) + Math.pow(this.rumah.getPosisi().getY() - posisi.getY(), 2));
                 int roundWaktu = (int) Math.round(waktu);
+                Aksi aksi = new Aksi(this, "berkunjung", roundWaktu);
                 for (int i = 0; i < roundWaktu; i++) {
                     Thread.sleep(1000);
                     gp.setActionCounter(roundWaktu-i);
-                    this.getAksi(indexStatus).decDetikTersisa();
                     if (i%30==0 && i!=0) {
                         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
                         this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 10);
                     }
                 }
-                this.status.remove(indexStatus);
                 gp.setActionCounter(0);
                 this.isDoAksiAktif = false;                
             } catch (InterruptedException e) {
@@ -1002,10 +981,9 @@ public class Sim {
     public void buangAir(int waktu) {
         final int fwaktu = waktu;
         executorService.execute(() -> {
-            this.status.add(new Aksi(this, "Buang Air", fwaktu));
+            Aksi aksi = new Aksi(this, "buang air", fwaktu);
             this.isDoAksiAktif = true;
             this.belumBerak = false;
-            int indexStatus = this.status.size() - 1;
             System.out.println("Sedang buang air");
             try {
                 int seconds = 0;
@@ -1017,12 +995,11 @@ public class Sim {
                         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
                         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 10);
                     }
-                    this.getAksi(indexStatus).decDetikTersisa();
+                    aksi.decDetikTersisa();
                     gp.setActionCounter(waktu-i);
-                    
                 }
-                this.status.remove(indexStatus);
                 gp.setActionCounter(0);
+                this.isDoAksiAktif = false;
     
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -1032,20 +1009,18 @@ public class Sim {
     public void yoga(int waktu) {
         final int fwaktu = waktu;
         executorService.execute(() -> {
-            this.status.add(new Aksi(this, "Yoga", fwaktu));
+            Aksi aksi = new Aksi(this, "yoga", fwaktu);
             this.isDoAksiAktif = true;
-            int indexStatus = this.status.size() - 1;
             System.out.println("Yoga dimulai, silahkan tunggu 10 detik!");
             try {
                 int seconds = 0;
                 for (int i = 0; i < fwaktu; i++) {
                     Thread.sleep(1000);
                     seconds++;
-                    this.getAksi(indexStatus).decDetikTersisa();
+                    aksi.decDetikTersisa();
                     gp.setActionCounter(waktu-i);
                     
-                }
-                this.status.remove(indexStatus);            
+                }         
                 gp.setActionCounter(0);
     
             } catch (InterruptedException e) {
@@ -1062,19 +1037,17 @@ public class Sim {
     public void berdoa(int waktu){
         final int fwaktu = waktu;
         executorService.execute(() -> {
-        this.status.add(new Aksi(this, "Berdoa", fwaktu));
         this.isDoAksiAktif = true;
-        int indexStatus = this.status.size() - 1;
+        Aksi aksi = new Aksi(this, "berdoa", fwaktu);
         System.out.println("Berdoa dimulai!");
         try {
             int seconds = 0;
             for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
-                this.getAksi(indexStatus).decDetikTersisa();
+                aksi.decDetikTersisa();
                 gp.setActionCounter(waktu-i);
             }
-            this.status.remove(indexStatus);
             gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
@@ -1088,18 +1061,16 @@ public class Sim {
     public void membersihkanRumah(int waktu) {
         final int fwaktu = waktu;
         executorService.execute(() -> {
-        this.status.add(new Aksi(this, "Membersihkan rumah", fwaktu));
+        Aksi aksi = new Aksi(this, "membersihkan rumah", fwaktu);
         this.isDoAksiAktif = true;
-        int indexStatus = this.status.size() - 1;
         try {
             int seconds = 0;
             for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
-                this.getAksi(indexStatus).decDetikTersisa();
+                aksi.decDetikTersisa();
                 gp.setActionCounter(waktu-i);
             }
-            this.status.remove(indexStatus);
             gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
@@ -1113,19 +1084,17 @@ public class Sim {
     public void mandi(int waktu){
         final int fwaktu = waktu;
         executorService.execute(() -> {
-        this.status.add(new Aksi(this, "Mandi", fwaktu));
+        Aksi aksi = new Aksi(this, "mandi", fwaktu);
         this.isDoAksiAktif = true;
-        int indexStatus = this.status.size() - 1;
         System.out.println("Mandi dimulai!");
         try {
             int seconds = 0;
             for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
-                this.getAksi(indexStatus).decDetikTersisa();
+                aksi.decDetikTersisa();
                 gp.setActionCounter(waktu-i);
             }
-            this.status.remove(indexStatus);
             gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
@@ -1142,20 +1111,18 @@ public class Sim {
     public void melukis(int waktu){
         final int fwaktu = waktu;
         executorService.execute(() -> {
-        this.status.add(new Aksi(this, "Melukis", fwaktu));
         this.isDoAksiAktif = true;
-        int indexStatus = this.status.size() - 1;
+        Aksi aksi = new Aksi(this, "melukis", fwaktu);
         System.out.println("Mozart sedang beraksi?");
         try {
             int seconds = 0;
             for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
-                this.getAksi(indexStatus).decDetikTersisa();
+                aksi.decDetikTersisa();
                 gp.setActionCounter(waktu-i);
                 
             }
-            this.status.remove(indexStatus);
             gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
@@ -1171,19 +1138,17 @@ public class Sim {
     public void bermainMusik(int waktu){
         final int fwaktu = waktu;
         executorService.execute(() -> {
-        this.status.add(new Aksi(this, "Main musik", fwaktu));
+        Aksi aksi = new Aksi(this, "bermain musik", fwaktu);
         this.isDoAksiAktif = true;
-        int indexStatus = this.status.size() - 1;
         System.out.println("Yippi main musik");
         try {
             int seconds = 0;
             for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
-                this.getAksi(indexStatus).decDetikTersisa();
+                aksi.decDetikTersisa();
                 gp.setActionCounter(waktu-i);
             }
-            this.status.remove(indexStatus);
             gp.setActionCounter(0);
 
         } catch (InterruptedException e) {
@@ -1208,18 +1173,17 @@ public class Sim {
     public void proyekan(int waktu) {
         final int fwaktu = waktu;
         executorService.execute(() -> {
-        this.status.add(new Aksi(this, "proyekan", fwaktu));
-        int indexStatus = this.status.size() - 1;
+        Aksi aksi = new Aksi(this, "proyekan", fwaktu);
+        
         this.isDoAksiAktif = true;
         try {
             int seconds = 0;
             for (int i = 0; i < fwaktu; i++) {
                 Thread.sleep(1000);
                 seconds++;
-                this.getAksi(indexStatus).decDetikTersisa();
+                aksi.decDetikTersisa();
                 gp.setActionCounter(waktu-i);
             }
-            this.status.remove(indexStatus);
             gp.setActionCounter(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
