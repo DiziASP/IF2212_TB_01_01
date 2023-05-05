@@ -16,6 +16,25 @@ public class Pekerjaan implements Serializable {
         this.gaji = pekerjaan.gaji;
     }
 
+    public Pekerjaan(String namaKerja){
+        if (namaKerja.equals("Badut Sulap")){
+            this.namaKerja = "Badut Sulap";
+            this.gaji = 15;
+        } else if (namaKerja.equals("Koki")){
+            this.namaKerja = "Koki";
+            this.gaji = 30;
+        } else if (namaKerja.equals("Polisi")){
+            this.namaKerja = "Polisi";
+            this.gaji = 35;
+        } else if (namaKerja.equals("Programmer")){
+            this.namaKerja = "Programmer";
+            this.gaji = 45;
+        } else if (namaKerja.equals("Dokter")){
+            this.namaKerja = "Dokter";
+            this.gaji = 50;
+        }
+    }
+
     /**
      * Getter Function
      *
@@ -91,4 +110,6 @@ public class Pekerjaan implements Serializable {
         return pekerjaan.get(randomNum);
     
     }
+
+
 }

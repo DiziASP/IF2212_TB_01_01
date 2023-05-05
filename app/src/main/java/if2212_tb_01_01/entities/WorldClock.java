@@ -124,6 +124,12 @@ public class WorldClock implements Runnable, Serializable {
                                     i++;
                                 } 
                             }
+                            if (sim.getWaktuSetelahGantiKerja()!=-999){
+                                sim.setWaktuSetelahGantiKerja(sim.getWaktuSetelahGantiKerja()+1);
+                            }
+                            if (sim.getWaktuSetelahGantiKerja()>=12*60){
+                                sim.setWaktuSetelahGantiKerja(-999);
+                            } 
                         }
                         seconds++;
     

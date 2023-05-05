@@ -153,6 +153,8 @@ public class Sim {
      private int waktuTidur=0;
      private int waktuSudahKerja=0;
      private boolean belumBerak=false;
+     private int waktuSetelahGantiKerja=-999;
+     private int waktu4MenitKerja=0;
      private ExecutorService executorService;
     
  
@@ -477,6 +479,9 @@ public class Sim {
     public void setWaktuSudahKerja(int waktuSudahKerja){
         this.waktuSudahKerja = waktuSudahKerja;
     }
+    public int getWaktuSudahKerja(){
+        return waktuSudahKerja;
+    }
 
     public void substractUang(int uang){
         this.uang -= uang;
@@ -573,12 +578,14 @@ public class Sim {
                     Thread.sleep(1000);
                     seconds++;
                     this.waktuSudahKerja++;
-                    if (seconds % 120==0 && i!=0) {
-                        this.uang += 100;
-                    } if (seconds %30 ==0 && i!=0){
+                    this.waktu4MenitKerja++;
+                    if (seconds %30 ==0 && i!=0){
                         this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan()-10);
                         this.kesejahteraan.setMood(this.kesejahteraan.getMood()-10);
-                        this.uang+=100;
+                    }
+                    if (waktu4MenitKerja % 240 == 0 && i!=0){
+                        this.uang += this.pekerjaan.getGaji();
+                        waktu4MenitKerja = 0;
                     }
                     aksi.decDetikTersisa();
                     gp.setActionCounter(waktu-i);
@@ -1189,6 +1196,30 @@ public class Sim {
         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);
         this.isDoAksiAktif = false;
     });
+    }
+
+    public void gantiKerja(String namaKerja){
+        this.pekerjaan = new Pekerjaan(namaKerja);
+        this.uang -= Math.round(this.pekerjaan.getGaji()*0.5);
+        this.waktuSetelahGantiKerja = 0;
+    }
+
+    public void setWaktuSetelahGantiKerja(int waktu){
+        this.waktuSetelahGantiKerja += waktu;
+    }
+    public int getWaktuSetelahGantiKerja(){
+        return this.waktuSetelahGantiKerja;
+    }
+
+    public boolean isCanKerjaHabisGanti(){
+        if (this.waktuSetelahGantiKerja==-999){
+            return true;
+        }
+        else if (this.waktuSetelahGantiKerja>=12*60){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void viewInfo(){
