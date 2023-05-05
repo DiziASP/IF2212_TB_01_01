@@ -589,11 +589,10 @@ public class UI {
             g2.setColor(c9);
             g2.fillRect(0,0,screenWidth,screenHeight);
 
-//            Sim s = gp.getSim();
+           Sim s = gp.getSim();
 
             g2.setFont(f40);
-//            String text = s.getNamaLengkap() + " sudah meninggal dengan tenang";
-            String text = "Nadira" + " sudah meninggal dengan tenang";
+            String text = s.getNamaLengkap() + " sudah meninggal dengan tenang";
             int x = centerX(g2,text);
             int y = tileSize*4;
             g2.setColor(c2);
