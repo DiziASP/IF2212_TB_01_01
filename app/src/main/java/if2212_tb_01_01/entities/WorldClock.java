@@ -52,16 +52,18 @@ public class WorldClock implements Runnable {
         return world;
     }
     public String melihatWaktu(){
-        String info = ("\nDays: " + daysInWorld + " Minutes: " + minutes + "Seconds: " + seconds + "\n");
+        String info = ("<html> Days: " + daysInWorld + " Minutes: " + minutes + " Seconds: " + seconds + "<br>\n");
         if (world.getSim(gp.getIndexActiveSim()).getStatus().size()==0){
-            info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang tidak melakukan apa-apa.";
+            info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang tidak melakukan apa-apa.<br></html>\n";
         } else {
-            info+= "Wow " + world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang melakukan aksi: \n";
+            info+= "Wow " + world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang melakukan aksi: <br>\n";
             for (int i=0; i<world.getSim(gp.getIndexActiveSim()).getStatus().size(); i++){
-                info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang melakukan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getNama() + "\n";
-                info += "dengan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getDetikTersisa() + " detik tersisa."+ "\n";
+                info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang melakukan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getNama() + "<br>\n";
+                info += "dengan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getDetikTersisa() + " detik tersisa."+ "<br>\n";
             }
+            info += "</html>\n";
         }
+        System.out.println(info);
         return info;
     }
 

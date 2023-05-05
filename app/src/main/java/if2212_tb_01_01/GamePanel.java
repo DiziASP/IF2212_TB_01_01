@@ -13,10 +13,7 @@ import if2212_tb_01_01.entities.world.Point;
 import if2212_tb_01_01.ui.UI;
 import if2212_tb_01_01.items.furnitur.*;
 // import if2212_tb_01_01.ui.WelcomeUI;
-import if2212_tb_01_01.utils.CollisionHandler;
-import if2212_tb_01_01.utils.InputListener;
-import if2212_tb_01_01.utils.InteractionHandler;
-import if2212_tb_01_01.utils.KeyHandler;
+import if2212_tb_01_01.utils.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +23,7 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.swing.border.Border;
 
 public class GamePanel extends JPanel implements Runnable {
     /* Screen Generate */
@@ -52,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final KeyHandler keyHandler = new KeyHandler(this);
     public final CollisionHandler collisionHandler = new CollisionHandler(this);
     public final InteractionHandler interactionHandler = new InteractionHandler(this);
+    public final SoundManager soundManager =  new SoundManager();
 
     private UI ui = new UI(this,keyHandler);
     private House house;
@@ -74,12 +73,14 @@ public class GamePanel extends JPanel implements Runnable {
         
         notificationLabel = new JLabel();
         add(notificationLabel);
-        Color textColor = Color.WHITE;
         notificationLabel.setFont(new Font("Courier New", Font.BOLD, 18));
         notificationLabel.setForeground(new Color(0xFDFFFF));
+        notificationLabel.setBackground(c2);
+        notificationLabel.setOpaque(true);
+        // notificationLabel.setOpaque(true);
 
         // Inisialisasi timer dengan durasi 3 detik
-        notificationTimer = new Timer(2500, new ActionListener() {
+        notificationTimer = new Timer(2800, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearNotification();
@@ -114,6 +115,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         gameState=0;
 
+        /* Play Music */
+        soundManager.setFile(0);
+        soundManager.play();
     }
 
     public void startGameThread() {
@@ -156,11 +160,13 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void showNotification(String message) {
+        notificationLabel.setVisible(true);
         notificationLabel.setText(message);
         notificationTimer.start();
     }
     public void clearNotification() {
         notificationLabel.setText("");
+        notificationLabel.setVisible(false);
     }
 
 
@@ -373,6 +379,9 @@ public class GamePanel extends JPanel implements Runnable {
         addOpsiAksi("keluar");
         addOpsiAksi("kembali");
     }
+
+
+
 
 
 }

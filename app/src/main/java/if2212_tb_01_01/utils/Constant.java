@@ -48,7 +48,7 @@ public class Constant {
     public static Color c2 = new Color(0x5E87CA);
     public static Color c3 = new Color(0xBC4B48);
     public static Color c4 = new Color(0xF6E27F);
-    public static Color c5 = new Color(0xEAB8D9);
+    public static Color c5 = new Color(0xE3879E);
     public static Color c6 = new Color(0xFDFFFF);
     public static Color c7 = new Color(0x939393);
     public static Color c8 = new Color(0x747474);
