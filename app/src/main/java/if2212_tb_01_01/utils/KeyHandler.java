@@ -517,7 +517,6 @@ public class KeyHandler implements KeyListener {
                             break;
                         default:
                             gp.getSim().upgradeRumah(gp.getOpsiAksi(arrowNum), input);
-                            gp.showNotification("Upgrade dalam proses...");
                             gp.setSubState(0);
                             input = "";
                             break;
