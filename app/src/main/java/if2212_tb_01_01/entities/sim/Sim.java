@@ -143,23 +143,23 @@ public class Sim {
      //konstruktor
 
      // konstruktor kl pekerjaan di random 
-     public Sim(Kesejahteraan kesejahteraan, int uang, String namaLengkap, House rumah, Point posisiRumah, Point posisiRuangan) {
-         this.pekerjaan = new Pekerjaan();
-         this.kesejahteraan = kesejahteraan;
-         this.uang = uang;
-         this.namaLengkap = namaLengkap;
-         this.status = new ArrayList<Aksi>();
-         this.inventory = new Inventory();
-         inventory.incItem(0);
-         inventory.incItem(3);
-         inventory.incItem(4);
-         inventory.incItem(6);
-         inventory.incItem(10);
-         this.rumah = rumah;
-         setPosisiRumah(posisiRumah);
-         this.currentRuangan = rumah.getRuanganAwal();
-         executorService = Executors.newFixedThreadPool(10);
-     }
+    //  public Sim(Kesejahteraan kesejahteraan, int uang, String namaLengkap, House rumah, Point posisiRumah, Point posisiRuangan) {
+    //      this.pekerjaan = new Pekerjaan();
+    //      this.kesejahteraan = kesejahteraan;
+    //      this.uang = uang;
+    //      this.namaLengkap = namaLengkap;
+    //      this.status = new ArrayList<Aksi>();
+    //      this.inventory = new Inventory();
+    //      inventory.incItem(0);
+    //      inventory.incItem(3);
+    //      inventory.incItem(4);
+    //      inventory.incItem(6);
+    //      inventory.incItem(10);
+    //      this.rumah = rumah;
+    //      setPosisiRumah(posisiRumah);
+    //      this.currentRuangan = rumah.getRuanganAwal();
+    //      executorService = Executors.newFixedThreadPool(10);
+    //  }
 
 
     public Sim(GamePanel gp, KeyHandler kh, int spriteIndex, String namaLengkap, Point posisiRumah) {
@@ -170,14 +170,7 @@ public class Sim {
         this.spriteState = 1;
         getAnimationImage();
 
-        setScreenX(4*tileSize + roomX);
-        setScreenY(4*tileSize + roomY);
-        this.solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
-        this.interactableArea = new Rectangle(screenX, screenY - tileSize, tileSize, tileSize);
-
-        /* Initialize Characteristics */
-
-         this.pekerjaan = new Pekerjaan();
+        this.pekerjaan = new Pekerjaan();
          this.kesejahteraan = new Kesejahteraan();
          this.uang = 100;
          this.namaLengkap = namaLengkap;
@@ -186,13 +179,22 @@ public class Sim {
          this.rumah = new House(gp, this, posisiRumah);
          this.currentPosition = rumah;
          this.currentRuangan = rumah.getRuanganAwal();
-         //tes
+
+        setScreenX(4*tileSize + roomX);
+        setScreenY(4*tileSize + roomY);
+        
+        this.solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
+        this.interactableArea = new Rectangle(screenX, screenY - tileSize, tileSize, tileSize);
+         
+         //mengisi objek inisial
          inventory.incItem(0);
          inventory.incItem(3);
          inventory.incItem(4);
          inventory.incItem(6);
          inventory.incItem(10);
-            executorService = Executors.newFixedThreadPool(10);
+        
+         //execute actions
+         executorService = Executors.newFixedThreadPool(10);
         
     }
 
@@ -1094,4 +1096,61 @@ public class Sim {
     });
 
 }
+
+    public void setSolidArea(){
+        int count = 0;
+        screenX = (screenX-roomX)/tileSize;
+        screenY = (screenY-roomY)/tileSize;
+        while (currentRuangan.getMapRuangan()[screenX][screenY] != -1){
+            if (count<6){
+                screenX = (screenX+1)%6;
+            } else {
+                screenX = (screenX+1)%6;
+                screenY = (screenY+1)%6;
+                count = 0;
+            }
+        }
+        screenX = (screenX)*tileSize + roomX+tileSize;
+        screenY = (screenY)*tileSize + roomY+tileSize;
+        solidArea.setLocation(screenX, screenY);
+        interactableArea.setLocation(screenX, screenY-tileSize);
+    }
+
+    public void setSolidArea(int geserX, int geserY){
+        int count = 0;
+        screenX = (screenX-roomX)/tileSize;
+        screenY = (screenY-roomY)/tileSize;
+        while (currentRuangan.getMapRuangan()[(screenX+geserX)%6][(screenY+geserY)%6] != -1){
+            if (count<6){
+                screenX = (screenX+1)%6;
+            } else {
+                screenX = (screenX+1)%6;
+                screenY = (screenY+1)%6;
+                count = 0;
+            }
+        }
+        screenX = (screenX + geserX)*tileSize + roomX+tileSize;
+        screenY = (screenY + geserY)*tileSize + roomY+tileSize;
+        solidArea.setLocation(screenX, screenY);
+        interactableArea.setLocation(screenX, screenY-tileSize);
+    }
+
+
+
+    public void pindahRuangan(){
+        if (gp.getInteract()==-5){
+            currentRuangan = currentRuangan.getRoomLeft();
+            setSolidArea(3, 0);
+        } else if (gp.getInteract()==-4){
+            currentRuangan = currentRuangan.getRoomAbove();
+            setSolidArea(0,4);
+        } else if (gp.getInteract()==-3){
+            currentRuangan = currentRuangan.getRoomRight();
+            setSolidArea(-4, 0);
+        } else if (gp.getInteract()==-2){
+            currentRuangan = currentRuangan.getRoomBelow();
+            setSolidArea(0, -5);
+        }
+    }
+
 }

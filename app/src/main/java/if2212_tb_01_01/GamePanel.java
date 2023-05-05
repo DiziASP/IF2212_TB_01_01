@@ -241,6 +241,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
         this.IndexActiveSim=idx;
+        worldClock.getWorld().getSim(idx).setSolidArea();
     }
     public int getIndexActiveSim(){
         return IndexActiveSim;

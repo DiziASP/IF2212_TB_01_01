@@ -12,7 +12,7 @@ import if2212_tb_01_01.ui.UI;
 import if2212_tb_01_01.items.Item;
 import if2212_tb_01_01.items.masakan.Masakan;
 import if2212_tb_01_01.items.furnitur.*;
-
+import static if2212_tb_01_01.utils.Constant.*;
 
 import java.awt.event.KeyListener;
 
@@ -336,9 +336,9 @@ public class KeyHandler implements KeyListener {
                 int js = gp.getSimList().size();
 
                 if (js > 0) {
-                    arrowNum = (arrowNum + js) % js;
+                    arrowNum = (arrowNum) % js;
                     if (arrowNum == gp.getIndexActiveSim()) {
-                        arrowNum++;
+                        arrowNum = (arrowNum+1) % js;
                     }
                 } else if (js==1){
                     arrowNum=0;
@@ -352,16 +352,7 @@ public class KeyHandler implements KeyListener {
                     //utama
                     switch (gp.getOpsiAksi(arrowNum)){ 
                         case "pindah ruangan":
-                            if (gp.getInteract()==-5){
-                                gp.setRoom(gp.getRoom().getRoomLeft());
-                                // gp.getSim().setSolidArea(new Rectangle());
-                            } else if (gp.getInteract()==-4){
-                                gp.setRoom(gp.getRoom().getRoomAbove());
-                            } else if (gp.getInteract()==-3){
-                                gp.setRoom(gp.getRoom().getRoomRight());
-                            } else if (gp.getInteract()==-2){
-                                gp.setRoom(gp.getRoom().getRoomBelow());
-                            }
+                            gp.getSim().pindahRuangan();
                             break;
                         case "edit ruangan":
                             gp.setSubState(2);
@@ -453,7 +444,6 @@ public class KeyHandler implements KeyListener {
                     //pilih barang pasang
 
                     if(gp.getSim().getInventory().isItemSisa(pointer)){
-                        gp.getSim().getInventory().decItem(pointer);
                         in1 = pointer;
                         pointer = 0;
                         errorCaught=false;
@@ -464,9 +454,14 @@ public class KeyHandler implements KeyListener {
                 } else if (gp.getSubState()==4){
                     //lokasi pasang
                     errorCaught = false;
+                    if (pointer/6 == (gp.getSim().getSolidArea().getY()/tileSize - 4) || pointer%6 == (gp.getSim().getSolidArea().getX()/tileSize - 4)){
+                        errorCaught = true;
+                    }
+
                     int y = ((Furnitur) gp.getSim().getInventory().getInventory().get(in1)).getPanjang();
                     int x = ((Furnitur) gp.getSim().getInventory().getInventory().get(in1)).getLebar();
                     int i=0; int j=0;
+                    
                     while (!errorCaught && i<y && j<x){
                         if (pointer/6 + i >6 || pointer%6 +j >6){
                             errorCaught = true;
@@ -480,10 +475,12 @@ public class KeyHandler implements KeyListener {
                             }
                         }
                     }
+                    
                     if (!errorCaught){
                         gp.getRoom().pasangObjek(in1, pointer%6, pointer/6);
                         pointer=0;
                         in1=0;
+                        gp.getSim().setSolidArea();
                         gp.setSubState(0);
                     }
 
@@ -708,16 +705,7 @@ public class KeyHandler implements KeyListener {
                             gp.setRoom(gp.getSim().getRoomAwal());
                             break; 
                         case "pindah ruangan":
-                            if (gp.getInteract()==-5){
-                                gp.setRoom(gp.getRoom().getRoomLeft());
-                                // gp.getSim().setSolidArea(new Rectangle());
-                            } else if (gp.getInteract()==-4){
-                                gp.setRoom(gp.getRoom().getRoomAbove());
-                            } else if (gp.getInteract()==-3){
-                                gp.setRoom(gp.getRoom().getRoomRight());
-                            } else if (gp.getInteract()==-2){
-                                gp.setRoom(gp.getRoom().getRoomBelow());
-                            }
+                            gp.getSim().pindahRuangan();
                             break;
                         case "lihat waktu":
                            gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
