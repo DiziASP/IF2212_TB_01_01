@@ -34,13 +34,15 @@ public class Sim {
     int roomY = (screenHeight - tileSize * 11) / 2;
 
     //aksi
-    public static class Aksi{
+    public static class 
+    Aksi{
         private String nama;
         private Sim sim;
         private int detikTersisa;
         private boolean isButuhObjek;
         private int indexBeli;
         private boolean isAksiPasif;
+        private Room roomUpgrade;
         public Aksi(Sim sim, String nama, int jumlahSeconds){
             this.sim = sim;
             this.nama = nama;
@@ -69,6 +71,14 @@ public class Sim {
             this.indexBeli = indexBeli;
         }
 
+        public Aksi(Sim sim, String nama, int jumlahSeconds, boolean isAksiPasif, Room roomUpgrade){
+            this.sim = sim;
+            this.nama = nama;
+            this.detikTersisa = jumlahSeconds;
+            this.isAksiPasif = isAksiPasif;
+            this.roomUpgrade = roomUpgrade;
+        }
+
         public String getNama(){
             return nama;
         }
@@ -86,6 +96,9 @@ public class Sim {
         }
         public int getIndexBeli(){
             return indexBeli;
+        }
+        public Room getRoomUpgrade(){
+            return roomUpgrade;
         }
         public static List<Aksi> getDaftarAksiAktif(){
             List<Aksi> listAksiAktif = new ArrayList<Aksi>();
@@ -404,12 +417,11 @@ public class Sim {
 
     public void beliItem(int idx){
         if (idx<20){
-            executorService.execute(() -> {
             if (this.getInventory().getHarga(idx) <= getUang()){
                 this.substractUang(this.getInventory().getHarga(idx));
                 Random rand = new Random();
                 int waktubeli = ((rand.nextInt(6) + 1))%5 * 30;
-                this.status.add(new Aksi(this,"beli barang",(int) (waktubeli/60), true, idx));
+                this.status.add(new Aksi(this,"beli barang",(int) (waktubeli), true, idx));
                 int indexStatus = this.status.size() -1;
                 // if (this.isDoAksiAktif){
                 //     try {
@@ -428,7 +440,6 @@ public class Sim {
                 //     this.inventory.incItem(idx);
                 // }
             }
-        });
         } else {
             kh.setErrorCaught(true);
         }
@@ -894,110 +905,99 @@ public class Sim {
     }
 
     public void upgradeRumah(String direction, String namaRuang) {
+        System.out.println("aaaa");
         if(direction.equals("atas")){
             if(getCurRoom().getRoomAbove().equals(null)){
-                executorService.execute(() -> {
-                
                 int waktu = 18*60;
                 getCurRoom().newRoomAbove(namaRuang, false); //ngeset room di atas
-                this.status.add(new Aksi(this, "upgrade rumah",waktu));
-                this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
-                try {
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        this.getAksi(indexStatus).decDetikTersisa();
-                        gp.setActionCounter(waktu-i);
-                    }
-                    gp.setActionCounter(0);
-                    this.uang -= 1500;
-                    getCurRoom().getRoomAbove().setIsBuilded(true);
-                    this.isDoAksiAktif = false;
-                    this.status.remove(indexStatus);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                //Ruangan berhasil dibuat
-
-            });
-            } 
-        
+                this.status.add(new Aksi(this, "upgrade rumah",waktu, true, getCurRoom().getRoomAbove()));
+            //     int indexStatus = this.status.size() - 1;
+            //     try {
+            //         for (int i = 0; i < waktu; i++) {
+            //             Thread.sleep(1000);
+            //             this.getAksi(indexStatus).decDetikTersisa();
+            //             gp.setActionCounter(waktu-i);
+            //         }
+            //         gp.setActionCounter(0);
+            //         this.uang -= 1500;
+            //         getCurRoom().getRoomAbove().setIsBuilded(true);
+            //         this.isDoAksiAktif = false;
+            //         this.status.remove(indexStatus);
+            //     } catch (InterruptedException e) {
+            //         e.printStackTrace();
+            //     }
+            // } 
+            }
         }
         if(direction.equals("bawah")){
             if(getCurRoom().getRoomBelow().equals(null)){
-                executorService.execute(() -> {
                 int waktu = 18*60;
                 getCurRoom().newRoomBelow(namaRuang, false); //ngeset room di bawah
-                this.status.add(new Aksi(this, "upgrade rumah",waktu));
-                this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
-                try {
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        this.getAksi(indexStatus).decDetikTersisa();
-                        gp.setActionCounter(waktu-i);
-                    }
-                    this.status.remove(indexStatus);
-                    this.uang -= 1500;
-                    getCurRoom().getRoomBelow().setIsBuilded(true);
-                    gp.setActionCounter(0);
-                    this.isDoAksiAktif = false;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                //Ruangan berhasil dibuat
-            });
+                this.status.add(new Aksi(this, "upgrade rumah",waktu, true, getCurRoom().getRoomBelow()));
+            //     this.isDoAksiAktif = true;
+            //     int indexStatus = this.status.size() - 1;
+            //     try {
+            //         for (int i = 0; i < waktu; i++) {
+            //             Thread.sleep(1000);
+            //             this.getAksi(indexStatus).decDetikTersisa();
+            //             gp.setActionCounter(waktu-i);
+            //         }
+            //         this.status.remove(indexStatus);
+            //         this.uang -= 1500;
+            //         getCurRoom().getRoomBelow().setIsBuilded(true);
+            //         gp.setActionCounter(0);
+            //         this.isDoAksiAktif = false;
+            //     } catch (InterruptedException e) {
+            //         e.printStackTrace();
+            //     }
+            //     //Ruangan berhasil dibuat
             }
         }
         if(direction.equals("kiri")){
             if(getCurRoom().getRoomLeft()==null){
-                executorService.execute(() -> {
                 int waktu = 18*60;
-                this.status.add(new Aksi(this, "upgrade rumah",waktu));
                 getCurRoom().newRoomLeft(namaRuang, false);
-                this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
-                try {
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        this.getAksi(indexStatus).decDetikTersisa();
-                        gp.setActionCounter(waktu-i);
-                    }
-                    this.status.remove(indexStatus);
-                    this.uang -= 1500;
-                    getCurRoom().getRoomLeft().setIsBuilded(true);
-                    this.isDoAksiAktif = false;
-                    gp.setActionCounter(0);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                });
+                this.status.add(new Aksi(this, "upgrade rumah",waktu, true, getCurRoom().getRoomLeft()));
+            //     this.isDoAksiAktif = true;
+            //     int indexStatus = this.status.size() - 1;
+            //     try {
+            //         for (int i = 0; i < waktu; i++) {
+            //             Thread.sleep(1000);
+            //             this.getAksi(indexStatus).decDetikTersisa();
+            //             gp.setActionCounter(waktu-i);
+            //         }
+            //         this.status.remove(indexStatus);
+            //         this.uang -= 1500;
+            //         getCurRoom().getRoomLeft().setIsBuilded(true);
+            //         this.isDoAksiAktif = false;
+            //         gp.setActionCounter(0);
+            //     } catch (InterruptedException e) {
+            //         e.printStackTrace();
+            //     }
             }
         }
         if(direction.equals("kanan")){
             if(getCurRoom().getRoomRight().equals(null)){
-                executorService.execute(() -> {
                 int waktu = 18*60;
                 getCurRoom().newRoomRight(namaRuang, false); //ngeset room di kanan
-                this.status.add(new Aksi(this, "upgrade rumah",waktu));
-                this.isDoAksiAktif = true;
-                int indexStatus = this.status.size() - 1;
-                try {
-                    for (int i = 0; i < waktu; i++) {
-                        Thread.sleep(1000);
-                        this.getAksi(indexStatus).decDetikTersisa();
-                        gp.setActionCounter(waktu-i);
-                    }
-                    this.status.remove(indexStatus);
-                    this.uang -= 1500;
-                    getCurRoom().getRoomRight().setIsBuilded(true);
-                    this.isDoAksiAktif = false;
-                    gp.setActionCounter(0);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                //Ruangan berhasil dibuat
-                });
+                this.status.add(new Aksi(this, "upgrade rumah",waktu, true, getCurRoom().getRoomRight()));
+                // this.isDoAksiAktif = true;
+                // int indexStatus = this.status.size() - 1;
+                // try {
+                //     for (int i = 0; i < waktu; i++) {
+                //         Thread.sleep(1000);
+                //         this.getAksi(indexStatus).decDetikTersisa();
+                //         gp.setActionCounter(waktu-i);
+                //     }
+                //     this.status.remove(indexStatus);
+                //     this.uang -= 1500;
+                //     getCurRoom().getRoomRight().setIsBuilded(true);
+                //     this.isDoAksiAktif = false;
+                //     gp.setActionCounter(0);
+                // } catch (InterruptedException e) {
+                //     e.printStackTrace();
+                // }
+                // //Ruangan berhasil dibuat
             }
         }
     }
