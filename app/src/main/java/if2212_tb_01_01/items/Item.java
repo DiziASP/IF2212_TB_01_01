@@ -14,11 +14,12 @@ import static if2212_tb_01_01.utils.Constant.*;
 public abstract class Item {
     private String nama;
     private String kategori;
+    private String imagePath;
     private int amount;
     private int iw;
     private int ih;
 
-    private BufferedImage image;
+    // private BufferedImage image;
 
     /**
      * Constructor untuk Item
@@ -31,7 +32,8 @@ public abstract class Item {
     public Item(String nama, String kategori, String imagePath, int imageWidth, int imageHeight){
         this.nama = nama;
         this.kategori = kategori;
-        this.image = setup(imagePath, imageWidth, imageHeight);
+        this.imagePath = imagePath.substring(0, imagePath.length()-4);
+        // this.image = setup(imagePath, imageWidth, imageHeight);
         this.iw = imageWidth;
         this.ih = imageHeight;
         this.amount = 0;
@@ -41,12 +43,11 @@ public abstract class Item {
 
         int width = g2d.getClipBounds().width;
         int height = g2d.getClipBounds().height;
+        BufferedImage image = setup(imagePath, iw, ih);
 
         int roomX = (width - tileSize * 14) / 2;
         int roomY = (height - tileSize * 11) / 2;
-        g2d.drawImage(this.image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), null);
-
-
+        g2d.drawImage(image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), null);
     }
 
     public void update(){}
@@ -75,6 +76,10 @@ public abstract class Item {
         return this.kategori;
     }
 
+    public String getStringPath(){
+        return this.imagePath;
+    }
+
     /**
      * Setter method for kategori
      * @param kategori
@@ -95,10 +100,13 @@ public abstract class Item {
         this.amount--;
     }
 
-    public BufferedImage getImage(){
-        return this.image;
-    }
+    // public BufferedImage getImage(){
+    //     return this.image;
+    // }
 
+    public String getImagePath(){
+        return this.imagePath;
+    }
     public int getIW(){
         return this.iw;
     }
@@ -110,7 +118,7 @@ public abstract class Item {
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
 
         } catch (IOException e) {
             e.printStackTrace();
