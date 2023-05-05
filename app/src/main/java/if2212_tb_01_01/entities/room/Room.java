@@ -194,16 +194,24 @@ public class Room {
          AssetManager am = new AssetManager(gp);
          Image img =  am.setup("/images/furnitur/pintu", Constant.tileSize, Constant.tileSize);
          if (this.roomAbove!=null){
-            g.drawImage(img, 9*Constant.tileSize/2, Constant.tileSize/2, Constant.tileSize, Constant.tileSize, null);
+            if (this.roomAbove.isBuilded){
+                g.drawImage(img, 9*Constant.tileSize/2, Constant.tileSize/2, Constant.tileSize, Constant.tileSize, null);
+            }
          }
          if (this.roomBelow!=null){
-            g.drawImage(img, 9*Constant.tileSize/2, Constant.tileSize*15/2, Constant.tileSize, Constant.tileSize, null);
+            if (this.roomBelow.isBuilded){
+                g.drawImage(img, 9*Constant.tileSize/2, Constant.tileSize*15/2, Constant.tileSize, Constant.tileSize, null);
+            }
          }
          if (this.roomLeft!=null){
-            g.drawImage(img, Constant.tileSize, 4*Constant.tileSize, Constant.tileSize, Constant.tileSize, null);
+            if (this.roomLeft.isBuilded){
+                g.drawImage(img, Constant.tileSize, 4*Constant.tileSize, Constant.tileSize, Constant.tileSize, null);
+            }
          }
          if (this.roomRight!=null){
-            g.drawImage(img, Constant.tileSize*8, 4*Constant.tileSize, Constant.tileSize, Constant.tileSize, null);
+            if (this.roomRight.isBuilded){
+                g.drawImage(img, Constant.tileSize*8, 4*Constant.tileSize, Constant.tileSize, Constant.tileSize, null);
+            }
          }
 
     }
@@ -279,8 +287,8 @@ public class Room {
     }
 
 
-    public void newRoomBelow( String roomName) {
-        Room roomBelow = new Room(gp, false, roomName);
+    public void newRoomBelow(String roomName, boolean isBuilded) {
+        Room roomBelow = new Room(gp, isBuilded, roomName);
         roomBelow.setInventory(this.inventory);
         roomBelow.setRoomName(roomName);
 
@@ -306,8 +314,8 @@ public class Room {
         return roomAbove;
     }
 
-    public void newRoomAbove(String roomName) {
-        Room roomAbove = new Room(gp, false, roomName);
+    public void newRoomAbove(String roomName, boolean isBuilded) {
+        Room roomAbove = new Room(gp, isBuilded, roomName);
         roomAbove.setInventory(this.inventory);
         roomAbove.setRoomName(roomName);
 
@@ -337,8 +345,8 @@ public class Room {
         return roomLeft;
     }
 
-    public void newRoomLeft(String roomName) {
-        Room roomLeft = new Room(gp, false, roomName);
+    public void newRoomLeft(String roomName, boolean isBuilded) {
+        Room roomLeft = new Room(gp, isBuilded, roomName);
         roomLeft.setInventory(this.inventory);
         roomLeft.setRoomName(roomName);
 
@@ -362,8 +370,8 @@ public class Room {
         return roomRight;
     }
 
-    public void newRoomRight(String roomName) {
-        Room roomRight = new Room(gp, false, roomName);
+    public void newRoomRight(String roomName, boolean isBuilded) {
+        Room roomRight = new Room(gp, isBuilded, roomName);
         roomRight.setInventory(this.inventory);
         roomRight.setRoomName(roomName);
 

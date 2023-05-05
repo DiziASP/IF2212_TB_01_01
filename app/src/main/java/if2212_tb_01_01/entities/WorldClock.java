@@ -1,6 +1,7 @@
 package if2212_tb_01_01.entities;
 
 import if2212_tb_01_01.GamePanel;
+import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.entities.world.World;
 
 import java.io.Serializable;
@@ -54,16 +55,18 @@ public class WorldClock implements Runnable, Serializable {
         return world;
     }
     public String melihatWaktu(){
-        String info = ("\nDays: " + daysInWorld + " Minutes: " + minutes + "Seconds: " + seconds + "\n");
+        String info = ("<html> Days: " + daysInWorld + " Minutes: " + minutes + " Seconds: " + seconds + "<br>\n");
         if (world.getSim(gp.getIndexActiveSim()).getStatus().size()==0){
-            info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang tidak melakukan apa-apa.";
+            info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang tidak melakukan apa-apa.<br></html>\n";
         } else {
-            info+= "Wow " + world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang melakukan aksi: \n";
+            info+= "Wow " + world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang melakukan aksi: <br>\n";
             for (int i=0; i<world.getSim(gp.getIndexActiveSim()).getStatus().size(); i++){
-                info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang melakukan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getNama() + "\n";
-                info += "dengan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getDetikTersisa() + " detik tersisa."+ "\n";
+                info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang melakukan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getNama() + "<br>\n";
+                info += "dengan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getDetikTersisa() + " detik tersisa."+ "<br>\n";
             }
+            info += "</html>\n";
         }
+        System.out.println(info);
         return info;
     }
 
@@ -96,6 +99,32 @@ public class WorldClock implements Runnable, Serializable {
                 try {
                     Thread.sleep(1000); // Tunggu 1 detik
                     if (!world.isIdle()) {
+                        for(Sim sim: getWorld().getListSim()){
+                            int i = 0;
+                            while(i < sim.getStatus().size()){
+                                if(sim.getStatus().get(i).getIsAksiPasif()){
+                                    sim.getStatus().get(i).decDetikTersisa();
+                                    System.out.println(sim.getStatus().get(i).getDetikTersisa());
+                                    if(sim.getStatus().get(i).getDetikTersisa() == 0){
+                                        if (sim.getStatus().get(i).getNama().equals("beli barang")){
+                                            sim.getInventory().incItem(sim.getStatus().get(i).getIndexBeli());
+                                        } else if (sim.getStatus().get(i).getNama().equals("upgrade rumah")){
+                                            sim.getStatus().get(i).getRoomUpgrade().setIsBuilded(true);
+                                        }
+                                        sim.getStatus().remove(i);
+                                        
+
+                                        
+                                    }
+                                    else{
+                                        i++;
+                                    }
+                                }
+                                else {
+                                    i++;
+                                } 
+                            }
+                        }
                         seconds++;
     
                         if (seconds >= 60) {

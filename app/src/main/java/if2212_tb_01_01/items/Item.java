@@ -33,8 +33,9 @@ public abstract class Item implements Serializable {
     public Item(String nama, String kategori, String imagePath, int imageWidth, int imageHeight){
         this.nama = nama;
         this.kategori = kategori;
-//        this.imagePath = imagePath.substring(0, imagePath.length()-4);
-        this.imagePath = imagePath;
+
+        this.imagePath = imagePath.substring(0, imagePath.length()-4);
+        this.image = setup(imagePath, imageWidth, imageHeight);
         this.iw = imageWidth;
         this.ih = imageHeight;
         this.amount = 0;
@@ -59,9 +60,8 @@ public abstract class Item implements Serializable {
 
         int roomX = (width - tileSize * 14) / 2;
         int roomY = (height - tileSize * 11) / 2;
-        g2d.drawImage(image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), w, h, null);
 
-
+        g2d.drawImage(image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), null);
     }
 
     public void update(){}
@@ -88,6 +88,10 @@ public abstract class Item implements Serializable {
      */
     public String getKategori() {
         return this.kategori;
+    }
+
+    public String getStringPath(){
+        return this.imagePath;
     }
 
     /**
@@ -117,6 +121,9 @@ public abstract class Item implements Serializable {
 //        return this.image;
 //    }
 
+    public String getImagePath(){
+        return this.imagePath;
+    }
     public int getIW(){
         return this.iw;
     }

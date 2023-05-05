@@ -23,26 +23,26 @@ public class CollisionHandler {
         int worldColumn = (sim.getSolidArea().x - roomX)/tileSize;
         int worldRow = (sim.getSolidArea().y- roomY)/tileSize;
 
-        int tileNum = gp.room.getTileManager().getMapTileNumbers()[gp.room.getRoomIndex()][worldRow][worldColumn];
+        int tileNum = gp.getRoom().getTileManager().getMapTileNumbers()[gp.getRoom().getRoomIndex()][worldRow][worldColumn];
 
         switch (sim.getDirection()) {
             case "up":
-                if (gp.room.getTileManager().getTiles()[tileNum].isCollision()) {
+                if (gp.getRoom().getTileManager().getTiles()[tileNum].isCollision()) {
                     isCollision = true;
                 }
                 break;
             case "down":
-                if (gp.room.getTileManager().getTiles()[tileNum].isCollision()) {
+                if (gp.getRoom().getTileManager().getTiles()[tileNum].isCollision()) {
                     isCollision = true;
                 }
                 break;
             case "left":
-                if (gp.room.getTileManager().getTiles()[tileNum].isCollision()) {
+                if (gp.getRoom().getTileManager().getTiles()[tileNum].isCollision()) {
                     isCollision = true;
                 }
                 break;
             case "right":
-                if (gp.room.getTileManager().getTiles()[tileNum].isCollision()) {
+                if (gp.getRoom().getTileManager().getTiles()[tileNum].isCollision()) {
                     isCollision = true;
                 }
                 break;
@@ -68,8 +68,8 @@ public class CollisionHandler {
         if (worldColumn <= 0 || worldColumn >= 6 || worldRow <= 0 || worldRow >= 6) {
             System.out.println("Out of bound");
             return false;
-        } else if (gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
-            Integer collidingFurnitur = gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1];
+        } else if (gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
+            Integer collidingFurnitur = gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1];
             if (collidingFurnitur != -1) {
                         interactableObj = true;
             }

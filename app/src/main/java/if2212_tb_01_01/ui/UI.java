@@ -68,7 +68,7 @@ public class UI {
             g2.setFont(f40);
             text = "Play Game!";
             x = centerX(g2,text);
-            y += 4*tileSize;
+            y += 4*tileSize-30;
             g2.drawString(text,x,y);
             if (kh.getArrowNum()==0){
                 g2.drawString(">",x-40,y);
@@ -82,11 +82,19 @@ public class UI {
                 g2.drawString(">",x-40,y);
             }
 
-            text = "Exit";
+            text = "Save & Exit";
             x = centerX(g2,text);
             y += tileSize;
             g2.drawString(text,x,y);
             if (kh.getArrowNum()==2){
+                g2.drawString(">",x-40,y);
+            }
+
+            text = "Exit";
+            x = centerX(g2,text);
+            y += tileSize;
+            g2.drawString(text,x,y);
+            if (kh.getArrowNum()==3){
                 g2.drawString(">",x-40,y);
             }
 
@@ -113,7 +121,7 @@ public class UI {
             g2.setFont(f40);
             text = "Pilih SIM";
             x = centerX(g2,text);
-            y += 4*tileSize;
+            y += 4*tileSize-30;
             g2.drawString(text,x,y);
             if (kh.getArrowNum()==0){
                 g2.drawString(">",x-40,y);
@@ -127,11 +135,19 @@ public class UI {
                 g2.drawString(">",x-40,y);
             }
 
-            text = "Kembali";
+            text = "Load SIM";
             x = centerX(g2,text);
             y += tileSize;
             g2.drawString(text,x,y);
             if (kh.getArrowNum()==2){
+                g2.drawString(">",x-40,y);
+            }
+
+            text = "Kembali";
+            x = centerX(g2,text);
+            y += tileSize;
+            g2.drawString(text,x,y);
+            if (kh.getArrowNum()==3){
                 g2.drawString(">",x-40,y);
             }
 
@@ -625,7 +641,7 @@ public class UI {
         String text; int x; int y;
         g2.setColor(c2);
 
-        if (subState<=2 || subState==8){
+        if (subState<=2 || subState==8 || subState==16){
             g2.setColor(c6);
             if(subState==8){
                 text = "Pilih pekerjaan barumu:";
@@ -942,8 +958,34 @@ public class UI {
             g2.drawString(text, x-22, y+tileSize*6 +35);
 
         } else if (subState==11){
-            text = "waktu sekarang:";
-        // } else if (subState==12){
+            g2.setFont(f20);
+            x = 9*tileSize+24;
+            y = tileSize*2-24;
+            g2.setColor(c6);
+            text = "pilih teman\nuntuk dikunjungi!"; //masukinnnnnnnn
+            for (String line : text.split("\n")){
+                g2.drawString(line,x+ x+ centerX(g2, line, tileSize*5),y+=24);
+            }
+            
+
+            Sim s = gp.getSim(kh.getArrowNum());
+
+            String path = String.format("/images/sim/%d/down1", s.getSpriteIndex());
+            Image img =  am.setup(path, tileSize*2, tileSize*2);
+            g2.drawImage(img, x+tileSize*3/2, y+24, tileSize*2, tileSize*2, null);
+
+            y+=tileSize*4-24;
+            text = "rumah " + s.getNamaLengkap(); //masukinnnnnnnn
+            g2.drawString(text,x + centerX(g2, text, tileSize*5),y);
+            text = "posisi: " + s.getPosisiRumah().infoPoint();
+            g2.drawString(text,x + centerX(g2, text, tileSize*5),y+28);
+
+            text = "> ENTER untuk memilih";
+            g2.drawString(text, x-22, y+tileSize*6 +15);
+            text = "> ESC untuk kembali";
+            g2.drawString(text, x-22, y+tileSize*6 +35);
+
+            // } else if (subState==12){
         //     text = ""
         } else if (subState==13){
             g2.setFont(f20);
@@ -1013,8 +1055,12 @@ public class UI {
     private void drawInventory(Graphics2D g2, String type, Inventory items){
         g2.setColor(c1);
             g2.fillRect(tileSize, tileSize +24, tileSize*14, tileSize*9+24);
-        AssetManager am = new AssetManager(gp);
-        Image img;
+
+
+            g2.setColor(c6);
+            g2.setFont(f20);
+            g2.drawString("Uang: " + gp.getSim().getUang(), tileSize+20, tileSize*2-5);
+
 
 
             for (int i = 0; i< 5; i++){
@@ -1257,6 +1303,13 @@ public class UI {
         int len = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
 
         int x = screenWidth/2 - len/2;
+        return x;
+    }
+
+    public int centerX(Graphics2D g2, String text, int width){
+        int len = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
+
+        int x = width/2 - len/2;
         return x;
     }
 }

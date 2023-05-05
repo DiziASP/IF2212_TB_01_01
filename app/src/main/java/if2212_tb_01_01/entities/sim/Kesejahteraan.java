@@ -35,17 +35,29 @@ public class Kesejahteraan implements Serializable {
 
     public void setMood(Integer mood) {
         this.mood = mood;
+        if (this.mood > 100) {
+            this.mood = 100;
+        }
     }
 
     public void setKekenyangan(Integer kekenyangan) {
         this.kekenyangan = kekenyangan;
+        if (this.kekenyangan > 100) {
+            this.kekenyangan = 100;
+        }
     }
 
     public void setKesehatan(Integer kesehatan) {
         this.kesehatan = kesehatan;
+        if (this.kesehatan > 100) {
+            this.kesehatan = 100;
+        }
     }
     public void setKebersihan(Integer kebersihan) {
         this.kebersihan = kebersihan;
+        if (this.kebersihan > 100) {
+            this.kebersihan = 100;
+        }
     }
     public Integer getKebersihan() {
         return kebersihan;
