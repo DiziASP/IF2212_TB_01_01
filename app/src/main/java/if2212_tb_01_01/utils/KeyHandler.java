@@ -427,7 +427,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "kunjungi rumah":
-                            input = gp.getOpsiAksi(arrowNum);
+                            input = "otw";
                             gp.setSubState(11);
                             if (arrowNum == gp.getIndexActiveSim()) {
                                 arrowNum++;
@@ -711,7 +711,7 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(7);
                             break;
                         case "pulang":
-                            input = gp.getOpsiAksi(arrowNum);
+                            input = "otw";
                             gp.getSim().berkunjung(p);
                             gp.setSubState(14);
                             gp.setRoom(gp.getSim().getRoomAwal());
