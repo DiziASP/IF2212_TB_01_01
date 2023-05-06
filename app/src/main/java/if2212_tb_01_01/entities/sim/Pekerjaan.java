@@ -1,10 +1,11 @@
 package if2212_tb_01_01.entities.sim;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Pekerjaan {
+public class Pekerjaan implements Serializable {
     /* Attributes */
     private String namaKerja;
     private Integer gaji;
@@ -13,6 +14,25 @@ public class Pekerjaan {
         Pekerjaan pekerjaan = randomizedPekerjaan();
         this.namaKerja = pekerjaan.namaKerja;
         this.gaji = pekerjaan.gaji;
+    }
+
+    public Pekerjaan(String namaKerja){
+        if (namaKerja.equals("badut sulap")){
+            this.namaKerja = "Badut Sulap";
+            this.gaji = 15;
+        } else if (namaKerja.equals("koki")){
+            this.namaKerja = "Koki";
+            this.gaji = 30;
+        } else if (namaKerja.equals("polisi")){
+            this.namaKerja = "Polisi";
+            this.gaji = 35;
+        } else if (namaKerja.equals("programmer")){
+            this.namaKerja = "Programmer";
+            this.gaji = 45;
+        } else if (namaKerja.equals("dokter")){
+            this.namaKerja = "Dokter";
+            this.gaji = 50;
+        }
     }
 
     /**
@@ -90,4 +110,6 @@ public class Pekerjaan {
         return pekerjaan.get(randomNum);
     
     }
+
+
 }

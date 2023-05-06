@@ -7,18 +7,20 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Objects;
 
 import static if2212_tb_01_01.utils.Constant.*;
 
-public abstract class Item {
+public abstract class Item implements Serializable {
     private String nama;
     private String kategori;
+    private String imagePath;
     private int amount;
     private int iw;
     private int ih;
 
-    private BufferedImage image;
+   private transient BufferedImage image;
 
     /**
      * Constructor untuk Item
@@ -31,22 +33,33 @@ public abstract class Item {
     public Item(String nama, String kategori, String imagePath, int imageWidth, int imageHeight){
         this.nama = nama;
         this.kategori = kategori;
-        this.image = setup(imagePath, imageWidth, imageHeight);
+
         this.iw = imageWidth;
         this.ih = imageHeight;
+        this.imagePath = imagePath;
+        setup();
         this.amount = 0;
     }
 
     public void draw(Graphics2D g2d, int positionX, int positionY){
-
         int width = g2d.getClipBounds().width;
         int height = g2d.getClipBounds().height;
 
         int roomX = (width - tileSize * 14) / 2;
         int roomY = (height - tileSize * 11) / 2;
-        g2d.drawImage(this.image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), null);
+        g2d.drawImage(image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), null);
 
 
+    }
+
+    public void draw(Graphics2D g2d, int positionX, int positionY, int w, int h){
+        int width = g2d.getClipBounds().width;
+        int height = g2d.getClipBounds().height;
+
+        int roomX = (width - tileSize * 14) / 2;
+        int roomY = (height - tileSize * 11) / 2;
+
+        g2d.drawImage(image, (roomX + positionX * tileSize), (roomY + positionY * tileSize), null);
     }
 
     public void update(){}
@@ -75,6 +88,10 @@ public abstract class Item {
         return this.kategori;
     }
 
+    public String getStringPath(){
+        return this.imagePath;
+    }
+
     /**
      * Setter method for kategori
      * @param kategori
@@ -95,10 +112,13 @@ public abstract class Item {
         this.amount--;
     }
 
-    public BufferedImage getImage(){
-        return this.image;
-    }
+   public BufferedImage getImage(){
+       return this.image;
+   }
 
+    public String getImagePath(){
+        return this.imagePath;
+    }
     public int getIW(){
         return this.iw;
     }
@@ -106,8 +126,8 @@ public abstract class Item {
         return this.ih;
     }
 
-    public BufferedImage setup(String imagePath, int width, int height) {
-        BufferedImage image = null;
+    public void setup() {
+        this.image = null;
 
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
@@ -116,7 +136,7 @@ public abstract class Item {
             e.printStackTrace();
         }
 
-        return UtilityTool.scaleImage(image, width, height);
+        image = UtilityTool.scaleImage(image, iw, ih);
     }
 
     public abstract String getInfo();

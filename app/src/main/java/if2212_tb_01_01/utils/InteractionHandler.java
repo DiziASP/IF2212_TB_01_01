@@ -28,38 +28,39 @@ public class InteractionHandler {
         int worldRow = (sim.getInteractableArea().y+24 - roomY) / tileSize;
 
         if (worldColumn <= 0 && worldRow>2 && worldRow<5){
-            System.out.println("Out of bound");
-            if (gp.room.getRoomLeft()!=null){
-                return -5;
-            }
-            return -1;
+            
         } else if (worldRow<=0 && worldColumn>2 && worldColumn<5){
-            System.out.println("Out of bound");
-            if (gp.room.getRoomAbove()!=null){
-                return -4;
-            }
-            return -1;
         } else if (worldColumn >= 6 && worldRow>2 && worldRow<5){
-            System.out.println("Out of bound");
-            if (gp.room.getRoomRight()!=null){
-                return -3;
-            }
-            return -1;
         } else if (worldRow>=6 && worldColumn>2 && worldColumn<5){
-            System.out.println("Out of bound");
-            if (gp.room.getRoomBelow()!=null){
-                return -2;
-            }
-            return -1;
         } else if (worldRow<=0 || worldRow >=6 || worldColumn <=0 || worldColumn >=6){
-            return -1;
-        }   else if (gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
-            Integer collidingFurnitur = gp.room.getMapRuangan()[worldRow - 1][worldColumn - 1];
+        }   else if (gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
+            Integer collidingFurnitur = gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1];
             if (collidingFurnitur != -1) {
                 interactableObj = collidingFurnitur;
             }
             return interactableObj;
         }
-        else return -1;
+        if (worldColumn <= 0 && worldRow>2 && worldRow<5){
+            if (gp.getRoom().getRoomLeft()!=null){
+                return -5;
+            }
+            return -1;
+        } else if (worldRow<=0 && worldColumn>2 && worldColumn<5){
+            if (gp.getRoom().getRoomAbove()!=null){
+                return -4;
+            }
+            return -1;
+        } else if (worldColumn >= 6 && worldRow>2 && worldRow<5){
+            if (gp.getRoom().getRoomRight()!=null){
+                return -3;
+            }
+            return -1;
+        } else if (worldRow>=6 && worldColumn>2 && worldColumn<5){
+            if (gp.getRoom().getRoomBelow()!=null){
+                return -2;
+            }
+            return -1;
+        }
+        return -1;
     }
 }
