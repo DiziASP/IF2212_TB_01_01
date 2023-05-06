@@ -287,6 +287,10 @@ public class GamePanel extends JPanel implements Runnable {
     //     this.tm = tm;
     // }
 
+    public void delOpsiPindah(){
+        opsiAksi.remove("pindah ruangan");
+    }
+
     public void updateOpsiAksi(){
         opsiAksi.clear();
 

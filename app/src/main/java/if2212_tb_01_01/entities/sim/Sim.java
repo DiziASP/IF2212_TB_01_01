@@ -1294,7 +1294,7 @@ public class Sim {
         int count = 0;
         screenX = (screenX-roomX)/tileSize;
         screenY = (screenY-roomY)/tileSize;
-        while (currentRuangan.getMapRuangan()[(screenX+geserX)%6][(screenY+geserY)%6] != -1){
+        while (currentRuangan.getMapRuangan()[(screenX+geserX+6)%6][(screenY+geserY+6)%6] != -1){
             if (count<6){
                 screenX = (screenX+1)%6;
             } else {
@@ -1303,8 +1303,8 @@ public class Sim {
                 count = 0;
             }
         }
-        screenX = (screenX + geserX)*tileSize + roomX+tileSize;
-        screenY = (screenY + geserY)*tileSize + roomY+tileSize;
+        screenX = ((screenX+geserX+6)%6)*tileSize + roomX+tileSize;
+        screenY = ((screenY+geserY+6)%6)*tileSize + roomY+tileSize;
         solidArea.setLocation(screenX, screenY);
         interactableArea.setLocation(screenX, screenY-tileSize);
     }
@@ -1313,22 +1313,44 @@ public class Sim {
 
     public void pindahRuangan(){
         if (gp.getInteract()==-5){
-            if (currentRuangan.getRoomLeft().getIsBuilded()){
-                currentRuangan = currentRuangan.getRoomLeft();
-                setSolidArea(3, 0);
-            } else {
+            if (currentRuangan.getRoomLeft()!=null){
+                if (currentRuangan.getRoomLeft().getIsBuilded()){
+                    currentRuangan = currentRuangan.getRoomLeft();
+                    setSolidArea(3, 0);
+                } else {
                 gp.showNotification("Ruangan belum selesai dibangun!");
-            }
+             }
+          }
             
         } else if (gp.getInteract()==-4){
-            currentRuangan = currentRuangan.getRoomAbove();
-            setSolidArea(0,4);
+            if (currentRuangan.getRoomAbove()!=null){
+                if (currentRuangan.getRoomAbove().getIsBuilded()){
+                    currentRuangan = currentRuangan.getRoomAbove();
+                    setSolidArea(0,4);
+                } else {
+                    gp.showNotification("Ruangan belum selesai dibangun!");
+                }
+            }   
         } else if (gp.getInteract()==-3){
-            currentRuangan = currentRuangan.getRoomRight();
-            setSolidArea(-4, 0);
+            if (currentRuangan.getRoomRight()!=null){
+                if (currentRuangan.getRoomRight().getIsBuilded()){
+                    currentRuangan = currentRuangan.getRoomRight();
+                    setSolidArea(-4, 0);
+                } else {
+                    gp.showNotification("Ruangan belum selesai dibangun!");
+                }
+            }   
+            
         } else if (gp.getInteract()==-2){
-            currentRuangan = currentRuangan.getRoomBelow();
-            setSolidArea(0, -5);
+            if (currentRuangan.getRoomBelow()!=null){
+                if (currentRuangan.getRoomBelow().getIsBuilded()){
+                    currentRuangan = currentRuangan.getRoomBelow();
+                    setSolidArea(0, -5);
+                } else {
+                    gp.showNotification("Ruangan belum selesai dibangun!");
+                }
+            }   
+            
         }
     }
 

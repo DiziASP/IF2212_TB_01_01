@@ -176,9 +176,6 @@ public class KeyHandler implements KeyListener {
                 // this sim
                 gp.setSim(gp.getSimList().get(arrowNum));
                 gp.setIndexActiveSim(arrowNum);
-                if (gp.getRoom() != null){
-                    gp.getRoom().setIsBuilded(false);
-                }
 
                 gp.setRoom(gp.getSim().getRoomAwal());
                 gp.getRoom().setIsBuilded(true);
@@ -360,6 +357,7 @@ public class KeyHandler implements KeyListener {
                     switch (gp.getOpsiAksi(arrowNum)){ 
                         case "pindah ruangan":
                             gp.getSim().pindahRuangan();
+                            gp.updateOpsiAksi();
                             break;
                         case "edit ruangan":
                             gp.setSubState(2);

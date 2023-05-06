@@ -24,7 +24,6 @@ public class Config {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("feihan.dat")));
 
             for(Sim each: gp.getSimList()){
-                if (each.getNamaLengkap()!= "nadira" && each.getNamaLengkap()!= "naura" && each.getNamaLengkap()!= "dizi"){
                     oos.writeObject(each.getSpriteIndex());
                     oos.writeObject(each.getNamaLengkap());
                     oos.writeObject(each.getPekerjaan());
@@ -37,7 +36,7 @@ public class Config {
                     oos.writeObject(each.getRumah());
                     // oos.writeObject(each.getCurHouse());
                 }
-            }
+            
 
         }
         catch(IOException e){
@@ -73,19 +72,22 @@ public class Config {
                 for (Sim s : gp.getSimList()){
                     if (s.getNamaLengkap().equals(each.getNamaLengkap())){
                         errorCaught = true;
-                        gp.showNotification("nama sudah diambil!");
+                        gp.getSimList().set(gp.getSimList().indexOf(s), each);
+                        // gp.showNotification("nama sudah diambil!");
                         break;
                     }
                 }
                 
                 if (!errorCaught){
                     if (gp.getWorldClock().getWorld().isPosisiTerisi(each.getPosisiRumah().getX(), each.getPosisiRumah().getY())){
-                        gp.showNotification("Posisi sudah terisi, pilih posisi lain!");
+                        gp.showNotification("posisi sudah terisi, load gagal");
+                        errorCaught = true;
                     }
                     else {
                         gp.getSimList().add(each);
                     }
                 }
+                
             }
 
         }
