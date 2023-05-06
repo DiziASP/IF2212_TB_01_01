@@ -260,7 +260,6 @@ public class Sim {
             this.inventory.getInventory().get(i).setup();
          }
          this.rumah = house;
-         System.out.println(this.getPosisiRumah().infoPoint());
          this.rumah.setKepemilikan(this);
          this.currentPosition = house;
          this.currentRuangan = house.getRuanganAwal();
@@ -295,7 +294,6 @@ public class Sim {
 
             isCollision = gp.collisionHandler.checkTileCollision(gp.getSim()) || gp.collisionHandler.checkObjectCollision(gp.getSim());
             gp.setInteract(gp.interactionHandler.checkOnInteractionRange(gp.getSim()));
-            System.out.println(gp.interactionHandler.checkOnInteractionRange(gp.getSim())); /* Ini buat interaction, nanti sesuain aja */
             if (!isCollision) {
                 if (kh.isUpPressed()) {
                     screenY -= speed;
@@ -917,7 +915,6 @@ public class Sim {
     }
 
     public void upgradeRumah(String direction, String namaRuang) {
-        System.out.println("aaaa");
         if(direction.equals("atas")){
             if(getCurRoom().getRoomAbove().equals(null)){
                 int waktu = 18*60;

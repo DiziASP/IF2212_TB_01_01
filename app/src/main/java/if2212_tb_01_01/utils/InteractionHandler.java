@@ -41,25 +41,21 @@ public class InteractionHandler {
             return interactableObj;
         }
         if (worldColumn <= 0 && worldRow>2 && worldRow<5){
-            System.out.println("Out of bound");
             if (gp.getRoom().getRoomLeft()!=null){
                 return -5;
             }
             return -1;
         } else if (worldRow<=0 && worldColumn>2 && worldColumn<5){
-            System.out.println("Out of bound");
             if (gp.getRoom().getRoomAbove()!=null){
                 return -4;
             }
             return -1;
         } else if (worldColumn >= 6 && worldRow>2 && worldRow<5){
-            System.out.println("Out of bound");
             if (gp.getRoom().getRoomRight()!=null){
                 return -3;
             }
             return -1;
         } else if (worldRow>=6 && worldColumn>2 && worldColumn<5){
-            System.out.println("Out of bound");
             if (gp.getRoom().getRoomBelow()!=null){
                 return -2;
             }

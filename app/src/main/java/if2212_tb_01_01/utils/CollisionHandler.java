@@ -69,7 +69,6 @@ public class CollisionHandler implements Serializable{
         int worldRow = (sim.getSolidArea().y +24-roomY) / tileSize;
 
         if (worldColumn <= 0 || worldColumn >= 6 || worldRow <= 0 || worldRow >= 6) {
-            System.out.println("Out of bound");
             return false;
         } else if (gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
             Integer collidingFurnitur = gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1];
