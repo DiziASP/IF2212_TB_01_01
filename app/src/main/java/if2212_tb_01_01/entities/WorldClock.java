@@ -61,6 +61,10 @@ public class WorldClock implements Runnable, Serializable {
         } else {
             info+= "Wow " + world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang melakukan aksi: <br>\n";
             for (int i=0; i<world.getSim(gp.getIndexActiveSim()).getStatus().size(); i++){
+                if (world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getNama().equals("beli barang")){
+                    info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + " sedang tidur.<br>\n";
+                    continue;
+                }
                 info += world.getSim(gp.getIndexActiveSim()).getNamaLengkap() + "sedang melakukan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getNama() + "<br>\n";
                 info += "dengan " + world.getSim(gp.getIndexActiveSim()).getStatus().get(i).getDetikTersisa() + " detik tersisa."+ "<br>\n";
             }

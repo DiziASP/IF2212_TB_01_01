@@ -696,10 +696,12 @@ public class KeyHandler implements KeyListener {
                         
                     }                    
                 } else if (gp.getSubState()==14){
-                    System.out.println(gp.getActionCounter());
+                    System.out.println("info " + gp.getActionCounter());
                     //aksi counter
                     if (gp.getActionCounter()==0){
+                        System.out.println("p bang");
                         gp.soundManager.stop();
+                        System.out.println("p bang");
                         if (input == "kunjungi rumah"){
                             gp.setSubState(16);
                         }
