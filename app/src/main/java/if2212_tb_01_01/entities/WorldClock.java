@@ -105,7 +105,7 @@ public class WorldClock implements Runnable, Serializable {
                                 if(sim.getStatus().get(i).getIsAksiPasif()){
                                     sim.getStatus().get(i).decDetikTersisa();
                                     System.out.println(sim.getStatus().get(i).getDetikTersisa());
-                                    if(sim.getStatus().get(i).getDetikTersisa() == 0){
+                                    if(sim.getStatus().get(i).getDetikTersisa() <= 0){
                                         if (sim.getStatus().get(i).getNama().equals("beli barang")){
                                             sim.getInventory().incItem(sim.getStatus().get(i).getIndexBeli());
                                         } else if (sim.getStatus().get(i).getNama().equals("upgrade rumah")){

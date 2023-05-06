@@ -634,7 +634,7 @@ public class KeyHandler implements KeyListener {
                                 errorCaught = true;
                             }
                             break;
-                        case "gambar":
+                        case "melukis":
                             if (in1%20==0){
                                     gp.setSubState(14);
                                     gp.getSim().melukis(in1);
@@ -671,7 +671,7 @@ public class KeyHandler implements KeyListener {
                                 errorCaught = true;
                             }
                             break;
-                        case "kerjakan proyek":
+                        case "proyekan":
                             if (in1%30==0){
                                     gp.setSubState(14);
                                     gp.getSim().proyekan(in1);
