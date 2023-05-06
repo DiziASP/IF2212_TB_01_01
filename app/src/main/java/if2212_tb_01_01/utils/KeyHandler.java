@@ -571,8 +571,12 @@ public class KeyHandler implements KeyListener {
                         Sim s = gp.getWorldClock().getWorld().getSim(arrowNum);
                         gp.setRoom(s.getRoomAwal());
                         gp.getRoom().setIsBuilded(true);
+                        gp.getSim().berkunjung(s);
+                        input = "otw berkunjung";
+                        gp.setSubState(14);
                         gp.showNotification("berkunjung ke rumah "+s.getNamaLengkap());
                         gp.setSubState(16);
+
 
 
 //                } else if (gp.getSubState()==12){
@@ -583,7 +587,7 @@ public class KeyHandler implements KeyListener {
                     System.out.println(input);
                     switch (input){ 
                         case "olahraga":
-                            if (in1%20==0 ){
+                            if (in1%20==0 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().olahraga(in1);
                             } else {
@@ -592,7 +596,7 @@ public class KeyHandler implements KeyListener {
                                 }
                                 break;
                         case "tidur":
-                            if (in1%240==0){
+                            if (in1%240==0 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().tidur(in1);
                             } else {
@@ -601,7 +605,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "buang air":
-                            if (in1%10==0){
+                            if (in1%10==0 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().buangAir(in1);
                             } else {
@@ -612,7 +616,7 @@ public class KeyHandler implements KeyListener {
                         case "kerja":
                             
                             if (gp.getSim().isCanKerjaHabisGanti()){
-                                if (in1%120==0){
+                                if (in1%120==0 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().kerja(in1);
                                 } else {
@@ -626,7 +630,7 @@ public class KeyHandler implements KeyListener {
                                 }
                             break;
                         case "yoga":
-                            if (in1%60==0){
+                            if (in1%60==0 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().yoga(in1);
                             } else {
@@ -635,7 +639,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "berdoa":
-                            if (in1>20){
+                            if (in1>20 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().berdoa(in1);
                             } else {
@@ -645,7 +649,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "melukis":
-                            if (in1%20==0){
+                            if (in1%20==0 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().melukis(in1);
                             } else {
@@ -654,7 +658,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "main musik":
-                            if (in1%20==0){
+                            if (in1%20==0 && in1!=0){
                                     gp.soundManager.play();
                                     gp.setSubState(14);
                                     gp.getSim().bermainMusik(in1);
@@ -664,7 +668,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "mandi":
-                            if (in1>30){
+                            if (in1>30 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().mandi(in1);
                             } else {
@@ -673,7 +677,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "bersihkan rumah":
-                            if (in1%20==0){
+                            if (in1%20==0 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().membersihkanRumah(in1);
                             } else {
@@ -682,7 +686,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "proyekan":
-                            if (in1%30==0){
+                            if (in1%30==0 && in1!=0){
                                     gp.setSubState(14);
                                     gp.getSim().proyekan(in1);
                             } else {
@@ -693,6 +697,7 @@ public class KeyHandler implements KeyListener {
                         
                     }                    
                 } else if (gp.getSubState()==14){
+                    System.out.println(gp.getActionCounter());
                     //aksi counter
                     if (gp.getActionCounter()==0){
                         gp.soundManager.stop();
@@ -708,6 +713,7 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(7);
                             break;
                         case "pulang":
+                            gp.getSim().pulang();
                             gp.setSubState(0);
                             gp.setRoom(gp.getSim().getRoomAwal());
                             break; 

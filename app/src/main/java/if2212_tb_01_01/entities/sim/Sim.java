@@ -156,13 +156,12 @@ public class Sim {
      private int waktuSetelahGantiKerja=-999;
      private int waktu4MenitKerja=0;
      private ExecutorService executorService;
-    
- 
 
-     // private Point posisi; yang butuh posisi kayanya rumah aja???
+     private Sim simDikunjungi;
      private House rumah;
      private House currentPosition;
      private Room currentRuangan;
+
 
 
      //gui
@@ -892,15 +891,20 @@ public class Sim {
         }
     }
 
-    public void berkunjung(Point posisi) {
+    public void berkunjung(Sim simDikunjungi) {
         executorService.execute(() -> {
             try {
+                System.out.println("berkunjung masuk");
+                this.simDikunjungi = simDikunjungi;
                 this.isDoAksiAktif = true;
-                double waktu = Math.sqrt(Math.pow(this.rumah.getPosisi().getX() - posisi.getX(), 2) + Math.pow(this.rumah.getPosisi().getY() - posisi.getY(), 2));
+                double waktu = Math.sqrt(Math.pow(this.rumah.getPosisi().getX() - simDikunjungi.getPosisiRumah().getX(), 2) + Math.pow(this.rumah.getPosisi().getY() - simDikunjungi.getPosisiRumah().getY(), 2));
                 int roundWaktu = (int) Math.round(waktu);
+                System.out.println("waktu = " + waktu + " roundWaktu = " + roundWaktu);
                 Aksi aksi = new Aksi(this, "berkunjung", roundWaktu);
+                gp.setActionCounter(roundWaktu);
                 for (int i = 0; i < roundWaktu; i++) {
                     Thread.sleep(1000);
+                    aksi.decDetikTersisa();
                     gp.setActionCounter(roundWaktu-i);
                     if (i%30==0 && i!=0) {
                         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
@@ -916,10 +920,38 @@ public class Sim {
         //Please provide the solution below
     }
 
+    public void pulang(){
+        executorService.execute(() -> {
+            try {
+                System.out.println("pulang masuk");
+                this.isDoAksiAktif = true;
+                double waktu = Math.sqrt(Math.pow(this.rumah.getPosisi().getX() - simDikunjungi.getPosisiRumah().getX(), 2) + Math.pow(this.rumah.getPosisi().getY() - simDikunjungi.getPosisiRumah().getY(), 2));
+                int roundWaktu = (int) Math.round(waktu);
+                System.out.println("waktu = " + waktu + " roundWaktu = " + roundWaktu);
+                Aksi aksi = new Aksi(this, "pulang", roundWaktu);
+                gp.setActionCounter(roundWaktu);
+                for (int i = 0; i < roundWaktu; i++) {
+                    Thread.sleep(1000);
+                    aksi.decDetikTersisa();
+                    gp.setActionCounter(roundWaktu-i);
+                    if (i%30==0 && i!=0) {
+                        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
+                        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 10);
+                    }
+                }
+                gp.setActionCounter(0);
+                simDikunjungi = null;
+                this.isDoAksiAktif = false;                
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public void upgradeRumah(String direction, String namaRuang) {
         System.out.println("aaaa");
         if(direction.equals("atas")){
-            if(getCurRoom().getRoomAbove().equals(null)){
+            if(getCurRoom().getRoomAbove()==null){
                 int waktu = 18*60;
                 getCurRoom().newRoomAbove(namaRuang, false); //ngeset room di atas
                 this.status.add(new Aksi(this, "upgrade rumah",waktu, true, getCurRoom().getRoomAbove()));
@@ -942,7 +974,7 @@ public class Sim {
             }
         }
         if(direction.equals("bawah")){
-            if(getCurRoom().getRoomBelow().equals(null)){
+            if(getCurRoom().getRoomBelow()==null){
                 int waktu = 18*60;
                 getCurRoom().newRoomBelow(namaRuang, false); //ngeset room di bawah
                 this.status.add(new Aksi(this, "upgrade rumah",waktu, true, getCurRoom().getRoomBelow()));
@@ -989,7 +1021,7 @@ public class Sim {
             }
         }
         if(direction.equals("kanan")){
-            if(getCurRoom().getRoomRight().equals(null)){
+            if(getCurRoom().getRoomRight()==null){
                 int waktu = 18*60;
                 getCurRoom().newRoomRight(namaRuang, false); //ngeset room di kanan
                 this.status.add(new Aksi(this, "upgrade rumah",waktu, true, getCurRoom().getRoomRight()));
