@@ -6,6 +6,7 @@ import if2212_tb_01_01.entities.sim.Kesejahteraan;
 import if2212_tb_01_01.entities.sim.Pekerjaan;
 import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.items.Inventory;
+import if2212_tb_01_01.items.furnitur.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,10 +28,21 @@ public class Config {
                 oos.writeObject(each.getNamaLengkap());
                 oos.writeObject(each.getPekerjaan());
                 oos.writeObject(each.getUang());
+                // for (int i=0; i<25; i++){
+                //     oos.writeObject(each.getInventory().getInventory().get(i).getNama());
+                //     oos.writeObject(each.getInventory().getInventory().get(i).getAmount());
+                //     if (each.getInventory().getInventory().get(i) instanceof Furnitur){
+                //         oos.writeObject(((Furnitur)each.getInventory().getInventory().get(i)).getAmountPut());
+                //     }
+                //     oos.writeObject(each.getInventory().getInventory().get(i).getImagePath());                    
+                // }
                 oos.writeObject(each.getInventory());
                 oos.writeObject(each.getKesejahteraan());
+                // oos.writeObject(each.getRumah().getRuanganAwal().getDaftarObjek());
+                // oos.writeObject(each.getRumah().getRuanganAwal());
+                // oos.writeObject(each.getRumah().getPosisi());
                 oos.writeObject(each.getRumah());
-                oos.writeObject(each.getCurHouse());
+                // oos.writeObject(each.getCurHouse());
             }
 
         }

@@ -8,11 +8,11 @@ import if2212_tb_01_01.entities.world.*;
 import java.io.Serializable;
 
 public class House implements Serializable {
-    GamePanel gp;
+    transient GamePanel gp;
     // private List<Room> daftarRuangan;
     private Room ruanganAwal;
     private static Integer kapasitas = 36;
-    private Sim kepemilikan;
+    private transient Sim kepemilikan;
     private Point posisi;
 
     private static int totalHouse = 0;

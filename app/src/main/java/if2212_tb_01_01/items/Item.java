@@ -20,7 +20,7 @@ public abstract class Item implements Serializable {
     private int iw;
     private int ih;
 
-   private BufferedImage image;
+   private transient BufferedImage image;
 
     /**
      * Constructor untuk Item

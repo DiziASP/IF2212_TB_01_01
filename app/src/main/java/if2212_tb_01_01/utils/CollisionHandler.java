@@ -1,10 +1,13 @@
 package if2212_tb_01_01.utils;
 
 import static if2212_tb_01_01.utils.Constant.*;
+
+import java.io.Serializable;
+
 import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.entities.sim.Sim;
 
-public class CollisionHandler {
+public class CollisionHandler implements Serializable{
     GamePanel gp;
 
     public CollisionHandler(GamePanel gp) {
