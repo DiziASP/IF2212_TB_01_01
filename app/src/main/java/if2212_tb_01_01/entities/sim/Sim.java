@@ -256,7 +256,11 @@ public class Sim {
          this.uang = uang;
          this.namaLengkap = namaLengkap;
          this.inventory = inventory;
+         for (int i=0; i<25; i++){
+            this.inventory.getInventory().get(i).setup();
+         }
          this.rumah = house;
+         this.rumah.setKepemilikan(this);
          this.currentPosition = house;
          this.currentRuangan = house.getRuanganAwal();
 
@@ -1178,6 +1182,7 @@ public class Sim {
         Aksi aksi = new Aksi(this, "bermain musik", fwaktu);
         this.isDoAksiAktif = true;
         System.out.println("Yippi main musik");
+        gp.soundManager.setFile(0);
         try {
             int seconds = 0;
             for (int i = 0; i < fwaktu; i++) {
@@ -1191,6 +1196,7 @@ public class Sim {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        gp.soundManager.stop();
         System.out.println("Jago banget main musiknya kak :<");
         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 30);
         this.kesejahteraan.setKebersihan(this.kesejahteraan.getKebersihan() - 5);

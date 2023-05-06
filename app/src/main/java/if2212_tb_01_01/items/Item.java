@@ -20,7 +20,7 @@ public abstract class Item implements Serializable {
     private int iw;
     private int ih;
 
-   private BufferedImage image;
+   private transient BufferedImage image;
 
     /**
      * Constructor untuk Item
@@ -34,15 +34,14 @@ public abstract class Item implements Serializable {
         this.nama = nama;
         this.kategori = kategori;
 
-        this.imagePath = imagePath;
-        this.image = setup(imagePath, imageWidth, imageHeight);
         this.iw = imageWidth;
         this.ih = imageHeight;
+        this.imagePath = imagePath;
+        setup();
         this.amount = 0;
     }
 
     public void draw(Graphics2D g2d, int positionX, int positionY){
-        BufferedImage image = setup(this.imagePath, this.iw, this.ih);
         int width = g2d.getClipBounds().width;
         int height = g2d.getClipBounds().height;
 
@@ -54,7 +53,6 @@ public abstract class Item implements Serializable {
     }
 
     public void draw(Graphics2D g2d, int positionX, int positionY, int w, int h){
-        BufferedImage image = setup(this.imagePath, w, h);
         int width = g2d.getClipBounds().width;
         int height = g2d.getClipBounds().height;
 
@@ -128,8 +126,8 @@ public abstract class Item implements Serializable {
         return this.ih;
     }
 
-    public BufferedImage setup(String imagePath, int width, int height) {
-        BufferedImage image = null;
+    public void setup() {
+        this.image = null;
 
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
@@ -138,7 +136,7 @@ public abstract class Item implements Serializable {
             e.printStackTrace();
         }
 
-        return UtilityTool.scaleImage(image, width, height);
+        image = UtilityTool.scaleImage(image, iw, ih);
     }
 
     public abstract String getInfo();

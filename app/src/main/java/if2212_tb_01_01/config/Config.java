@@ -6,6 +6,7 @@ import if2212_tb_01_01.entities.sim.Kesejahteraan;
 import if2212_tb_01_01.entities.sim.Pekerjaan;
 import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.items.Inventory;
+import if2212_tb_01_01.items.furnitur.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -23,14 +24,19 @@ public class Config {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("feihan.dat")));
 
             for(Sim each: gp.getSimList()){
-                oos.writeObject(each.getSpriteIndex());
-                oos.writeObject(each.getNamaLengkap());
-                oos.writeObject(each.getPekerjaan());
-                oos.writeObject(each.getUang());
-                oos.writeObject(each.getInventory());
-                oos.writeObject(each.getKesejahteraan());
-                oos.writeObject(each.getRumah());
-                oos.writeObject(each.getCurHouse());
+                if (each.getNamaLengkap()!= "nadira" && each.getNamaLengkap()!= "naura" && each.getNamaLengkap()!= "dizi"){
+                    oos.writeObject(each.getSpriteIndex());
+                    oos.writeObject(each.getNamaLengkap());
+                    oos.writeObject(each.getPekerjaan());
+                    oos.writeObject(each.getUang());
+                    oos.writeObject(each.getInventory());
+                    oos.writeObject(each.getKesejahteraan());
+                    // oos.writeObject(each.getRumah().getRuanganAwal().getDaftarObjek());
+                    // oos.writeObject(each.getRumah().getRuanganAwal());
+                    // oos.writeObject(each.getRumah().getPosisi());
+                    oos.writeObject(each.getRumah());
+                    // oos.writeObject(each.getCurHouse());
+                }
             }
 
         }
