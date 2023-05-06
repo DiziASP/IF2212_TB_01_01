@@ -397,7 +397,8 @@ public class KeyHandler implements KeyListener {
                         case "cari kerja":
                             if (gp.getSim().isCanChangePekerjaan()){
                                 gp.setSubState(8);
-                                gp.getSim().setWaktuSudahKerja(0);
+                                // System.out.println(gp.getOpsiAksi(arrowNum));
+                                // gp.getSim().gantiKerja(input);
                             }
                             else {
                                 gp.showNotification("Tidak bisa ganti pekerjaan! Kamu harus bekerja selama 12 menit.");
@@ -529,7 +530,16 @@ public class KeyHandler implements KeyListener {
                             gp.setSubState(0);
                             break;
                         default:
-//                            gp.getSim().setPekerjaan(gp.getOpsiAksi(arrowNum));
+                            if (gp.getSim().getPekerjaan().getNamaKerja().toLowerCase().equals(gp.getOpsiAksi(arrowNum))){
+                                gp.showNotification("Kamu sudah bekerja di bidang ini!");
+                            } else {
+                                gp.getSim().gantiKerja(gp.getOpsiAksi(arrowNum));
+                                gp.showNotification("<html>Berhasil mengganti pekerjaan!<br>Uangmu terpotong sebanyak 1/2 gaji pekerjaan awal.<br>Kamu harus menunggu 12 menit untuk memulai kerja :D</html>");
+                                gp.getSim().setWaktuSudahKerja(0);
+                                gp.setGs(6);
+                                gp.setSubState(0);
+                                
+                            }
                             break;
                     }
 
@@ -573,7 +583,7 @@ public class KeyHandler implements KeyListener {
                     System.out.println(input);
                     switch (input){ 
                         case "olahraga":
-                            if (in1%20==0){
+                            if (in1%20==0 ){
                                     gp.setSubState(14);
                                     gp.getSim().olahraga(in1);
                             } else {
@@ -600,13 +610,20 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "kerja":
-                            if (in1%30==0){
+                            
+                            if (gp.getSim().isCanKerjaHabisGanti()){
+                                if (in1%120==0){
                                     gp.setSubState(14);
                                     gp.getSim().kerja(in1);
-                            } else {
-                                gp.showNotification("input harus kelipatan 30");
-                                errorCaught = true;
-                            }
+                                } else {
+                                    gp.showNotification("input harus kelipatan 120");
+                                    errorCaught = true;
+                                } 
+                            }else{
+                                gp.showNotification("Kamu baru berganti pekerjaan, tunggu " + (12*60 - gp.getSim().getWaktuSetelahGantiKerja())/60 + " menit lagi");
+                                gp.setGs(6);
+                                gp.setSubState(0);
+                                }
                             break;
                         case "yoga":
                             if (in1%60==0){
@@ -627,7 +644,7 @@ public class KeyHandler implements KeyListener {
                                 errorCaught = true;
                             }
                             break;
-                        case "gambar":
+                        case "melukis":
                             if (in1%20==0){
                                     gp.setSubState(14);
                                     gp.getSim().melukis(in1);
@@ -664,7 +681,7 @@ public class KeyHandler implements KeyListener {
                                 errorCaught = true;
                             }
                             break;
-                        case "kerjakan proyek":
+                        case "proyekan":
                             if (in1%30==0){
                                     gp.setSubState(14);
                                     gp.getSim().proyekan(in1);
