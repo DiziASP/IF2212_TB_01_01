@@ -132,7 +132,11 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(3); 
                         break;
                     case 1:
-                        gp.setGs(4);
+                        if (gp.getWorldClock().getIsCanAddSim()){
+                            gp.setGs(4);
+                        } else {
+                            gp.showNotification("tunggu sehari sebelum menambah sim!");
+                        }
                         break;
                     case 2:
                         gp.saveLoad.load();
@@ -195,6 +199,7 @@ public class KeyHandler implements KeyListener {
                 for (Sim s : gp.getSimList()){
                     if (s.getNamaLengkap().equals(input)){
                         errorCaught = true;
+                        gp.showNotification("nama sudah diambil!");
                         break;
                     }
                 }
@@ -203,6 +208,7 @@ public class KeyHandler implements KeyListener {
                     Sim s = new Sim(gp, this, arrowNum+1, input, null);
                     input = "";
                     gp.getWorldClock().getWorld().addSim(s);
+                    gp.getWorldClock().setIsCanAddSim(false);
                     gp.setIndexActiveSim(gp.getSimList().size()-1);
                     gp.setSim(s);
                     gp.setGs(8);
@@ -408,7 +414,6 @@ public class KeyHandler implements KeyListener {
                         case "tambah sim":
                             if (gp.getWorldClock().getIsCanAddSim()){
                                 gp.setGs(4);
-                                gp.getWorldClock().setIsCanAddSim(false);
                             } else{
                                 gp.showNotification("Hold on! Kamu hari ini sudah menambahkan sim baru.");
                             }
