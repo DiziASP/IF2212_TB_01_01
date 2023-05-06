@@ -1,7 +1,8 @@
 package if2212_tb_01_01.entities.world;
 
+import java.io.Serializable;
 import java.util.*;
-public class Point {
+public class Point implements Serializable{
 
     /* Point Attributes */
     Integer x;

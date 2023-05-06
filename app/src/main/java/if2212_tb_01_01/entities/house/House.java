@@ -5,12 +5,14 @@ import if2212_tb_01_01.entities.room.Room;
 import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.entities.world.*;
 
-public class House {
-    GamePanel gp;
+import java.io.Serializable;
+
+public class House implements Serializable {
+    transient GamePanel gp;
     // private List<Room> daftarRuangan;
     private Room ruanganAwal;
     private static Integer kapasitas = 36;
-    private Sim kepemilikan;
+    private transient Sim kepemilikan;
     private Point posisi;
 
     private static int totalHouse = 0;
@@ -47,6 +49,10 @@ public class House {
     public Sim getKepemilikan() {
         return kepemilikan;
     }
+    public void setKepemilikan(Sim sim) {
+        this.kepemilikan = sim;
+    }
+
 
 
     // Mendapatkan ruangan berdasarkan nama ruangan

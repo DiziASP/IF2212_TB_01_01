@@ -4,8 +4,10 @@ import if2212_tb_01_01.GamePanel;
 import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.entities.world.World;
 
+import java.io.Serializable;
 
-public class WorldClock implements Runnable {
+
+public class WorldClock implements Runnable, Serializable {
     GamePanel gp;
     private volatile boolean running = true;
     private int minutes;
@@ -82,12 +84,14 @@ public class WorldClock implements Runnable {
     }
 
     public void checker10menit(){
-        if (world.getSim(gp.getIndexActiveSim()).getWaktuTidur()>0){
-            world.getSim(gp.getIndexActiveSim()).setWaktuTidur(0);
-        } else{
-            this.world.getSim(gp.getIndexActiveSim()).setWaktuTidur(0);
-            this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().setKesehatan(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getKesehatan()-5);
-            this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().setMood(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getMood()-5);
+        for (Sim sim : world.getListSim()){
+            if (sim.getWaktuTidur()>0){
+                sim.setWaktuTidur(0);
+            } else{
+                sim.setWaktuTidur(0);
+                sim.getKesejahteraan().setKesehatan(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getKesehatan()-5);
+                sim.getKesejahteraan().setMood(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getMood()-5);
+            }
         }
     }
 
@@ -103,13 +107,15 @@ public class WorldClock implements Runnable {
                                 if(sim.getStatus().get(i).getIsAksiPasif()){
                                     sim.getStatus().get(i).decDetikTersisa();
                                     System.out.println(sim.getStatus().get(i).getDetikTersisa());
-                                    if(sim.getStatus().get(i).getDetikTersisa() == 0){
+                                    if(sim.getStatus().get(i).getDetikTersisa() <= 0){
                                         if (sim.getStatus().get(i).getNama().equals("beli barang")){
                                             sim.getInventory().incItem(sim.getStatus().get(i).getIndexBeli());
                                         } else if (sim.getStatus().get(i).getNama().equals("upgrade rumah")){
                                             sim.getStatus().get(i).getRoomUpgrade().setIsBuilded(true);
                                         }
                                         sim.getStatus().remove(i);
+                                        
+
                                         
                                     }
                                     else{
@@ -120,6 +126,12 @@ public class WorldClock implements Runnable {
                                     i++;
                                 } 
                             }
+                            if (sim.getWaktuSetelahGantiKerja()!=-999){
+                                sim.setWaktuSetelahGantiKerja(sim.getWaktuSetelahGantiKerja()+1);
+                            }
+                            if (sim.getWaktuSetelahGantiKerja()>=12*60){
+                                sim.setWaktuSetelahGantiKerja(-999);
+                            } 
                         }
                         seconds++;
     
@@ -132,7 +144,7 @@ public class WorldClock implements Runnable {
                             minutes = 0;
                             checkerHarian();
                         }
-                        if (minutes % 10 == 0 && seconds == 0) {
+                        if (minutes % 10 == 0 && minutes!=0 && seconds == 0) {
                             checker10menit();
                         }
                     }

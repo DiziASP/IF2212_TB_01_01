@@ -1,6 +1,7 @@
 package if2212_tb_01_01.entities.room;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,9 @@ import if2212_tb_01_01.items.furnitur.Jam;
 import if2212_tb_01_01.items.furnitur.KasurQueenSize;
 import if2212_tb_01_01.utils.Constant;
 
-public class Room {
-    GamePanel gp;
-    TileManager tm;
+public class Room implements Serializable {
+    transient GamePanel gp;
+    transient TileManager tm;
     /* Room Attribute */
     private String roomName;
     private int roomIndex = 0;
@@ -32,16 +33,15 @@ public class Room {
     public Room roomBelow = null;
     public Room roomAbove = null;
 
-    Inventory inventory;
+    transient Inventory inventory;
 
-    class ItemTracker{
-        private Item f;
+    public class ItemTracker implements Serializable{
+        private int f;
         private Rectangle interactionArea;
         private int x;
         private int y;
-
         ItemTracker(int idx, Rectangle interactionArea, int x, int y){
-            this.f = inventory.getInventory().get(idx);
+            this.f = idx;
             this.interactionArea=interactionArea;
             this.x=x;
             this.y=y;
@@ -54,11 +54,11 @@ public class Room {
             this.interactionArea = interactionArea;
         }
 
-        public Item getF() {
+        public int getF() {
             return f;
         }
     
-        public void setF(Item f) {
+        public void setF(int f) {
             this.f = f;
         }
     
@@ -184,12 +184,17 @@ public class Room {
 
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g, GamePanel gp, Inventory inventory) {
+        if (tm ==null){
+            this.gp = gp;
+            tm = new TileManager(gp, roomIndex);
+            this.inventory = inventory;
+        }
 
         tm.draw(g);
         // /* Draw Object */
          for(ItemTracker item : daftarObjek) {
-             item.getF().draw(g, item.getX() + 1, item.getY() + 1);
+             inventory.getInventory().get(item.getF()).draw(g, item.getX() + 1, item.getY() + 1);
          }
          AssetManager am = new AssetManager(gp);
          Image img =  am.setup("/images/furnitur/pintu", Constant.tileSize, Constant.tileSize);
@@ -242,9 +247,9 @@ public class Room {
 
         //  if (!item.isVertikal()) {
             for (int i = item.getY(); i < item.getY() +
-            ((Furnitur)item.getF()).getPanjang(); i++) {
+            ((Furnitur)inventory.getInventory().get(item.getF())).getPanjang(); i++) {
                for (int j = item.getX(); j < item.getX()
-               + ((Furnitur)item.getF()).getLebar(); j++) {
+               + ((Furnitur)inventory.getInventory().get(item.getF())).getLebar(); j++) {
                 mapRuangan[i][j] = itemIdx;
                }
             }
