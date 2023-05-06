@@ -260,6 +260,7 @@ public class Sim {
             this.inventory.getInventory().get(i).setup();
          }
          this.rumah = house;
+         System.out.println(this.getPosisiRumah().infoPoint());
          this.rumah.setKepemilikan(this);
          this.currentPosition = house;
          this.currentRuangan = house.getRuanganAwal();
@@ -670,7 +671,14 @@ public class Sim {
     public void mulaiThreadbuangAirChecker(){
         executorService.execute(() -> {
             try{
-                Thread.sleep(1000*4*60);
+                int i=0;
+                while (i<4*60){
+                    Thread.sleep(1000);
+                    if (this.isDoAksiAktif==true){
+                        System.out.println("Thread buang air checker: " + i);
+                        i++;
+                    }
+                }
                 if (this.belumBerak==true){
                     this.kesejahteraan.setKesehatan(this.kesejahteraan.getKesehatan() - 5);
                     this.kesejahteraan.setMood(this.kesejahteraan.getMood() - 5);

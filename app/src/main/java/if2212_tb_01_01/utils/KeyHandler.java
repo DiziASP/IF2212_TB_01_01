@@ -132,7 +132,11 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(3); 
                         break;
                     case 1:
-                        gp.setGs(4);
+                        if (gp.getWorldClock().getIsCanAddSim()){
+                            gp.setGs(4);
+                        } else {
+                            gp.showNotification("tunggu sehari sebelum menambah sim!");
+                        }
                         break;
                     case 2:
                         gp.saveLoad.load();
@@ -195,16 +199,13 @@ public class KeyHandler implements KeyListener {
                 for (Sim s : gp.getSimList()){
                     if (s.getNamaLengkap().equals(input)){
                         errorCaught = true;
+                        gp.showNotification("nama sudah diambil!");
                         break;
                     }
                 }
 
                 if (!errorCaught){
-                    Sim s = new Sim(gp, this, arrowNum+1, input, null);
-                    input = "";
-                    gp.getWorldClock().getWorld().addSim(s);
-                    gp.setIndexActiveSim(gp.getSimList().size()-1);
-                    gp.setSim(s);
+                    
                     gp.setGs(8);
                 }
 
@@ -409,7 +410,6 @@ public class KeyHandler implements KeyListener {
                         case "tambah sim":
                             if (gp.getWorldClock().getIsCanAddSim()){
                                 gp.setGs(4);
-                                gp.getWorldClock().setIsCanAddSim(false);
                             } else{
                                 gp.showNotification("Hold on! Kamu hari ini sudah menambahkan sim baru.");
                             }
@@ -760,10 +760,15 @@ public class KeyHandler implements KeyListener {
                 if (gp.getWorldClock().getWorld().isPosisiTerisi(in1, in2)){
                     gp.showNotification("Posisi sudah terisi, pilih posisi lain!");
                 } else {
-                    gp.setGs(5);
-                    gp.getSim().setPosisiRumah(new Point(in1,in2));
+                    Sim s = new Sim(gp, this, arrowNum+1, input, new Point(in1,in2));
+                    input = "";
+                    gp.getWorldClock().getWorld().addSim(s);
+                    gp.getWorldClock().setIsCanAddSim(false);
+                    gp.setIndexActiveSim(gp.getSimList().size()-1);
+                    gp.setSim(s);
                     gp.setRoom(gp.getSim().getCurRoom());
-                    gp.getRoom().setIsBuilded(true);
+
+                    gp.setGs(5);
     
                     in1 = 0; in2 = 0;
                     input = "";
