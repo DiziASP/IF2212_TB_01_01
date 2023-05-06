@@ -33,6 +33,7 @@ public class KeyHandler implements KeyListener {
     String input = "";
     int in1=0, in2=0;
     int pointer = 0;
+    Point p;
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
@@ -108,7 +109,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(2);
                         break;
                     case 2:
-                        //save
+                        gp.saveLoad.save();
                         System.exit(0);
                         break;
                     case 3:
@@ -132,10 +133,14 @@ public class KeyHandler implements KeyListener {
                         gp.setGs(3); 
                         break;
                     case 1:
-                        gp.setGs(4);
+                        if (gp.getWorldClock().getIsCanAddSim()){
+                            gp.setGs(4);
+                        } else {
+                            gp.showNotification("tunggu sehari sebelum menambah sim!");
+                        }
                         break;
                     case 2:
-                        //load
+                        gp.saveLoad.load();
                         break;
                     case 3:
                         gp.setGs(0);
@@ -171,9 +176,6 @@ public class KeyHandler implements KeyListener {
                 // this sim
                 gp.setSim(gp.getSimList().get(arrowNum));
                 gp.setIndexActiveSim(arrowNum);
-                if (gp.getRoom() != null){
-                    gp.getRoom().setIsBuilded(false);
-                }
 
                 gp.setRoom(gp.getSim().getRoomAwal());
                 gp.getRoom().setIsBuilded(true);
@@ -195,16 +197,13 @@ public class KeyHandler implements KeyListener {
                 for (Sim s : gp.getSimList()){
                     if (s.getNamaLengkap().equals(input)){
                         errorCaught = true;
+                        gp.showNotification("nama sudah diambil!");
                         break;
                     }
                 }
 
                 if (!errorCaught){
-                    Sim s = new Sim(gp, this, arrowNum+1, input, null);
-                    input = "";
-                    gp.getWorldClock().getWorld().addSim(s);
-                    gp.setIndexActiveSim(gp.getSimList().size()-1);
-                    gp.setSim(s);
+                    
                     gp.setGs(8);
                 }
 
@@ -358,6 +357,7 @@ public class KeyHandler implements KeyListener {
                     switch (gp.getOpsiAksi(arrowNum)){ 
                         case "pindah ruangan":
                             gp.getSim().pindahRuangan();
+                            gp.updateOpsiAksi();
                             break;
                         case "edit ruangan":
                             gp.setSubState(2);
@@ -369,7 +369,7 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(7);
                             break;
                         case "melihat waktu":
-                            gp.showNotification("waktu sekarang: "+gp.getWorldClock().melihatWaktu());
+                            gp.showNotification(gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
                         case "makan":
@@ -396,7 +396,8 @@ public class KeyHandler implements KeyListener {
                         case "cari kerja":
                             if (gp.getSim().isCanChangePekerjaan()){
                                 gp.setSubState(8);
-                                gp.getSim().setWaktuSudahKerja(0);
+                                // System.out.println(gp.getOpsiAksi(arrowNum));
+                                // gp.getSim().gantiKerja(input);
                             }
                             else {
                                 gp.showNotification("Tidak bisa ganti pekerjaan! Kamu harus bekerja selama 12 menit.");
@@ -408,7 +409,6 @@ public class KeyHandler implements KeyListener {
                         case "tambah sim":
                             if (gp.getWorldClock().getIsCanAddSim()){
                                 gp.setGs(4);
-                                gp.getWorldClock().setIsCanAddSim(false);
                             } else{
                                 gp.showNotification("Hold on! Kamu hari ini sudah menambahkan sim baru.");
                             }
@@ -427,6 +427,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "kunjungi rumah":
+                            input = gp.getOpsiAksi(arrowNum);
                             gp.setSubState(11);
                             if (arrowNum == gp.getIndexActiveSim()) {
                                 arrowNum++;
@@ -529,7 +530,16 @@ public class KeyHandler implements KeyListener {
                             gp.setSubState(0);
                             break;
                         default:
-//                            gp.getSim().setPekerjaan(gp.getOpsiAksi(arrowNum));
+                            if (gp.getSim().getPekerjaan().getNamaKerja().toLowerCase().equals(gp.getOpsiAksi(arrowNum))){
+                                gp.showNotification("Kamu sudah bekerja di bidang ini!");
+                            } else {
+                                gp.getSim().gantiKerja(gp.getOpsiAksi(arrowNum));
+                                gp.showNotification("<html>Berhasil mengganti pekerjaan!<br>Uangmu terpotong sebanyak 1/2 gaji pekerjaan awal.<br>Kamu harus menunggu 12 menit untuk memulai kerja :D</html>");
+                                gp.getSim().setWaktuSudahKerja(0);
+                                gp.setGs(6);
+                                gp.setSubState(0);
+                                
+                            }
                             break;
                     }
 
@@ -559,11 +569,11 @@ public class KeyHandler implements KeyListener {
 
                         // this sim
                         Sim s = gp.getWorldClock().getWorld().getSim(arrowNum);
+                        p = s.getPosisiRumah();
                         gp.setRoom(s.getRoomAwal());
-                        gp.getRoom().setIsBuilded(true);
                         gp.showNotification("berkunjung ke rumah "+s.getNamaLengkap());
-                        gp.setSubState(16);
-
+                        gp.getSim().berkunjung(p);
+                        gp.setSubState(14);
 
 //                } else if (gp.getSubState()==12){
 //                    //tambah ruang upgrade rumah
@@ -572,16 +582,8 @@ public class KeyHandler implements KeyListener {
                     //durasi aksi
                     System.out.println(input);
                     switch (input){ 
-//                        case "makan":
-//                            gp.setSubState(14);
-//                             gp.getSim().makan(in2, in1);
-//                            break;
-//                        case "masak":
-//                            gp.setSubState(14);
-//                            // gp.getSim().masak(in2, in1);
-//                            break;
                         case "olahraga":
-                            if (in1%20==0){
+                            if (in1%20==0 ){
                                     gp.setSubState(14);
                                     gp.getSim().olahraga(in1);
                             } else {
@@ -608,13 +610,20 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "kerja":
-                            if (in1%30==0){
+                            
+                            if (gp.getSim().isCanKerjaHabisGanti()){
+                                if (in1%120==0){
                                     gp.setSubState(14);
                                     gp.getSim().kerja(in1);
-                            } else {
-                                gp.showNotification("input harus kelipatan 30");
-                                errorCaught = true;
-                            }
+                                } else {
+                                    gp.showNotification("input harus kelipatan 120");
+                                    errorCaught = true;
+                                } 
+                            }else{
+                                gp.showNotification("Kamu baru berganti pekerjaan, tunggu " + (12*60 - gp.getSim().getWaktuSetelahGantiKerja())/60 + " menit lagi");
+                                gp.setGs(6);
+                                gp.setSubState(0);
+                                }
                             break;
                         case "yoga":
                             if (in1%60==0){
@@ -635,7 +644,7 @@ public class KeyHandler implements KeyListener {
                                 errorCaught = true;
                             }
                             break;
-                        case "gambar":
+                        case "melukis":
                             if (in1%20==0){
                                     gp.setSubState(14);
                                     gp.getSim().melukis(in1);
@@ -672,7 +681,7 @@ public class KeyHandler implements KeyListener {
                                 errorCaught = true;
                             }
                             break;
-                        case "kerjakan proyek":
+                        case "proyekan":
                             if (in1%30==0){
                                     gp.setSubState(14);
                                     gp.getSim().proyekan(in1);
@@ -687,7 +696,10 @@ public class KeyHandler implements KeyListener {
                     //aksi counter
                     if (gp.getActionCounter()==0){
                         gp.soundManager.stop();
-                        gp.setSubState(0);
+                        if (input == "kunjungi rumah"){
+                            gp.setSubState(16);
+                        }
+                        else {gp.setSubState(0);}
                     }
                 } else if (gp.getSubState()==15){
                     //aksi berhasil
@@ -699,14 +711,16 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(7);
                             break;
                         case "pulang":
-                            gp.setSubState(0);
+                            input = gp.getOpsiAksi(arrowNum);
+                            gp.getSim().berkunjung(p);
+                            gp.setSubState(14);
                             gp.setRoom(gp.getSim().getRoomAwal());
                             break; 
                         case "pindah ruangan":
                             gp.getSim().pindahRuangan();
                             break;
                         case "melihat waktu":
-                           gp.showNotification(gp.getWorldClock().melihatWaktu());
+                            gp.showNotification(gp.getWorldClock().melihatWaktu());
                             gp.setSubState(0);
                             break;
                         default:
@@ -751,10 +765,15 @@ public class KeyHandler implements KeyListener {
                 if (gp.getWorldClock().getWorld().isPosisiTerisi(in1, in2)){
                     gp.showNotification("Posisi sudah terisi, pilih posisi lain!");
                 } else {
-                    gp.setGs(5);
-                    gp.getSim().setPosisiRumah(new Point(in1,in2));
+                    Sim s = new Sim(gp, this, arrowNum+1, input, new Point(in1,in2));
+                    input = "";
+                    gp.getWorldClock().getWorld().addSim(s);
+                    gp.getWorldClock().setIsCanAddSim(false);
+                    gp.setIndexActiveSim(gp.getSimList().size()-1);
+                    gp.setSim(s);
                     gp.setRoom(gp.getSim().getCurRoom());
-                    gp.getRoom().setIsBuilded(true);
+
+                    gp.setGs(5);
     
                     in1 = 0; in2 = 0;
                     input = "";
