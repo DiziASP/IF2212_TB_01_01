@@ -298,7 +298,7 @@ public class GamePanel extends JPanel implements Runnable {
             addOpsiAksi("olahraga");
             addOpsiAksi("yoga");
             addOpsiAksi("bersihkan rumah");
-            if ()
+            // if ()
             addOpsiAksi("kerja");
             addOpsiAksi("berdoa");
 
