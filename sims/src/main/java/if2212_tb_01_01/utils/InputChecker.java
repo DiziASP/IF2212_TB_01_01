@@ -52,4 +52,29 @@ public class InputChecker {
         }
         return point;
     }
+
+    public static boolean isPointRuangan(String input) {
+        boolean point = true;
+        if (input.isBlank()) {
+            System.out.println("Masukan tidak valid! (Hint: input anda kosong)");
+            point = false;
+        } else {
+            String[] masukan = input.split(",");
+            if (masukan.length != 2) {
+                System.out.println("Masukan tidak valid! (Hint : Masukan harus dengan format x,y)");
+                point = false;
+            } else {
+                if ((toAngka(masukan[0]).equals(-999)) || (toAngka(masukan[1]).equals(-999))) {
+                    point = false;
+                } else {
+                    if ((toAngka(masukan[0]) < 0 || toAngka(masukan[0]) > 5)
+                            || (toAngka(masukan[1]) < 0 || toAngka(masukan[1]) > 5)) {
+                        System.out.println("Masukan tidak valid! (Hint : lokasi yang valid dari 0,0 sampai 5,5)");
+                        point = false;
+                    }
+                }
+            }
+        }
+        return point;
+    }
 }

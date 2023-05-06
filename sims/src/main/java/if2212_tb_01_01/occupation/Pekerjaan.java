@@ -82,11 +82,11 @@ public class Pekerjaan {
 
     private Pekerjaan randomizedPekerjaan(){
         List <Pekerjaan> pekerjaan = new ArrayList<Pekerjaan>();
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Badut Sulap", "Badut sulap memiliki gaji harian 15", 15).build());
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Koki", "Koki memiliki gaji harian 30", 30).build());
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Polisi", "Polisi memiliki gaji harian 35", 35).build());
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Programmer", "Progammer memiliki gaji harian 45", 45).build());
-        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("Dokter", "Dokter memiliki gaji harian 50", 50).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("BADUT SULAP", "Badut sulap memiliki gaji harian 15", 15).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("KOKI", "Koki memiliki gaji harian 30", 30).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("POLISI", "Polisi memiliki gaji harian 35", 35).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("PROGRAMMER", "Progammer memiliki gaji harian 45", 45).build());
+        pekerjaan.add(new Pekerjaan.PekerjaanBuilder("DOKTER", "Dokter memiliki gaji harian 50", 50).build());
         Random rand = new Random();
         int min = 0;
         int max = 4;

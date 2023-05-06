@@ -3,6 +3,8 @@ package if2212_tb_01_01.entities;
 import java.util.List;
 import java.util.Random;
 
+import if2212_tb_01_01.entities.house.Rumah;
+import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.utils.*;
 
 import java.util.ArrayList;
@@ -16,6 +18,8 @@ public class World {
     private List<Rumah> listRumah;
     private Boolean[][] mapRumah;
     private Boolean isGameEnd;
+    private boolean isCanAddSim = true;
+    private Sim simActive;
 
     // Construktor
     public World(int panjang, int lebar) {
@@ -32,33 +36,42 @@ public class World {
         }
     }
 
-    // Method untuk print map world
-    public void printMapWorld() {
-        for (int k = 0; k < lebar; k++) {
-            System.out.print("x-");
-            if (k == lebar - 1) {
-                System.out.println("x");
-            }
-        }
-        for (int i = 0; i < panjang; i++) {
-            for (int j = 0; j < lebar; j++) {
-                if (!mapRumah[i][j]) {
-                    System.out.print("| ");
-                } else {
-                    System.out.print("|X");
-                }
-                if (j == lebar - 1) {
-                    System.out.println("|");
-                }
-            }
-            for (int k = 0; k < lebar; k++) {
-                System.out.print("x-");
-                if (k == lebar - 1) {
-                    System.out.println("x");
-                }
-            }
-        }
+    public void setSimActive(Sim simActive){
+        this.simActive = simActive;
     }
+
+    public Sim getSimActive(){
+        return simActive;
+    }
+
+
+    // Method untuk print map world
+    // public void printMapWorld() {
+    //     for (int k = 0; k < lebar; k++) {
+    //         System.out.print("x-");
+    //         if (k == lebar - 1) {
+    //             System.out.println("x");
+    //         }
+    //     }
+    //     for (int i = 0; i < panjang; i++) {
+    //         for (int j = 0; j < lebar; j++) {
+    //             if (!mapRumah[i][j]) {
+    //                 System.out.print("| ");
+    //             } else {
+    //                 System.out.print("|X");
+    //             }
+    //             if (j == lebar - 1) {
+    //                 System.out.println("|");
+    //             }
+    //         }
+    //         for (int k = 0; k < lebar; k++) {
+    //             System.out.print("x-");
+    //             if (k == lebar - 1) {
+    //                 System.out.println("x");
+    //             }
+    //         }
+    //     }
+    // }
 
     // Getter method for panjang
     public int getPanjang() {
@@ -99,6 +112,21 @@ public class World {
         return listRumah.get(i);
     }
 
+    public boolean getIsCanAddSim(){
+        return isCanAddSim;
+    }
+
+    public void setIsCanAddSim(boolean status){
+        isCanAddSim = status;
+    }
+
+    public void addSim(Sim sim){
+        this.listSim.add(sim);
+        this.setIsCanAddSim(false);
+    }
+
+
+
     // Mendapatkan rumah berdasarkan lokasi
     public Rumah getRumah(String kepemilikan) {
         boolean found = false;
@@ -131,11 +159,11 @@ public class World {
         }
     }
 
-    public void addRumah(Point posisi, String kepemilikan, String namaRuangan, Point posisiRuangan) {
+    public void addRumah(Point posisi, String kepemilikan, String namaRuangan) {
         if (isPosisiTerisi(posisi)) {
             System.out.println("Posisi sudah terisi!");
         } else {
-            this.listRumah.add(new Rumah(posisi, kepemilikan, namaRuangan, posisiRuangan));
+            this.listRumah.add(new Rumah(posisi, kepemilikan, namaRuangan));
         }
     }
 
@@ -148,7 +176,7 @@ public class World {
             int randomX = rand.nextInt(max - min + 1) + min;
             int randomY = rand.nextInt(max - min + 1) + min;
             if (isPosisiTerisi(new Point(randomX, randomY)) == false) {
-                this.listRumah.add(new Rumah(new Point(randomX, randomY), kepemilikan, namaRuangan, posisiRuangan));
+                this.listRumah.add(new Rumah(new Point(randomX, randomY), kepemilikan, namaRuangan));
                 isPosisiFound = true;
             }
         }
@@ -164,14 +192,34 @@ public class World {
     // public void setWorldClock(WorldClock worldClock) {
     // this.worldClock = worldClock;
     // }
+
+    // public Sim getSimDoAksiA(){
+    //     Sim x = null;
+    //     for(Sim sim : listSim){
+    //         if (sim.getIsDoAksiAktif()){
+    //             return sim;
+    //         }
+    //     }
+    //     return x;
+    // }
+
+    public int getIndeksActiveSim(){
+        int indeks = -1;
+        for(int i = 0;i<listSim.size();i++){
+            if (listSim.get(i).getIsDoAksiAktif()){
+                indeks = i;
+            }
+        }
+        return indeks;
+    }
     public boolean isIdle() {
-        boolean isIdle = false;
-        for (Sim sim : listSim) {
-            if (sim.getStatus().size() == 0) {
-                isIdle = true;
-            } else {
-                isIdle = false;
-                break;
+        boolean isIdle = true;
+        if(!listSim.isEmpty()){
+            for (Sim sim : listSim) {
+                if (sim.getIsDoAksiAktif()) {
+                    isIdle = false;
+                    break;
+                }
             }
         }
         return isIdle;
@@ -200,12 +248,16 @@ public class World {
         return this.listSim;
     }
 
-    public void addSim(Sim sim) {
-        this.listSim.add(sim);
-    }
-
     public int getJumlahSim() {
         return this.listSim.size();
+    }
+
+    public void printListSim(){
+        int i = 0;
+        for(Sim sim: listSim){
+            System.out.println((i+1)+". Rumah "+sim.getNamaLengkap()+"(lokasi: "+sim.getRumah().getPosisi().toString()+")");
+            i++;
+        }
     }
 
 }

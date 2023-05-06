@@ -1,15 +1,23 @@
 package if2212_tb_01_01.objects;
 
 public abstract class Objek {
+    private int indeks;
     private String nama;
     private String kategori;
+    private int amount;
 
     // Constructor
-    public Objek(String nama, String kategori){
+    public Objek(String nama, String kategori, int indeks){
         this.nama = nama;
         this.kategori = kategori;
+        this.amount = 0;
+        this.indeks = indeks;
     }
 
+    public int getIndeks(){
+        return indeks;
+    }
+    
     // Getter method for nama
     public String getNama() {
         return this.nama;
@@ -33,4 +41,16 @@ public abstract class Objek {
     public abstract String getInfo();
 
     public abstract void printInfo();
+
+    public int getAmount(){
+        return this.amount;
+    }
+
+    public void incAmount(){
+        this.amount++;
+    }
+
+    public void decAmount(){
+        this.amount--;
+    }
 }

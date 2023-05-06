@@ -33,19 +33,52 @@ public class Kesejahteraan {
     }
 
     public void setMood(Integer mood) {
-        this.mood = mood;
+        if(mood >= 100){
+            this.mood = 100;
+        }
+        else if(mood <=0){
+            this.mood = 0;
+        }
+        else{
+            this.mood = mood;
+        }
+        
     }
 
     public void setKekenyangan(Integer kekenyangan) {
-        this.kekenyangan = kekenyangan;
+        if(kekenyangan >= 100){
+            this.kekenyangan = 100;
+        }
+        else if(kekenyangan <=0){
+            this.kekenyangan = 0;
+        }
+        else{
+            this.kekenyangan = kekenyangan;
+        }
     }
 
     public void setKesehatan(Integer kesehatan) {
-        this.kesehatan = kesehatan;
+        if(kesehatan >= 100){
+            this.kesehatan = 100;
+        }
+        else if(kesehatan <=0){
+            this.kesehatan = 0;
+        }
+        else{
+            this.kesehatan = kesehatan;
+        }
     }
 
     public void setKebersihan(Integer kebersihan) {
-        this.kebersihan = kebersihan;
+        if(kebersihan>= 100){
+            this.kebersihan = 100;
+        }
+        else if(kebersihan <=0){
+            this.kebersihan = 0;
+        }
+        else{
+            this.kebersihan = kebersihan;
+        }
     }
 
     public Integer getKebersihan() {

@@ -7,7 +7,12 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import if2212_tb_01_01.entities.*;
+import if2212_tb_01_01.entities.action.AksiNonWaktu.BerpindahRuangan;
+import if2212_tb_01_01.entities.room.Ruangan;
+import if2212_tb_01_01.entities.sim.Sim;
 import if2212_tb_01_01.objects.*;
+import if2212_tb_01_01.objects.furnitur.*;
+
 import if2212_tb_01_01.utils.*;
 
 public class App {
@@ -17,18 +22,32 @@ public class App {
 
         public void show(boolean started) {
             if (!started) {
-                System.out.println("+---------------+");
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                System.out.println("\n+---------------+");
                 System.out.println("| List Menu :   |");
                 System.out.println("| 1. Start Game |");
-                System.out.println("| 2. Load Game  |");
-                System.out.println("| 3. Help       |");
-                System.out.println("| 4. Exit       |");
+                // System.out.println("| 2. Load Game  |");
+                System.out.println("| 2. Help       |");
+                System.out.println("| 3. Exit       |");
                 System.out.println("+---------------+\n");
 
             } else {
-                System.out.println("+--------------------------+");
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                System.out.println("\n+--------------------------+");
                 System.out.println("| List Menu :              |");
-                System.out.println("| 1. Save Game             |");
+                // System.out.println("| 1. Save Game             |");
+                System.out.println("| 1. Ganti Kerja           |");
                 System.out.println("| 2. View Sim Info         |");
                 System.out.println("| 3. View Current Location |");
                 System.out.println("| 4. View Inventory        |");
@@ -57,13 +76,12 @@ public class App {
         boolean startgame = false;
         boolean loadgame = false;
         boolean endedgame = false;
-        boolean isCanAddSim = true;
-        boolean isBelomBerak = true;
-        boolean isUdhTidur = true;
+        // boolean isCanAddSim = true;
+        
         String command;
         World world = new World(64, 64);
         WorldClock worldClock = new WorldClock(world);
-        Integer indeksActiveSim = 0;
+        // Integer indeksActiveSim = 0;
         System.out.println("Selamat datang di Sim-Plicity!");
         while (!startgame && !loadgame && !endedgame) {
             mainMenu.show(startgame);
@@ -73,15 +91,28 @@ public class App {
             // validasi command
             if (command.equals("START GAME")) {
                 startgame = true;
-            } else if (command.equals("LOAD GAME")) {
-                loadgame = true;
-            }
-
+            } 
             else if (command.equals("EXIT")) {
                 endedgame = true;
                 System.out.println("Sampai jumpa kembali! \n");
             } else if (command.equals("HELP")) {
-                System.out.println("GAME K*NT*L!!");
+                System.out.println("Berikut adalah menu dari game sim-plicity beserta fungsinya");
+                System.out.println("1.START GAME - Untuk memulai permainan");
+                System.out.println("2.EXIT - Untuk keluar dari permainan");
+                System.out.println("1.Ganti Kerja - Untuk mengganti kerja sim sesuai dengan yang diinginkan");
+                System.out.println("2. View Sim Info - Untuk mengetahui pekerjaan, status kesejahteraan, dan total uang sim yang dimainkan saat ini");
+                System.out.println("3. View Current Location - Untuk mengetahui lokasi sim yang dimainkan saat ini");
+                System.out.println("4. View Inventory - Untuk melihat isi dari inventory sim yang dimainkan saat ini");
+                System.out.println("5. Upgrade House - Untuk melakukan penambahan ruangan pada rumah sim");
+                System.out.println("6. Move Room - Untuk berpindah ke ruangan lain");
+                System.out.println("7. Edit Room - Untuk melakukan penambahan atau pengambilan item di ruangan");
+                System.out.println("8. Add Sim - Untuk menambahkan sim ke dalam world (Hanya 1 kali dalam sehari)");
+                System.out.println("9. Change Sim - Untuk mengganti sim yang ingin dimainkan");
+                System.out.println("10. List Object - Untuk melihat list object saat ini di dalam ruangan");
+                System.out.println("11. Go To Object - Untuk mengunjungi object di dalam ruangan dan melakukan aksi yang dapat dilakukan di object tersebut");
+                System.out.println("12. Action  - Untuk melakukan suatu aksi");
+                System.out.println("13. Exit - Untuk keluar dari game");
+
             } else {
                 System.out.println("Command tidak valid!! \n");
             }
@@ -90,7 +121,6 @@ public class App {
         if (startgame) {
             // memuat world
             System.out.println("\nMemuat World....");
-            Point posisiRuangan;
             Point posisiRumah;
 
             // Meminta nama sim
@@ -106,7 +136,7 @@ public class App {
                         System.out.print(
                                 "Masukkan lokasi rumah yang diinginkan dengan format x,y (dari 0,0 sampai 64,64): ");
                         command = scanner.nextLine();
-                        posisiRumahValid = InputChecker.isPointRumah(command);
+                        posisiRumahValid = InputChecker.isPointRuangan(command);
                         if (posisiRumahValid) {
                             posisiRumah = Point.makePoint(command);
                             // Meminta nama Ruangan yang ingin dibangun
@@ -117,13 +147,14 @@ public class App {
                                 if (!namaRuangan.isBlank()) {
                                     ruanganValid = true;
                                     // PosisiRuangan random aja kali yak gw bikinnya dari 0 sampai 6
-                                    posisiRuangan = Point.makeRandomizePoint();
+                                    // posisiRuangan = Point.makeRandomizePoint();
                                     System.out.println("\nMemuat Rumah....");
-                                    world.addRumah(new Point(posisiRumah), name, namaRuangan, new Point(posisiRuangan));
-                                    world.addSim(new Sim(new Kesejahteraan(80, 80, 80, 80), 100, name,
-                                            world.getLastRumah(), world.getLastRumah().getPosisi(),
-                                            world.getLastRumah().getDaftarRuangan().get(0).getPosisi()));
-                                    indeksActiveSim = world.getJumlahSim() - 1;
+                                    world.addRumah(new Point(posisiRumah), name, namaRuangan);
+                                    world.addSim(new Sim(new Kesejahteraan(80, 80, 80, 80), 100, name, world.getRumah(0)));
+                                    world.setIsCanAddSim(true);
+                                    // world.getSim(0).getCurrentRuangan().setRoomAbove(new Ruangan("jablay",true));
+                                    world.setSimActive(world.getListSim().get(0));
+                                    // indeksActiveSim = world.getJumlahSim() - 1;
                                     System.out.println("Selamat datang, " + name + "!");
                                 } else {
                                     System.out.println("Nama ruangan tidak valid");
@@ -149,212 +180,77 @@ public class App {
 
             // Menu nomor 2 (AMAN)
             if (command.equals("VIEW SIM INFO")) {
-                worldClock.getWorld().getSim(indeksActiveSim).viewInfo();
+                worldClock.getWorld().getSimActive().viewInfo();
+                // worldClock.getWorld().getSim(indeksActiveSim).viewInfo();
+            }
+
+            else if(command.equals("GANTI KERJA")){
+                worldClock.getWorld().getSimActive().changeKerja();
             }
 
             // Menu nomor 3 (AMAN)
             else if (command.equals("VIEW CURRENT LOCATION")) {
-                Rumah currentLocationRumah = worldClock.getWorld().getRumah(worldClock.getWorld().getSim(indeksActiveSim).getPosisiRumah());
-                worldClock.getWorld().getSim(indeksActiveSim).viewLokasi(currentLocationRumah);
+                worldClock.getWorld().getSimActive().viewCurrentLocation();
             }
 
             // Menu nomor 4 (AMAN)
             else if (command.equals("VIEW INVENTORY")) {
-                worldClock.getWorld().getSim(indeksActiveSim).viewInventory();
+                worldClock.getWorld().getSimActive().viewInventory();
+                // worldClock.getWorld().getSim(indeksActiveSim).viewInventory();
             }
 
-            // Menu nomor 5 (Harusnya udh aman sih tinggal thread waktunya aja)
-            else if (command.equals("UPGRADE HOUSE")) {
-                final int idx = indeksActiveSim;
-                if (worldClock.getWorld().getSim(indeksActiveSim).getUang() < 1) {
-                    System.out.println("Uang tidak cukup! Upgrade house gagal dilakukan");
-                } else {
-                    Point posisiRumah = worldClock.getWorld().getSim(indeksActiveSim).getPosisiRumah();
-                    Point posisiRuanganAcuan;
-                    Point posisiRuanganBaru;
-                    worldClock.getWorld().getRumah(posisiRumah).printDaftarRuangan();
-                    boolean inputValid = false;
-                    boolean namaRuanganValid = false;
-                    String namaRuangan;
-                    Integer nomorRuangan;
-                    while (!inputValid) {
-                        System.out.println("Pilih nomor ruangan yang ingin dijadikan acuan penambahan: ");
-                        command = scanner.nextLine();
-                        nomorRuangan = InputChecker.toAngka(command);
-                        if (!nomorRuangan.equals(-999)) {
-                            try {
-                                posisiRuanganAcuan = worldClock.getWorld().getRumah(posisiRumah).getRuangan(nomorRuangan - 1).getPosisi();
-                                inputValid = true;
-                                while (!namaRuanganValid) {
-                                    System.out.print("Masukan nama ruangan: ");
-                                    command = scanner.nextLine();
-                                    if (!worldClock.getWorld().getRumah(posisiRumah).adaRuangan(command)) {
-                                        namaRuangan = command;
-                                        namaRuanganValid = true;
-                                        System.out.print("Pilih posisi ruangan baru (atas/bawah/kiri/kanan): ");
-                                        command = scanner.nextLine().toUpperCase();
-                                        if (command.equals("ATAS")) {
-                                            if (!worldClock.getWorld().getRumah(posisiRumah).adaRuangan(new Point(
-                                                    posisiRuanganAcuan.getX(), posisiRuanganAcuan.getY() + 1))) {
-
-                                                posisiRuanganBaru = new Point(posisiRuanganAcuan.getX(),
-                                                        posisiRuanganAcuan.getY() + 1);
-                                                        worldClock.getWorld().getRumah(posisiRumah).upgradeRumah(namaRuangan,
-                                                        posisiRuanganBaru);
-                                                        worldClock.getWorld().getSim(indeksActiveSim)
-                                                        .setUang(worldClock.getWorld().getSim(indeksActiveSim).getUang() - 1500);
-                                                System.out.println(
-                                                        "Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
-                                                        final Point pointruangan = posisiRuanganBaru;
-                                                        executorService.execute(() -> {
-                                                            worldClock.getWorld().getSim(idx).upgradeRumah(pointruangan);
-                                                        });
-                                                        
-                                            } else {
-                                                System.out.println(
-                                                        "Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
-                                            }
-                                        } else if (command.equals("BAWAH")) {
-                                            if (!worldClock.getWorld().getRumah(posisiRumah).adaRuangan(new Point(
-                                                    posisiRuanganAcuan.getX(), posisiRuanganAcuan.getY() - 1))) {
-                                                posisiRuanganBaru = new Point(posisiRuanganAcuan.getX(),
-                                                        posisiRuanganAcuan.getY() - 1);
-                                                        worldClock.getWorld().getRumah(posisiRumah).upgradeRumah(namaRuangan,
-                                                        posisiRuanganBaru);
-                                                        worldClock.getWorld().getSim(indeksActiveSim)
-                                                        .setUang(worldClock.getWorld().getSim(indeksActiveSim).getUang() - 1500);
-                                                System.out.println(
-                                                        "Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
-                                                        final Point pointruangan = posisiRuanganBaru;
-                                                        executorService.execute(() -> {
-                                                            worldClock.getWorld().getSim(idx).upgradeRumah(pointruangan);
-                                                        });
-                                            } else {
-                                                System.out.println(
-                                                        "Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
-                                            }
-                                        } else if (command.equals("KIRI")) {
-                                            if (!worldClock.getWorld().getRumah(posisiRumah).adaRuangan(new Point(
-                                                    posisiRuanganAcuan.getX() - 1, posisiRuanganAcuan.getY()))) {
-                                                posisiRuanganBaru = new Point(posisiRuanganAcuan.getX() - 1,
-                                                        posisiRuanganAcuan.getY());
-                                                        worldClock.getWorld().getRumah(posisiRumah).upgradeRumah(namaRuangan,
-                                                        posisiRuanganBaru);
-                                                        worldClock.getWorld().getSim(indeksActiveSim)
-                                                        .setUang(worldClock.getWorld().getSim(indeksActiveSim).getUang() - 1500);
-                                                System.out.println(
-                                                        "Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
-                                                        final Point pointruangan = posisiRuanganBaru;
-                                                        executorService.execute(() -> {
-                                                            worldClock.getWorld().getSim(idx).upgradeRumah(pointruangan);
-                                                        });
-                                            } else {
-                                                System.out.println(
-                                                        "Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
-                                            }
-                                        } else if (command.equals("KANAN")) {
-                                            if (!worldClock.getWorld().getRumah(posisiRumah).adaRuangan(new Point(
-                                                    posisiRuanganAcuan.getX() + 1, posisiRuanganAcuan.getY()))) {
-                                                posisiRuanganBaru = new Point(posisiRuanganAcuan.getX() + 1,
-                                                        posisiRuanganAcuan.getY());
-                                                        worldClock.getWorld().getRumah(posisiRumah).upgradeRumah(namaRuangan,
-                                                        posisiRuanganBaru);
-                                                        worldClock.getWorld().getSim(indeksActiveSim)
-                                                        .setUang(worldClock.getWorld().getSim(indeksActiveSim).getUang() - 1500);
-                                                System.out.println(
-                                                        "Upgrade House berhasil dilakukan! Silakan menunggu 18 menit");
-                                                        final Point pointruangan = posisiRuanganBaru;
-                                                        executorService.execute(() -> {
-                                                            worldClock.getWorld().getSim(idx).upgradeRumah(pointruangan);
-                                                        });
-                                            } else {
-                                                System.out.println(
-                                                        "Posisi yang dipilih sudah terdapat ruangan! Upgrade House gagal dilakukan");
-                                            }
-                                        } else {
-                                            System.out.println("Input tidak valid! Upgrade house gagal dilakukan");
-                                        }
-                                    } else {
-                                        System.out.println("Nama ruangan sudah ada! silahkan masukkan nama lain");
-                                    }
-                                }
-                            } catch (IndexOutOfBoundsException e) {
-                                System.err.println("Input tidak valid! (Hint: input < 1 atau melebihi total ruangan yang terdapat di dalam rumah)");
-                            }
-                        }
-                        // else sudah lewat exception
-                    }
-                }
-
+            // Menu nomor 5 (AMAN)
+            else if(command.equals("UPGRADE HOUSE")){
+                worldClock.getWorld().getSimActive().upgradeHouse();
             }
 
-            // Menu nomor 6 (harusnya aman)
+            // Menu nomor 6 (AMAN)
             else if (command.equals("MOVE ROOM")) {
-                Point posisiRumah = worldClock.getWorld().getSim(indeksActiveSim).getPosisiRumah();
-                worldClock.getWorld().getRumah(posisiRumah).printDaftarRuangan();
-                boolean inputValid = false;
-                Integer nomorRuangan;
-                Point posisiRuanganTujuan;
-                String namaRuangan;
-                while (!inputValid) {
-                    System.out.print("Pilih nomor ruangan yang ingin dituju: ");
-                    command = scanner.nextLine();
-                    nomorRuangan = InputChecker.toAngka(command);
-                    if (!nomorRuangan.equals(-999)) {
-                        try {
-                            posisiRuanganTujuan = worldClock.getWorld().getRumah(posisiRumah).getRuangan(nomorRuangan - 1).getPosisi();
-                            namaRuangan = worldClock.getWorld().getRumah(posisiRumah).getRuangan(nomorRuangan - 1).getNama();
-                            inputValid = true;
-                            worldClock.getWorld().getSim(indeksActiveSim).berpindahRuangan(posisiRuanganTujuan, namaRuangan);
-                        } catch (IndexOutOfBoundsException e) {
-                            System.err.println(
-                                    "Input tidak valid! (Hint: input < 1 atau melebihi total ruangan yang terdapat di dalam rumah)");
-                        }
-                    }
+                Ruangan currentRuangan = worldClock.getWorld().getSimActive().getCurrentRuangan();
+                if(!currentRuangan.isAdaRoomAbove() && !currentRuangan.isAdaRoomBelow() && !currentRuangan.isAdaRoomLeft() && !currentRuangan.isAdaRoomRight()){
+                    System.out.println("Tidak terdapat ruangan lain yang tersedia, silakan upgrade rumah untuk menambah ruangan");
                 }
-            }
-
-            // Menu nomor 7 (Belum pemindahan barang, sama ngeset waktu pengiriman barang)
-            else if (command.equals("EDIT ROOM")) {
-                System.out.println("Opsi kegiatan yang dapat dilakukan:");
-                System.out.println("1.Beli barang");
-                System.out.println("2.Pemindahan barang");
-                System.out.print("Pilih kegiatan yang ingin dilakukan: ");
-                command = scanner.nextLine().toUpperCase();
-                if (command.equals("BELI BARANG") || command.equals("PEMINDAHAN BARANG")) {
-                    String kegiatan = command;
-                    if (kegiatan.equals("BELI BARANG")) {
-                        System.out.println("Kategori barang yang dapat dibeli:");
-                        System.out.println("1.Makanan");
-                        System.out.println("2.Furnitur");
-                        System.out.print("Pilih kategori barang yang ingin dibeli: ");
+                else{
+                    boolean inputValid = false;
+                    // final int idx = indeksActiveSim;
+                    while (!inputValid) {
+                        System.out.print("Masukkan arah ruangan yang ingin dikunjungi ( Pilihan opsi -> "+ currentRuangan.opsiMoveRoom()+"): ");
                         command = scanner.nextLine().toUpperCase();
-                        if (command.equals("MAKANAN") || command.equals("FURNITUR")) {
-                            String kategori = command;
-                            if (kategori.equals("MAKANAN")) {
-                                Makanan.printListMakanan();
-                                System.out.println("Pilih makanan yang ingin dibeli: ");
-                            } else if (kategori.equals("FURNITUR")) {
-                                Furnitur.printListFurnitur();
-                                System.out.println("Pilih furnitur yang ingin dibeli: ");
-                            }
-                            command = scanner.nextLine().toUpperCase();
-                            worldClock.getWorld().getSim(indeksActiveSim).beliBarang(command, kategori);
-                        } else {
-                            System.out.println("input kategori tidak valid!");
+                        if(command.equals("ATAS") || command.equals("BAWAH") || command.equals("KIRI") || command.equals("KANAN")){
+                            inputValid = true;
+                            worldClock.getWorld().getSimActive().setAksi(new BerpindahRuangan(worldClock.getWorld().getSimActive(), command));
+                            worldClock.getWorld().getSimActive().getAksi().run();
                         }
-                    } else if (kegiatan.equals("PEMINDAHAN BARANG")) {
-
+                        else{
+                            System.out.println("Input tidak valid! ");
+                        }
                     }
-                } else {
-                    System.out.println("Input kegiatan tidak valid!\n");
                 }
             }
 
-            // Menu nomor 8
+            // Menu nomor 7 (AMAN)
+            else if(command.equals("EDIT ROOM")){
+                System.out.println("Opsi kegiatan yang dapat dilakukan: ");
+                System.out.println("1. Masang Barang");
+                System.out.println("2. Mengambil Barang");
+                System.out.print("Masukkan nomor opsi yang ingin dilakukan: ");
+                Integer nomor = InputChecker.toAngka(scanner.nextLine());
+                if(!nomor.equals(-999)){
+                    if(nomor.equals(1)){
+                        worldClock.getWorld().getSimActive().masangBarang();
+                    }
+                    else if (nomor.equals(2)){
+                        worldClock.getWorld().getSimActive().ambilBarang();
+                    }
+                    else{
+                        System.out.println("Input tidak valid! Edit room gagal dilakukan");
+                    }
+                }
+            }
+            
+            // Menu nomor 8 (AMAN)
             else if (command.equals("ADD SIM")) {
-                if (isCanAddSim) {
-                    Point posisiRuangan;
+                if (worldClock.getWorld().getIsCanAddSim()) {
                     Point posisiRumah;
 
                     // Meminta nama sim
@@ -394,17 +290,12 @@ public class App {
                                                 if (!namaRuangan.isBlank()) {
                                                     ruanganValid = true;
                                                     // PosisiRuangan random aja kali yak gw bikinnya dari 0 sampai 6
-                                                    posisiRuangan = Point.makeRandomizePoint();
                                                     System.out.println("\nMemuat Rumah....");
-                                                    System.out.println("Sim " + name + "berhasil dibuat! ");
-                                                    worldClock.getWorld().addRumah(new Point(posisiRumah), name, namaRuangan,
-                                                            new Point(posisiRuangan));
-                                                            worldClock.getWorld().addSim(new Sim(new Kesejahteraan(80, 80, 80, 80), 100, name,
-                                                            worldClock.getWorld().getLastRumah(), worldClock.getWorld().getLastRumah().getPosisi(),
-                                                            worldClock.getWorld().getLastRumah().getDaftarRuangan().get(0)
-                                                                    .getPosisi()));
+                                                    System.out.println("Sim " + name + " berhasil dibuat! ");
+                                                    worldClock.getWorld().addRumah(new Point(posisiRumah), name, namaRuangan);
+                                                    worldClock.getWorld().addSim(new Sim(new Kesejahteraan(80, 80, 80, 80), 100, name, worldClock.getWorld().getLastRumah()));
                                                     System.out.println("Selamat datang, " + name + "!");
-                                                    isCanAddSim = false;
+                                                    worldClock.getWorld().setIsCanAddSim(false);
                                                 } else {
                                                     System.out.println("Nama ruangan tidak valid");
                                                 }
@@ -432,7 +323,7 @@ public class App {
                 }
             }
 
-            // Menu nomor 9
+            // Menu nomor 9 (AMAN)
             else if (command.equals("CHANGE SIM")) {
                 if (worldClock.getWorld().getJumlahSim() > 1) {
                     System.out.println("Daftar Sim yang dapat dipilih:");
@@ -444,9 +335,9 @@ public class App {
                     Integer pilihan = InputChecker.toAngka(command); // exception
                     if (!pilihan.equals(-999)) {
                         if (pilihan >= 1 && pilihan <= worldClock.getWorld().getJumlahSim()) {
-                            indeksActiveSim = pilihan - 1;
+                            worldClock.getWorld().setSimActive(worldClock.getWorld().getListSim().get(pilihan -1));
                             System.out.println("Berhasil mengganti sim active menjadi "
-                            + worldClock.getWorld().getSim(indeksActiveSim).getNamaLengkap());
+                            + worldClock.getWorld().getSimActive().getNamaLengkap());
                         }
                     } else {
                         System.out.println("Input tidak valid!");
@@ -458,13 +349,12 @@ public class App {
 
             // Menu nomor 10 (Harusnya udh aman)
             else if (command.equals("LIST OBJECT")) {
-                Point lokasiRumah = worldClock.getWorld().getSim(indeksActiveSim).getPosisiRumah();
-                Point lokasiRuangan = worldClock.getWorld().getSim(indeksActiveSim).getPosisiRuangan();
-                Ruangan currentRuangan = worldClock.getWorld().getRumah(lokasiRumah).getRuangan(lokasiRuangan);
+                Ruangan currentRuangan = worldClock.getWorld().getSimActive().getCurrentRuangan();
                 System.out.println("Kamu sedang berada di ruangan " + currentRuangan.getNama() + "!");
                 if (currentRuangan.getDaftarObjek().isEmpty()) {
                     System.out.println("Tidak terdapat objek di dalam ruanganmu:");
                 } else {
+                    worldClock.getWorld().getSimActive().getCurrentRuangan().printMapRuangan();
                     System.out.println("Berikut adalah daftar objek yang ada di ruanganmu:");
                     int i = 1;
                     for (Furnitur furnitur : currentRuangan.getDaftarObjek()) {
@@ -476,17 +366,16 @@ public class App {
 
             // Menu nomor 11 (Harusnya udh aman)
             else if (command.equals("GO TO OBJECT")) {
-                final int idx = indeksActiveSim;
-                Point lokasiRumah = worldClock.getWorld().getSim(indeksActiveSim).getPosisiRumah();
-                Point lokasiRuangan = worldClock.getWorld().getSim(indeksActiveSim).getPosisiRuangan();
-                Ruangan currentRuangan = worldClock.getWorld().getRumah(lokasiRumah).getRuangan(lokasiRuangan);
-                System.out.println("Kamu sedang berada di ruangan " + currentRuangan.getNama() + "!");
+                // final int idx = indeksActiveSim;
+                Ruangan currentRuangan = worldClock.getWorld().getSimActive().getCurrentRuangan();
+                System.out.println("Kamu sedang berada di ruangan " + currentRuangan.getNama() + " pada rumah "+worldClock.getWorld().getSimActive().getCurrentRumah().getKepemilikan()+"!");
                 if (currentRuangan.getDaftarObjek().isEmpty()) {
                     System.out.println("Ruangan kosong! tidak ada objek yang dapat dikunjungi");
                 } else {
+                    worldClock.getWorld().getSimActive().getCurrentRuangan().printMapRuangan();
                     System.out.println("Berikut adalah daftar objek yang dapat dikunjungi");
                     int i = 1;
-                    for (Furnitur furnitur : worldClock.getWorld().getRumah(lokasiRumah).getRuangan(lokasiRuangan).getDaftarObjek()) {
+                    for (Furnitur furnitur : currentRuangan.getDaftarObjek()) {
                         System.out.println(i + ". " + furnitur.getNama() + " (lokasi: " + furnitur.getPosisi() + ")");
                         i++;
                     }
@@ -496,78 +385,75 @@ public class App {
                         System.out.println("Pilih nomor objek yang ingin dikunjungi: ");
                         command = scanner.nextLine();
                         try {
-                            objek = worldClock.getWorld().getRumah(lokasiRumah).getRuangan(lokasiRuangan)
-                                    .getObjek(Integer.parseInt(command) - 1);
+                            objek = currentRuangan.getObjek(Integer.parseInt(command) - 1);
                             if (Integer.parseInt(command) >= 1 && Integer.parseInt(command) < i) {
                                 inputValid = true;
-                                worldClock.getWorld().getSim(indeksActiveSim).setPosisiObjek(objek.getPosisi());
-                                System.out.println(worldClock.getWorld().getSim(indeksActiveSim).getNamaLengkap()
+                                worldClock.getWorld().getSimActive().setPosisiObjek(objek.getPosisi());
+                                System.out.println(worldClock.getWorld().getSimActive().getNamaLengkap()
                                         + " berhasil pindah ke objek " + objek.getNama());
-                                if (objek.getKategori().equals("peralatan")) {
+                                if (objek.getKategori().equals("FURNITUR")) {
                                     Furnitur furnitur = (Furnitur) objek;
-                                    if (furnitur.getAksi().equals("TIDUR")) {
+                                    if (furnitur.getNamaAksi().equals("tidur")) {
                                         System.out.println("Apakah Anda ingin tidur? (Y/N)");
                                         String pilihanTidur = scanner.nextLine().toUpperCase();
                                         if (pilihanTidur.equals("Y")) {
-                                            worldClock.getWorld().getSim(idx).tidur();
+                                            worldClock.getWorld().getSimActive().tidur();
                                         }
-                                    } else if (furnitur.getAksi().equals("BUANG AIR")) {
+                                    } else if (furnitur.getNamaAksi().equals("buang air")) {
                                         System.out.println("Apakah Anda ingin buang air? (Y/N)");
                                         String pilihanBuangAir = scanner.nextLine().toUpperCase();
                                         if (pilihanBuangAir.equals("Y")) {
-                                                worldClock.getWorld().getSim(idx).buangAir();
+                                                worldClock.getWorld().getSimActive().buangAir();
                                         }
-                                    } else if (furnitur.getAksi().equals("MASAK")) {
+                                    } else if (furnitur.getNamaAksi().equals("masak")) {
                                         System.out.println("Apakah Anda ingin memasak? (Y/N)");
                                         String pilihanMasak = scanner.nextLine().toUpperCase();
                                         if (pilihanMasak.equals("Y")) {
-                                            System.out.println("Masukkan nama masakan yang ingin dibuat: ");
-                                            // String namaMasakan = scanner.next();
-                                            // this.masak();
+                                            worldClock.getWorld().getSimActive().masak();
                                         }
-                                    } else if (furnitur.getAksi().equals("MAKAN")) {
+                                    } else if (furnitur.getNamaAksi().equals("makan")) {
                                         System.out.println("Apakah Anda ingin makan? (Y/N)");
                                         String pilihanMakan = scanner.nextLine().toUpperCase();
                                         if (pilihanMakan.equals("Y")) {
-                                            worldClock.getWorld().getSim(idx).makan();
+                                            worldClock.getWorld().getSimActive().makan();
                                             
                                         }
-                                    } else if (furnitur.getAksi().equals("MELIHAT WAKTU")) {
+                                    } else if (furnitur.getNamaAksi().equals("melihat waktu")) {
                                         System.out.println("Apakah Anda ingin melihat waktu? (Y/N)");
                                         String pilihanLihatWaktu = scanner.nextLine().toUpperCase();
                                         if (pilihanLihatWaktu.equals("Y")) {
-                                            worldClock.melihatWaktu(indeksActiveSim);
+                                            worldClock.melihatWaktu(worldClock.getWorld().getSimActive());
 
                                         }
-                                    } else if (furnitur.getAksi().equals("MELUKIS")) {
+                                    } else if (furnitur.getNamaAksi().equals("melukis")) {
                                         System.out.println("Apakah Anda ingin melukis? (Y/N)");
                                         String pilihanMelukis = scanner.nextLine().toUpperCase();
                                         if (pilihanMelukis.equals("Y")) {
-                                            worldClock.getWorld().getSim(idx).melukis();
+                                            worldClock.getWorld().getSimActive().melukis();
                                         }
-                                    } else if (furnitur.getAksi().equals("BERMAIN MUSIK")) {
+                                    } else if (furnitur.getNamaAksi().equals("Main musik")) {
                                         System.out.println("Apakah Anda ingin bermain musik? (Y/N)");
                                         String pilihanMusik = scanner.nextLine().toUpperCase();
                                         if (pilihanMusik.equals("Y")) {
-                                            worldClock.getWorld().getSim(indeksActiveSim).bermainMusik();
+                                            worldClock.getWorld().getSimActive().bermainMusik();
                                         }
-                                    } else if (furnitur.getAksi().equals("MANDI")) {
+                                    } else if (furnitur.getNamaAksi().equals("mandi")) {
                                         System.out.println("Apakah Anda ingin mandi? (Y/N)");
                                         String pilihanMandi = scanner.nextLine().toUpperCase();
                                         if (pilihanMandi.equals("Y")) {
-                                            worldClock.getWorld().getSim(indeksActiveSim).mandi();
+                                            worldClock.getWorld().getSimActive().mandi();
                                         }
-                                    } else if (furnitur.getAksi().equals("MEMBERSIHKAN RUMAH")) {
+                                    } else if (furnitur.getNamaAksi().equals("membersihkan rumah")) {
                                         System.out.println("Apakah Anda ingin membersihkan rumah? (Y/N)");
                                         String pilihanBersihRumah = scanner.nextLine().toUpperCase();
                                         if (pilihanBersihRumah.equals("Y")) {
-                                            worldClock.getWorld().getSim(indeksActiveSim).membersihkanRumah();
+                                            worldClock.getWorld().getSimActive().membersihkanRumah();
                                         }
-                                    } else if (furnitur.getAksi().equals("PROYEKAN")) {
+                                    } else if (furnitur.getNamaAksi().equals("proyekan")) {
                                         System.out.println("Apakah Anda ingin mengerjakan proyek? (Y/N)");
                                         String pilihanProyekan = scanner.nextLine().toUpperCase();
                                         if (pilihanProyekan.equals("Y")) {
-                                            worldClock.getWorld().getSim(indeksActiveSim).proyekan();
+                                            worldClock.getWorld().getSimActive().proyekan();
                                         }
                                     } else {
                                         System.out.println("Aksi tidak tersedia");
@@ -586,7 +472,7 @@ public class App {
 
             // Menu nomor 12 (menu dajjal) <-- real
             else if (command.equals("ACTION")) {
-                final int idx = indeksActiveSim;
+                // final int idx = indeksActiveSim;
                 System.out.println("\nBerikut adalah daftar aksi yang bisa kamu lakukan: ");
                 System.out.println("1. Kerja");
                 System.out.println("2. Olahraga");
@@ -596,50 +482,30 @@ public class App {
                 System.out.println("6. Melihat inventory");
                 System.out.println("7. Beli barang");
                 System.out.println("8. Membersihkan rumah\n");
-                System.out.print("Pilih aksi yang ingin dilakukan: ");
+                System.out.print("Masukkan nama aksi yang ingin dilakukan: ");
                 command = scanner.nextLine().toUpperCase();
                 if (command.equals("KERJA")) {
-                    worldClock.getWorld().getSim(idx).kerja();
+                    worldClock.getWorld().getSimActive().kerja();
                 } else if (command.equals("OLAHRAGA")) {
-                    worldClock.getWorld().getSim(idx).olahraga();
+                    worldClock.getWorld().getSimActive().olahraga();
                 } else if (command.equals("BERKUNJUNG")) {
-                    worldClock.getWorld().getSim(idx).berkunjung();
+                    worldClock.getWorld().getSimActive().berkunjung(worldClock.getWorld());
                 } else if (command.equals("YOGA")) {
-                    worldClock.getWorld().getSim(idx).yoga();
+                    worldClock.getWorld().getSimActive().yoga();
                 } else if (command.equals("BERDOA")) {
-                    worldClock.getWorld().getSim(idx).berdoa();
+                    worldClock.getWorld().getSimActive().berdoa();
                 } else if (command.equals("MELIHAT INVENTORY")) {
-                    worldClock.getWorld().getSim(indeksActiveSim).viewInventory();
+                    worldClock.getWorld().getSimActive().viewInventory();
                 } else if (command.equals("BELI BARANG")) {
-                    System.out.println("Kategori barang yang dapat dibeli:");
-                    System.out.println("1.Makanan");
-                    System.out.println("2.Furnitur");
-                    System.out.print("Pilih kategori barang yang ingin dibeli: ");
-                    command = scanner.nextLine().toUpperCase();
-                    if (command.equals("MAKANAN") || command.equals("FURNITUR")) {
-                        String kategori = command;
-                        if (kategori.equals("MAKANAN")) {
-                            Makanan.printListMakanan();
-                            System.out.println("Pilih makanan yang ingin dibeli: ");
-                        } else if (kategori.equals("FURNITUR")) {
-                            Furnitur.printListFurnitur();
-                            System.out.println("Pilih furnitur yang ingin dibeli: ");
-                        }
-                        command = scanner.nextLine().toUpperCase();
-                        final String cmd = command;
-                        executorService.execute(() -> {
-                            worldClock.getWorld().getSim(idx).beliBarang(cmd, kategori);
-                        });
-                    }
+                    worldClock.getWorld().getSimActive().beliBarang();
                 } else if (command.equals("MEMBERSIHKAN RUMAH")) {
-                    worldClock.getWorld().getSim(idx).membersihkanRumah();
+                    worldClock.getWorld().getSimActive().membersihkanRumah();
                 } else {
                     System.out.println("Input tidak valid! Silahkan coba lagi.\n");
                 }
             }
 
-            // Menu nomor 13 (aman, paling kalo mau tambahin fitur save sabi ditanya mau
-            // disave dulu gak)
+            // Menu nomor 13 (aman)
             else if (command.equals("EXIT")) {
                 endedgame = true;
                 System.out.println("Sampai jumpa kembali! \n");
@@ -647,8 +513,22 @@ public class App {
             } else {
                 System.out.println("Input tidak valid! Silahkan coba lagi.");
             }
+
+            //check kematian setelah melakukan aksi
+            worldClock.checkKematian();
+            if(worldClock.getWorld().getListSim().size() <= 0){
+                try {
+                    Thread.sleep(1000);
+                    System.out.println("Sudah tidak terdapat sim lain yang dapat dimainkan!");
+                    System.out.println("Total Skormu: "+worldClock.getDays()+" hari, "+worldClock.getMinute()+" menit, "+worldClock.getSeconds()+" detik.");
+                    System.out.println("GAME OVER");
+                    endedgame = true;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         scanner.close();
-
+        worldClock.stop();
     }
 }
