@@ -478,7 +478,7 @@ public class Sim {
     }
 
     public boolean isCanChangePekerjaan(){
-        return (waktuSudahKerja>=120); 
+        return (waktuSudahKerja>=12*60);  //AAAAAAAAAAAAA
     }
     public void setWaktuSudahKerja(int waktuSudahKerja){
         this.waktuSudahKerja = waktuSudahKerja;
@@ -687,7 +687,7 @@ public class Sim {
     public void makan(int idx){
         final int fwaktu = 30;
 
-        if (idx<20){
+        if (idx>=12 && idx<=24){
             executorService.execute(() -> {
                 Aksi aksi = new Aksi(this, "makan", fwaktu);
                 this.isDoAksiAktif = true;
@@ -1205,7 +1205,8 @@ public class Sim {
     }
 
     public void gantiKerja(String namaKerja){
-        this.pekerjaan = new Pekerjaan(namaKerja);
+        Pekerjaan kerjaBaru = new Pekerjaan(namaKerja);
+        this.pekerjaan = kerjaBaru;
         this.uang -= Math.round(this.pekerjaan.getGaji()*0.5);
         this.waktuSetelahGantiKerja = 0;
     }

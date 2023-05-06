@@ -17,19 +17,19 @@ public class Pekerjaan implements Serializable {
     }
 
     public Pekerjaan(String namaKerja){
-        if (namaKerja.equals("Badut Sulap")){
+        if (namaKerja.equals("badut sulap")){
             this.namaKerja = "Badut Sulap";
             this.gaji = 15;
-        } else if (namaKerja.equals("Koki")){
+        } else if (namaKerja.equals("koki")){
             this.namaKerja = "Koki";
             this.gaji = 30;
-        } else if (namaKerja.equals("Polisi")){
+        } else if (namaKerja.equals("polisi")){
             this.namaKerja = "Polisi";
             this.gaji = 35;
-        } else if (namaKerja.equals("Programmer")){
+        } else if (namaKerja.equals("programmer")){
             this.namaKerja = "Programmer";
             this.gaji = 45;
-        } else if (namaKerja.equals("Dokter")){
+        } else if (namaKerja.equals("dokter")){
             this.namaKerja = "Dokter";
             this.gaji = 50;
         }

@@ -84,12 +84,14 @@ public class WorldClock implements Runnable, Serializable {
     }
 
     public void checker10menit(){
-        if (world.getSim(gp.getIndexActiveSim()).getWaktuTidur()>0){
-            world.getSim(gp.getIndexActiveSim()).setWaktuTidur(0);
-        } else{
-            this.world.getSim(gp.getIndexActiveSim()).setWaktuTidur(0);
-            this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().setKesehatan(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getKesehatan()-5);
-            this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().setMood(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getMood()-5);
+        for (Sim sim : world.getListSim()){
+            if (sim.getWaktuTidur()>0){
+                sim.setWaktuTidur(0);
+            } else{
+                sim.setWaktuTidur(0);
+                sim.getKesejahteraan().setKesehatan(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getKesehatan()-5);
+                sim.getKesejahteraan().setMood(this.world.getSim(gp.getIndexActiveSim()).getKesejahteraan().getMood()-5);
+            }
         }
     }
 
@@ -142,7 +144,7 @@ public class WorldClock implements Runnable, Serializable {
                             minutes = 0;
                             checkerHarian();
                         }
-                        if (minutes % 10 == 0 && seconds == 0) {
+                        if (minutes % 10 == 0 && minutes!=0 && seconds == 0) {
                             checker10menit();
                         }
                     }

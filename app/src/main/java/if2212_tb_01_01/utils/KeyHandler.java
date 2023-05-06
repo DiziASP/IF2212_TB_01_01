@@ -396,10 +396,8 @@ public class KeyHandler implements KeyListener {
                         case "cari kerja":
                             if (gp.getSim().isCanChangePekerjaan()){
                                 gp.setSubState(8);
-                                System.out.println(gp.getOpsiAksi(arrowNum));
+                                // System.out.println(gp.getOpsiAksi(arrowNum));
                                 // gp.getSim().gantiKerja(input);
-                                gp.showNotification("<html>Berhasil mengganti pekerjaan!<br>Uangmu terpotong sebanyak 1/2 gaji pekerjaan awal.<br>Kamu harus menunggu 12 menit untuk memulai kerja :D</html>");
-                                gp.getSim().setWaktuSudahKerja(0);
                             }
                             else {
                                 gp.showNotification("Tidak bisa ganti pekerjaan! Kamu harus bekerja selama 12 menit.");
@@ -532,7 +530,16 @@ public class KeyHandler implements KeyListener {
                             gp.setSubState(0);
                             break;
                         default:
-//                            gp.getSim().setPekerjaan(gp.getOpsiAksi(arrowNum));
+                            if (gp.getSim().getPekerjaan().getNamaKerja().toLowerCase().equals(gp.getOpsiAksi(arrowNum))){
+                                gp.showNotification("Kamu sudah bekerja di bidang ini!");
+                            } else {
+                                gp.getSim().gantiKerja(gp.getOpsiAksi(arrowNum));
+                                gp.showNotification("<html>Berhasil mengganti pekerjaan!<br>Uangmu terpotong sebanyak 1/2 gaji pekerjaan awal.<br>Kamu harus menunggu 12 menit untuk memulai kerja :D</html>");
+                                gp.getSim().setWaktuSudahKerja(0);
+                                gp.setGs(6);
+                                gp.setSubState(0);
+                                
+                            }
                             break;
                     }
 
@@ -603,17 +610,20 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "kerja":
-                            if (in1%120==0){
+                            
+                            if (gp.getSim().isCanKerjaHabisGanti()){
+                                if (in1%120==0){
                                     gp.setSubState(14);
-                                    if (gp.getSim().isCanKerjaHabisGanti()){
-                                        gp.getSim().kerja(in1);
-                                    } else{
-                                        gp.showNotification("Kamu baru berganti pekerjaan, tunggu " + (12*60 - gp.getSim().getWaktuSetelahGantiKerja())/60 + " menit lagi");
-                                    }
-                            } else {
-                                gp.showNotification("input harus kelipatan 120");
-                                errorCaught = true;
-                            }
+                                    gp.getSim().kerja(in1);
+                                } else {
+                                    gp.showNotification("input harus kelipatan 120");
+                                    errorCaught = true;
+                                } 
+                            }else{
+                                gp.showNotification("Kamu baru berganti pekerjaan, tunggu " + (12*60 - gp.getSim().getWaktuSetelahGantiKerja())/60 + " menit lagi");
+                                gp.setGs(6);
+                                gp.setSubState(0);
+                                }
                             break;
                         case "yoga":
                             if (in1%60==0){
