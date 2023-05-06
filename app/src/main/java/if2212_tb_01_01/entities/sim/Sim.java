@@ -258,6 +258,7 @@ public class Sim {
             this.inventory.getInventory().get(i).setup();
          }
          this.rumah = house;
+         System.out.println(this.getPosisiRumah().infoPoint());
          this.rumah.setKepemilikan(this);
          this.currentPosition = house;
          this.currentRuangan = house.getRuanganAwal();

@@ -751,7 +751,6 @@ public class KeyHandler implements KeyListener {
                     gp.setGs(5);
                     gp.getSim().setPosisiRumah(new Point(in1,in2));
                     gp.setRoom(gp.getSim().getCurRoom());
-                    gp.getRoom().setIsBuilded(true);
     
                     in1 = 0; in2 = 0;
                     input = "";

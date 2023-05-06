@@ -69,7 +69,23 @@ public class Config {
             }
 
             for(Sim each: listSim){
-                gp.getSimList().add(each);
+                boolean errorCaught = false;
+                for (Sim s : gp.getSimList()){
+                    if (s.getNamaLengkap().equals(each.getNamaLengkap())){
+                        errorCaught = true;
+                        gp.showNotification("nama sudah diambil!");
+                        break;
+                    }
+                }
+                
+                if (!errorCaught){
+                    if (gp.getWorldClock().getWorld().isPosisiTerisi(each.getPosisiRumah().getX(), each.getPosisiRumah().getY())){
+                        gp.showNotification("Posisi sudah terisi, pilih posisi lain!");
+                    }
+                    else {
+                        gp.getSimList().add(each);
+                    }
+                }
             }
 
         }

@@ -130,6 +130,8 @@ public class World {
 
     public boolean isPosisiTerisi(int x, int y){
         for (int i = 0; i < listSim.size()-1; i++) {
+            System.out.println(x + ", " + y);
+            System.out.println(listSim.get(i).getRumah().getPosisi().getX() + ", " + listSim.get(i).getRumah().getPosisi().getY());
             if (listSim.get(i).getRumah().getPosisi().getX() == x && listSim.get(i).getRumah().getPosisi().getY() == y) {
                 return true;
             }
