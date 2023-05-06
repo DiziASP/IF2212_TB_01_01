@@ -33,6 +33,7 @@ public class KeyHandler implements KeyListener {
     String input = "";
     int in1=0, in2=0;
     int pointer = 0;
+    Point p;
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
@@ -428,6 +429,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "kunjungi rumah":
+                            input = gp.getOpsiAksi(arrowNum);
                             gp.setSubState(11);
                             if (arrowNum == gp.getIndexActiveSim()) {
                                 arrowNum++;
@@ -569,17 +571,11 @@ public class KeyHandler implements KeyListener {
 
                         // this sim
                         Sim s = gp.getWorldClock().getWorld().getSim(arrowNum);
+                        p = s.getPosisiRumah();
                         gp.setRoom(s.getRoomAwal());
-                        gp.getRoom().setIsBuilded(true);
-                        gp.getSim().berkunjung(s);
-                        input = "otw berkunjung";
-                        gp.setActionCounter(9);
-                        gp.setSubState(14);
-                        System.out.println("dari kh" + gp.getSubState());
-                        System.out.println("dari kh" + gp.getActionCounter());
                         gp.showNotification("berkunjung ke rumah "+s.getNamaLengkap());
-                        gp.setSubState(16);
-
+                        gp.getSim().berkunjung(p);
+                        gp.setSubState(14);
 
 
 //                } else if (gp.getSubState()==12){
@@ -704,7 +700,10 @@ public class KeyHandler implements KeyListener {
                     //aksi counter
                     if (gp.getActionCounter()==0){
                         gp.soundManager.stop();
-                        gp.setSubState(0);
+                        if (input == "kunjungi rumah"){
+                            gp.setSubState(16);
+                        }
+                        else {gp.setSubState(0);}
                     }
                 } else if (gp.getSubState()==15){
                     //aksi berhasil
@@ -716,8 +715,9 @@ public class KeyHandler implements KeyListener {
                             gp.setGs(7);
                             break;
                         case "pulang":
-                            gp.getSim().pulang();
-                            gp.setSubState(0);
+                            input = gp.getOpsiAksi(arrowNum);
+                            gp.getSim().berkunjung(p);
+                            gp.setSubState(14);
                             gp.setRoom(gp.getSim().getRoomAwal());
                             break; 
                         case "pindah ruangan":

@@ -33,107 +33,6 @@ public class Sim {
     int roomX = (screenWidth - tileSize * 14) / 2;
     int roomY = (screenHeight - tileSize * 11) / 2;
 
-    //aksi
-    // public static class Aksi{
-    //     private String nama;
-    //     private Sim sim;
-    //     private int detikTersisa;
-    //     private boolean isButuhObjek;
-    //     private int indexBeli;
-    //     private boolean isAksiPasif;
-    //     private Room roomUpgrade;
-    //     public Aksi(Sim sim, String nama, int jumlahSeconds){
-    //         this.sim = sim;
-    //         this.nama = nama;
-    //         this.detikTersisa = jumlahSeconds;
-    //         this.isAksiPasif =false;
-    //     }
-    //     public Aksi(String nama, boolean isButuhObjek){
-    //         this.nama = nama;
-    //         this.isButuhObjek = isButuhObjek;
-    //         this.detikTersisa = -1;
-    //         this.sim = null;
-    //     }
-
-    //     public Aksi(Sim sim, String nama, int jumlahSeconds, boolean isAksiPasif){
-    //         this.sim = sim;
-    //         this.nama = nama;
-    //         this.detikTersisa = jumlahSeconds;
-    //         this.isAksiPasif = isAksiPasif;
-    //     }
-
-    //     public Aksi(Sim sim, String nama, int jumlahSeconds, boolean isAksiPasif, int indexBeli){
-    //         this.sim = sim;
-    //         this.nama = nama;
-    //         this.detikTersisa = jumlahSeconds;
-    //         this.isAksiPasif = isAksiPasif;
-    //         this.indexBeli = indexBeli;
-    //     }
-
-    //     public Aksi(Sim sim, String nama, int jumlahSeconds, boolean isAksiPasif, Room roomUpgrade){
-    //         this.sim = sim;
-    //         this.nama = nama;
-    //         this.detikTersisa = jumlahSeconds;
-    //         this.isAksiPasif = isAksiPasif;
-    //         this.roomUpgrade = roomUpgrade;
-    //     }
-
-    //     public String getNama(){
-    //         return nama;
-    //     }
-    //     public boolean getIsAksiPasif(){
-    //         return isAksiPasif;
-    //     }
-    //     public int getDetikTersisa(){
-    //         return detikTersisa;
-    //     }
-    //     public void setDetikTersisa(int detikTersisa){
-    //         this.detikTersisa = detikTersisa;
-    //     }
-    //     public void decDetikTersisa(){
-    //         this.detikTersisa -= 1;
-    //     }
-    //     public int getIndexBeli(){
-    //         return indexBeli;
-    //     }
-    //     public Room getRoomUpgrade(){
-    //         return roomUpgrade;
-    //     }
-    //     public static List<Aksi> getDaftarAksiAktif(){
-    //         List<Aksi> listAksiAktif = new ArrayList<Aksi>();
-    //         listAksiAktif.add(new Aksi("KERJA", false));
-    //         listAksiAktif.add(new Aksi("OLAHRAGA", false));
-    //         listAksiAktif.add(new Aksi ("TIDUR", true));
-    //         listAksiAktif.add(new Aksi ("MAKAN", true));
-    //         listAksiAktif.add(new Aksi ("MEMASAK", true));
-    //         listAksiAktif.add(new Aksi ("BERKUNJUNG", false));
-    //         listAksiAktif.add(new Aksi ("BUANG AIR", true));
-    //         listAksiAktif.add(new Aksi ("YOGA", false));
-    //         listAksiAktif.add(new Aksi ("IBADAH", false));
-    //         listAksiAktif.add(new Aksi ("MENGGAMBAR", true));
-    //         listAksiAktif.add(new Aksi ("MAIN MUSIK", true));
-    //         listAksiAktif.add(new Aksi ("MANDI",true));
-    //         listAksiAktif.add(new Aksi ("MEMBERSIHKAN RUMAH", true));
-    //         listAksiAktif.add(new Aksi ("PROYEKAN", true));
-    //         return listAksiAktif;
-    //     }
-    //     public static List<Aksi> getDaftarAksiNonWaktu(){
-    //         List<Aksi> listAksiNonWaktu = new ArrayList<Aksi>();
-    //         listAksiNonWaktu.add(new Aksi("BERPINDAH RUANGAN", false));
-    //         listAksiNonWaktu.add(new Aksi("MELIHAT INVENTORY", false));
-    //         listAksiNonWaktu.add(new Aksi ("MEMASANG BARANG", false));
-    //         listAksiNonWaktu.add(new Aksi ("MELIHAT WAKTU", true));
-    //         return listAksiNonWaktu;
-    //     }
-    //     public static List<Aksi> getDaftarAksiAFK(){
-    //         List<Aksi> listAksiAFK = new ArrayList<Aksi>();
-    //         listAksiAFK.add(new Aksi("UPGRADE RUMAH", false));
-    //         listAksiAFK.add(new Aksi("BELI BARANG", false));
-    //         return listAksiAFK;
-    //     }
-    // }
-
-
      /* Sim Attributes */
      private String namaLengkap;
      private Pekerjaan pekerjaan;
@@ -155,6 +54,7 @@ public class Sim {
      private boolean belumBerak=false;
      private int waktuSetelahGantiKerja=-999;
      private int waktu4MenitKerja=0;
+     private int waktuOTW=0;
      private ExecutorService executorService;
 
      private Sim simDikunjungi;
@@ -177,27 +77,6 @@ public class Sim {
     private Rectangle interactableArea;
     private boolean isCollision;
 
-
-     //konstruktor
-
-     // konstruktor kl pekerjaan di random 
-    //  public Sim(Kesejahteraan kesejahteraan, int uang, String namaLengkap, House rumah, Point posisiRumah, Point posisiRuangan) {
-    //      this.pekerjaan = new Pekerjaan();
-    //      this.kesejahteraan = kesejahteraan;
-    //      this.uang = uang;
-    //      this.namaLengkap = namaLengkap;
-    //      this.status = new ArrayList<Aksi>();
-    //      this.inventory = new Inventory();
-    //      inventory.incItem(0);
-    //      inventory.incItem(3);
-    //      inventory.incItem(4);
-    //      inventory.incItem(6);
-    //      inventory.incItem(10);
-    //      this.rumah = rumah;
-    //      setPosisiRumah(posisiRumah);
-    //      this.currentRuangan = rumah.getRuanganAwal();
-    //      executorService = Executors.newFixedThreadPool(10);
-    //  }
 
 
     public Sim(GamePanel gp, KeyHandler kh, int spriteIndex, String namaLengkap, Point posisiRumah) {
@@ -466,6 +345,7 @@ public class Sim {
     public void setIsDoAksiAktif(boolean isDoAksiAktif){
         this.isDoAksiAktif = isDoAksiAktif;
     }
+    
     public Aksi getAksi(int index){
         return status.get(index);
     }
@@ -891,26 +771,21 @@ public class Sim {
         }
     }
 
-    public void berkunjung(Sim simDikunjungi) {
+    public void berkunjung(Point posisi) {
         executorService.execute(() -> {
             try {
-                System.out.println("berkunjung masuk");
-                this.simDikunjungi = simDikunjungi;
                 this.isDoAksiAktif = true;
-                double waktu = Math.sqrt(Math.pow(this.rumah.getPosisi().getX() - simDikunjungi.getPosisiRumah().getX(), 2) + Math.pow(this.rumah.getPosisi().getY() - simDikunjungi.getPosisiRumah().getY(), 2));
+                double waktu = Math.sqrt(Math.pow(this.rumah.getPosisi().getX() - posisi.getX(), 2) + Math.pow(this.rumah.getPosisi().getY() - posisi.getY(), 2));
                 int roundWaktu = (int) Math.round(waktu);
-                System.out.println("waktu = " + waktu + " roundWaktu = " + roundWaktu);
                 Aksi aksi = new Aksi(this, "berkunjung", roundWaktu);
-                gp.setActionCounter(roundWaktu);
-                System.out.println("dari fungsi " +gp.getActionCounter());
                 for (int i = 0; i < roundWaktu; i++) {
                     Thread.sleep(1000);
-                    aksi.decDetikTersisa();
                     gp.setActionCounter(roundWaktu-i);
-                    System.out.println(gp.getActionCounter());
-                    if (i%30==0 && i!=0) {
+                    this.waktuOTW ++;
+                    if (this.waktuOTW == 30) {
                         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
                         this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 10);
+                        this.waktuOTW = 0;
                     }
                 }
                 gp.setActionCounter(0);
@@ -920,34 +795,6 @@ public class Sim {
             }
         });
         //Please provide the solution below
-    }
-
-    public void pulang(){
-        executorService.execute(() -> {
-            try {
-                System.out.println("pulang masuk");
-                this.isDoAksiAktif = true;
-                double waktu = Math.sqrt(Math.pow(this.rumah.getPosisi().getX() - simDikunjungi.getPosisiRumah().getX(), 2) + Math.pow(this.rumah.getPosisi().getY() - simDikunjungi.getPosisiRumah().getY(), 2));
-                int roundWaktu = (int) Math.round(waktu);
-                System.out.println("waktu = " + waktu + " roundWaktu = " + roundWaktu);
-                Aksi aksi = new Aksi(this, "pulang", roundWaktu);
-                gp.setActionCounter(roundWaktu);
-                for (int i = 0; i < roundWaktu; i++) {
-                    Thread.sleep(1000);
-                    aksi.decDetikTersisa();
-                    gp.setActionCounter(roundWaktu-i);
-                    if (i%30==0 && i!=0) {
-                        this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
-                        this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 10);
-                    }
-                }
-                gp.setActionCounter(0);
-                simDikunjungi = null;
-                this.isDoAksiAktif = false;                
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     public void upgradeRumah(String direction, String namaRuang) {
