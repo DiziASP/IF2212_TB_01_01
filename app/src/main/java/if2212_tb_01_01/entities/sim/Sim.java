@@ -902,10 +902,12 @@ public class Sim {
                 System.out.println("waktu = " + waktu + " roundWaktu = " + roundWaktu);
                 Aksi aksi = new Aksi(this, "berkunjung", roundWaktu);
                 gp.setActionCounter(roundWaktu);
+                System.out.println("dari fungsi " +gp.getActionCounter());
                 for (int i = 0; i < roundWaktu; i++) {
                     Thread.sleep(1000);
                     aksi.decDetikTersisa();
                     gp.setActionCounter(roundWaktu-i);
+                    System.out.println(gp.getActionCounter());
                     if (i%30==0 && i!=0) {
                         this.kesejahteraan.setMood(this.kesejahteraan.getMood() + 10);
                         this.kesejahteraan.setKekenyangan(this.kesejahteraan.getKekenyangan() - 10);

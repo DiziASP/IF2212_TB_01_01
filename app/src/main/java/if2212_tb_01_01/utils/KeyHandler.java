@@ -573,7 +573,10 @@ public class KeyHandler implements KeyListener {
                         gp.getRoom().setIsBuilded(true);
                         gp.getSim().berkunjung(s);
                         input = "otw berkunjung";
+                        gp.setActionCounter(9);
                         gp.setSubState(14);
+                        System.out.println("dari kh" + gp.getSubState());
+                        System.out.println("dari kh" + gp.getActionCounter());
                         gp.showNotification("berkunjung ke rumah "+s.getNamaLengkap());
                         gp.setSubState(16);
 

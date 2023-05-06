@@ -1010,6 +1010,7 @@ public class UI {
             g2.setColor(c6);
             text = gp.getSim().getNamaLengkap();
             System.out.println("test" + text);
+            System.out.println(kh.getInput());
             if (!gp.getSim().getIsDoAksiAktif()){
                 y+=24;
                 g2.drawString(text, tileSize*12 - ((int)g2.getFontMetrics().getStringBounds(text,g2).getWidth()/2), y+2*tileSize);  
@@ -1020,6 +1021,7 @@ public class UI {
             } else{
                 if (gp.getActionCounter()==0){}
                 else {
+                    System.out.println("masuk ke else");
                     g2.drawString(text, tileSize * 12 - ((int) g2.getFontMetrics().getStringBounds(text, g2).getWidth() / 2), y + 72);
 
                     text = " sedang " + kh.getInput() + "...";
