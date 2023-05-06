@@ -1281,8 +1281,8 @@ public class Sim {
                 count = 0;
             }
         }
-        screenX = (screenX)*tileSize + roomX+tileSize;
-        screenY = (screenY)*tileSize + roomY+tileSize;
+        screenX = (screenX)%6*tileSize + roomX+24;
+        screenY = (screenY)%6*tileSize + roomY+24;
         solidArea.setLocation(screenX, screenY);
         interactableArea.setLocation(screenX, screenY-tileSize);
     }
@@ -1300,8 +1300,8 @@ public class Sim {
                 count = 0;
             }
         }
-        screenX = ((screenX+geserX+6)%6)*tileSize + roomX+tileSize;
-        screenY = ((screenY+geserY+6)%6)*tileSize + roomY+tileSize;
+        screenX = ((screenX+geserX)%6)*tileSize + roomX+24;
+        screenY = ((screenY+geserY)%6)*tileSize + roomY+24;
         solidArea.setLocation(screenX, screenY);
         interactableArea.setLocation(screenX, screenY-tileSize);
     }

@@ -439,7 +439,17 @@ public class KeyHandler implements KeyListener {
                     //edit room
                     switch (gp.getOpsiAksi(arrowNum)){ 
                         case "tambahkan barang":
-                            gp.setSubState(3);
+                            for (int i=0; i<12; i++){
+                                if (!gp.getSim().getInventory().isItemSisa(pointer)){
+                                    pointer = (pointer+11)%12;
+                                }
+                            }
+                            if (!gp.getSim().getInventory().isItemSisa(pointer)){
+                                gp.showNotification("tidak ada barang untuk ditambah");
+                            } else {
+                                gp.setSubState(3);
+                            }
+                            
                             break;
                         case "pindahkan barang":
                             gp.setSubState(6);

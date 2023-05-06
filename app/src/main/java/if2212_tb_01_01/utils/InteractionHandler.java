@@ -28,12 +28,11 @@ public class InteractionHandler {
         int worldRow = (sim.getInteractableArea().y+24 - roomY) / tileSize;
 
         if (worldColumn <= 0 && worldRow>2 && worldRow<5){
-            
         } else if (worldRow<=0 && worldColumn>2 && worldColumn<5){
         } else if (worldColumn >= 6 && worldRow>2 && worldRow<5){
         } else if (worldRow>=6 && worldColumn>2 && worldColumn<5){
-        } else if (worldRow<=0 || worldRow >=6 || worldColumn <=0 || worldColumn >=6){
-        }   else if (gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
+        } else if (worldRow<=0 || worldRow >6 || worldColumn <=0 || worldColumn >6){
+        }  else if (gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1] != null) {
             Integer collidingFurnitur = gp.getRoom().getMapRuangan()[worldRow - 1][worldColumn - 1];
             if (collidingFurnitur != -1) {
                 interactableObj = collidingFurnitur;
