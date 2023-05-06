@@ -603,7 +603,7 @@ public class KeyHandler implements KeyListener {
                             }
                             break;
                         case "kerja":
-                            if (in1%30==0){
+                            if (in1%120==0){
                                     gp.setSubState(14);
                                     if (gp.getSim().isCanKerjaHabisGanti()){
                                         gp.getSim().kerja(in1);
@@ -611,7 +611,7 @@ public class KeyHandler implements KeyListener {
                                         gp.showNotification("Kamu baru berganti pekerjaan, tunggu " + (12*60 - gp.getSim().getWaktuSetelahGantiKerja())/60 + " menit lagi");
                                     }
                             } else {
-                                gp.showNotification("input harus kelipatan 30");
+                                gp.showNotification("input harus kelipatan 120");
                                 errorCaught = true;
                             }
                             break;
