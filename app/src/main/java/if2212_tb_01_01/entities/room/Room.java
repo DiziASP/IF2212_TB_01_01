@@ -184,7 +184,12 @@ public class Room implements Serializable {
 
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g, GamePanel gp, Inventory inventory) {
+        if (tm ==null){
+            this.gp = gp;
+            tm = new TileManager(gp, roomIndex);
+            this.inventory = inventory;
+        }
 
         tm.draw(g);
         // /* Draw Object */

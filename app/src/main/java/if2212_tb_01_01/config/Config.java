@@ -70,7 +70,6 @@ public class Config {
 
             for(Sim each: listSim){
                 gp.getSimList().add(each);
-                System.out.println(each);
             }
 
         }

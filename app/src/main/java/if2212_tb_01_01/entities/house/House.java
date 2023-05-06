@@ -49,6 +49,10 @@ public class House implements Serializable {
     public Sim getKepemilikan() {
         return kepemilikan;
     }
+    public void setKepemilikan(Sim sim) {
+        this.kepemilikan = sim;
+    }
+
 
 
     // Mendapatkan ruangan berdasarkan nama ruangan
