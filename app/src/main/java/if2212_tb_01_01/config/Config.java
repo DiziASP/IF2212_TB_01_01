@@ -24,25 +24,19 @@ public class Config {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("feihan.dat")));
 
             for(Sim each: gp.getSimList()){
-                oos.writeObject(each.getSpriteIndex());
-                oos.writeObject(each.getNamaLengkap());
-                oos.writeObject(each.getPekerjaan());
-                oos.writeObject(each.getUang());
-                // for (int i=0; i<25; i++){
-                //     oos.writeObject(each.getInventory().getInventory().get(i).getNama());
-                //     oos.writeObject(each.getInventory().getInventory().get(i).getAmount());
-                //     if (each.getInventory().getInventory().get(i) instanceof Furnitur){
-                //         oos.writeObject(((Furnitur)each.getInventory().getInventory().get(i)).getAmountPut());
-                //     }
-                //     oos.writeObject(each.getInventory().getInventory().get(i).getImagePath());                    
-                // }
-                oos.writeObject(each.getInventory());
-                oos.writeObject(each.getKesejahteraan());
-                // oos.writeObject(each.getRumah().getRuanganAwal().getDaftarObjek());
-                // oos.writeObject(each.getRumah().getRuanganAwal());
-                // oos.writeObject(each.getRumah().getPosisi());
-                oos.writeObject(each.getRumah());
-                // oos.writeObject(each.getCurHouse());
+                if (each.getNamaLengkap()!= "nadira" && each.getNamaLengkap()!= "naura" && each.getNamaLengkap()!= "dizi"){
+                    oos.writeObject(each.getSpriteIndex());
+                    oos.writeObject(each.getNamaLengkap());
+                    oos.writeObject(each.getPekerjaan());
+                    oos.writeObject(each.getUang());
+                    oos.writeObject(each.getInventory());
+                    oos.writeObject(each.getKesejahteraan());
+                    // oos.writeObject(each.getRumah().getRuanganAwal().getDaftarObjek());
+                    // oos.writeObject(each.getRumah().getRuanganAwal());
+                    // oos.writeObject(each.getRumah().getPosisi());
+                    oos.writeObject(each.getRumah());
+                    // oos.writeObject(each.getCurHouse());
+                }
             }
 
         }
@@ -76,6 +70,7 @@ public class Config {
 
             for(Sim each: listSim){
                 gp.getSimList().add(each);
+                System.out.println(each);
             }
 
         }

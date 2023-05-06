@@ -108,13 +108,6 @@ public class GamePanel extends JPanel implements Runnable {
         worldClock.getWorld().getListSim().add(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
         worldClock.getWorld().getListSim().get(2).getRoomAwal().newRoomRight("ruang rindu", true);
         worldClock.getWorld().getListSim().get(2).getRoomAwal().pasangObjek(6,2, 3);
-
-        worldClock.getWorld().addSim(new Sim(this, keyHandler, 1, "naura", new Point(7,8)));
-        worldClock.getWorld().getSim(0).getRoomAwal().pasangObjek(4,0, 1);
-        worldClock.getWorld().addSim(new Sim(this, keyHandler, 4, "nadira", new Point(1,1)));
-        worldClock.getWorld().getSim(1).getRoomAwal().pasangObjek(3,1, 0);
-        worldClock.getWorld().addSim(new Sim(this, keyHandler,7, "dizi", new Point(2,1)));
-        worldClock.getWorld().getSim(2).getRoomAwal().pasangObjek(6,2, 3);
 //        saveLoad.load();
 
         gameState=0;
