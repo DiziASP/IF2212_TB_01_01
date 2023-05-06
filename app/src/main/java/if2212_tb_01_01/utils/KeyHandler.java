@@ -205,12 +205,7 @@ public class KeyHandler implements KeyListener {
                 }
 
                 if (!errorCaught){
-                    Sim s = new Sim(gp, this, arrowNum+1, input, null);
-                    input = "";
-                    gp.getWorldClock().getWorld().addSim(s);
-                    gp.getWorldClock().setIsCanAddSim(false);
-                    gp.setIndexActiveSim(gp.getSimList().size()-1);
-                    gp.setSim(s);
+                    
                     gp.setGs(8);
                 }
 
@@ -748,9 +743,15 @@ public class KeyHandler implements KeyListener {
                 if (gp.getWorldClock().getWorld().isPosisiTerisi(in1, in2)){
                     gp.showNotification("Posisi sudah terisi, pilih posisi lain!");
                 } else {
-                    gp.setGs(5);
-                    gp.getSim().setPosisiRumah(new Point(in1,in2));
+                    Sim s = new Sim(gp, this, arrowNum+1, input, new Point(in1,in2));
+                    input = "";
+                    gp.getWorldClock().getWorld().addSim(s);
+                    gp.getWorldClock().setIsCanAddSim(false);
+                    gp.setIndexActiveSim(gp.getSimList().size()-1);
+                    gp.setSim(s);
                     gp.setRoom(gp.getSim().getCurRoom());
+
+                    gp.setGs(5);
     
                     in1 = 0; in2 = 0;
                     input = "";
